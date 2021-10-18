@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewData["Title"] = "UpdatePayrollWithEF";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Update Payroll</h3>
+
+                @*<div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                </div>*@
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                @using (Html.BeginForm("UpdatePayrollWithEF", "Account", FormMethod.Get))
+                {
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Command</label>
+
+                            <select name="command"
+                                    class="form-control select2" style="width: 100%;"
+                                    asp-items="@(new SelectList(ViewBag.commandList, "Value", "Text"))">
+                            </select>
+
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Pay Class</label>
+                            <select name="payclass" class="form-control select2" style="width: 100%;">
+                      
+                                <option value="1">Officers</option>
+                                <option value="2">Ratings</option>
+                                <option value="3">Training</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-md-4">
+                        <button type="submit" class="btn btn-block btn-info">Update</button>
+                      </div>
+                        <!-- /.col -->
+                    </div>
+                    }
+                </div>
+            <!-- /.card-body -->
+            
+        </div>
+      
+    </div><!-- /.container-fluid -->
+</section>

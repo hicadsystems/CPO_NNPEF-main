@@ -1,0 +1,79 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+   }
+
+
+@*<div class="card">
+    <div class="card-body login-card-body">
+        <p class="login-box-msg">Sign in to start your session</p>*@
+
+        <form id="account" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+
+            <div class="row px-3">
+                <label class="mb-1">
+                    <h6 class="mb-0 text-sm">User Name</h6>
+                </label>
+                <input asp-for="Input.Email" class="mb-4 form-styling" placeholder="Email">
+            </div>
+            <div class="row px-3">
+                <label class="mb-1">
+                    <h6 class="mb-0 text-sm">Password</h6>
+                </label>
+                <input asp-for="Input.Password" type="password" placeholder="Password" class="mb-4 form-styling" required />
+            </div>
+            <div class="row px-3 mb-4">
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input id="chk1" type="checkbox" name="chk" class="custom-control-input">
+                    <label for="chk1" class="custom-control-label text-sm">Remember me</label>
+                </div> <a id="forgot-password" asp-page="./ForgotPassword" class="ml-auto mb-0 text-sm">Forgot your password?</a> @*<a href="@Url.Action("ResetPasswordServiceNumber","PersonnelLogin")" class="ml-auto mb-0 text-sm">Forgot Password?</a>*@
+            </div>
+            <div class="row mb-3 px-3">
+                <button type="submit" class="btn-signin text-center">Sign In</button>
+            </div>
+
+
+
+            <!--<div class="input-group mb-3">
+                <input asp-for="Input.Email" class="form-control" placeholder="Email">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input asp-for="Input.Password" class="form-control" placeholder="Password">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">-->
+
+                <!-- /.col -->
+                <!--<div class="col-4">
+                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                </div>-->
+                <!-- /.col -->
+            @*</div>*@
+        </form>
+
+
+        @*<p class="mb-1">
+            <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+
+        </p>*@
+
+    <!--</div>-->
+    <!-- /.login-card-body -->
+<!--</div>-->
+@*@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}*@

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<NNPEFWEB.Models.ef_systeminfo>
+
+@{
+    ViewData["Title"] = "Systems Info";
+}
+
+<h1>Systems Info</h1>
+
+<p>
+    <a asp-action="CreateSystemsInfo">Add System</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Company Name
+            </th>
+            <th>
+                Company Address
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+                Opened Date
+            </th>
+            <th>
+                Closed Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.comp_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tel)
+            </td>x
+            <td>
+                @Html.DisplayFor(modelItem => item.opendate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.closedate)
+            </td>
+            <td>
+                <a asp-action="UpdateSystemsInfo" asp-route-id="@item.Id">Edit</a> | 
+                <a asp-action="DeleteSystemsInfo" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

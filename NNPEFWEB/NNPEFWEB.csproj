@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+ <UserSecretsId>aspnet-NNPEFWEB-B77D50DB-C609-4E4C-A8B7-640244F0C644</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20210416113613_Renamed Identity Table Name.cs" />
+    <Compile Remove="Migrations\20210416113613_Renamed Identity Table Name.Designer.cs" />
+    <Compile Remove="Migrations\20210416222605_Added Custom Properties.cs" />
+    <Compile Remove="Migrations\20210416222605_Added Custom Properties.Designer.cs" />
+    <Compile Remove="Migrations\20210421222918_Add New Tables.cs" />
+    <Compile Remove="Migrations\20210421222918_Add New Tables.Designer.cs" />
+    <Compile Remove="Migrations\20210429153949_Personnel Login.cs" />
+    <Compile Remove="Migrations\20210429153949_Personnel Login.Designer.cs" />
+    <Compile Remove="Migrations\20210510105422_newchanges.cs" />
+    <Compile Remove="Migrations\20210510105422_newchanges.Designer.cs" />
+    <Compile Remove="Migrations\20210618105139_personalinforUpdate.cs" />
+    <Compile Remove="Migrations\20210618105139_personalinforUpdate.Designer.cs" />
+    <Compile Remove="Migrations\20210720175313_addingid.cs" />
+    <Compile Remove="Migrations\20210720175313_addingid.Designer.cs" />
+    <Compile Remove="Migrations\20210722100606_addfield.cs" />
+    <Compile Remove="Migrations\20210722100606_addfield.Designer.cs" />
+    <Compile Remove="Migrations\20210722214126_addrelationship.cs" />
+    <Compile Remove="Migrations\20210722214126_addrelationship.Designer.cs" />
+    <Compile Remove="Migrations\20210727105155_addtopersonelinfo.cs" />
+    <Compile Remove="Migrations\20210727105155_addtopersonelinfo.Designer.cs" />
+    <Compile Remove="Migrations\20210727115147_addtopersonelinfo2.cs" />
+    <Compile Remove="Migrations\20210727115147_addtopersonelinfo2.Designer.cs" />
+    <Compile Remove="Migrations\20210727140602_addtopersonelinfo3.cs" />
+    <Compile Remove="Migrations\20210727140602_addtopersonelinfo3.Designer.cs" />
+    <Compile Remove="Migrations\20210728171823_updateUserTable.cs" />
+    <Compile Remove="Migrations\20210728171823_updateUserTable.Designer.cs" />
+    <Compile Remove="Migrations\20210924214903_updatefields.cs" />
+    <Compile Remove="Migrations\20210924214903_updatefields.Designer.cs" />
+    <Compile Remove="Migrations\20210927211908_createsystemstable.cs" />
+    <Compile Remove="Migrations\20210927211908_createsystemstable.Designer.cs" />
+    <Compile Remove="Migrations\20210927220200_updateclosedate.cs" />
+    <Compile Remove="Migrations\20210927220200_updateclosedate.Designer.cs" />
+    <Compile Remove="Migrations\20210929223927_updatesysteminfo.cs" />
+    <Compile Remove="Migrations\20210929223927_updatesysteminfo.Designer.cs" />
+    <Compile Remove="Migrations\20211004084950_NewFieldtoPersonalInfo.cs" />
+    <Compile Remove="Migrations\20211004084950_NewFieldtoPersonalInfo.Designer.cs" />
+    <Compile Remove="Migrations\20211004124526_Initial Migration.cs" />
+    <Compile Remove="Migrations\20211004124526_Initial Migration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\vue\app.js" />
+    <None Include="wwwroot\vue\component\CommandLogin.vue" />
+    <None Include="wwwroot\vue\component\FirstComponent.vue" />
+    <None Include="wwwroot\vue\component\PersonnelRecord\OfficersRecord.vue" />
+    <None Include="wwwroot\vue\component\Report.vue" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="FastReport.OpenSource" Version="2021.3.22" />
+    <PackageReference Include="FastReport.OpenSource.Web" Version="2021.3.22" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.13" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
+    <PackageReference Include="PDF.Core" Version="2020.12.2" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+    <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SAP BusinessObjects\Crystal Reports for .NET Framework 4.0\Common\SAP BusinessObjects Enterprise XI 4.0\win32_x86\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

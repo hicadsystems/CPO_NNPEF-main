@@ -1,0 +1,279 @@
+﻿@model IEnumerable<NNPEFWEB.ViewModel.PersonalInfoModel>
+
+@{
+    ViewData["Title"] = "TrainingReport";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>NN-CPO</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/datepicker.css" rel="stylesheet" />
+
+</head>
+
+<body style="background-color: #66edf0">
+    @* <button onclick="window.print();" id="printForm">Print This Page</button>*@
+    @*background-image: url('data:image/*;base64,@(Convert.ToBase64String(Model.FirstOrDefault().AltNokPassport))');*@
+    <div id="btnprint">
+        @foreach (var r in Model)
+        {
+
+            <div style="text-align:center" class="row"><div class="col-md-4"> <h2>RESTRICTED </h2></div> </div>
+            <table class="table-borderless" cellpadding="2" cellspacing="0" style="width:100%">
+                <tr><td></td><td></td><td></td> <td style="margin-top:300px;">@r.formNumber</td></tr>
+                <tr>
+                    <td>
+                        @if (r.Passport != null)
+                        {
+                            <img id="passport" style="width: 200px; height: 200px; object-fit: cover " src="data:image/*;base64,@(Convert.ToBase64String(r.Passport))">
+                        }
+                        else
+                        {
+                            <img id="passport" style="width: 200px; height: 200px; object-fit: cover " src="">
+                        }
+                    </td>
+
+                    <td>
+                        @if (Model.FirstOrDefault().logo != null)
+                        {
+                            <img id="logo" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.FirstOrDefault().logo))">
+                        }
+                        else
+                        {
+                            <img id="logo" style="width:200px;height:200px; object-fit:cover" src="">
+                        }
+
+                    </td>
+                    <td>
+
+                        @if (r.NokPassport != null)
+                        {
+                            <img id="nokpassport" style="width: 200px; height: 200px; object-fit: cover " src="data:image/*;base64,@(Convert.ToBase64String(r.NokPassport))">
+                        }
+                        else
+                        {
+                            <img id="nokpassport" style="width: 200px; height: 200px; object-fit: cover " src="">
+                        }
+
+                    </td>
+                    <td>
+
+                        @if (r.AltNokPassport != null)
+                        {
+                            <img id="altNokPassport" style="width: 200px; height: 200px; object-fit: cover " src="data:image/*;base64,@(Convert.ToBase64String(r.AltNokPassport))">
+                        }
+                        else
+                        {
+                            <img id="altnokpassport" style="width: 200px; height: 200px; object-fit: cover " src="">
+                        }
+
+                    </td>
+
+                </tr>
+                <tr style="margin-top:-25px"><td>Personnel</td> <td></td><td>Next Of Kin</td><td>Alternate Next Of Kin</td></tr>
+            </table>
+            <h1 style="text-align:center;">PERSONAL EMOLUMENT RECORD FORM - @DateTime.Now.Year - TRAINING </h1>
+            <h2> SECTION A</h2>
+            <table class="table-borderless" style="width:100%" width="345" height="160">
+                <tbody>
+                    <tr>
+                        <td>
+                            <table style="width:98%; float:right;" cellspacing="5" cellpadding="6">
+                                <tr style="border:dotted; border-width:2px"><td style="width:1000px">1.  Surname : &nbsp;&nbsp;&nbsp; <strong>@r.Surname</strong></td></tr>
+                                <tr style="height:15px"><td></td></tr>
+                                <tr><td>2.  Othername:  &nbsp;&nbsp;&nbsp; <strong> @r.OtherName</strong></td></tr>
+                                <tr style="height:15px"><td></td></tr>
+                            </table>
+                            <table style="width:98%; float:right;" cellspacing="2" cellpadding="2">
+
+                                <tr style="width:1200px"><td>3. Service Number: &nbsp;&nbsp;&nbsp; <strong>@r.serviceNumber</strong></td></tr>
+                                <tr style="height:15px"><td></td></tr>
+                                <tr><td>4.  Date of Birth:   &nbsp;&nbsp;&nbsp; <strong>@r.Birthdate@*.Date.ToShortDateString()*@</strong></td></tr>
+                                <tr style="height:15px"><td></td></tr>
+                                <tr><td>5.  Contact Address : &nbsp;&nbsp;&nbsp; <strong>@r.home_address</strong></td> </tr>
+                                <tr style="height:15px"><td></td></tr>
+                                <tr><td>6 (i).  State: &nbsp;&nbsp;&nbsp; <strong>@r.StateofOrigin</strong> </td> <td>(ii).  L.G.A: &nbsp;&nbsp;&nbsp; <strong>@r.LocalGovt</strong></td></tr>
+                                <tr style="height:15px"><td></td></tr>
+                                <tr><td>7.  a. GSM Number (i) : &nbsp;&nbsp;&nbsp; <strong>@r.gsm_number</strong></td> <td>(ii) : &nbsp;&nbsp;&nbsp; <strong>@r.gsm_number2</strong></td></tr>
+                                <tr><td>b. Email: &nbsp;&nbsp;&nbsp; <strong>@r.email</strong></td></tr>
+                                <tr style="height:15px"><td></td></tr>
+                                <tr><td>5.  Date of Commencement of Training : &nbsp;&nbsp;&nbsp; <strong>@r.DateEmpl</strong></td> </tr>
+                                <tr style="height:15px"><td></td></tr>
+                                <tr><td>5.  Category : &nbsp;&nbsp;&nbsp; <strong>@r.specialisation</strong></td> </tr>
+                                <tr style="height:15px"><td></td></tr>
+                                <tr><td>5.  Qualification : &nbsp;&nbsp;&nbsp; <strong>@r.qualification</strong></td> </tr>
+                                <tr style="height:15px"><td></td></tr>
+                                <tr><td>5.  Division : &nbsp;&nbsp;&nbsp; <strong>@r.division</strong></td> </tr>
+
+                                <tr style="height:15px"><td></td></tr>
+
+                            </table>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <table style="width:98%; float:right;" cellspacing="2" cellpadding="2">
+                <tr style="width:1200px"><td><strong>19.  Name Of Spouse</strong>: &nbsp;&nbsp;&nbsp; <strong>@r.sp_name</strong></td><td><i>State Rank/SVC NO, If Personnel</i></td></tr>
+            </table>
+            <table style="width:98%; float:right;" cellspacing="2" cellpadding="2">
+                <tr style="width:1200px"><td><h3><strong><u>20. Details Next Of Kins</u> </strong></h3></td></tr>
+                <tr><td><strong>a. Next Of Kin</strong></td></tr>
+                <tr><td>i. Name: &nbsp;&nbsp;&nbsp; <strong>@r.nok_name</strong></td></tr>
+                <tr><td>ii. Relationship: &nbsp;&nbsp;&nbsp; <strong>@r.nok_relation</strong></td></tr>
+                <tr><td>iii. Address: &nbsp;&nbsp;&nbsp; <strong>@r.nok_address</strong></td></tr>
+                <tr><td>iv. GSM Number: &nbsp;&nbsp;&nbsp; <strong>@r.nok_phone</strong></td></tr>
+                <tr><td>v. Email: &nbsp;&nbsp;&nbsp; <strong>@r.nok_email</strong></td> <td>vi. National Identity: &nbsp;&nbsp;&nbsp; <strong>@r.nok_nationalId</strong></td></tr>
+            </table>
+
+            <table style="width:98%; float:right;" cellspacing="2" cellpadding="2">
+                <tr style="height:10px"><td></td></tr>
+
+                <tr><td><strong>b. Alternate Next Of Kin</strong> <em>(Attach Passport Photograph)</em></td></tr>
+                <tr><td>i. Name: &nbsp;&nbsp;&nbsp; <strong>@r.nok_name</strong></td></tr>
+                <tr><td>ii. Relationship: &nbsp;&nbsp;&nbsp; <strong>@r.nok_relation</strong></td></tr>
+                <tr><td>iii. Address: &nbsp;&nbsp;&nbsp; <strong>@r.nok_address</strong></td></tr>
+                <tr><td>iv. GSM Number: &nbsp;&nbsp;&nbsp; <strong>@r.nok_phone</strong></td></tr>
+                <tr><td>v. Email: &nbsp;&nbsp;&nbsp; <strong>@r.nok_email</strong></td> <td>vi. National Identity: &nbsp;&nbsp;&nbsp; <strong>@r.nok_nationalId</strong></td></tr>
+
+            </table>
+
+            <table><tr><td><strong>24: Bank Details: </strong></td></tr></table>
+            <table>
+                <tr><td>a. Name Of Bank: &nbsp;&nbsp;&nbsp; <strong>@r.Bankcode</strong></td></tr>
+                <tr><td>b. Branch: &nbsp;&nbsp;&nbsp; <strong>@r.bankbranch</strong></td></tr>
+                <tr><td>c. Account Number: &nbsp;&nbsp;&nbsp; <strong>@r.BankACNumber</strong></td></tr>
+
+            </table>
+
+            <aside>
+
+                <table class="row">
+                    <tr>
+                        <td style="text-align: center; width: 400px">
+                            <hr width="200" style="border:1px dashed;" size="4">
+                            <strong>Date</strong>
+                        </td>
+                        <td width="100px"></td>
+                        <td style="text-align:center;width:400px">
+                            <hr width="200" style="border:1px dashed;" size="4">
+                            <strong>Training's Signature</strong>
+                        </td>
+                    </tr>
+
+                </table>
+                <table border="2" style="border-color:aquamarine">
+                    <tr>
+                        <td>
+                            <h3 style="color:aqua"> NOTE: CERTIFICATION OF FALSE INFORMATION ATTRACT SEVERE PUNISHMENT</h3>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td><u>SECTION B</u> (To be completed by TRAINING OFFICER (in capital letters))</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>Name: &nbsp;&nbsp;&nbsp; <strong><u>@r.div_off_name </u></strong> </td>
+                    </tr>
+                    <tr>
+                        <td width="350px">Rank: &nbsp;&nbsp;&nbsp; <strong>@r.div_off_rank</strong></td>
+                        <td>Svc No: &nbsp;&nbsp;&nbsp; <strong>@r.div_off_svcno</strong></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td width="1200px"><h3><strong>I certify that i have cross-checked the information given by the Trainee and found them to be true.</strong></h3></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr><td height="20px"></td></tr>
+                    <tr>
+                        <td style="text-align: center; width: 400px">
+                            <hr width="200" style="border:1px dashed;" size="4">
+                            <strong>Date</strong>
+                        </td>
+                        <td width="100px"></td>
+                        <td style="text-align:center;width:400px">
+                            <hr width="200" style="border:1px dashed;" size="4">
+                            <strong>Signature Of Training Officer</strong>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>SECTION C (To be completed by COMMANDING OFFICER (in capital letters))</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>Name: &nbsp;&nbsp;&nbsp; <strong>@r.cdr_name</strong></td>
+                    </tr>
+                    <tr>
+                        <td width="350px">Rank: &nbsp;&nbsp;&nbsp; <strong>@r.cdr_rank</strong></td>
+                        <td>Svc No: &nbsp;&nbsp;&nbsp; <strong>@r.cdr_svcno</strong></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>I certify that the information confirmed by the TRAINING OFFICER is true.</td>
+
+                    </tr>
+                    <tr><td height="20px"></td></tr>
+                    <tr>
+                        <td style="text-align: center; width: 400px">
+                            <hr width="200" style="border:1px dashed;" size="4">
+                            <strong>Date</strong>
+                        </td>
+                        <td width="100px"></td>
+                        <td style="text-align:center;width:400px">
+                            <hr width="200" style="border:1px dashed;" size="4">
+                            <strong>Commanding Officer Signature and Stamp</strong>
+                        </td>
+                    </tr>
+                </table>
+
+            </aside>
+
+        }
+        <div style="text-align:center"> <h2>RESTRICTED</h2></div>
+    </div>
+
+    @* <script src="~/plugins/jquery/jquery.min.js"></script>
+        <canvas id="DemoCanvas" width="500" height="200"></canvas>*@
+    <script>
+        var canvas = document.getElementById('DemoCanvas');
+        //Always check for properties and methods, to make sure your code doesn't break in other browsers.
+        if (canvas.getContext) {
+            var context = canvas.getContext('2d');
+            // Reset the current path
+            context.beginPath();
+            // Staring point (10,45)
+            context.moveTo(10, 45);
+            // End point (180,47)
+            context.lineTo(180, 47);
+            // Make the line visible
+            context.stroke();
+        }
+    </script>
+</body>
+</html>

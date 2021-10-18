@@ -1,0 +1,159 @@
+﻿@model NNPEFWEB.ViewModel.CommandLoginVM
+@using Microsoft.AspNetCore.Http
+@{
+    //ViewData["Title"] = "Login"
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="~/css/logintemplate.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/js/app.js" defer></script>
+</head>
+<body>
+    <div class="wrapper" id="app">
+        <div class="imagebackground">
+            <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+                <div class="card card0 border-0">
+                    <div class="row d-flex">
+                        <div class="col-lg-6">
+                            <div class="card1 pb-5">
+                                @*<div class="row">
+                                        <img src="~/Image/navylogo2.png" class="logo">
+                                    </div>*@
+                                <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
+                                    <img src="~/Image/navylogo2.png" class="logo">
+                                    <h3 class="mb-0 mr-4 mt-2">Sign in With Your SVC as Username and Password</h3>
+                                    <h3 class="mb-0 mr-4 mt-2">To Fill Your Emolument Form</h3>
+                                    @*<img src="~/Image/officers.jpg" class="image">*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card2 card border-0 px-4 py-5">
+                                <h3 style="color:brown">@TempData["commandLoginMessage"]</h3>
+                                <div class="row mb-4 px-3">
+                                    <h3 class="mb-0 mr-4 mt-2">Sign in Here</h3>
+
+                                </div>
+                                <div class="row px-3 mb-4">
+                                    <div class="line"></div>
+                                    <div class="line"></div>
+                                </div>
+
+                                <form id="account" method="post" asp-controller="Account" asp-action="CommandLogin">
+                                    <command-login></command-login>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-blue py-4">
+                        <div class="row px-3">
+                            <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2019. All rights reserved.</small>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+        <script src="~/js/loginjs.js"></script>
+        <link href="~/css/font-awsome.css" rel="stylesheet" />
+        <script src="~/js/jQuery.js"></script>
+</body>
+</html>
+
+
+@*<script src="~/assets/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+@*<script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#ddcommand").on("change", function () {
+                $list = $("#ddship");
+                $.ajax({
+                    url: "/Account/getships",
+                    type: "GET",
+                    data: { id: $("#ddcommand").val() }, //id of the state which is used to extract cities
+                    traditional: true,
+                    success: function (result) {
+                        $list.empty();
+                        $.each(result, function (i, item) {
+                            $list.append($('<option></option>').val(item.Id).html(item.shipName));
+                            //$list.append('<option value="' + item["Id"] + '"> ' + item["shipName"] + ' </option>');
+
+                        });
+
+
+                    },
+                    error: function () {
+                        alert("Something went wrong call the police");
+                    }
+                });
+            });
+
+            //$("#ddcommand").change(function () {
+            //    var commandId = parseInt($(this).val());
+            //    alert(commandId);
+            //    if (!isNaN(commandId)) {
+            //        var ship = $("#ddship");
+            //        ship.empty();
+            //        ship.append($("<option></option>").val('').html('Please Wait....'));
+            //        debugger;
+            //        $.ajax({
+            //            url: '/Account/GetShip2',
+            //            type: 'Get',
+            //            dataType: 'json',
+            //            data: { commandId: commandId },
+            //            success: function (d) {
+            //                ship.empty();
+            //                ship.append($("<option></option>").val('').html('Select Ship'));
+            //                $.each(d, function (i, sh) {
+
+            //                    ship.append($("<option></option>").val(sh.Id).html(sh.shipName));
+            //                });
+
+            //            },
+            //            error: function () {
+            //                alert('Error');
+            //            }
+            //        });
+            //    }
+            //});
+        });
+
+        $(function () {
+            $(".btn").click(function () {
+                $(".form-signin").toggleClass("form-signin-left");
+                $(".form-signup").toggleClass("form-signup-left");
+                $(".frame").toggleClass("frame-long");
+                $(".signup-inactive").toggleClass("signup-active");
+                $(".signin-active").toggleClass("signin-inactive");
+                $(".forgot").toggleClass("forgot-left");
+                $(this).removeClass("idle").addClass("active");
+            });
+        });
+
+        $(function () {
+            $(".btn-signup").click(function () {
+                $(".nav").toggleClass("nav-up");
+                $(".form-signup-left").toggleClass("form-signup-down");
+                $(".success").toggleClass("success-left");
+                $(".frame").toggleClass("frame-short");
+            });
+        });
+
+        $(function () {
+            $(".btn-signin").click(function () {
+                $(".btn-animate").toggleClass("btn-animate-grow");
+                $(".welcome").toggleClass("welcome-left");
+                $(".cover-photo").toggleClass("cover-photo-down");
+                $(".frame").toggleClass("frame-short");
+                $(".profile-photo").toggleClass("profile-photo-down");
+                $(".btn-goback").toggleClass("btn-goback-up");
+                $(".forgot").toggleClass("forgot-fade");
+            });
+        });
+    </script>*@

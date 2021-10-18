@@ -1,0 +1,201 @@
+﻿@model NNPEFWEB.Models.ef_systeminfo
+
+@{
+    ViewData["Title"] = "Update Systems Info";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>NN-CPO</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/datepicker.css" rel="stylesheet" />
+
+</head>
+<body>
+    <h1>Update Systems Information</h1>
+
+    <h4>Systems information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="UpdateSystemsInfo" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="col-md-4">
+                    <label asp-for="company_image" style="width: 100%;">Company Image</label>
+                    @if (Model.company_image != null)
+                    {
+                        <img id="company_image" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.company_image))">
+                    }
+                    else
+                    {
+                        <img id="company_image" style="width:250px;height:250px; object-fit:cover" src="">
+                    }
+                    <input type="file"
+                           accept=".png,.jpg,.jpeg,.gif,.tif"
+                           asp-for="company_image"
+                           class="form-control"
+                           style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+                           onchange="document.getElementById('company_image').src = window.URL.createObjectURL(this.files[0])" />
+                    <span asp-validation-for="company_image" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="comp_code" class="control-label">Company Code</label>
+                        <input asp-for="comp_code" class="form-control" />
+                        <span asp-validation-for="comp_code" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="comp_name" class="control-label">Company Name</label>
+                        <input asp-for="comp_name" class="form-control" />
+                        <span asp-validation-for="comp_name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Address" class="control-label">Company Address</label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="SiteStatus" class="control-label">Site Status</label>
+                        <input asp-for="SiteStatus" class="form-control" />
+                        <span asp-validation-for="SiteStatus" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="opendate" class="control-label">Open Date</label>
+                        <input asp-for="opendate" class="form-control" id="datepicker" type="text" />
+                        <span asp-validation-for="opendate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="closedate" class="control-label">Close Date</label>
+                        <input asp-for="closedate" class="form-control" id="datepicker" type="text" />
+                        <span asp-validation-for="closedate" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="hrlink" class="control-label">HR Link</label>
+                        <input asp-for="hrlink" class="form-control" />
+                        <span asp-validation-for="hrlink" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="town" class="control-label">Town</label>
+                        <input asp-for="town" class="form-control" />
+                        <span asp-validation-for="town" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="lg" class="control-label">Local Government</label>
+                        <input asp-for="lg" class="form-control" />
+                        <span asp-validation-for="lg" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="state" class="control-label">State</label>
+                        <input asp-for="state" class="form-control" />
+                        <span asp-validation-for="state" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="email" class="control-label">Email</label>
+                        <input asp-for="email" class="form-control" />
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="box" class="control-label">P.O Box</label>
+                        <input asp-for="box" class="form-control" />
+                        <span asp-validation-for="box" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="tel" class="control-label">Tel</label>
+                        <input asp-for="tel" class="form-control" />
+                        <span asp-validation-for="tel" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="serveraddr" class="control-label">Server Address</label>
+                        <input asp-for="serveraddr" class="form-control" />
+                        <span asp-validation-for="serveraddr" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="serverport" class="control-label">Server Port</label>
+                        <input asp-for="serverport" class="form-control" />
+                        <span asp-validation-for="serverport" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <label asp-for="email_pword" class="control-label">Email Password</label>
+                        <input asp-for="email_pword" class="form-control" />
+                        <span asp-validation-for="email_pword" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="datecreated" class="control-label">Date Created</label>
+                        <input asp-for="datecreated" class="form-control" id="datepicker" type="text" />
+                        <span asp-validation-for="datecreated" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="createdby" class="control-label">Created By</label>
+                        <input asp-for="createdby" class="form-control" />
+                        <span asp-validation-for="createdby" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+    <div>
+        <a asp-action="GetSystemsInfo">Back to List</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <!-- Contact form JS-->
+    <script src="~/assets/mail/jqBootstrapValidation.js"></script>
+    <script src="~/assets/mail/contact_me.js"></script>
+    <script src="~/js/datepicker1.js"></script>
+    <script src="~/js/datepicker2.js"></script>
+    <!-- Core theme JS-->
+    <script src="~/js/scripts.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+    </script>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+</body>
+</html>

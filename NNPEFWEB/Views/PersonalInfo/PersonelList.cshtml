@@ -1,0 +1,63 @@
+﻿@model IEnumerable<NNPEFWEB.Models.ef_personalInfo>
+@using Microsoft.AspNetCore.Authorization
+
+
+
+<h1>PersonelList</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Service No</th>
+            @*<th><a asp-action="PersonelList" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Rank)</a></th>
+            <th><a asp-action="PersonelList" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.serviceNumber)</a></th>
+            <th><a asp-action="PersonelList" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.seniorityDate)</a></th>*@
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Ship</th>
+            <th>Command</th>
+            @* <th>Appointment</th>*@
+
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var r in Model)
+        {
+        <tr>
+            <td>@r.Rank</td>
+            <td>@r.serviceNumber</td>
+            <td>@r.Surname</td>
+            <td>@r.OtherName</td>
+            <td>@r.ship</td>
+            <td>@r.command</td>
+
+            <td>
+                @if (r.payrollclass == "1")
+                {
+                    <a asp-controller="PersonalInfo" asp-action="ViewPersonel" asp-route-svcno="@r.serviceNumber" class="btn btn-success">Preview Record</a>
+
+                }
+                @if (r.payrollclass == "2")
+                {
+                    <a asp-controller="PersonalInfo" asp-action="RatingRecord" asp-route-id="@r.serviceNumber" class="btn btn-success">Preview Record</a>
+                }
+                @if (r.payrollclass == "3")
+                {
+                    <a asp-controller="PersonalInfo" asp-action="TrainingRecord" asp-route-id="@r.serviceNumber" class="btn btn-success">Preview Record</a>
+                }
+                </td>
+                <td>
+                <form method="post" asp-action="RatingReport" asp-controller="Reports" asp-route-id="@r.serviceNumber">
+                    <input type="submit" class="btn btn-success" value="Print"
+                           @{ if (r.Status != "CDR") { @: disabled="disabled"
+                           } } />
+                </form>
+              </td>
+
+        </tr>
+        }
+    </tbody>
+</table>

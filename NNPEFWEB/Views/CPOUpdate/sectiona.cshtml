@@ -1,0 +1,902 @@
+﻿@model NNPEFWEB.ViewModel.PersonalInfoModel
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "OfficerRecord";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>NN-CPO</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/datepicker.css" rel="stylesheet" />
+
+</head>
+
+
+<body id="page-top">
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color:#052d4b">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <img src="~/assets/img/cpo/ppf2_logo.svg" alt="..." />
+            </a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars ml-1"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/Home/HomePage">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="row-cols-4" style="height:190px">
+    </div>
+    <div class="container">
+        <h1> @Context.Session.GetString("SVC_No")</h1>
+        <h5 style="color:red"> @Context.Session.GetString("Message")</h5>
+        <div class="col-md-12">
+            <form asp-action="OfficerRecord" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <hr />
+                <div class="row">
+                    <h2 style="">
+                        <label class="control-label">Personal Information</label>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Passport" style="width: 100%;"></label>
+                            @if (Model.Passport != null)
+                            {
+                                <img id="passport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.Passport))">
+                            }
+                            else
+                            {
+                                <img id="passport" style="width:250px;height:250px; object-fit:cover" src="">
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <img src="~/Image/navylogo2.png" style="width:180px;height:200px;" />
+                    </div>
+                    <div class="col-md-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="NokPassport" style="width: 100%;"></label>
+                            @if (Model.NokPassport != null)
+                            {
+                                <img id="nokpassport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.NokPassport))">
+                            }
+                            else
+                            {
+                                <img id="nokpassport" style="width:250px;height:250px; object-fit:cover" src="">
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="AltNokPassport" style="width: 100%;"></label>
+                            @if (Model.AltNokPassport != null)
+                            {
+                                <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))">
+                            }
+                            else
+                            {
+                                <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="">
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <input asp-for="id" class="form-control" hidden />
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Service Number</label>
+                        <input asp-for="serviceNumber" class="form-control" readonly />
+                        <span asp-validation-for="serviceNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Surname" class="control-label"></label>
+                        <input asp-for="Surname" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="OtherName" class="control-label"></label>
+                        <input asp-for="OtherName" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="OtherName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <label asp-for="Rank" class="control-label"></label>
+
+                        <input asp-for="Rank" class="form-control" value="@Model.Rank" readonly="readonly" />
+                        <span asp-validation-for="Rank" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Birthdate" class="control-label"></label>
+                        <input asp-for="Birthdate" class="form-control" readonly="readonly" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Date Of Joining</label>
+                        <input asp-for="DateEmpl" class="form-control" readonly="readonly" />
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <label class="control-label">Residental Address</label>
+                        <input asp-for="home_address" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="home_address" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="control-label">Seniority On Current Rank</label>
+                        <input asp-for="seniorityDate" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="seniorityDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="control-label">Run Out Date</label>
+                        <input asp-for="runOutDate" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="runOutDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+
+
+                    <div class="col-md-4">
+                        <label class="control-label">Branch</label>
+
+                        <input asp-for="branch" class="form-control" value="@Model.branch" readonly="readonly" />
+                        <span asp-validation-for="branch" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Command</label>
+                        <input asp-for="command" class="form-control" value="@Model.command" readonly="readonly" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Ship</label>
+
+                        <input asp-for="ship" class="form-control" value="@Model.ship" readonly="readonly" />
+                        <span asp-validation-for="ship" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <label class="control-label">Specialisation</label>
+                        <input asp-for="specialisation" class="form-control" value="@Model.specialisation" readonly="readonly" />
+                        <span asp-validation-for="specialisation" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Present Appointment</label>
+                        <input asp-for="appointment" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="appointment" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="control-label">State of Origin</label>
+                        <input asp-for="StateofOrigin" class="form-control" value="@Model.StateofOrigin" readonly="readonly" />
+                        <span asp-validation-for="StateofOrigin" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">LGA</label>
+
+                        <input asp-for="LocalGovt" class="form-control" value="@Model.LocalGovt" readonly="readonly" />
+                        <span asp-validation-for="LocalGovt" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Religion</label>
+
+                        <input asp-for="religion" class="form-control" value="@Model.religion" readonly="readonly" />
+                        <span asp-validation-for="religion" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">GSM Number 1</label>
+                        <input asp-for="gsm_number" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="gsm_number" class="text-danger"></span>
+                    </div>
+
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">GSM Number 2</label>
+                        <input asp-for="gsm_number2" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="gsm_number2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Email</label>
+                        <input asp-for="email" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="MaritalStatus" class="control-label"></label>
+
+                        <input asp-for="MaritalStatus" class="form-control" value="@Model.MaritalStatus" readonly="readonly" />
+                        <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <h2 style="">
+                        <label class="control-label">Children</label>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+
+                        <input asp-for="chid_name" class="form-control" placeholder="Child 1" readonly="readonly" />
+                        <span asp-validation-for="chid_name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="chid_name2" class="form-control" placeholder="Child 2" readonly="readonly" />
+                        <span asp-validation-for="chid_name2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="chid_name3" class="form-control" placeholder="Child 3" readonly="readonly" />
+                        <span asp-validation-for="chid_name3" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="chid_name4" class="form-control" placeholder="Child 4" readonly="readonly" />
+                        <span asp-validation-for="chid_name4" class="text-danger"></span>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <h2 style="">
+                        <label class="control-label">Spouse</label>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Name <i>State Rank/ SVC No. If Personnel</i></label>
+                        <input asp-for="sp_name" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="sp_name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Phone</label>
+                        <input asp-for="sp_phone" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="sp_phone" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Phone 2</label>
+                        <input asp-for="sp_phone2" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="sp_phone2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Spouse Email</label>
+                        <input asp-for="sp_email" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="sp_email" class="text-danger"></span>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <h2 style="">
+                        <label class="control-label">Details of Next Of Kin</label>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Name</label>
+                        <input asp-for="nok_name" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Relationship</label>
+                        @*<select asp-for="nok_relation"
+                                    class="form-control"
+                                    asp-items="@(new SelectList(Model.nok_relationList,"Value", "Text"))">
+                            </select>*@
+                        <input asp-for="nok_relation" class="form-control" value="@Model.nok_relation" readonly="readonly" />
+                        <span asp-validation-for="nok_relation" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Address</label>
+                        <input asp-for="nok_address" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_address" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Phone Number</label>
+                        <input asp-for="nok_phone" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_phone" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Email</label>
+                        <input asp-for="nok_email" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">National Identification No</label>
+                        <input asp-for="nok_nationalId" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_nationalId" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+
+
+                <div class="row">
+                    <h2 style="">
+                        <label class="control-label">Alternate Next Of Kin</label>
+                    </h2>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <label class="control-label">Name</label>
+                        <input asp-for="nok_name2" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_name2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Relationship</label>
+                        @*<select asp-for="nok_relation2"
+                                    class="form-control"
+                                    asp-items="@(new SelectList(Model.nok_relation2List,"Value", "Text"))">
+                            </select>*@
+                        <input asp-for="nok_relation2" class="form-control" value="@Model.nok_relation2" readonly="readonly" />
+                        <span asp-validation-for="nok_relation2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Address</label>
+                        <input asp-for="nok_address2" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_address2" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <label class="control-label">Phone Number</label>
+                        <input asp-for="nok_phone2" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_phone2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Email</label>
+                        <input asp-for="nok_email2" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_email2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">National Identification No</label>
+                        <input asp-for="nok_nationalId2" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="nok_nationalId2" class="text-danger"></span>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="row">
+                    <h2 style="">
+                        <label class="control-label">Do You Draw</label>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> Rent Subsidy</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="rentcheck" value="Yes" asp-for="rent_subsidy" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="rentcheck" value="No" asp-for="rent_subsidy" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
+                    </div>
+                    <span asp-validation-for="rent_subsidy" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> Call Shift duty allow</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="calldutycheck" value="Yes" asp-for="shift_duty_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="calldutycheck" value="No" asp-for="shift_duty_allow" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
+                    </div>
+                    <span asp-validation-for="shift_duty_allow" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> Pilot Allow</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="pilot_allowcheck" value="Yes" asp-for="pilot_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="pilot_allowcheck" value="No" asp-for="pilot_allow" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
+                    </div>
+                    <span asp-validation-for="pilot_allow" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> Aircrew Allow</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="aircrew_allowcheck" value="Yes" asp-for="aircrew_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="aircrew_allowcheck" value="No" asp-for="aircrew_allow" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
+                    </div>
+                    <span asp-validation-for="aircrew_allow" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> SBS Allow</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="sbscheck" value="Yes" asp-for="SBC_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="sbscheck" value="No" asp-for="SBC_allow" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
+                    </div>
+                    <span asp-validation-for="SBC_allow" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> Hazard Allow</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="harcheck" value="Yes" asp-for="hazard_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="harcheck" value="No" asp-for="hazard_allow" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
+                    </div>
+                    <span asp-validation-for="hazard_allow" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> Special Forces Allow</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="sfacheck" value="Yes" asp-for="special_forces_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="sfacheck" value="No" asp-for="special_forces_allow" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
+                    </div>
+                    <span asp-validation-for="special_forces_allow" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Other Allow <i>Please Specify</i></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input asp-for="other_allow" class="form-control" />
+                        <span asp-validation-for="other_allow" class="text-danger"></span>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <h2 style="">
+                        <label class="control-label">Are You Indepted to the following?? If Yes, Please Indicate Your Year Granted in the Text Box</label>
+                    </h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Federal Govt. Staff Housing Loan Scheme</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="fgscheck" value="Yes" asp-for="FGSHLS_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="fgscheckno" value="No" asp-for="FGSHLS_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">No</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input asp-for="FGSHLS_loanYear" class="form-control" />
+                    </div>
+
+                    <div class="col-md-3" id="fedhousing">
+                        <input asp-for="FGSHLS_loanYear" id="fgshls_loan_text" class="form-control" />
+                        <span asp-validation-for="FGSHLS_loan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">CNS Car Refurbishing Loan</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="cnslcheck" value="Yes" asp-for="car_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="cnslcheckno" value="No" asp-for="car_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">No</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input asp-for="car_loanYear" class="form-control" />
+                    </div>
+
+                    <div class="col-md-4" id="car_loanid">
+                        <input asp-for="car_loanYear" id="car_loan_text" class="form-control" />
+                        <span asp-validation-for="car_loan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Welfare Loan</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="wlcheck" value="Yes" asp-for="welfare_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="wlcheckno" value="No" asp-for="welfare_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">No</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input asp-for="welfare_loanYear" class="form-control" />
+                    </div>
+
+                    <div class="col-md-4" id="welfare_loanid">
+                        <input asp-for="welfare_loanYear" id="welfare_loan_text" class="form-control" />
+                        <span asp-validation-for="welfare_loan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">NNMCS loan</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="nnmcheck" value="Yes" asp-for="NNNCS_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="nnmcheckno" value="No" asp-for="NNNCS_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">No</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input asp-for="NNNCS_loanYear" class="form-control" />
+                    </div>
+
+                    <div class="col-md-3" id="NNNCS_loanid">
+                        <input asp-for="NNNCS_loanYear" id="NNNCS_loan_text" class="form-control" />
+                        <span asp-validation-for="NNNCS_loan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">NNMFBL loan</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="nnmfcheck" value="Yes" asp-for="NNMFBL_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="nnmfcheckno" value="No" asp-for="NNMFBL_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">No</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input asp-for="NNMFBL_loanYear" class="form-control" />
+                    </div>
+
+                    <div class="col-md-3" id="NNMFBL_loanid">
+                        <input asp-for="NNMFBL_loanYear" id="NNMFBL_loan_text" class="form-control" />
+                        <span asp-validation-for="NNMFBL_loan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Presidental Pensioner Car Finance Scheme</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="ppccheck" value="Yes" asp-for="PPCFS_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="ppccheckno" value="No" asp-for="PPCFS_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">No</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input asp-for="PPCFS_loanYear" class="form-control" />
+                    </div>
+
+                    <div class="col-md-3" id="ppc_loanid">
+                        <input asp-for="PPCFS_loanYear" id="ppc_loan_text" class="form-control" />
+                        <span asp-validation-for="PPCFS_loan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Any Other loan</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="anyolcheck" value="Yes" asp-for="Anyother_Loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="anyolcheckno" value="No" asp-for="Anyother_Loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">No</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input asp-for="Anyother_LoanYear" class="form-control" />
+                    </div>
+
+                    <div class="col-md-4" id="AnyOther_loanid">
+                        <input asp-for="Anyother_LoanYear" id="Anyother_loan_text" class="form-control" />
+                        <span asp-validation-for="Anyother_Loan" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="row">
+                    <h2 style="">
+                        <label class="control-label">Bank Details</label>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Salary Account Name</label>
+                        <input asp-for="AccountName" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="AccountName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Bank Name</label>
+                        @*<select asp-for="Bankcode"
+                                    class="form-control"
+                                    asp-items="@(new SelectList(Model.bankList,"Value", "Text"))">
+                            </select>*@
+                        <input asp-for="Bankcode" class="form-control" value="@Model.Bankcode" readonly="readonly" />
+                        <span asp-validation-for="Bankcode" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="bankbranch" class="control-label"></label>
+                        <input asp-for="bankbranch" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="bankbranch" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="BankACNumber" class="control-label"></label>
+                        <input asp-for="BankACNumber" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="BankACNumber" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <hr />
+
+            </form>
+            @using (Html.BeginForm("UpdatedPersonel", "CPOUpdate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input asp-for="serviceNumber" class="form-control" readonly hidden />
+                <input asp-for="payrollclass" value="1" class="form-control" readonly hidden />
+
+                @if (Context.Session.GetString("Appointment") == "SectionA")
+                {
+                    <table>
+                        <tr>
+                            <td><strong><u>SECTION B</u> (To be completed by The Section)</strong></td>
+                        </tr>
+                    </table>
+                    <br>
+                    <div class="row">
+                       
+                        <div class="col-md-4">
+                            <select asp-for="emolumentform" class="form-control" required>
+                                <option></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                
+                            </select>
+                        </div>
+                   
+
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <!-- Contact form JS-->
+    <script src="~/assets/mail/jqBootstrapValidation.js"></script>
+    <script src="~/assets/mail/contact_me.js"></script>
+    <script src="~/js/datepicker1.js"></script>
+    <script src="~/js/datepicker2.js"></script>
+    <!-- Core theme JS-->
+    <script src="~/js/scripts.js"></script>
+    <script>
+        $(document).ready(function () {
+            var stateid = $('#ddstate');
+            stateid.append($("<option></option>").val('').html('select state'));
+            $.ajax({
+                url: '/PersonalInfo/GetState',
+                dataType: 'json',
+                type: 'Get',
+                success: function (d) {
+                    $.each(d, function (i, state) {
+                        stateid.append($("<option></option>").val(state.StateId).html(state.Name));
+                    });
+                },
+                error: function () {
+                    alert('Error');
+                }
+            });
+
+            $("#ddstate").change(function () {
+                var StateId = parseInt($(this).val());
+
+                if (!isNaN(StateId)) {
+                    var localgovt = $("#ddlocalGovt");
+                    localgovt.empty();
+                    localgovt.append($("<option></option>").val('').html('Please Wait....'));
+                    debugger;
+                    $.ajax({
+                        url: '/PersonalInfo/GetLGA',
+                        type: 'Get',
+                        dataType: 'json',
+                        data: { StateId: StateId },
+                        success: function (d) {
+                            localgovt.empty();
+                            localgovt.append($("<option></option>").val('').html('Select LGA'));
+                            $.each(d, function (i, lga) {
+
+                                localgovt.append($("<option></option>").val(lga.Id).html(lga.lgaName));
+                            });
+
+                        },
+                        error: function () {
+                            alert('Error');
+                        }
+                    });
+                }
+            });
+        });
+
+
+        $(function () {
+            //$("#datepicker").datepicker();
+            //$("#datepicker1").datepicker();
+            //$("#datepicker2").datepicker();
+            //$("#datepicker3").datepicker();
+            //$("#datepicker4").datepicker();
+            //$("#datepicker5").datepicker();
+            $("#fedhousing").hide();
+            $("#car_loanid").hide();
+            $("#welfare_loanid").hide();
+            $("#NNNCS_loanid").hide();
+            $("#NNMFBL_loanid").hide();
+            $("#ppc_loanid").hide();
+            $("#AnyOther_loanid").hide();
+
+
+        });
+        $("#fgscheck").change(
+            function () {
+                if ($(this).val() == 'Yes') {
+                    $("#fedhousing").show();
+                }
+
+            });
+        $("#fgscheckno").change(
+            function () {
+                if ($(this).val() == 'No') {
+                    $("#fedhousing").hide();
+                }
+
+            });
+        $("#cnslcheck").change(
+            function () {
+                if ($(this).val() == 'Yes') {
+                    $("#car_loanid").show();
+                }
+
+            });
+        $("#cnslcheckno").change(
+            function () {
+                if ($(this).val() == 'No') {
+                    $("#car_loanid").hide();
+                }
+
+            });
+        $("#wlcheck").change(
+            function () {
+                if ($(this).val() == 'Yes') {
+                    $("#welfare_loanid").show();
+                }
+
+            });
+        $("#wlcheckno").change(
+            function () {
+                if ($(this).val() == 'No') {
+                    $("#welfare_loanid").hide();
+                }
+
+            });
+        $("#nnmcheck").change(
+            function () {
+                if ($(this).val() == 'Yes') {
+                    $("#NNNCS_loanid").show();
+                }
+
+            });
+        $("#nnmcheckno").change(
+            function () {
+                if ($(this).val() == 'No') {
+                    $("#NNNCS_loanid").hide();
+                }
+
+            });
+        $("#nnmfcheck").change(
+            function () {
+                if ($(this).val() == 'Yes') {
+                    $("#NNMFBL_loanid").show();
+                }
+
+            });
+        $("#nnmfcheckno").change(
+            function () {
+                if ($(this).val() == 'No') {
+                    $("#NNMFBL_loanid").hide();
+                }
+
+            });
+        $("#ppccheck").change(
+            function () {
+                if ($(this).val() == 'Yes') {
+                    $("#ppc_loanid").show();
+                }
+
+            });
+        $("#ppccheckno").change(
+            function () {
+                if ($(this).val() == 'No') {
+                    $("#ppc_loanid").hide();
+                }
+
+            });
+        $("#anyolcheck").change(
+            function () {
+                if ($(this).val() == 'Yes') {
+                    $("#AnyOther_loanid").show();
+                }
+
+            });
+        $("#anyolcheckno").change(
+            function () {
+                if ($(this).val() == 'No') {
+                    $("#AnyOther_loanid").hide();
+                }
+
+            });
+    </script>
+</body>
+</html>
+

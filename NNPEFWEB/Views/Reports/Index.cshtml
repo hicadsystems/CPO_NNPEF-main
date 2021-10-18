@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Reports</h1>
+<section class="content">
+
+    <report></report>
+   
+</section>
+<script src="~/Content/assets/mysems2bootstrap.min.js"></script>-->
+<script src="~/assets/mysemsjquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="assets/jquery-1.11.2.min.js"><\/script>')</script>
+<script>
+    $(document).ready(function () {
+        ShowAllReservation();
+
+        function ShowAllReservation() {
+            $("table tbody").html("");
+            $.ajax({
+                url: "https://localhost:44395/api/Reports/getListPerson",
+                type: "get",
+                contentType: "application/json",
+                success: function (result, status, xhr) {
+                    $.each(result, function (index, value) {
+                        $("tbody").append($("<tr>"));
+                        appendElement = $("tbody tr").last();
+                        appendElement.append($("<td>").html(value["serviceNumber"]));
+                        appendElement.append($("<td>").html(value["surname"]));
+                        appendElement.append($("<td>").html(value["otherName"]));
+                        appendElement.append($("<td>").html(value["ship"]));
+                        //appendElement.append($("<td>").html(" < a href =\"UpdateReservation.html?id =" + value[" id"] + "\"><img src=\"icon/edit.png\" /></a>"));
+                        //appendElement.append($("<td>").html("<img class=\"delete\" src=\"icon/close.png\" />"));
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr)
+                }
+            });
+        }
+
+        $("#UpdateButton").click(function (e) {
+            let params = (new URL(document.location)).searchParams;
+            let id = params.get("id");
+
+            data = new FormData();
+            data.append("Id", $("#Id").val());
+            data.append("Name", $("#Name").val());
+            data.append("StartLocation", $("#StartLocation").val());
+            data.append("EndLocation", $("#EndLocation").val());
+
+            $.ajax({
+                url: "https://localhost:44324/api/Reservation",
+                type: "put",
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (result, status, xhr) {
+                    var str = "<tr><td>" + result["id"] + "</td><td>" + result["name"] + "</td><td>" + result["startLocation"] + "</td><td>" + result[
+                        $("table tbody").append(str);
+                    $("#resultDiv").show();
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr)
+                }
+            });
+        });
+    });
+
+        });
+</script>
+<!--<script src="~/Content/assets/mysems2bootstrap.min.js"></script>-->
+@*<script src="~/assets/mysemsjquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="assets/jquery-1.11.2.min.js"><\/script>')</script>
+
+        <script>
+    $(window).load(function () {
+
+        $('#table1 tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        });
+
+
+        var table2 = $('#table1');
+
+        var oTable = $('#table1');
+
+
+
+        var url = '@Url.Action("getListPerson", "api/Reports")';
+        //var url2 = 'api/Reports/getListPerson';
+        alert(url);
+        //lBfrtip
+        $('#processBTN').click(function () {
+            search();
+        });
+
+        oTable = $('#table1').DataTable({
+            serverSide: true,
+            sAjaxSource: url,
+            processing: true,
+            dom: '<"top"l>rt<"bottom"Bifp><"clear">',
+
+            buttons: [
+                'copy', 'excel', 'pdf', 'csv'
+            ],
+
+
+            "columns": [
+                {
+                    "data": "serviceNumber",
+                },
+                {
+                    "data": "surname",
+
+                },
+                {
+                    "data": "otherName",
+                },
+
+                {
+                    "data": "ship",
+                }],
+
+
+            language: {
+                emptyTable: "No data available in table"
+            },
+            bFilter: false,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            pagingType: "full_numbers",
+            scrollX: true,
+            autoWidth: true,
+            aoColumnDefs: [
+                { 'bSortable': false, 'aTargets': ["no-sort"] }
+            ],
+        });
+
+
+
+
+
+
+
+        function search() {
+
+
+            url = '@Url.Action("getListPerson", "api/Reports")';
+            //alert(url);
+            oTable.ajax.url(url).load();
+
+
+        }
+    });
+        </script>*@
