@@ -8,21 +8,21 @@ namespace NNPEFWEB.Service
     public interface ICommandDashboard
     {
        
-        int AllStaffOfficers(string ship, string command);
-        int ApprovedStaffOfficers(string ship, string command);
-        int AwaiteApprovalStaffOfficers(string ship, string command);
-        int YetToFillStaffOfficers(string ship, string command);
-        int AllCommandStaffOfficers(string ship, string command);
-        int AllStaffRatings(string ship, string command);
-        int ApprovedStaffRatings(string ship, string command);
-        int AwaiteApprovalStaffRatings(string ship, string command);
-        int YetToFillStaffRatings(string ship, string command);
-        int AllCommandStaffRatings(string ship, string coomand);
-        int AllStaffTrainings(string ship, string command);
-        int ApprovedStaffTrainings(string ship, string command);
-        int AwaiteApprovalStaffTrainings(string ship, string command);
-        int YetToFillStaffTrainings(string ship, string command);
-        int AllCommandStaffTrainings(string ship, string command);
+        int AllStaffOfficers(string ship);
+        int ApprovedStaffOfficers(string ship);
+        int AwaiteApprovalStaffOfficers(string ship);
+        int YetToFillStaffOfficers(string ship);
+        int AllCommandStaffOfficers(string ship);
+        int AllStaffRatings(string ship);
+        int ApprovedStaffRatings(string ship);
+        int AwaiteApprovalStaffRatings(string ship);
+        int YetToFillStaffRatings(string ship);
+        int AllCommandStaffRatings(string ship);
+        int AllStaffTrainings(string ship);
+        int ApprovedStaffTrainings(string ship);
+        int AwaiteApprovalStaffTrainings(string ship);
+        int YetToFillStaffTrainings(string ship);
+        int AllCommandStaffTrainings(string ship);
 
 
 

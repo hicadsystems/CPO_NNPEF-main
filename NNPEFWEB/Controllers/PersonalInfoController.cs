@@ -970,6 +970,9 @@ namespace NNPEFWEB.Controllers
                 Birthdate = per.Birthdate,
                 DateEmpl = per.DateEmpl,
                 seniorityDate = per.seniorityDate,
+                expirationOfEngagementDate=per.expirationOfEngagementDate,
+                runOutDate=per.runoutDate,
+                yearOfPromotion=per.yearOfPromotion,
                 home_address = per.home_address,
                 branch = per.branch,
                 command = per.command,
@@ -1018,6 +1021,7 @@ namespace NNPEFWEB.Controllers
                 hazard_allow = per.hazard_allow,
                 special_forces_allow = per.special_forces_allow,
                 other_allow = per.other_allow,
+                GBC_Number=per.GBC_Number,
 
                 FGSHLS_loan = per.FGSHLS_loan,
                 welfare_loan = per.welfare_loan,
@@ -1061,6 +1065,7 @@ namespace NNPEFWEB.Controllers
             p.entry_modeList = GetEntryMode();
             p.nok_relationList = GetRelationship();
             p.nok_relation2List = GetRelationship();
+                p.LocalGovtList = GetLGA2();
 
                 return View(p);
             }
@@ -1164,7 +1169,8 @@ namespace NNPEFWEB.Controllers
                 person.DateLeft = value.DateLeft;
                 person.dateModify = DateTime.Now;
                 person.seniorityDate = value.seniorityDate;
-                
+                person.expirationOfEngagementDate = value.expirationOfEngagementDate;
+                person.yearOfPromotion = value.yearOfPromotion;
 
                 person.chid_name = value.chid_name;
                 person.chid_name2 = value.chid_name2;
@@ -1201,6 +1207,7 @@ namespace NNPEFWEB.Controllers
                 person.hazard_allow = value.hazard_allow;
                 person.special_forces_allow = value.special_forces_allow;
                 person.other_allow = value.other_allow;
+                person.GBC_Number = value.GBC_Number;
 
                 person.FGSHLS_loan = value.FGSHLS_loan;
                 person.welfare_loan = value.welfare_loan;
@@ -1644,7 +1651,24 @@ namespace NNPEFWEB.Controllers
            
             return lgaList;
         }
-        
+        public List<SelectListItem> GetLGA2()
+        {
+            var lgaList = (from rk in _context.ef_localgovts
+                           select new SelectListItem()
+                           {
+                               Text = rk.lgaName,
+                               Value = rk.Id.ToString(),
+                           }).ToList();
+
+
+            return lgaList;
+        }
+        [HttpPost]
+        public ActionResult GetLgasNew(int? id)
+        {
+            var lgas = _context.ef_localgovts.Where(x => x.StateId == id.Value).ToList();
+            return Json(new SelectList(lgas, "Id", "lgaName"));
+        }
         public List<SelectListItem> GetShip()
         {
             var shipList = (from rk in _context.ef_ships

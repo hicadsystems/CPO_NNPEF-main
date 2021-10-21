@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -60,31 +60,30 @@ namespace NNPEFWEB.Controllers
 
             return View(dah);
         }
-        public IActionResult command()
+        public IActionResult commanddashbord()
         {
             var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-            string command = _context.ef_commands.Where(x => x.Id == cmdr.Command).FirstOrDefault().code;
             string ship = _context.ef_ships.Where(x => x.Id == cmdr.ship).FirstOrDefault().shipName;
             var dah = new personelCountVM()
             {
 
-                AllStaffOfficers = _commanddashboard.AllStaffOfficers(ship, command),
-                ApproveStaffOfficers = _commanddashboard.ApprovedStaffOfficers(ship, command),
-                AwaitingApprovalStaffOfficers = _commanddashboard.AwaiteApprovalStaffOfficers(ship, command),
-                YettoFillStaffOfficers = _commanddashboard.YetToFillStaffOfficers(ship, command),
-                CommandYetToFillOfficers = _commanddashboard.AllCommandStaffOfficers(ship, command),
+                AllStaffOfficers = _commanddashboard.AllStaffOfficers(ship),
+                ApproveStaffOfficers = _commanddashboard.ApprovedStaffOfficers(ship),
+                AwaitingApprovalStaffOfficers = _commanddashboard.AwaiteApprovalStaffOfficers(ship),
+                YettoFillStaffOfficers = _commanddashboard.YetToFillStaffOfficers(ship),
+                CommandYetToFillOfficers = _commanddashboard.AllCommandStaffOfficers(ship),
 
-                AllStaffRatings = _commanddashboard.AllStaffRatings(ship, command),
-                ApproveStaffRatings = _commanddashboard.ApprovedStaffRatings(ship, command),
-                AwaitingApprovalStaffRatings = _commanddashboard.AwaiteApprovalStaffRatings(ship, command),
-                YettoFillStaffRatings = _commanddashboard.YetToFillStaffRatings(ship, command),
-                CommandYetToFillRatings = _commanddashboard.AllCommandStaffRatings(ship, command),
+                AllStaffRatings = _commanddashboard.AllStaffRatings(ship),
+                ApproveStaffRatings = _commanddashboard.ApprovedStaffRatings(ship),
+                AwaitingApprovalStaffRatings = _commanddashboard.AwaiteApprovalStaffRatings(ship),
+                YettoFillStaffRatings = _commanddashboard.YetToFillStaffRatings(ship),
+                CommandYetToFillRatings = _commanddashboard.AllCommandStaffRatings(ship),
 
-                AllStaffTrainings = _commanddashboard.AllStaffTrainings(ship, command),
-                ApproveStaffTrainings = _commanddashboard.ApprovedStaffTrainings(ship, command),
-                AwaitingApprovalStaffTrainings = _commanddashboard.AwaiteApprovalStaffTrainings(ship, command),
-                YettoFillStaffTrainings = _commanddashboard.YetToFillStaffTrainings(ship, command),
-                CommandYetToFillTrainings = _commanddashboard.AllCommandStaffTrainings(ship, command),
+                AllStaffTrainings = _commanddashboard.AllStaffTrainings(ship),
+                ApproveStaffTrainings = _commanddashboard.ApprovedStaffTrainings(ship),
+                AwaitingApprovalStaffTrainings = _commanddashboard.AwaiteApprovalStaffTrainings(ship),
+                YettoFillStaffTrainings = _commanddashboard.YetToFillStaffTrainings(ship),
+                CommandYetToFillTrainings = _commanddashboard.AllCommandStaffTrainings(ship),
             };
 
             return View(dah);
@@ -94,7 +93,11 @@ namespace NNPEFWEB.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Admin()
+        {
+            return View();
+        }
+        public IActionResult Command()
         {
             return View();
         }

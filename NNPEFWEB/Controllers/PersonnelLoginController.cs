@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols;
 using NETCore.MailKit.Core;
 using NNPEFWEB.Data;
@@ -32,14 +33,21 @@ namespace NNPEFWEB.Controllers
         private readonly IConfiguration config;
         private int resetcode;
         Random rnd = new Random();
-        public PersonnelLoginController(ApplicationDbContext context,IPersonInfoService personInfoService,IPersonService personService, IUnitOfWorks unitOfWorks, IConfiguration config)
-        {
+        private readonly ILogger<HomeController> _logger;
+        public PersonnelLoginController
+         (
+            ILogger<HomeController> logger,
+            ApplicationDbContext context,IPersonInfoService personInfoService,
+            IPersonService personService, IUnitOfWorks unitOfWorks, IConfiguration config
+         )
+         {
+            _logger = logger;
             this.personService = personService;
             this.unitOfWorks = unitOfWorks;
             this.config = config;
             this.personInfoService = personInfoService;
             _context = context;
-        }
+         }
         public IActionResult Index()
         {
             return View();
@@ -51,47 +59,49 @@ namespace NNPEFWEB.Controllers
         [HttpPost]
         public IActionResult Login(personLoginVM value)
         {
-            MD5 md = MD5.Create();
-            if (ModelState.IsValid)
+            try
             {
-                var site = _context.ef_systeminfos.FirstOrDefault(x=>x.closedate.Date < DateTime.Now.Date);
-                if (site != null)
+                MD5 md = MD5.Create();
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("ClosingPage", "Account");
-                }
-                
+                    var site = _context.ef_systeminfos.FirstOrDefault(x => x.closedate.Date < DateTime.Now.Date);
+                    if (site != null)
+                    {
+                        return RedirectToAction("ClosingPage", "Account");
+                    }
+
                     var pers = personService.GetPersonBySvc_NO(value.userName);
                     var checkdoublemail = _context.ef_PersonnelLogins.Where(x => x.email == pers.email).Count();
-                    if (pers==null)
+                    if (pers == null)
                     {
                         TempData["errorMessage"] = "Invalid credentials";
                         return RedirectToAction("Login", "PersonnelLogin");
                     }
                     else if (pers.expireDate == null && pers.userName == value.userName && pers.password == value.password)
                     {
-                    if (pers.email == null)
-                    {
-                        TempData["errorMessage"] = "Email Not Avialable Contact CPO";
-                    }
-                    else if (IsValidEmail(pers.email) != true)
-                    {
-                        TempData["errorMessage"] = "Invalid Email Contact CPO";
-                    }
-                    else if (checkdoublemail > 1)
-                    {
-                        TempData["errorMessage"] = "Duplicate Email Contact CPO";
-                    }
-                    else
-                    {
-                        HttpContext.Session.SetString("SVC_No", value.userName);
-                        return RedirectToAction("ResetPasswordServiceNumber", new RouteValueDictionary(
-                           new
-                           {
-                               controller = "PersonnelLogin",
-                               action = "ResetPasswordServiceNumber",
-                               email = pers.userName
-                           }));
-                    }
+                        if (pers.email == null)
+                        {
+                            TempData["errorMessage"] = "Email Not Avialable Contact CPO";
+                        }
+                        else if (IsValidEmail(pers.email) != true)
+                        {
+                            TempData["errorMessage"] = "Invalid Email Contact CPO";
+                        }
+                        else if (checkdoublemail > 1)
+                        {
+                            TempData["errorMessage"] = "Duplicate Email Contact CPO";
+                        }
+                        else
+                        {
+                            HttpContext.Session.SetString("SVC_No", value.userName);
+                            return RedirectToAction("ResetPasswordServiceNumber", new RouteValueDictionary(
+                               new
+                               {
+                                   controller = "PersonnelLogin",
+                                   action = "ResetPasswordServiceNumber",
+                                   email = pers.userName
+                               }));
+                        }
                         //return RedirectToAction("ResetPasswordServiceNumber");
                         //MD5 md5Hash = MD5.Create();
                         //string PasswordToHash = GetMd5Hash(md5Hash, value.password);
@@ -125,37 +135,37 @@ namespace NNPEFWEB.Controllers
                                 id = pers.password
                             }));
                         }
-                    else if (pers.payClass == "3")
-                    {
-                        return RedirectToAction("RatingRecord", new RouteValueDictionary(
-                        new
+                        else if (pers.payClass == "3")
                         {
-                            controller = "PersonalInfo",
-                            action = "RatingRecord",
-                            id = pers.password
-                        }));
-                    }
-                    else if (pers.payClass == "4")
-                    {
-                        return RedirectToAction("RatingRecord", new RouteValueDictionary(
-                        new
+                            return RedirectToAction("RatingRecord", new RouteValueDictionary(
+                            new
+                            {
+                                controller = "PersonalInfo",
+                                action = "RatingRecord",
+                                id = pers.password
+                            }));
+                        }
+                        else if (pers.payClass == "4")
                         {
-                            controller = "PersonalInfo",
-                            action = "RatingRecord",
-                            id = pers.password
-                        }));
-                    }
-                    else if (pers.payClass == "5")
-                    {
-                        return RedirectToAction("RatingRecord", new RouteValueDictionary(
-                        new
+                            return RedirectToAction("RatingRecord", new RouteValueDictionary(
+                            new
+                            {
+                                controller = "PersonalInfo",
+                                action = "RatingRecord",
+                                id = pers.password
+                            }));
+                        }
+                        else if (pers.payClass == "5")
                         {
-                            controller = "PersonalInfo",
-                            action = "RatingRecord",
-                            id = pers.password
-                        }));
-                    }
-                      else if (pers.payClass=="6")
+                            return RedirectToAction("RatingRecord", new RouteValueDictionary(
+                            new
+                            {
+                                controller = "PersonalInfo",
+                                action = "RatingRecord",
+                                id = pers.password
+                            }));
+                        }
+                        else if (pers.payClass == "6")
                         {
                             return RedirectToAction("TrainingRecord", new RouteValueDictionary(
                             new
@@ -169,20 +179,17 @@ namespace NNPEFWEB.Controllers
                     }
                     else
                     {
-                    //if (per.payClass == "2")
-                    //{
-                    //    return RedirectToAction("OfficerRecord", new RouteValueDictionary(
-                    //    new
-                    //    {
-                    //        controller = "PersonalInfo",
-                    //        action = "OfficerRecord",
-                    //        id = per.password
-                    //    }));
-                    //}
-                    TempData["errorMessage"] = "Invalid UserName/Password";
+                       
+                        TempData["errorMessage"] = "Invalid UserName/Password";
                         return View();
                     }
-              
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogInformation(ex.Message);
             }
             return View();
         }
@@ -348,8 +355,10 @@ namespace NNPEFWEB.Controllers
                 }
             }
             catch (Exception ex)
-            {
-                string log = ex.Message;
+           {
+                _logger.LogInformation(ex.Message);
+                TempData["errorMessage"] = "Unable To Send Mail";
+                return RedirectToAction("Login");
             }
             return View();
         }

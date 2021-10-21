@@ -91,6 +91,7 @@ namespace NNPEFWEB.ViewModel
         public string StateofOrigin { get; set; }
         public List<SelectListItem> StateofOriginList { get; set; }
         public string LocalGovt { get; set; }
+        public List<SelectListItem> LocalGovtList { get; set; }
         public string TaxCode { get; set; }
         public string nok_address { get; set; }
         public string nok_relation { get; set; }

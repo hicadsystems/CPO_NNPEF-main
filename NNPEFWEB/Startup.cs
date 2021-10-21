@@ -18,6 +18,8 @@ using NETCore.MailKit.Infrastructure.Internal;
 using NNPEFWEB.Service;
 using NNPEFWEB.Repository;
 using Wkhtmltopdf.NetCore;
+using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace NNPEFWEB
 {
@@ -88,8 +90,10 @@ namespace NNPEFWEB
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory loggerFactory)
         {
+            var path = Directory.GetCurrentDirectory();
+            loggerFactory.AddFile($"{path}\\Logs\\Log.txt");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

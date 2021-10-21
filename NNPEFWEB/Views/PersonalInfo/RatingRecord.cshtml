@@ -42,9 +42,9 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ml-auto">
 
-                    <li class="nav-item" style="color:white"><a class="nav-link js-scroll-trigger" href="#portfolio">Images/Events</a></li>
+                    @*<li class="nav-item" style="color:white"><a class="nav-link js-scroll-trigger" href="#portfolio">Images/Events</a></li>
                     <li class="nav-item" style="color:white"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
-                    <li class="nav-item" style="color:white"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                    <li class="nav-item" style="color:white"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>*@
                     @*<li class="nav-item" style="color:white"><a class="nav-link" href="https://www.navy.mil.ng/">Visit Our Site</a></li>*@
                     <li class="nav-item"><a class="nav-link" href="/Home/HomePage">Log Out</a></li>
                     <li class="nav-item"><a class="nav-link" href="/Reports/downloadForm">DownLoad Form</a></li>
@@ -192,8 +192,8 @@
                     </div>
                     <div class="col-md-3">
                         <label class="control-label">Year Of Advancement</label>
-                        <input asp-for="yearOfAdvancement" class="form-control" type="text" />
-                        <span asp-validation-for="yearOfAdvancement" class="text-danger"></span>
+                        <input asp-for="yearOfPromotion" class="form-control" type="text" />
+                        <span asp-validation-for="yearOfPromotion" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-5">
@@ -264,12 +264,16 @@
                         </select>
                         <span asp-validation-for="StateofOrigin" class="text-danger"></span>
                     </div>
-
+                    @*<div class="col-md-4" id="lga">
+                        <label class="control-label">LGA</label>
+                         <input asp-for="LocalGovt" class="form-control" />
+                        <span asp-validation-for="LocalGovt" class="text-danger"></span>
+                    </div>*@
                     <div class="col-md-4">
                         <label class="control-label">LGA</label>
-                        @*<input asp-for="LocalGovt" class="form-control" />*@
                         <select asp-for="LocalGovt" id="ddlocalGovt"
-                                class="form-control">
+                                class="form-control"
+                            asp-items="@(new SelectList(Model.LocalGovtList,"Value", "Text"))">
                         </select>
                         <span asp-validation-for="LocalGovt" class="text-danger"></span>
                     </div>
@@ -689,11 +693,11 @@
                     @if (Model.Anyother_Loan == "Yes")
                     {
                         <div class="col-md-3">
-                            <input asp-for="Anyother_LoanYear" class="form-control" />
+                            <input asp-for="Anyother_LoanYear" class="form-control" id="anyotheryear"/>
                         </div>
                     }
                     <div class="col-md-3" id="AnyOther_loanid">
-                        <input asp-for="Anyother_LoanYear" id="Anyother_loan_text" class="form-control" />
+                        <input asp-for="Anyother_LoanYear" id="Anyother_loan_text"  class="form-control" />
                         <span asp-validation-for="Anyother_Loan" class="text-danger"></span>
                     </div>
                 </div>
@@ -730,7 +734,7 @@
 
                 </div>
 
-                <hr />
+                @*<hr />
                 @if (Model.Status == null || Model.Status == "DO" || Model.Status == "CDR")
                 {
                     <div class="row">
@@ -819,7 +823,7 @@
                         </div>
 
                     </div>
-                }
+                }*@
                 <hr />
                 <div class="row">
                     <div class="col-md-4">
@@ -861,37 +865,61 @@
                 }
             });
 
-            $("#ddstate").change(function () {
-                var StateId = parseInt($(this).val());
+        //    $("#ddstate").change(function () {
+        //        var StateId = parseInt($(this).val());
 
-                if (!isNaN(StateId)) {
-                    var localgovt = $("#ddlocalGovt");
-                    localgovt.empty();
-                    localgovt.append($("<option></option>").val('').html('Please Wait....'));
-                    debugger;
-                    $.ajax({
-                        url: '/PersonalInfo/GetLGA',
-                        type: 'Get',
-                        dataType: 'json',
-                        data: { StateId: StateId },
-                        success: function (d) {
-                            localgovt.empty();
-                            localgovt.append($("<option></option>").val('').html('Select LGA'));
-                            $.each(d, function (i, lga) {
-                                alert(lga.Value)
-                                localgovt.append($("<option></option>").val(lga.Id).html(lga.lgaName));
-                            });
+        //        if (!isNaN(StateId)) {
+        //            var localgovt = $("#ddlocalGovt");
+        //            localgovt.empty();
+        //            localgovt.append($("<option></option>").val('').html('Please Wait....'));
+        //            debugger;
+        //            $.ajax({
+        //                url: '/PersonalInfo/GetLGA',
+        //                type: 'Get',
+        //                dataType: 'json',
+        //                data: { StateId: StateId },
+        //                success: function (d) {
+        //                    localgovt.empty();
+        //                    localgovt.append($("<option></option>").val('').html('Select LGA'));
+        //                    $.each(d, function (i, lga) {
 
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
+        //                        localgovt.append($("<option></option>").val(lga.Id).html(lga.lgaName));
+        //                    });
+
+        //                },
+        //                error: function () {
+        //                    alert('Error');
+        //                }
+        //            });
+        //        }
+        //    });
+        
+        $('#ddstate').change(function () {
+            var id = $("#ddstate option:selected").val();
+           
+            $("#lga").hide();
+            $.ajax({
+                url: "@Url.Action("GetLgasNew", "PersonalInfo")",
+                data: { id: id },
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data) {
+                  
+                    var items = "<option value=\"\">" + "</option>";
+                    $.each(data, function (i, item) {
+                     
+                        items += "<option value=\"" + item.value + "\">" + item.text + "</option>";
+                       
                     });
+                    $("#lgashow").show();
+                    $("#ddlocalGovt").html(items);
                 }
             });
         });
-
-
+});
         $(function () {
             $("#datepicker").datepicker();
             $("#datepicker1").datepicker();
@@ -905,6 +933,7 @@
             $("#NNMFBL_loanid").hide();
             $("#ppc_loanid").hide();
             $("#AnyOther_loanid").hide();
+            $("#lgashow").hide();
 
 
         });
@@ -919,6 +948,8 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#fedhousing").hide();
+                    $("#fgshls_loan_text").val('');
+
                 }
 
             });
@@ -933,6 +964,7 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#car_loanid").hide();
+                    $("#car_loan_text").val('');
                 }
 
             });
@@ -947,6 +979,7 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#welfare_loanid").hide();
+                    $("#welfare_loan_text").val('');
                 }
 
             });
@@ -961,6 +994,7 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#NNNCS_loanid").hide();
+                    $("#NNNCS_loan_text").val('');
                 }
 
             });
@@ -968,13 +1002,14 @@
             function () {
                 if ($(this).val() == 'Yes') {
                     $("#NNMFBL_loanid").show();
-                }
+                   }
 
             });
         $("#nnmfcheckno").change(
             function () {
                 if ($(this).val() == 'No') {
                     $("#NNMFBL_loanid").hide();
+                    $("NNMFBL_loan_text").val('');
                 }
 
             });
@@ -989,6 +1024,7 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#ppc_loanid").hide();
+                    $("ppc_loan_text").val('');
                 }
 
             });
@@ -1003,9 +1039,11 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#AnyOther_loanid").hide();
+                    $("#Anyother_loan_text").val('');
                 }
 
             });
+
     </script>
 </body>
 </html>

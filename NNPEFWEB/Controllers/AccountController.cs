@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NNPEFWEB.Data;
 using NNPEFWEB.Models;
 using NNPEFWEB.Repository;
@@ -26,15 +27,17 @@ namespace NNPEFWEB.Controllers
         private readonly string connectionstring;
         //private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _context;
-        //private readonly IUnitOfWorks _unitOfWorks;
+        private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWorks _unitOfWorks;
 
         public AccountController(
+            ILogger<HomeController> logger,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ISystemsInfoService systemsInfoService,
             ApplicationDbContext context, IUnitOfWorks unitOfWorks, IConfiguration configuration)
         {
+            _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
             _systemsInfoService = systemsInfoService;
@@ -72,22 +75,31 @@ namespace NNPEFWEB.Controllers
         [HttpPost]
         public ActionResult CreateSystemsInfo(systeminfoVM ef_Systeminfo)
         {
-            if (ef_Systeminfo.company_image != null)
+            try
             {
-                IFormFile file = Request.Form.Files.Where(x => x.Name == "company_image").FirstOrDefault();
-
-                using (var dataStream = new MemoryStream())
+                if (ef_Systeminfo.company_image != null)
                 {
-                    file.CopyToAsync(dataStream);
+                    IFormFile file = Request.Form.Files.Where(x => x.Name == "company_image").FirstOrDefault();
 
-                    ef_Systeminfo.company_image = dataStream.ToArray();
+                    using (var dataStream = new MemoryStream())
+                    {
+                        file.CopyToAsync(dataStream);
 
+                        ef_Systeminfo.company_image = dataStream.ToArray();
+
+                    }
                 }
+
+                _systemsInfoService.CreateSystemsInfo(ef_Systeminfo);
+
             }
+            catch (Exception ex)
+            {
 
-            _systemsInfoService.CreateSystemsInfo(ef_Systeminfo);
-
+                _logger.LogError(ex.Message);
+            }
             return RedirectToAction("GetSystemsInfo");
+
         }
 
         [HttpGet]
@@ -187,61 +199,70 @@ namespace NNPEFWEB.Controllers
         [HttpPost]
         public ActionResult CommandLogin(CommandLoginVM com)
         {
-            //GetCommand();
-            var user =  _userManager.FindByNameAsync(com.UserName).Result;
-            if (user != null)
+            try
             {
-                if (user.Command != com.Command && user.ship.Value != com.ship)
+                var user = _userManager.FindByNameAsync(com.UserName).Result;
+                if (user != null)
                 {
-                    TempData["commandLoginMessage"] = "User No Found";
-                }
-                 else { 
-                
-                    if (user.EmailConfirmed == false)
+                    if (user.ship.Value != com.ship)
                     {
-                        HttpContext.Session.SetString("SVC_No", user.UserName);
-                        
-                        return RedirectToPage("/Account/ForgotPassword", new { area = "Identity" });
-                    }
-                    com.UserName = user.UserName;
-
-                    var result = _signInManager.PasswordSignInAsync(com.UserName, com.Password, true, lockoutOnFailure: false).Result;
-                    if (result.Succeeded)
-                    {
-                        if (user.Appointment == "Admin" || user.Appointment == "Operator")
-                        {
-                            HttpContext.Session.SetInt32("LoginCommand", com.Command);
-                            HttpContext.Session.SetString("LoginClass", com.Class);
-                            HttpContext.Session.SetInt32("ship", com.ship);
-
-                            return RedirectToAction("Index", "Home");
-                        }
-                        HttpContext.Session.SetString("CommandUser", com.UserName);
-                        HttpContext.Session.SetInt32("LoginCommand", com.Command);
-                        HttpContext.Session.SetString("Appointment", user.Appointment);
-                        HttpContext.Session.SetInt32("ship", com.ship);
-
-                         return RedirectToAction("command", "Home");
-                        //return RedirectToAction("PersonelList", new RouteValueDictionary(
-                        //      new
-                        //      {
-                        //          controller = "PersonalInfo",
-                        //          action = "PersonelList",
-                        //          id = com.Class,
-                        //      }));
+                        TempData["commandLoginMessage"] = "User No Found";
                     }
                     else
                     {
-                        TempData["commandLoginMessage"] = "Invalid UserName Or Password";
-                    }
-                }
-                
-            }
-            else
-            {
-                TempData["commandLoginMessage"] = "User No Found";
-            }
 
+                        if (user.EmailConfirmed == false)
+                        {
+                            HttpContext.Session.SetString("SVC_No", user.UserName);
+
+                            return RedirectToPage("/Account/ForgotPassword", new { area = "Identity" });
+                        }
+                        com.UserName = user.UserName;
+
+                        var result = _signInManager.PasswordSignInAsync(com.UserName, com.Password, true, lockoutOnFailure: false).Result;
+                        if (result.Succeeded)
+                        {
+                            if (user.Appointment == "Admin" || user.Appointment == "Operator")
+                            {
+                                HttpContext.Session.SetInt32("LoginCommand", com.Command);
+                                HttpContext.Session.SetString("LoginClass", com.Class);
+                                HttpContext.Session.SetInt32("ship", com.ship);
+
+                                return RedirectToAction("Index", "Home");
+                            }
+                            HttpContext.Session.SetString("CommandUser", com.UserName);
+                            HttpContext.Session.SetInt32("LoginCommand", com.Command);
+                            HttpContext.Session.SetString("Appointment", user.Appointment);
+                            HttpContext.Session.SetInt32("ship", com.ship);
+
+                            return RedirectToAction("commanddashbord", "Home");
+                            //return RedirectToAction("PersonelList", new RouteValueDictionary(
+                            //      new
+                            //      {
+                            //          controller = "PersonalInfo",
+                            //          action = "PersonelList",
+                            //          id = com.Class,
+                            //      }));
+                        }
+                        else
+                        {
+                            TempData["commandLoginMessage"] = "Invalid UserName Or Password";
+                        }
+                    }
+
+                }
+                else
+                {
+                    TempData["commandLoginMessage"] = "User No Found";
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+              _logger.LogInformation(ex.Message);
+            }
+           
             return RedirectToAction("CommandLogin", "Account");
         }
         public List<SelectListItem> GetCommand()
