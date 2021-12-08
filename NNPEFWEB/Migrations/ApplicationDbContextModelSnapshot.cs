@@ -337,6 +337,9 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("AccountName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AcommodationStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("AltNokPassport")
                         .HasColumnType("varbinary(max)");
 
@@ -352,13 +355,13 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("Bankcode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Birthdate")
+                    b.Property<DateTime?>("Birthdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateEmpl")
+                    b.Property<DateTime?>("DateEmpl")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateLeft")
+                    b.Property<DateTime?>("DateLeft")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FGSHLS_loan")
@@ -448,6 +451,9 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("aircrew_allow")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("appointment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("bankbranch")
                         .HasColumnType("nvarchar(max)");
 
@@ -460,7 +466,7 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("car_loanYear")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("cdr_date")
+                    b.Property<DateTime?>("cdr_date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("cdr_name")
@@ -484,6 +490,9 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("chid_name4")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("classes")
+                        .HasColumnType("int");
+
                     b.Property<string>("command")
                         .HasColumnType("nvarchar(max)");
 
@@ -493,19 +502,19 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("createdby")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("dateModify")
+                    b.Property<DateTime?>("dateModify")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateVerify")
+                    b.Property<DateTime?>("dateVerify")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("dateconfirmed")
+                    b.Property<DateTime?>("dateconfirmed")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("datecreated")
+                    b.Property<DateTime?>("datecreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("div_off_date")
+                    b.Property<DateTime?>("div_off_date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("div_off_name")
@@ -535,7 +544,7 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("exittype")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("expirationOfEngagementDate")
+                    b.Property<DateTime?>("expirationOfEngagementDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("formNumber")
@@ -556,7 +565,7 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("hazard_allow")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("hod_date")
+                    b.Property<DateTime?>("hod_date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("hod_name")
@@ -628,10 +637,10 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("rent_subsidy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("runoutDate")
+                    b.Property<DateTime?>("runoutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("seniorityDate")
+                    b.Property<DateTime?>("seniorityDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("serviceNumber")
@@ -667,7 +676,7 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("town")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("verifyBy")
+                    b.Property<DateTime?>("verifyBy")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("welfare_loan")
@@ -690,6 +699,9 @@ namespace NNPEFWEB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Appointment")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("confirmPassword")
                         .HasColumnType("bit");
@@ -719,6 +731,12 @@ namespace NNPEFWEB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("rank")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ship")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("spec")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("surName")

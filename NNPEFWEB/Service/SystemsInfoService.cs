@@ -148,7 +148,7 @@ namespace NNPEFWEB.Service
 
             return message;
         }
-        public void UpdateFormNumber(int formnumber,string payclass)
+        public void UpdateFormNumber(int formnumber,int payclass)
         {
             try
             {

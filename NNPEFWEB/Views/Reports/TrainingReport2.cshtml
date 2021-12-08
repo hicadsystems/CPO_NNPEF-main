@@ -1,0 +1,211 @@
+﻿@model NNPEFWEB.ViewModel.PersonalInfoModel
+
+@{
+    ViewData["Title"] = "TrainingReport";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>NN-CPO</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/datepickeModel.css" rel="stylesheet" />
+
+</head>
+
+<body style="background-color: #66edf0;">
+    @* <button onclick="window.print();" id="printForm">Print This Page</button>*@
+    @*background-image: url('data:image/*;base64,@(Convert.ToBase64String(Model.FirstOrDefault().AltNokPassport))');*@
+    <div id="btnprint" style="margin-left:50px">
+
+
+        <div style="text-align:center" class="row"><div class="col-md-4"> <h2>RESTRICTED </h2></div> </div>
+
+        <div class="row">
+            <h2>b. <u>Alternate Next Of Kin <em>(Attach Passport Photographs)</em></u></h2>
+        </div>
+        <div style="margin-left:50px">
+            <div class="row">
+                <div class="col-md-8"><h2><span>i. Name :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_name2 </strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>ii. Relationship :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_relation2 </strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>iii. Address :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_address2 </strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>iv. GSM Number :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_phone2 </strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>v. Email :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_email2</strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>vi. NIN No of NOK:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_nationalId2</strong> </h2></div>
+            </div>
+
+        </div>
+        <div class="row">
+            <h2>13. Bank Account Details:</h2>
+        </div>
+        <div style="margin-left:50px">
+            <div class="row">
+                <div class="col-md-8"><h2><span>a. Account Name :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.AccountName </strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>b. Name of Bank :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.Bankcode </strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>c. Branch/Address: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.bankbranch </strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>d. Account Number:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.BankACNumber </strong> </h2></div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="row" style="margin-left:50px"><div class="col-md-10"><h1><i>I undertake that the information provided by me above are correct to the best of my knowledge.</i></h1></div></div>
+    <br />
+    <div style="margin-left:50px">
+
+        <div class="row">
+
+            <div class="row">
+                <div style="text-align: center; width: 400px">
+                    <hr width="300" style="border:1px dashed; margin-left:200px" size="4"> <hr width="300" style="border:1px dashed;margin-left:900px" size="4">
+                </div>
+                <div class="row" style="margin-top:-10px">
+                    <h2><strong style="margin-left:300px"><i>Date</i></strong><strong style="margin-left:600px"><i> Trainee's Signature</i></strong></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div style="margin-top: -10px; margin-left: 40px;height:50px; padding: 3px; width: 1300px; border: 3px solid #126ea4; text-align: center ">
+
+        <h2 style="color: #126ea4; margin-top:10px"> NOTE: CERTIFICATION OF FALSE INFORMATION ATTRACTS SEVERE PUNISHMENT</h2>
+    </div>
+    <br /><br /><br />
+    <div style="margin-left:100px; margin-top:-10px">
+        <div class="row" style="margin-top:-10px">
+            <div class="col-md-8">
+                <h1><u>SECTION B</u> &nbsp;&nbsp;&nbsp;(To be completed by TRAINING OFFICER (in capital letters)</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8"><h2><span>Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.div_off_name </strong> </h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    <span>Rank:&nbsp;&nbsp;&nbsp; </span><strong>@Model.div_off_rank</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="margin-left:400px"> Svc Number :&nbsp;&nbsp;&nbsp; <strong> @Model.div_off_svcno</strong></span>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:-15px">
+        <div class="row" style="margin-left:50px">
+            <div class="col-md-12">
+                <h1><strong><i>I have verified the information provided by the Trainee and found them to be correct to the best of my knowledge.</i></strong></h1>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+
+            <div style="text-align: center; width: 400px">
+                <hr width="300" style="border:1px dashed; margin-left:200px" size="4"> <hr width="300" style="border:1px dashed;margin-left:900px" size="4">
+            </div>
+            <div style="margin-left: 300px; margin-top: -15px">
+                <h2><strong>Date</strong><strong style="margin-left:550px">Signature Of Training Officer</strong></h2>
+            </div>
+
+
+        </div>
+
+    </div>
+    <br /><br /><br />
+    <div style="margin-left:100px; margin-top:-15px">
+        <div class="row" style="margin-top:-10px">
+            <div class="col-md-8">
+                <h1><u>SECTION C</u>&nbsp;&nbsp;&nbsp;(To be completed by COMMANDING OFFICER (in capital letters)</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8"><h2><span>Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.cdr_name </strong> </h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    <span>Rank:&nbsp;&nbsp;&nbsp; </span><strong>@Model.cdr_rank</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="margin-left:400px"> Svc Number :&nbsp;&nbsp;&nbsp; <strong> @Model.cdr_svcno</strong></span>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:-10px">
+        <div class="row" style="margin-left:50px">
+            <div class="col-md-12">
+                <h1><strong><i>I certify that the information provided by the Trainee are correct to the best of my knowledge.</i></strong></h1>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div style="text-align: center; width: 400px">
+                <hr width="300" style="border:1px dashed; margin-left:200px" size="4"> <hr width="300" style="border:1px dashed;margin-left:900px" size="4">
+            </div>
+            <div style="margin-left: 300px; margin-top: -15px">
+                <h2><strong><i>Date</i></strong><strong style="margin-left:500px"><i>Commanding Officer's' Signature and Stamp</i></strong></h2>
+            </div>
+
+
+        </div>
+
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+
+    <div style="text-align:center;margin-top:-8px" class="row"><div class="col-md-4"> <h2>C-2</h2></div> </div>
+
+    <div style="text-align:center;margin-top:-8px" class="row"><div class="col-md-4"> <h2>RESTRICTED </h2></div> </div>
+
+    </div>
+
+    @* <script src="~/plugins/jquery/jquery.min.js"></script>
+        <canvas id="DemoCanvas" width="500" height="200"></canvas>*@
+    <script>
+        var canvas = document.getElementById('DemoCanvas');
+        //Always check for properties and methods, to make sure your code doesn't break in other browsers.
+        if (canvas.getContext) {
+            var context = canvas.getContext('2d');
+            // Reset the current path
+            context.beginPath();
+            // Staring point (10,45)
+            context.moveTo(10, 45);
+            // End point (180,47)
+            context.lineTo(180, 47);
+            // Make the line visible
+            context.stroke();
+
+    </script>
+</body>
+</html>

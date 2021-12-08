@@ -84,6 +84,7 @@ namespace NNPEFWEB.ViewModel
         [Display(Name = "seniorityDate")]
         public DateTime? seniorityDate { get; set; }
         public string yearOfPromotion { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         [Display(Name = "expirationOfEngagementDate")]
@@ -107,6 +108,7 @@ namespace NNPEFWEB.ViewModel
         public string nok_phone2 { get; set; }
         public string nok_email2 { get; set; }
         public string nok_nationalId2 { get; set; }
+        public string AcommodationStatus { get; set; }
         public string nok_name2 { get; set; }
 
         public string sp_name { get; set; }
@@ -201,5 +203,10 @@ namespace NNPEFWEB.ViewModel
         public string confirmedBy { get; set; }
         public byte[] logo { get; set; }
 
+    }
+    public class PersonListID_Name
+    {
+        public string Id { get; set; }
+        public string name { get; set; }
     }
 }

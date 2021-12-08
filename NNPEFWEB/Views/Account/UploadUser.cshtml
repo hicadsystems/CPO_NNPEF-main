@@ -1,0 +1,47 @@
+﻿
+@{ ViewData["Title"] = "PersonalBatchUpload"; }
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+            <div class="card-header">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title"> Personel Upload</h5>
+                            </div>
+
+                            @TempData["message"]
+                            <div class="card-body">
+
+                                <a href="~/UPLOAD/ShipsUsers.xlsx">Download Sample</a>
+                                <hr />
+                                @using (Html.BeginForm("UploadUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="file" name="formFile" class="form-control" required />
+                        </div>
+                    </div>
+                                    <hr />
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <input type="submit" name="Submit" id="Submit" class="btn btn-primary" value="Upload" />
+                                                        </div>
+                                                    </div>}
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

@@ -20,6 +20,7 @@ using NNPEFWEB.Repository;
 using Wkhtmltopdf.NetCore;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace NNPEFWEB
 {
@@ -35,6 +36,10 @@ namespace NNPEFWEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDataProtection();
+             //.PersistKeysToDbContext<DbContext>()
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));

@@ -27,9 +27,9 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.PersonLogin.GetPersonnel(svcno);
         }
-        public Task<ef_personnelLogin> GetPersonelByPassword(string password)
+        public Task<ef_personnelLogin> GetPersonelByPassword(string password,string per)
         {
-            return unitOfWork.PersonLogin.GetPersonnelBypassword(password);
+            return unitOfWork.PersonLogin.GetPersonnelBypassword(password,per);
         }
         public async Task<bool> updatepersonlogin(ef_personnelLogin values)
         {

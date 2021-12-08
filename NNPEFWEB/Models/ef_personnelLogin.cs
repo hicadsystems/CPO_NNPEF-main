@@ -21,5 +21,8 @@ namespace NNPEFWEB.Models
         public Nullable<System.DateTime> dateCreated { get; set; }
         public Nullable<System.DateTime> loginDate { get; set; }
         public Nullable<System.DateTime> expireDate { get; set; }
+        public string Appointment { get; set; }
+        public string ship { get; set; }
+        public string spec { get; set; }
     }
 }

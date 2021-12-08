@@ -15,7 +15,18 @@ namespace NNPEFWEB.Service
         {
             this.unitOfWork = unitOfWork;
         }
-
+        public async Task<List<PersonalInfoModel>> getPersonList(int iDisplayStart, int iDisplayLength, string payclass, string ship)
+        {
+            return await unitOfWork.Personinfo.getPersonList(iDisplayStart, iDisplayLength, payclass, ship);
+        }
+        public async Task<int> getPersonListCount(string payclass, string ship)
+        {
+            return await unitOfWork.Personinfo.getPersonListCount(payclass, ship);
+        }
+        public async Task<List<PersonalInfoModel>> FilterBySearch(string svcno)
+        {
+            return await unitOfWork.Personinfo.FilterBySearch(svcno);
+        }
         public async Task<bool> AddPersonalInfo(ef_personalInfo value)
         {
             unitOfWork.Personinfo.Update(value);
@@ -73,9 +84,13 @@ namespace NNPEFWEB.Service
             return unitOfWork.Personinfo.GetPEFReport2();
         }
 
-        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string command, string appointm, string payclass, string ship, string dept)
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string appointm, string payclass, string ship)
         {
-            return unitOfWork.Personinfo.GetUpdatedPersonnel(command, appointm, payclass,ship,dept);
+            return unitOfWork.Personinfo.GetUpdatedPersonnel(appointm, payclass,ship);
+        }
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string appointm, string payclass, string ship,string svcno)
+        {
+            return unitOfWork.Personinfo.GetUpdatedPersonnelBySVCNO(appointm, payclass, ship,svcno);
         }
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCpo(string payclass)
         {

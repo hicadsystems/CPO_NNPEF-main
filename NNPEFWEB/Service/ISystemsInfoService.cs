@@ -18,6 +18,6 @@ namespace NNPEFWEB.Service
 
         string UpdateSystemsInfo(ef_systeminfo ef_Systeminfo);
         string DeleteSystemsInfo(int id);
-        void UpdateFormNumber(int formnumber, string payclass);
+        void UpdateFormNumber(int formnumber, int payclass);
     }
 }

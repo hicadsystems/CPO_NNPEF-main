@@ -59,8 +59,13 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background: url('~/Image/navylogo2.png');
+    background-repeat: repeat-y;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: 100%;
 }
 .footer {
   position: absolute;

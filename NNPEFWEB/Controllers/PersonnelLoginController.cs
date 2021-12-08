@@ -70,7 +70,8 @@ namespace NNPEFWEB.Controllers
                         return RedirectToAction("ClosingPage", "Account");
                     }
 
-                    var pers = personService.GetPersonBySvc_NO(value.userName);
+                   // var pers = personService.GetPersonBySvc_NO(value.userName);
+                    var pers = _context.ef_PersonnelLogins.Where(x => x.userName == value.userName).SingleOrDefault();
                     var checkdoublemail = _context.ef_PersonnelLogins.Where(x => x.email == pers.email).Count();
                     if (pers == null)
                     {
@@ -79,30 +80,31 @@ namespace NNPEFWEB.Controllers
                     }
                     else if (pers.expireDate == null && pers.userName == value.userName && pers.password == value.password)
                     {
-                        if (pers.email == null)
-                        {
-                            TempData["errorMessage"] = "Email Not Avialable Contact CPO";
-                        }
-                        else if (IsValidEmail(pers.email) != true)
-                        {
-                            TempData["errorMessage"] = "Invalid Email Contact CPO";
-                        }
-                        else if (checkdoublemail > 1)
-                        {
-                            TempData["errorMessage"] = "Duplicate Email Contact CPO";
-                        }
-                        else
-                        {
-                            HttpContext.Session.SetString("SVC_No", value.userName);
-                            return RedirectToAction("ResetPasswordServiceNumber", new RouteValueDictionary(
-                               new
-                               {
-                                   controller = "PersonnelLogin",
-                                   action = "ResetPasswordServiceNumber",
-                                   email = pers.userName
-                               }));
-                        }
-                        //return RedirectToAction("ResetPasswordServiceNumber");
+                        //if (pers.email == null)
+                        //{
+                        //    TempData["errorMessage"] = "Email Not Avialable Contact CPO";
+                        //}
+                        //else if (IsValidEmail(pers.email) != true)
+                        //{
+                        //    TempData["errorMessage"] = "Invalid Email Contact CPO";
+                        //}
+                        //else if (checkdoublemail > 1)
+                        //{
+                        //    TempData["errorMessage"] = "Duplicate Email Contact CPO";
+                        //}
+                        //else
+                        //{
+                        //HttpContext.Session.SetString("SVC_No", value.userName);
+                        //return RedirectToAction("ResetPasswordServiceNumber", new RouteValueDictionary(
+                        //   new
+                        //   {
+                        //       controller = "PersonnelLogin",
+                        //       action = "ResetPasswordServiceNumber",
+                        //       email = pers.userName
+                        //   }));
+                        //}
+                        HttpContext.Session.SetString("SVC_No", value.userName);
+                        return RedirectToAction("ResetPasswordServiceNumber");
                         //MD5 md5Hash = MD5.Create();
                         //string PasswordToHash = GetMd5Hash(md5Hash, value.password);
                         //_db2.updatepassword(PasswordToHash, userToReset);
@@ -117,6 +119,7 @@ namespace NNPEFWEB.Controllers
                         //}
                         if (pers.payClass == "1")
                         {
+                            HttpContext.Session.SetString("personnel", pers.userName);
                             return RedirectToAction("OfficerRecord", new RouteValueDictionary(
                             new
                             {
@@ -127,6 +130,7 @@ namespace NNPEFWEB.Controllers
                         }
                         else if (pers.payClass == "2")
                         {
+                            HttpContext.Session.SetString("personnel", pers.userName);
                             return RedirectToAction("RatingRecord", new RouteValueDictionary(
                             new
                             {
@@ -137,6 +141,7 @@ namespace NNPEFWEB.Controllers
                         }
                         else if (pers.payClass == "3")
                         {
+                            HttpContext.Session.SetString("personnel", pers.userName);
                             return RedirectToAction("RatingRecord", new RouteValueDictionary(
                             new
                             {
@@ -147,6 +152,7 @@ namespace NNPEFWEB.Controllers
                         }
                         else if (pers.payClass == "4")
                         {
+                            HttpContext.Session.SetString("personnel", pers.userName);
                             return RedirectToAction("RatingRecord", new RouteValueDictionary(
                             new
                             {
@@ -157,6 +163,7 @@ namespace NNPEFWEB.Controllers
                         }
                         else if (pers.payClass == "5")
                         {
+                            HttpContext.Session.SetString("personnel", pers.userName);
                             return RedirectToAction("RatingRecord", new RouteValueDictionary(
                             new
                             {
@@ -167,6 +174,7 @@ namespace NNPEFWEB.Controllers
                         }
                         else if (pers.payClass == "6")
                         {
+                            HttpContext.Session.SetString("personnel", pers.userName);
                             return RedirectToAction("TrainingRecord", new RouteValueDictionary(
                             new
                             {
@@ -312,23 +320,28 @@ namespace NNPEFWEB.Controllers
             ModelState.AddModelError("", "Unable to Reset Password. Please Contact your Admin");
             return View(model);
         }
-        //[AllowAnonymous]
-        //public ActionResult ResetPasswordServiceNumber()
-        //{
-        //    return View();
-        //}
+        [AllowAnonymous]
+        public ActionResult ResetPasswordServiceNumber()
+        {
+            return View();
+        }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[AllowAnonymous]
-        public IActionResult ResetPasswordServiceNumber(string email)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public IActionResult ResetPasswordServiceNumber(ComfirmEmail conmail)
         {
 
             try
             {
-                if (email != null)
+                if (conmail.Email != conmail.ConfirmEmail)
                 {
-                    var user = personService.GetPersonBySvc_NO(email);
+                    TempData["verifymessage"] = "Email Not Match";
+                }
+                if (conmail.ConfirmEmail != null)
+                {
+                    string username=HttpContext.Session.GetString("SVC_No");
+                    var user = personService.GetPersonBySvc_NO(username);
                     if (user!=null)
                     {
                         resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
@@ -340,8 +353,8 @@ namespace NNPEFWEB.Controllers
                         string emailFrom = "NN-CPO";
                         string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
                         // add navy email adds
-                        if (!string.IsNullOrEmpty(user.email))
-                            SendEmailNotification(emailFrom, emailSender, message, user.email);
+                        if (!string.IsNullOrEmpty(conmail.ConfirmEmail))
+                            SendEmailNotification(emailFrom, emailSender, message, conmail.ConfirmEmail);
 
                         TempData["verifymessage"]= "An Email Notification Was sent to your Email address.";
                         return RedirectToAction("VerifyCode");

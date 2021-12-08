@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NNPEFWEB.Data;
 using NNPEFWEB.Models;
 using NNPEFWEB.Repository;
@@ -33,11 +34,13 @@ namespace NNPEFWEB.Controllers
         private readonly IMapper imapper;
         private readonly IGeneratePdf _generatepdf;
         private readonly string connectionString;
+        private readonly ILogger<HomeController> _logger;
 
-        public PersonalInfoController(IConfiguration configuration,IGeneratePdf generatepdf,IMapper _imapper,IWebHostEnvironment HostEnvironment,
+        public PersonalInfoController(ILogger<HomeController> logger,IConfiguration configuration,IGeneratePdf generatepdf,IMapper _imapper,IWebHostEnvironment HostEnvironment,
                                       IUnitOfWorks unitOfWorks,IPersonInfoService personinfoService,IPersonService personService, ApplicationDbContext _context,
                                       ISystemsInfoService systemsInfoService)
         {
+            _logger = logger;
             this._context = _context;
             this.personService = personService;
             this._systemsInfoService = systemsInfoService;
@@ -48,39 +51,111 @@ namespace NNPEFWEB.Controllers
             _generatepdf = generatepdf;
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
-        // GET: PersonalInfoController
-        public ActionResult UpdatedPersonelList(string id)
+        public IActionResult UpdatedPersonelList2(string svcno)
         {
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-            cmdr.Command=HttpContext.Session.GetInt32("LoginCommand");
-            string com = _context.ef_commands.Where(x => x.Id == cmdr.Command).FirstOrDefault().code;
-            string ship = _context.ef_ships.Where(x => x.Id == cmdr.ship).FirstOrDefault().shipName;
-            string depart = _context.ef_specialisationareas.Where(x => x.Id == cmdr.spec).FirstOrDefault().specName;
-            var pp = personinfoService.GetUpdatedPersonnel(com, cmdr.Appointment, id,ship,depart);
-            return View(pp);
+            try
+            {
+                var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+
+                int? shipid = HttpContext.Session.GetInt32("ship");
+                string Appointment = HttpContext.Session.GetString("Appointment");
+                string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
+                 string id= HttpContext.Session.GetString("classid");
+                if (svcno != null)
+                {
+                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO(Appointment, id, ship, svcno);
+                    return View(pp2);
+                }
+                else
+                {
+                    var pp = personinfoService.GetUpdatedPersonnel(Appointment, id, ship);
+                    return View(pp);
+                }
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogInformation(ex.Message);
+                throw;
+            }
+
+        }
+        // GET: PersonalInfoController
+        public ActionResult UpdatedPersonelList(string id,string svcno)
+        {
+            try
+            {
+                var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                //cmdr.Command=HttpContext.Session.GetInt32("LoginCommand");
+                HttpContext.Session.SetString("classid", id);
+                int ? shipid = HttpContext.Session.GetInt32("ship");
+                string Appointment = HttpContext.Session.GetString("Appointment");
+                //string com = _context.ef_commands.Where(x => x.Id == cmdr.Command).FirstOrDefault().code;
+                string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
+                //string depart = _context.ef_specialisationareas.Where(x => x.Id == cmdr.spec).FirstOrDefault().specName;
+                if (svcno != null)
+                {
+                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO(Appointment, id, ship, svcno);
+                    return View(pp2);
+                }
+                else
+                {
+                    var pp = personinfoService.GetUpdatedPersonnel(Appointment, id, ship);
+                    return View(pp);
+                }
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogInformation(ex.Message);
+                throw;
+            }
+           
         }
         public ActionResult PEFReport(string sortby,string cmd)
         {
-           ViewBag.commandList = GetCommand2();
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-            cmdr.Command = HttpContext.Session.GetInt32("LoginCommand");
-            ApiSearchModel apimodelSearch = new ApiSearchModel()
+            try
             {
-                command = cmd,
-                sortby = sortby,
+                ViewBag.commandList = GetCommand2();
+                var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                cmdr.Command = HttpContext.Session.GetInt32("LoginCommand");
+                ApiSearchModel apimodelSearch = new ApiSearchModel()
+                {
+                    command = cmd,
+                    sortby = sortby,
 
-            };
-            var pp = personinfoService.PEFReport(apimodelSearch);
-            return View(pp);
+                };
+                var pp = personinfoService.PEFReport(apimodelSearch);
+                return View(pp);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                throw;
+            }
+          
         }
         public ActionResult PersonelList(string id,string sortOrder)
         {
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-            var com = _context.ef_commands.Where(x => x.Id == cmdr.Command).FirstOrDefault();
+            try
+            {
+                var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                var com = _context.ef_commands.Where(x => x.Id == cmdr.Command).FirstOrDefault();
 
-            var pp = personinfoService.GetPersonnelByCommand(com.code,cmdr.Appointment,id);
+                var pp = personinfoService.GetPersonnelByCommand(com.code, cmdr.Appointment, id);
 
-            return View(pp);
+                return View(pp);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                throw;
+            }
+            
         }
         public ActionResult PersonelReport(string svcno)
         {
@@ -89,134 +164,37 @@ namespace NNPEFWEB.Controllers
         }
         public ActionResult ViewPersonel(string svcno)
         {
-            //var pers = personService.GetPersonelByPassword(id).Result;
+            try
+            {
+
+            string authusername=HttpContext.Session.GetString("CommandUser");
             var per = personinfoService.GetPersonalInfo(svcno).Result;
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+            var cmdr = _context.ef_PersonnelLogins.Where(x => x.userName == authusername).FirstOrDefault();
             HttpContext.Session.SetString("personid", per.serviceNumber);
             if (per.Status == null)
             {
                 per.Status = "DO";
-                per.div_off_name = cmdr.LastName + "" + cmdr.FirstName;
-                per.div_off_rank = cmdr.Rank;
-                per.div_off_svcno = cmdr.UserName;
+                per.div_off_name = cmdr.surName + "" + cmdr.otheName;
+                per.div_off_rank = cmdr.rank;
+                per.div_off_svcno = cmdr.userName;
             }
             if (per.Status == "DO")
             {
-                per.hod_name = cmdr.LastName + "" + cmdr.FirstName;
-                per.hod_rank = cmdr.Rank;
-                per.hod_svcno = cmdr.UserName;
+                per.hod_name = cmdr.surName + "" + cmdr.otheName;
+                per.hod_rank = cmdr.rank;
+                per.hod_svcno = cmdr.userName;
 
             }
             if (per.Status == "HOD")
             {
-                per.cdr_name = cmdr.LastName + "" + cmdr.FirstName;
-                per.cdr_rank = cmdr.Rank;
-                per.cdr_svcno = cmdr.UserName;
+                per.cdr_name = cmdr.surName + "" + cmdr.otheName;
+                per.cdr_rank = cmdr.rank;
+                per.cdr_svcno = cmdr.userName;
             }
             var pix = per.Passport;
             var nokpix = per.NokPassport;
             var altnokpic = per.AltNokPassport;
-            //var p = new PersonalInfoModel
-            //{
 
-            //    serviceNumber = per.serviceNumber,
-            //    Surname = per.Surname,
-            //    OtherName = per.OtherName,
-            //    Rank = per.Rank,
-            //    email = per.email,
-            //    gsm_number = per.gsm_number,
-            //    gsm_number2 = per.gsm_number2,
-            //    Birthdate = per.Birthdate,
-            //    DateEmpl = per.DateEmpl,
-            //    seniorityDate = per.seniorityDate,
-            //    home_address = per.home_address,
-            //    branch = per.branch,
-            //    command = per.command,
-            //    ship = per.ship,
-            //    specialisation = per.specialisation,
-            //    StateofOrigin = per.StateofOrigin,
-            //    LocalGovt = per.LocalGovt,
-            //    religion = per.religion,
-            //    MaritalStatus = per.MaritalStatus,
-            //    Passport = pix,
-            //    NokPassport = nokpix,
-            //    AltNokPassport=altnokpic,
-
-            //    chid_name = per.chid_name,
-            //    chid_name2 = per.chid_name2,
-            //    chid_name3 = per.chid_name3,
-            //    chid_name4 = per.chid_name4,
-
-            //    sp_name = per.sp_name,
-            //    sp_phone = per.sp_phone,
-            //    sp_phone2 = per.sp_phone2,
-            //    sp_email = per.sp_email,
-
-            //    nok_name = per.nok_name,
-            //    nok_phone = per.nok_phone,
-            //    nok_address = per.nok_address,
-            //    nok_email = per.nok_email,
-            //    nok_nationalId = per.nok_nationalId,
-            //    nok_name2 = per.nok_name2,
-            //    nok_phone2 = per.nok_phone2,
-            //    nok_address2 = per.nok_address2,
-            //    nok_email2 = per.nok_email2,
-            //    nok_nationalId2 = per.nok_nationalId2,
-
-            //    Bankcode = per.Bankcode,
-            //    BankACNumber = per.BankACNumber,
-            //    bankbranch = per.bankbranch,
-
-            //    rent_subsidy = per.rent_subsidy,
-            //    shift_duty_allow = per.shift_duty_allow,
-            //    aircrew_allow = per.aircrew_allow,
-            //    SBC_allow = per.SBC_allow,
-            //    hazard_allow = per.hazard_allow,
-            //    special_forces_allow = per.special_forces_allow,
-            //    other_allow = per.other_allow,
-
-            //    FGSHLS_loan = per.FGSHLS_loan,
-            //    welfare_loan = per.welfare_loan,
-            //    car_loan = per.car_loan,
-            //    NNMFBL_loan = per.NNMFBL_loan,
-            //    NNNCS_loan = per.NNNCS_loan,
-            //    PPCFS_loan = per.PPCFS_loan,
-            //    Anyother_Loan = per.Anyother_Loan,
-
-            //    FGSHLS_loanYear = per.FGSHLS_loanYear,
-            //    welfare_loanYear = per.welfare_loanYear,
-            //    car_loanYear = per.car_loanYear,
-            //    NNMFBL_loanYear = per.NNMFBL_loanYear,
-            //    NNNCS_loanYear = per.NNNCS_loanYear,
-            //    PPCFS_loanYear = per.PPCFS_loanYear,
-            //    Anyother_LoanYear = per.Anyother_LoanYear,
-
-            //    Status = per.Status,
-
-            //    div_off_name=per.div_off_name,
-            //    div_off_rank=per.div_off_rank,
-            //    div_off_svcno=per.div_off_svcno,
-
-            //    hod_name = per.hod_name,
-            //    hod_rank = per.hod_rank,
-            //    hod_svcno = per.hod_svcno,
-
-            //    cdr_name = per.cdr_name,
-            //    cdr_rank = per.cdr_rank,
-            //    cdr_svcno =per.cdr_svcno,
-
-            //};
-
-            //p.bankList = GetBank();
-            
-            //p.specialisationList = GetSpec();
-            //p.commandList = GetCommand();
-            //p.branchList = GetBranch();
-            //p.StateofOriginList = GetState();
-            //p.shipList = GetShip();
-            //p.entry_modeList = GetEntryMode();
-            //p.nok_relationList = GetRelationship();
-            //p.nok_relation2List = GetRelationship();
 
             var systemsInfo = _systemsInfoService.GetSysteminfo();
         //    string svcno = HttpContext.Session.GetString("personid");
@@ -242,7 +220,11 @@ namespace NNPEFWEB.Controllers
                         //var pp = new PersonalInfoModel
 
                         //{
-                               sdr.Read();
+                               pp.Birthdate = DateTime.Now;
+                               pp.DateEmpl = DateTime.Now;
+                        
+
+                                sdr.Read();
                                 pp.logo = systemsInfo.company_image;
                                 pp.formNumber = sdr["formNumber"].ToString();
                                 pp.serviceNumber = sdr["serviceNumber"].ToString();
@@ -255,6 +237,7 @@ namespace NNPEFWEB.Controllers
                                 pp.Birthdate = Convert.ToDateTime(sdr["Birthdate"]);
                                 pp.DateEmpl = Convert.ToDateTime(sdr["DateEmpl"]);
                                 pp.seniorityDate = Convert.ToDateTime(sdr["seniorityDate"]);
+                                pp.runOutDate = Convert.ToDateTime(sdr["runOutDate"]);
                                 pp.home_address = sdr["home_address"].ToString();
                                 pp.branch = sdr["branchName"].ToString();
                                 pp.command = sdr["commandName"].ToString();
@@ -264,6 +247,8 @@ namespace NNPEFWEB.Controllers
                                 pp.LocalGovt = sdr["lgaName"].ToString();
                                 pp.religion = sdr["religion"].ToString();
                                 pp.MaritalStatus = sdr["MaritalStatus"].ToString();
+
+                                pp.appointment = sdr["appointment"].ToString();
 
                                 pp.chid_name = sdr["chid_name"].ToString();
                                 pp.chid_name2 = sdr["chid_name2"].ToString();
@@ -279,7 +264,8 @@ namespace NNPEFWEB.Controllers
                                 pp.nok_phone = sdr["nok_phone"].ToString();
                                 pp.nok_address = sdr["nok_address"].ToString();
                                 pp.nok_email = sdr["nok_email"].ToString();
-                                //nok_nationalId = sdr["nok_nationalId"].ToString();
+                                pp.nok_nationalId = sdr["nok_nationalId"].ToString();
+                                pp.nok_nationalId2 = sdr["nok_nationalId"].ToString();
                                 pp.nok_relation = sdr["nok_relation"].ToString();
                                 pp.nok_name2 = sdr["nok_name2"].ToString();
                                 pp.nok_phone2 = sdr["nok_phone2"].ToString();
@@ -290,7 +276,7 @@ namespace NNPEFWEB.Controllers
 
                                 pp.Bankcode = sdr["bankname"].ToString();
                                 pp.BankACNumber = sdr["BankACNumber"].ToString();
-                                //bankbranch = sdr["bankbranch"].ToString();
+                                pp.bankbranch = sdr["bankbranch"].ToString();
 
                                 pp.rent_subsidy = sdr["rent_subsidy"].ToString();
                                 pp.shift_duty_allow = sdr["shift_duty_allow"].ToString();
@@ -342,34 +328,44 @@ namespace NNPEFWEB.Controllers
             
 
             return View(pp);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return RedirectToAction("commandLogin", "Account");
+            }
         }
         public ActionResult ViewPersonelRating(string svcno)
         {
-            var systemsInfo = _systemsInfoService.GetSysteminfo();
-            var per = personinfoService.GetPersonalInfo(svcno).Result;
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-            HttpContext.Session.SetString("personid", per.serviceNumber);
-            if (per.Status == null)
+            try
             {
-                per.Status = "DO";
-                per.div_off_name = cmdr.LastName + "" + cmdr.FirstName;
-                per.div_off_rank = cmdr.Rank;
-                per.div_off_svcno = cmdr.UserName;
-            }
-            if (per.Status == "DO")
-            {
-                per.hod_name = cmdr.LastName + "" + cmdr.FirstName;
-                per.hod_rank = cmdr.Rank;
-                per.hod_svcno = cmdr.UserName;
 
-            }
-            if (per.Status == "HOD")
-            {
-                per.cdr_name = cmdr.LastName + "" + cmdr.FirstName;
-                per.cdr_rank = cmdr.Rank;
-                per.cdr_svcno = cmdr.UserName;
-            }
-            var pix = per.Passport;
+                var systemsInfo = _systemsInfoService.GetSysteminfo();
+                string authusername = HttpContext.Session.GetString("CommandUser");
+                var per = personinfoService.GetPersonalInfo(svcno).Result;
+                var cmdr = _context.ef_PersonnelLogins.Where(x => x.userName == authusername).FirstOrDefault();
+                HttpContext.Session.SetString("personid", per.serviceNumber);
+                if (per.Status == null)
+                {
+                    per.Status = "DO";
+                    per.div_off_name = cmdr.surName + "" + cmdr.otheName;
+                    per.div_off_rank = cmdr.rank;
+                    per.div_off_svcno = cmdr.userName;
+                }
+                if (per.Status == "DO")
+                {
+                    per.hod_name = cmdr.surName + "" + cmdr.otheName;
+                    per.hod_rank = cmdr.rank;
+                    per.hod_svcno = cmdr.userName;
+
+                }
+                if (per.Status == "HOD")
+                {
+                    per.cdr_name = cmdr.surName + "" + cmdr.otheName;
+                    per.cdr_rank = cmdr.rank;
+                    per.cdr_svcno = cmdr.userName;
+                }
+                var pix = per.Passport;
             var nokpix = per.NokPassport;
             var altnokpix = per.AltNokPassport;
             var ppp = _context.ef_personalInfos.Where(o => o.serviceNumber == svcno).FirstOrDefault();
@@ -378,7 +374,7 @@ namespace NNPEFWEB.Controllers
 
             using (SqlConnection sqlcon = new SqlConnection(connectionString))
             {
-                using (SqlCommand cmd = new SqlCommand("DownloadFormOfficer", sqlcon))
+                using (SqlCommand cmd = new SqlCommand("DownloadFormRating", sqlcon))
                 {
                     cmd.CommandTimeout = 1200;
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -407,7 +403,8 @@ namespace NNPEFWEB.Controllers
                         pp.Birthdate = Convert.ToDateTime(sdr["Birthdate"]);
                         pp.DateEmpl = Convert.ToDateTime(sdr["DateEmpl"]);
                         pp.seniorityDate = Convert.ToDateTime(sdr["seniorityDate"]);
-                        pp.home_address = sdr["home_address"].ToString();
+                        pp.runOutDate = Convert.ToDateTime(sdr["runOutDate"]);
+                            pp.home_address = sdr["home_address"].ToString();
                         pp.branch = sdr["branchName"].ToString();
                         pp.command = sdr["commandName"].ToString();
                         pp.ship = sdr["shipName"].ToString();
@@ -417,11 +414,16 @@ namespace NNPEFWEB.Controllers
                         pp.religion = sdr["religion"].ToString();
                         pp.MaritalStatus = sdr["MaritalStatus"].ToString();
 
+                        pp.yearOfPromotion = sdr["yearOfPromotion"].ToString();
+                        pp.runOutDate = Convert.ToDateTime(sdr["runoutDate"]);
+                        pp.expirationOfEngagementDate = Convert.ToDateTime(sdr["expirationOfEngagementDate"]);
+
                         pp.chid_name = sdr["chid_name"].ToString();
                         pp.chid_name2 = sdr["chid_name2"].ToString();
                         pp.chid_name3 = sdr["chid_name3"].ToString();
                         pp.chid_name4 = sdr["chid_name4"].ToString();
 
+                        pp.Sex= sdr["Sex"].ToString();
                         pp.sp_name = sdr["sp_name"].ToString();
                         pp.sp_phone = sdr["sp_phone"].ToString();
                         pp.sp_phone2 = sdr["sp_phone2"].ToString();
@@ -431,7 +433,7 @@ namespace NNPEFWEB.Controllers
                         pp.nok_phone = sdr["nok_phone"].ToString();
                         pp.nok_address = sdr["nok_address"].ToString();
                         pp.nok_email = sdr["nok_email"].ToString();
-                        //nok_nationalId = sdr["nok_nationalId"].ToString();
+                        pp.nok_nationalId = sdr["nok_nationalId"].ToString();
                         pp.nok_relation = sdr["nok_relation"].ToString();
                         pp.nok_name2 = sdr["nok_name2"].ToString();
                         pp.nok_phone2 = sdr["nok_phone2"].ToString();
@@ -442,7 +444,8 @@ namespace NNPEFWEB.Controllers
 
                         pp.Bankcode = sdr["bankname"].ToString();
                         pp.BankACNumber = sdr["BankACNumber"].ToString();
-                        //bankbranch = sdr["bankbranch"].ToString();
+                        pp.AccountName = sdr["AccountName"].ToString();
+                        pp.bankbranch = sdr["bankbranch"].ToString();
 
                         pp.rent_subsidy = sdr["rent_subsidy"].ToString();
                         pp.shift_duty_allow = sdr["shift_duty_allow"].ToString();
@@ -495,9 +498,18 @@ namespace NNPEFWEB.Controllers
 
 
             return View(pp);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return RedirectToAction("commandLogin", "Account");
+            }
+
         }
         public ActionResult ViewPersonelTraining(string svcno)
         {
+            try
+            {
             var systemInfo = _systemsInfoService.GetSysteminfo();
             var per = personinfoService.GetPersonalInfo(svcno).Result;
             var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
@@ -569,15 +581,6 @@ namespace NNPEFWEB.Controllers
                         pp.religion = sdr["religion"].ToString();
                         pp.MaritalStatus = sdr["MaritalStatus"].ToString();
 
-                        pp.chid_name = sdr["chid_name"].ToString();
-                        pp.chid_name2 = sdr["chid_name2"].ToString();
-                        pp.chid_name3 = sdr["chid_name3"].ToString();
-                        pp.chid_name4 = sdr["chid_name4"].ToString();
-
-                        pp.sp_name = sdr["sp_name"].ToString();
-                        pp.sp_phone = sdr["sp_phone"].ToString();
-                        pp.sp_phone2 = sdr["sp_phone2"].ToString();
-                        pp.sp_email = sdr["sp_email"].ToString();
 
                         pp.nok_name = sdr["nok_name"].ToString();
                         pp.nok_phone = sdr["nok_phone"].ToString();
@@ -594,31 +597,7 @@ namespace NNPEFWEB.Controllers
 
                         pp.Bankcode = sdr["bankname"].ToString();
                         pp.BankACNumber = sdr["BankACNumber"].ToString();
-                        //bankbranch = sdr["bankbranch"].ToString();
-
-                        pp.rent_subsidy = sdr["rent_subsidy"].ToString();
-                        pp.shift_duty_allow = sdr["shift_duty_allow"].ToString();
-                        pp.aircrew_allow = sdr["aircrew_allow"].ToString();
-                        pp.SBC_allow = sdr["SBC_allow"].ToString();
-                        pp.hazard_allow = sdr["hazard_allow"].ToString();
-                        pp.special_forces_allow = sdr["special_forces_allow"].ToString();
-                        pp.other_allow = sdr["other_allow"].ToString();
-
-                        pp.FGSHLS_loan = sdr["FGSHLS_loan"].ToString();
-                        pp.welfare_loan = sdr["welfare_loan"].ToString();
-                        pp.car_loan = sdr["car_loan"].ToString();
-                        pp.NNMFBL_loan = sdr["NNMFBL_loan"].ToString();
-                        pp.NNNCS_loan = sdr["NNNCS_loan"].ToString();
-                        pp.PPCFS_loan = sdr["PPCFS_loan"].ToString();
-                        pp.Anyother_Loan = sdr["Anyother_Loan"].ToString();
-
-                        pp.FGSHLS_loanYear = sdr["FGSHLS_loanYear"].ToString();
-                        pp.welfare_loanYear = sdr["welfare_loanYear"].ToString();
-                        pp.car_loanYear = sdr["car_loanYear"].ToString();
-                        pp.NNMFBL_loanYear = sdr["NNMFBL_loanYear"].ToString();
-                        pp.NNNCS_loanYear = sdr["NNNCS_loanYear"].ToString();
-                        pp.PPCFS_loanYear = sdr["PPCFS_loanYear"].ToString();
-                        pp.Anyother_LoanYear = sdr["Anyother_LoanYear"].ToString();
+                        pp.bankbranch = sdr["bankbranch"].ToString();
 
 
                         pp.div_off_name = sdr["div_off_name"].ToString();
@@ -647,11 +626,20 @@ namespace NNPEFWEB.Controllers
 
 
             return View(pp);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return RedirectToAction("commandLogin", "Account");
+            }
         }
         public ActionResult OfficerRecord(string id)
         {
+            try
+            {
+            string personnel = HttpContext.Session.GetString("personnel");
             var systeminfo = _systemsInfoService.GetSysteminfo();
-            var pers = personService.GetPersonelByPassword(id).Result;
+            var pers = personService.GetPersonelByPassword(id, personnel).Result;
             var per = personinfoService.GetPersonalInfo(pers.svcNo).Result;
             string name ="Welcome "+ per.Surname + " " + per.OtherName;
             HttpContext.Session.SetString("SVC_No", name);
@@ -684,6 +672,10 @@ namespace NNPEFWEB.Controllers
                 Passport =pix,
                 NokPassport=nokpix,
                 AltNokPassport=altnokpic,
+                AcommodationStatus=per.AcommodationStatus,
+                appointment=per.appointment,
+                runOutDate=per.runoutDate,
+                entitlement=per.entitlement,
 
                 chid_name=per.chid_name,
                 chid_name2 = per.chid_name2,
@@ -707,7 +699,7 @@ namespace NNPEFWEB.Controllers
                 nok_email2 = per.nok_email2,
                 nok_nationalId2 = per.nok_nationalId2,
                 nok_relation2=per.nok_relation2,
-
+                
                 AccountName = per.AccountName,
                 Bankcode = per.Bankcode,
                 BankACNumber = per.BankACNumber,
@@ -720,6 +712,7 @@ namespace NNPEFWEB.Controllers
                 hazard_allow = per.hazard_allow,
                 special_forces_allow = per.special_forces_allow,
                 other_allow = per.other_allow,
+                pilot_allow=per.pilot_allow,
 
                 FGSHLS_loan = per.FGSHLS_loan,
                 welfare_loan = per.welfare_loan,
@@ -749,15 +742,24 @@ namespace NNPEFWEB.Controllers
             p.entry_modeList = GetEntryMode();
             p.nok_relationList = GetRelationship();
             p.nok_relation2List = GetRelationship();
+                p.LocalGovtList = GetLGA2();
 
 
 
             return View(p);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return RedirectToAction("Login", "PersonnelLogin");
+            }
         }
         [HttpPost]
         public async Task<ActionResult> OfficerRecord(ef_personalInfo value )
         {
 
+            try
+            {
 
             var per = personService.GetPersonel(value.serviceNumber).Result;
            // string profilepicture = UploadedFile(PassportFile);
@@ -801,11 +803,11 @@ namespace NNPEFWEB.Controllers
             else
             {
                 var person = personinfoService.GetPersonalInfo(value.serviceNumber).Result;
-                if (person.formNumber==null||person.formNumber=="0")
+                if (person.formNumber==null)
                 {
                     var systeminfo = _systemsInfoService.GetSysteminfo();
                     int formnumber = systeminfo.OfficersFormNo;
-                    _systemsInfoService.UpdateFormNumber(formnumber, person.payrollclass);
+                    _systemsInfoService.UpdateFormNumber(formnumber, person.classes);
                     value.formNumber = formnumber.ToString();
 
                 }
@@ -842,7 +844,9 @@ namespace NNPEFWEB.Controllers
                 person.DateLeft = value.DateLeft;
                 person.dateModify = DateTime.Now;
                 person.seniorityDate = value.seniorityDate;
-
+                    person.runoutDate = value.runoutDate;
+                    person.entitlement = value.entitlement;
+                    person.appointment = value.appointment;
                 person.chid_name = value.chid_name;
                 person.chid_name2 = value.chid_name2;
                 person.chid_name3 = value.chid_name3;
@@ -856,18 +860,20 @@ namespace NNPEFWEB.Controllers
                 person.sp_phone = value.sp_phone;
                 person.sp_phone2 = value.sp_phone2;
                 person.sp_email = value.sp_email;
-
+                person.AcommodationStatus = value.AcommodationStatus;
                 person.nok_name = value.nok_name;
                 person.nok_phone = value.nok_phone;
                 person.nok_address = value.nok_address;
                 person.nok_email = value.nok_email;
                 person.nok_nationalId = value.nok_nationalId;
-                person.nok_name2 = value.nok_name2;
+                    person.nok_relation = value.nok_relation;
+                    person.nok_relation2 = value.nok_relation2;
+                    person.nok_name2 = value.nok_name2;
                 person.nok_phone2 = value.nok_phone2;
                 person.nok_address2 = value.nok_address2;
                 person.nok_email2 = value.nok_email2;
                 person.nok_nationalId2 = value.nok_nationalId2;
-
+                person.classes = 1;
                 person.Bankcode = value.Bankcode;
                 person.BankACNumber = value.BankACNumber;
                 person.bankbranch = value.bankbranch;
@@ -879,6 +885,7 @@ namespace NNPEFWEB.Controllers
                 person.hazard_allow = value.hazard_allow;
                 person.special_forces_allow = value.special_forces_allow;
                 person.other_allow = value.other_allow;
+                person.pilot_allow = value.pilot_allow;
 
                 person.FGSHLS_loan = value.FGSHLS_loan;
                 person.welfare_loan = value.welfare_loan;
@@ -895,24 +902,35 @@ namespace NNPEFWEB.Controllers
                 person.NNNCS_loanYear = value.NNNCS_loanYear;
                 person.PPCFS_loanYear = value.PPCFS_loanYear;
                 person.Anyother_LoanYear = value.Anyother_LoanYear;
-             
+                person.Status = "HOD";
 
-                //value.Passport = profilepicture;
+                    //value.Passport = profilepicture;
                 await personinfoService.AddPersonalInfo(person);
                 HttpContext.Session.SetString("Message", "Record Added Successfully");
             
             }
 
             return RedirectToAction("OfficerRecord");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return RedirectToAction("Login", "PersonnelLogin");
+            }
         }
         public ActionResult RatingRecord(string id)
         {
 
             try
             {
-            string svcno;
+            string personnel = HttpContext.Session.GetString("personnel");
+                if (personnel == null)
+                {
+                    return RedirectToAction("Login", "PersonnelLogin");
+                }
+                string svcno;
             var systemsInfo = _systemsInfoService.GetSysteminfo();
-            var pers = personService.GetPersonelByPassword(id).Result;
+            var pers = personService.GetPersonelByPassword(id, personnel).Result;
             if (pers == null)
             {
                 svcno = id;
@@ -957,26 +975,27 @@ namespace NNPEFWEB.Controllers
             var pix = per.Passport;
             var nokpix = per.NokPassport;
             var altnokpix = per.AltNokPassport;
-            var p = new PersonalInfoModel
-            {
-                logo = systemsInfo.company_image,
-                serviceNumber = per.serviceNumber,
-                Surname = per.Surname,
-                OtherName = per.OtherName,
-                Rank = per.Rank,
-                email = per.email,
-                gsm_number = per.gsm_number,
-                gsm_number2 = per.gsm_number2,
-                Birthdate = per.Birthdate,
-                DateEmpl = per.DateEmpl,
-                seniorityDate = per.seniorityDate,
-                expirationOfEngagementDate=per.expirationOfEngagementDate,
-                runOutDate=per.runoutDate,
-                yearOfPromotion=per.yearOfPromotion,
-                home_address = per.home_address,
-                branch = per.branch,
-                command = per.command,
-                ship = per.ship,
+                var p = new PersonalInfoModel
+                {
+                    logo = systemsInfo.company_image,
+                    serviceNumber = per.serviceNumber,
+                    Surname = per.Surname,
+                    OtherName = per.OtherName,
+                    Rank = per.Rank,
+                    email = per.email,
+                    gsm_number = per.gsm_number,
+                    gsm_number2 = per.gsm_number2,
+                    Birthdate = per.Birthdate,
+                    DateEmpl = per.DateEmpl,
+                    seniorityDate = per.seniorityDate,
+                    expirationOfEngagementDate = per.expirationOfEngagementDate,
+                    runOutDate = per.runoutDate,
+                    yearOfPromotion = per.yearOfPromotion,
+                    home_address = per.home_address,
+                    branch = per.branch,
+                    command = per.command,
+                    ship = per.ship,
+                    AcommodationStatus = per.AcommodationStatus,
                 specialisation = per.specialisation,
                 StateofOrigin = per.StateofOrigin,
                 LocalGovt = per.LocalGovt,
@@ -1065,14 +1084,14 @@ namespace NNPEFWEB.Controllers
             p.entry_modeList = GetEntryMode();
             p.nok_relationList = GetRelationship();
             p.nok_relation2List = GetRelationship();
-                p.LocalGovtList = GetLGA2();
+            p.LocalGovtList = GetLGA2();
 
                 return View(p);
             }
             catch (Exception ex)
             {
-
-                string message=ex.Message;
+                _logger.LogInformation(ex.Message);
+                return RedirectToAction("Login", "PersonnelLogin");
             }
 
 
@@ -1081,6 +1100,8 @@ namespace NNPEFWEB.Controllers
         [HttpPost]
         public async Task<ActionResult> RatingRecord(ef_personalInfo value)
         {
+            try
+            {
             var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
             var per = personService.GetPersonel(value.serviceNumber).Result;
             // string profilepicture = UploadedFile(PassportFile);
@@ -1128,11 +1149,11 @@ namespace NNPEFWEB.Controllers
             else
             {
                 var person = personinfoService.GetPersonalInfo(value.serviceNumber).Result;
-                if (person.formNumber == null || person.formNumber == "0")
+                if (person.formNumber == null)
                 {
                     var systeminfo = _systemsInfoService.GetSysteminfo();
                     int formnumber = systeminfo.RatingsFormNo;
-                    _systemsInfoService.UpdateFormNumber(formnumber, person.payrollclass);
+                    _systemsInfoService.UpdateFormNumber(formnumber, person.classes);
                     value.formNumber = formnumber.ToString();
 
                 }
@@ -1171,6 +1192,8 @@ namespace NNPEFWEB.Controllers
                 person.seniorityDate = value.seniorityDate;
                 person.expirationOfEngagementDate = value.expirationOfEngagementDate;
                 person.yearOfPromotion = value.yearOfPromotion;
+                    person.AcommodationStatus = value.AcommodationStatus;
+                    person.classes = 2;
 
                 person.chid_name = value.chid_name;
                 person.chid_name2 = value.chid_name2;
@@ -1208,7 +1231,7 @@ namespace NNPEFWEB.Controllers
                 person.special_forces_allow = value.special_forces_allow;
                 person.other_allow = value.other_allow;
                 person.GBC_Number = value.GBC_Number;
-
+                    person.GBC = value.GBC;
                 person.FGSHLS_loan = value.FGSHLS_loan;
                 person.welfare_loan = value.welfare_loan;
                 person.car_loan = value.car_loan;
@@ -1252,11 +1275,22 @@ namespace NNPEFWEB.Controllers
             }
 
             return RedirectToAction("RatingRecord");
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return RedirectToAction("Login", "PersonnelLogin");
+            }
         }
         public ActionResult TrainingRecord(string id)
         {
+            try
+            {
+
+           string personnel= HttpContext.Session.GetString("personnel");
             var systemInfo = _systemsInfoService.GetSysteminfo();
-            var pers = personService.GetPersonelByPassword(id).Result;
+            var pers = personService.GetPersonelByPassword(id, personnel).Result;
             var per = personinfoService.GetPersonalInfo(pers.svcNo).Result;
             string name = "Welcome " + per.Surname + " " + per.OtherName;
             HttpContext.Session.SetString("SVC_No", name);
@@ -1291,13 +1325,6 @@ namespace NNPEFWEB.Controllers
                 AltNokPassport = altnokpix,
                 division = per.division,
                 qualification = per.qualification,
-                //chid_name3 = per.chid_name3,
-                //chid_name4 = per.chid_name4,
-
-                //sp_name = per.sp_name,
-                //sp_phone = per.sp_phone,
-                //sp_phone2 = per.sp_phone2,
-                //sp_email = per.sp_email,
 
                 nok_name = per.nok_name,
                 nok_phone = per.nok_phone,
@@ -1316,23 +1343,6 @@ namespace NNPEFWEB.Controllers
                 Bankcode = per.Bankcode,
                 BankACNumber = per.BankACNumber,
                 bankbranch = per.bankbranch,
-
-                //rent_subsidy = per.rent_subsidy,
-                //shift_duty_allow = per.shift_duty_allow,
-                //aircrew_allow = per.aircrew_allow,
-                //SBC_allow = per.SBC_allow,
-                //hazard_allow = per.hazard_allow,
-                //special_forces_allow = per.special_forces_allow,
-                //other_allow = per.other_allow,
-
-                //FGSHLS_loan = per.FGSHLS_loan,
-                //welfare_loan = per.welfare_loan,
-                //car_loan = per.car_loan,
-                //NNMFBL_loan = per.NNMFBL_loan,
-                //NNNCS_loan = per.NNNCS_loan,
-                //PPCFS_loan = per.PPCFS_loan,
-                //Anyother_Loan = per.Anyother_Loan,
-
             };
 
             p.bankList = GetBank();
@@ -1345,15 +1355,25 @@ namespace NNPEFWEB.Controllers
             p.entry_modeList = GetEntryMode();
             p.nok_relationList = GetRelationship();
             p.nok_relation2List = GetRelationship();
+            p.LocalGovtList = GetLGA2();
 
 
 
 
-            return View(p);
+                return View(p);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return RedirectToAction("Login", "PersonnelLogin");
+            }
         }
         [HttpPost]
         public async Task<ActionResult> TrainingRecord(ef_personalInfo value)
         {
+            try
+            {
 
             var per = personService.GetPersonel(value.serviceNumber).Result;
             // string profilepicture = UploadedFile(PassportFile);
@@ -1397,11 +1417,11 @@ namespace NNPEFWEB.Controllers
             else
             {
                 var person = personinfoService.GetPersonalInfo(value.serviceNumber).Result;
-                if (person.formNumber == null || person.formNumber == "0")
+                if (person.formNumber == null)
                 {
                     var systeminfo = _systemsInfoService.GetSysteminfo();
                     int formnumber = systeminfo.TrainingFormNo;
-                    _systemsInfoService.UpdateFormNumber(formnumber, person.payrollclass);
+                    _systemsInfoService.UpdateFormNumber(formnumber, person.classes);
                     value.formNumber = formnumber.ToString();
 
                 }
@@ -1439,6 +1459,7 @@ namespace NNPEFWEB.Controllers
                 person.DateLeft = value.DateLeft;
                 person.dateModify = DateTime.Now;
                 person.seniorityDate = value.seniorityDate;
+                person.classes = 3;
 
                 person.Status = "DO";
 
@@ -1491,6 +1512,12 @@ namespace NNPEFWEB.Controllers
 
             return RedirectToAction("TrainingRecord");
         }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return RedirectToAction("Login", "PersonnelLogin");
+    }
+}
         private string UploadedFile(IFormFile Passport)
         {
             string uniqueFileName = null;
@@ -1726,6 +1753,8 @@ namespace NNPEFWEB.Controllers
             [HttpPost]
             public async Task<IActionResult> PersonalBatchUpload(IFormFile formFile, CancellationToken cancellationToken, string batch)
             {
+            try
+            {
                 if (formFile == null || formFile.Length <= 0)
                 {
                     TempData["message"] = "No File Uploaded";
@@ -1854,7 +1883,7 @@ namespace NNPEFWEB.Controllers
                         }
                         string userp = User.Identity.Name;
 
-                        ProcesUpload procesUpload2 = new ProcesUpload(listapplication, unitOfWorks, userp);
+                        ProcesUpload procesUpload2 = new ProcesUpload(null,listapplication, unitOfWorks, userp, null, null);
                         await procesUpload2.processUploadInThread();
                         TempData["message"] = "Uploaded Successfully";
 
@@ -1880,37 +1909,58 @@ namespace NNPEFWEB.Controllers
                 }
                 return View();
             }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                throw;
+                //return RedirectToAction("Login", "PersonnelLogin");
+            }
+        }
         [HttpPost]
         public IActionResult CommandUpdateOfficer(PersonalInfoModel model)
         {
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+            try
+            {
+                string Appointment = HttpContext.Session.GetString("Appointment");
+
+           
             using (SqlConnection sqlcon = new SqlConnection(connectionString))
             {
-                if (cmdr.Appointment == "DO")
+                if (Appointment == "DO")
                 {
                     using (SqlCommand cmd = new SqlCommand("UpdatePersonByShip", sqlcon))
                     {
                         cmd.CommandTimeout = 1200;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@person_svcno", model.serviceNumber));
-                        cmd.Parameters.Add(new SqlParameter("@appointment", cmdr.Appointment));
+                        cmd.Parameters.Add(new SqlParameter("@appointment", Appointment));
                         cmd.Parameters.Add(new SqlParameter("@doname", model.div_off_name));
                         cmd.Parameters.Add(new SqlParameter("@dosvcno", model.div_off_svcno));
                         cmd.Parameters.Add(new SqlParameter("@dorank", model.div_off_rank));
                         cmd.Parameters.Add(new SqlParameter("@dodate", DateTime.Now));
 
-                        sqlcon.Open();
+                            cmd.Parameters.Add(new SqlParameter("@hodname", model.hod_name==""));
+                            cmd.Parameters.Add(new SqlParameter("@hodsvcno", model.hod_svcno==""));
+                            cmd.Parameters.Add(new SqlParameter("@hodrank", model.hod_rank==""));
+                            cmd.Parameters.Add(new SqlParameter("@hoddate", DateTime.Now));
+
+                            cmd.Parameters.Add(new SqlParameter("@cdrname", model.cdr_name == ""));
+                            cmd.Parameters.Add(new SqlParameter("@cdrsvcno", model.cdr_svcno == ""));
+                            cmd.Parameters.Add(new SqlParameter("@cdrrank", model.cdr_rank == ""));
+                            cmd.Parameters.Add(new SqlParameter("@cdrdate", DateTime.Now));
+
+                            sqlcon.Open();
                         cmd.ExecuteNonQuery();
                     }
                 }
-                else if (cmdr.Appointment == "HOD")
+                else if (Appointment == "HOD")
                 {
                     using (SqlCommand cmd = new SqlCommand("UpdatePersonByShip", sqlcon))
                     {
                         cmd.CommandTimeout = 1200;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@person_svcno", model.serviceNumber));
-                        cmd.Parameters.Add(new SqlParameter("@appointment", cmdr.Appointment));
+                        cmd.Parameters.Add(new SqlParameter("@appointment", Appointment));
                         cmd.Parameters.Add(new SqlParameter("@doname", model.div_off_name == ""));
                         cmd.Parameters.Add(new SqlParameter("@dosvcno", model.div_off_svcno == ""));
                         cmd.Parameters.Add(new SqlParameter("@dorank", model.div_off_rank == ""));
@@ -1930,14 +1980,14 @@ namespace NNPEFWEB.Controllers
                         cmd.ExecuteNonQuery();
                     }
                 }
-                else if (cmdr.Appointment == "CDR")
+                else if (Appointment == "CDR")
                 {
                     using (SqlCommand cmd = new SqlCommand("UpdatePersonByShip", sqlcon))
                     {
                         cmd.CommandTimeout = 1200;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@person_svcno", model.serviceNumber));
-                        cmd.Parameters.Add(new SqlParameter("@appointment", cmdr.Appointment));
+                        cmd.Parameters.Add(new SqlParameter("@appointment", Appointment));
                         cmd.Parameters.Add(new SqlParameter("@doname", model.div_off_name == ""));
                         cmd.Parameters.Add(new SqlParameter("@dosvcno", model.div_off_svcno == ""));
                         cmd.Parameters.Add(new SqlParameter("@dorank", model.div_off_rank == ""));
@@ -1958,7 +2008,14 @@ namespace NNPEFWEB.Controllers
                     }
                 }
                 }
-                 return RedirectToAction("UpdatedPersonelList", new RouteValueDictionary(
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                //return RedirectToAction("Login", "PersonnelLogin");
+            }
+            return RedirectToAction("UpdatedPersonelList", new RouteValueDictionary(
                   new
                   {
                       controller = "PersonalInfo",

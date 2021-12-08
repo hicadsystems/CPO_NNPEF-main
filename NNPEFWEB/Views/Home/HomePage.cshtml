@@ -19,36 +19,44 @@
     <link href="~/css/styles.css" rel="stylesheet" />
 </head>
 <body id="page-top">
+    
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">
-            <img src="~/assets/img/cpo/ppf2_logo.svg" alt="..." /></a>
+
+            <!--<a class="navbar-brand js-scroll-trigger" href="#page-top">
+                HOME-->
+                @*<img src="~/assets/img/cpo/ppf2_logo.svg" alt="..." />*@
+            <!--</a>-->
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars ml-1"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ml-auto">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#page-top">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../personnellogin/login">Log In</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Images/Events</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Account/CommandLogin">Ship</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../Identity/Account/Login">Admin</a></li>
                 </ul>
             </div>
         </div>
     </nav>
     <!-- Masthead-->
     <header class="masthead">
-        <div class="container" >
-            <img src="~/assets/img/cpo/PPF_Logo2.svg" style="margin-top:-100px;margin-left:100px"/>
-            <div class="masthead-subheading">Welcome To Nigerian Navy CPO</div>
-            <div class="masthead-heading text-uppercase">Onward Together</div>
+        <div class="container">
+            <div class="masthead-subheading" style="color:#7c0e0e;margin-top:-70px;margin-left:200PX">NN PERSONAL EMOLUMENT FORM</div>
+            <img src="~/assets/img/cpo/LOGO2.svg" style="margin-left:120px" />
+            <div class="masthead-subheading" style="margin-left:80PX">Welcome To Nigerian Navy CPO</div>
+            <div class="masthead-heading text-uppercase"style="margin-left:80PX">Onward Together</div>
             <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">You Want To Learn More?</a>
         </div>
     </header>
     <!-- Services-->
-   
     <!-- Portfolio Grid-->
     <section class="page-section bg-light" id="portfolio">
         <div class="container">
@@ -154,7 +162,8 @@
             <ul class="timeline">
                 <li>
                     <div class="timeline-image">
-                    <img class="rounded-circle img-fluid" src="~/Image/nnlogo.png" alt="..." /></div>
+                        <img class="rounded-circle img-fluid" src="~/Image/nnlogo.png" alt="..." />
+                    </div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
                             <h4>1956-@DateTime.Now.Year</h4>
@@ -163,7 +172,8 @@
                         <div class="timeline-body">
                             <p class="text-muted">
                                 <a href="https://www.navy.mil.ng/history/">Click here to read our history</a>
-                            </p></div>
+                            </p>
+                        </div>
                     </div>
                 </li>
                 <li class="timeline-inverted">
@@ -176,7 +186,8 @@
                         <div class="timeline-body">
                             <p class="text-muted">
                                 To leverage on all factors national location, technology, training, teamwork and synergy to re-energise the Nigerian Navy and enhance her as a well-motivated and ready naval force in the discharge of her Constitutional mandate and other assigned tasked in fulfillment of national security objectives
-                            </p></div>
+                            </p>
+                        </div>
                     </div>
                 </li>
                 <li>
@@ -189,14 +200,15 @@
                         <div class="timeline-body">
                             <p class="text-muted">
                                 To optimise the development of the Nigerian Navy in the performance of her Constitutional roles and the undertaking of  assigned tasks while promptly responding with commensurate actions to other emerging national security challenges
-                            </p></div>
+                            </p>
+                        </div>
                     </div>
                 </li>
-                
+
             </ul>
         </div>
     </section>
-   
+
     <section class="page-section" id="contact">
         <div class="container">
             <div class="text-center">
@@ -246,14 +258,14 @@
                     </script>
                 </div>
                 @*<div class="col-lg-4 my-3 my-lg-0">
-                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                </div>*@
+                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                    </div>*@
                 @*<div class="col-lg-4 text-lg-right">
-                    <a class="mr-3" href="#!">Privacy Policy</a>
-                    <a href="#!">Terms of Use</a>
-                </div>*@
+                        <a class="mr-3" href="#!">Privacy Policy</a>
+                        <a href="#!">Terms of Use</a>
+                    </div>*@
             </div>
         </div>
     </footer>

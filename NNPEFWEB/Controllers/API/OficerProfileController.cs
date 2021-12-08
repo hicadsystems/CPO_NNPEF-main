@@ -6,6 +6,7 @@ using System.Web.Http.Results;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NNPEFWEB.Data;
 using NNPEFWEB.Models;
@@ -17,7 +18,7 @@ using NNPEFWEB.ViewModel;
 
 namespace NNPEFWEB.Controllers.API
 {
-    [Route("api/[controller]")]
+    [Route("api/PEFPersonAPI")]
     [ApiController]
     public class OficerProfileController : ControllerBase
     {
@@ -36,13 +37,49 @@ namespace NNPEFWEB.Controllers.API
             this.webHostEnvironment = HostEnvironment;
             imapper = _imapper;
         }
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("getPersonBySearch/{Searching}")]
+        public List<PersonListID_Name> getperson(string searching)
+        {
+            List<PersonListID_Name> ps = new List<PersonListID_Name>();
+            var pp = personinfoService.FilterBySearch(searching).Result;
+            foreach(var p in pp)
+            {
+                ps.Add(new PersonListID_Name
+                {
+                    Id = p.serviceNumber,
+                    name = p.Surname + "" + p.OtherName + "" + p.serviceNumber
+                });
+            }
+            return ps;
+        }
+        [Route("getAllPersons")]
+        [HttpGet]
+        public async Task<IActionResult> Get(int? pageno)
+        {
+            int? shipid = HttpContext.Session.GetInt32("ship");
+            string payclass = HttpContext.Session.GetString("class");
+            string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
+            int iDisplayLength = 10;
+            pageno = pageno == null ? 0 : (pageno--);
+            var _personlist = await personinfoService.getPersonList(((int)pageno * iDisplayLength), iDisplayLength,payclass, ship);
+            var countall = await personinfoService.getPersonListCount(payclass, ship);
+            return Ok(new { responseCode = 200, personlist = _personlist, total = countall });
+        }
+       
         // GET: api/<OficerProfileController>
         [HttpGet]
         [AllowAnonymous]
-        [ActionName("getListofPersonelPagedSearch")]
-        public IEnumerable<string> Get()
+        [Route("getAllPersonsByServiceNo/{serviceno}")]
+        public IActionResult Get(string serviceno)
         {
-            return new string[] { "value1", "value2" };
+            int? shipid = HttpContext.Session.GetInt32("ship");
+            string Appointment = HttpContext.Session.GetString("Appointment");
+            string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
+            string id ="1";
+            var pp = personinfoService.GetUpdatedPersonnelBySVCNO(Appointment, id, ship, serviceno);
+            return Ok(new { respondCode=200, plist= pp});
         }
   //      public JsonResult<List<ef_personalInfo>> getListofPersonelPagedSearch(string sEcho, int iDisplayStart, int iDisplayLength, string commandid, string sortby)
   //      {

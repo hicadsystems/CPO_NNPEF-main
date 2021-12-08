@@ -35,10 +35,10 @@ namespace NNPEFWEB.Repository
             return _context.ef_PersonnelLogins.ToList();
 
         }
-        public async Task<ef_personnelLogin> GetPersonnelBypassword(string password)
+        public async Task<ef_personnelLogin> GetPersonnelBypassword(string password,string per)
         {
         
-            var pp=    _context.ef_PersonnelLogins.FirstOrDefault(x => x.password == password);
+            var pp=    _context.ef_PersonnelLogins.FirstOrDefault(x => x.password == password && x.userName==per);
             return pp;
 
         }

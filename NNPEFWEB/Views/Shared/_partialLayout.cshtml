@@ -3,6 +3,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IAuthorizationService AuthorizationService
+@using Microsoft.AspNetCore.Http
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -16,85 +17,69 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user (optional) -->
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                    @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
-                    {
-                        <img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">
-                    }
-                    @*<img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">*@
-                </div>
-                <div class="info">
-                    <h3 style="color:ghostwhite">@ViewBag.userName</h3>
-                </div>
-            </div>
-        }
+       
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 @if ((await AuthorizationService.AuthorizeAsync(User, "SuperAdmin")).Succeeded)
                 {
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon far fa-adobe"></i>
-                            <p>
-                                System Administration
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon far fa-adobe"></i>
+                    <p>
+                        System Administration
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+
+                    <li class="nav-item">
+                        <a href="/RoleManager/Index" class="nav-link">
+                            <i class="far fa-app-store nav-icon"></i>
+                            <p>Role</p>
                         </a>
-                        <ul class="nav nav-treeview">
-
-                            <li class="nav-item">
-                                <a href="/RoleManager/Index" class="nav-link">
-                                    <i class="far fa-app-store nav-icon"></i>
-                                    <p>Role</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/UserRole/Index" class="nav-link">
-                                    <i class="far fa-aws nav-icon"></i>
-                                    <p>User Role</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Identity"
-                                   asp-page="/Account/Register">
-                                    <i class="far fa-algolia nav-icon"></i>
-                                    <p>Register User</p>
-                                </a>
-
-
-                            </li>
-                            <li class="nav-item">
-
-                                <a href="/PersonalInfo/PersonalBatchUpload" class="nav-link">
-                                    <i class="far fa-bacon nav-icon"></i>
-                                    <p>Upload Personnel</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/Account/SiteActivities" class="nav-link">
-                                    <i class="far fa nav-icon"></i>
-                                    <p>Site Activities</p>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="/Account/UpdatePayrollWithEF" class="nav-link">
-                            <i class="nav-icon far fa-amazon-pay"></i>
-                            <p>
-                                Update Verify Form
-                                <i class="fas fa-angle right"></i>
-                            </p>
+                        <a href="/UserRole/Index" class="nav-link">
+                            <i class="far fa-aws nav-icon"></i>
+                            <p>User Role</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Identity"
+                           asp-page="/Account/Register">
+                            <i class="far fa-algolia nav-icon"></i>
+                            <p>Register User</p>
+                        </a>
 
-                    @*<li class="nav-item">
+
+                    </li>
+                    <li class="nav-item">
+
+                        <a href="/PersonalInfo/PersonalBatchUpload" class="nav-link">
+                            <i class="far fa-bacon nav-icon"></i>
+                            <p>Upload Personnel</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Account/SiteActivities" class="nav-link">
+                            <i class="far fa nav-icon"></i>
+                            <p>Site Activities</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+                            <li class="nav-item">
+                                <a href="/Account/UpdatePayrollWithEF" class="nav-link">
+                                    <i class="nav-icon far fa-amazon-pay"></i>
+                                    <p>
+                                        Update Verify Form
+                                        <i class="fas fa-angle right"></i>
+                                    </p>
+                                </a>
+                            </li>
+                            @*<li class="nav-item">
                         <a href="/Personallnfo/ExportToExcel" class="nav-link">
                             <i class="nav-icon far fa-amazon"></i>
 
@@ -103,8 +88,7 @@
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                    </li>*@
-                    @*<li class="nav-item">
+                    </li>*@ @*<li class="nav-item">
                         <a href="/Reports/Index" class="nav-link">
                             <i class="nav-icon far fa-amazon"></i>
 
@@ -113,144 +97,129 @@
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
-                    </li>*@
+                    </li>*@}
 
+                <li class="nav-item has-treeview">
 
-                }
-             
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon far"></i>
-                            <p>
-                                Section Level
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            @if ((await AuthorizationService.AuthorizeAsync(User, "Officers Section")).Succeeded)
-                            {
+                    <ul class="nav nav-treeview">
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Officers Section")).Succeeded)
+                        {
 
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="UpdatedPersonelByCPO"
-                                       asp-controller="CPOUpdate" asp-route-id="1">
-                                        <i class="far fa nav-icon"></i>
-                                        <p>Submitted Forrms--Off</p>
-                                    </a>
-                                </li>
-                            }
-                            @if ((await AuthorizationService.AuthorizeAsync(User, "Section A")).Succeeded)
-                            {
+            <li class="nav-item">
+                <a class="nav-link" asp-action="UpdatedPersonelByCPO"
+                   asp-controller="CPOUpdate" asp-route-id="1">
+                    <i class="far fa nav-icon"></i>
+                    <p>Submitted Forrms--Off</p>
+                </a>
+            </li>
+}
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Section A")).Succeeded)
+                        {
 
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="UpdatedPersonelByCPO"
-                                       asp-controller="CPOUpdate" asp-route-id="2">
-                                        <i class="far fa nav-icon"></i>
-                                        <p>Submitted Forrms WO</p>
-                                    </a>
-                                </li>
-                            }
-                            @if ((await AuthorizationService.AuthorizeAsync(User, "Section B")).Succeeded)
-                            {
+            <li class="nav-item">
+                <a class="nav-link" asp-action="UpdatedPersonelByCPO"
+                   asp-controller="CPOUpdate" asp-route-id="2">
+                    <i class="far fa nav-icon"></i>
+                    <p>Submitted Forrms WO</p>
+                </a>
+            </li>
+}
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Section B")).Succeeded)
+                        {
 
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="UpdatedPersonelByCPO"
-                                       asp-controller="CPOUpdate" asp-route-id="3">
-                                        <i class="far fa nav-icon"></i>
-                                        <p>Submitted Forrms Rating A</p>
-                                    </a>
-                                </li>
-                            }
-                            @if ((await AuthorizationService.AuthorizeAsync(User, "Section C")).Succeeded)
-                            {
+            <li class="nav-item">
+                <a class="nav-link" asp-action="UpdatedPersonelByCPO"
+                   asp-controller="CPOUpdate" asp-route-id="3">
+                    <i class="far fa nav-icon"></i>
+                    <p>Submitted Forrms Rating A</p>
+                </a>
+            </li>
+}
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Section C")).Succeeded)
+                        {
 
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="UpdatedPersonelByCPO"
-                                       asp-controller="CPOUpdate" asp-route-id="4">
-                                        <i class="far fa nav-icon"></i>
-                                        <p>Submitted Forrms Rating B</p>
-                                    </a>
-                                </li>
-                            }
-                            @if ((await AuthorizationService.AuthorizeAsync(User, "Section D")).Succeeded)
-                            {
+            <li class="nav-item">
+                <a class="nav-link" asp-action="UpdatedPersonelByCPO"
+                   asp-controller="CPOUpdate" asp-route-id="4">
+                    <i class="far fa nav-icon"></i>
+                    <p>Submitted Forrms Rating B</p>
+                </a>
+            </li>
+}
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Section D")).Succeeded)
+                        {
 
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="UpdatedPersonelByCPO"
-                                       asp-controller="CPOUpdate" asp-route-id="5">
-                                        <i class="far fa nav-icon"></i>
-                                        <p>Submitted Forrms Rating C</p>
-                                    </a>
-                                </li>
-                            }
-                            @if ((await AuthorizationService.AuthorizeAsync(User, "Section E")).Succeeded)
-                            {
+            <li class="nav-item">
+                <a class="nav-link" asp-action="UpdatedPersonelByCPO"
+                   asp-controller="CPOUpdate" asp-route-id="5">
+                    <i class="far fa nav-icon"></i>
+                    <p>Submitted Forrms Rating C</p>
+                </a>
+            </li>
+}
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "Section E")).Succeeded)
+                        {
 
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-action="UpdatedPersonelByCPO"
-                                       asp-controller="CPOUpdate" asp-route-id="6">
-                                        <i class="far fa nav-icon"></i>
-                                        <p>Submitted Forrms Training</p>
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </li>
-                
-                @if ((await AuthorizationService.AuthorizeAsync(User, "Commander")).Succeeded)
+            <li class="nav-item">
+                <a class="nav-link" asp-action="UpdatedPersonelByCPO"
+                   asp-controller="CPOUpdate" asp-route-id="6">
+                    <i class="far fa nav-icon"></i>
+                    <p>Submitted Forrms Training</p>
+                </a>
+            </li>
+}
+                    </ul>
+                </li>
+
+                @if (Context.Session.GetString("Authorization") == "CommandLevel")
                 {
-                    @*<li class="nav-item">
-                        <a class="nav-link" asp-action="command"
-                           asp-controller="Home">
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon far "></i>
+                    <p>
+                        Command Level
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="UpdatedPersonelList"
+                           asp-controller="PersonalInfo" asp-route-id="1">
                             <i class="far fa nav-icon"></i>
-                            <p>DashBoard</p>
-                        </a>
-                    </li>*@
-                    <li class="nav-item has-treeview">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon far "></i>
-                            <p>
-                                Command Level
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="UpdatedPersonelList"
-                                   asp-controller="PersonalInfo" asp-route-id="1">
-                                    <i class="far fa nav-icon"></i>
-                                    <p>Officers In Command</p>
-                                </a>
-                                @*<a href="/RoleManager/Index" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
                             <p>Officers In Command</p>
-                        </a>*@
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="UpdatedPersonelList"
-                                   asp-controller="PersonalInfo" asp-route-id="2">
-                                    <i class="far fa nav-icon"></i>
-                                    <p>Ratings In Command</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="UpdatedPersonelList"
-                                   asp-controller="PersonalInfo" asp-route-id="3">
-                                    <i class="far fa nav-icon"></i>
-                                    <p>Training In Command</p>
-                                </a>
-                            </li>
-
-                        </ul>
+                        </a>
+                        @*<a href="/RoleManager/Index" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Officers In Command</p>
+                </a>*@
                     </li>
-                    @*<li class="nav-item">
-                        <a class="nav-link" asp-action="PEFReport"
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="UpdatedPersonelList"
+                           asp-controller="PersonalInfo" asp-route-id="2">
+                            <i class="far fa nav-icon"></i>
+                            <p>Ratings In Command</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="UpdatedPersonelList"
                            asp-controller="PersonalInfo" asp-route-id="3">
                             <i class="far fa nav-icon"></i>
-                            <p>Reports</p>
+                            <p>Training In Command</p>
                         </a>
-                    </li>*@
-                }
+                    </li>
+
+                </ul>
+            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="commanddashbord"
+                                   asp-controller="Home">
+                                    <i class="far fa-lock nav-icon"></i>
+                                    <p>Log Out</p>
+                                </a>
+                              
+                            </li>
+                            }
                 <li class="nav-item">
                     <a class="nav-link" asp-action="HomePage"
                        asp-controller="Home">

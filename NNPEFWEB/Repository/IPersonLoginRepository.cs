@@ -12,7 +12,7 @@ namespace NNPEFWEB.Repository
         ef_personnelLogin GetPersonBySVC_No(Expression<Func<ef_personnelLogin, bool>> predicate);
         ef_personnelLogin GetPersonnelLogin(string username, string password);
         Task<ef_personnelLogin> GetPersonnel(string svcno);
-        Task<ef_personnelLogin> GetPersonnelBypassword(string password);
+        Task<ef_personnelLogin> GetPersonnelBypassword(string password, string per);
         Task<List<ef_personnelLogin>> GetAllPersonnel();
         Task<ef_personnelLogin> GetPersonnelByMail(string email);
     }

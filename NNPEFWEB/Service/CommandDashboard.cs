@@ -40,7 +40,7 @@ namespace NNPEFWEB.Service
        
         public int AwaiteApprovalStaffOfficers(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "HOD" || x.Status == "DO" && x.payrollclass == "1" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "HOD" && x.payrollclass == "1" && x.ship == ship ).Count();
         }
 
         
@@ -51,62 +51,62 @@ namespace NNPEFWEB.Service
         
         public int AllCommandStaffRatings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.serviceNumber.Substring(2, 0) != "NN" && x.serviceNumber.Substring(2, 0) != "BT" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.classes==2 && x.ship == ship ).Count();
         }
 
        
 
         public int AllStaffRatings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.serviceNumber.Substring(2, 0) != "NN" && x.serviceNumber.Substring(2, 0) != "BT" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.classes==2 && x.ship == ship ).Count();
         }
        
         public int ApprovedStaffRatings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "CDR" && x.serviceNumber.Substring(2, 0) != "NN" && x.serviceNumber.Substring(2, 0) != "BT" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "CDR" && x.classes==2 && x.ship == ship ).Count();
         }
 
         
 
         public int AwaiteApprovalStaffRatings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "HOD" || x.Status == "DO" && x.serviceNumber.Substring(2,0)!="NN" && x.serviceNumber.Substring(2, 0) != "BT" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "DO" && x.classes==2 && x.ship == ship ).Count();
         }
 
         
 
         public int YetToFillStaffRatings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == null && x.serviceNumber.Substring(2, 0) != "NN" && x.serviceNumber.Substring(2, 0) != "BT" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == null && x.classes==2 && x.ship == ship ).Count();
         }
         
 
         public int AllCommandStaffTrainings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.payrollclass == "6" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.classes == 3 && x.ship == ship ).Count();
         }
 
         
         public int AllStaffTrainings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.payrollclass == "6" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.classes == 3 && x.ship == ship ).Count();
         }
 
         public int ApprovedStaffTrainings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "CDR" && x.payrollclass == "6" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "CDR" && x.classes == 3 && x.ship == ship ).Count();
         }
 
         
         public int AwaiteApprovalStaffTrainings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "HOD" || x.Status == "DO" && x.payrollclass == "6" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x =>  x.Status == "DO" && x.classes == 3 && x.ship == ship ).Count();
         }
 
         
         public int YetToFillStaffTrainings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == null && x.payrollclass == "6" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == null && x.classes ==3 && x.ship == ship ).Count();
         }
     }
 }

@@ -14,11 +14,11 @@ namespace NNPEFWEB.ViewModel
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
-        [Required]
+
         public string Class { get; set; }
         public IEnumerable<SelectListItem> commandList { get; set; }
         public IEnumerable<SelectListItem> shiplist { get; set; }
-
+        public string appointment { get; set; }
         public int Command { get; set; }
         public int ship { get; set; }
         public int Id { get; set; }

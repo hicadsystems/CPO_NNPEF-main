@@ -1,0 +1,290 @@
+﻿@model NNPEFWEB.ViewModel.PersonalInfoModel
+
+@{ ViewData["Title"] = "OfficersReport";
+    Layout = null; }
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>NN-CPO</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/datepickeModel.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div>
+        <div style="text-align:center"> <h2>RETRICTED</h2></div>
+
+        <div style="margin-left:100px">
+            <div class="row">
+                <h1>22. Do you Draw:</h1>
+            </div>
+            <div style="margin-left:50px">
+                <div class="row">
+                    <div class="col-md-8"><h2><span>a. Rent Subsidy :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong style="margin-left:200px">@Model.rent_subsidy </strong> </h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span>b.  Call/Shift Duty Allowance: &nbsp;&nbsp;&nbsp; </span><strong style="margin-left:88px">@Model.shift_duty_allow</strong> 
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8"><h2><span>c. Pilot Allowance :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong style="margin-left:151px">@Model.pilot_allow</strong> </h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8"><h2><span>d. Aircrew Allowance :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong style="margin-left:125px">@Model.aircrew_allow </strong> </h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8"><h2><span>e. SBS Allowance :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong style="margin-left:169px">@Model.SBC_allow</strong> </h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8"><h2><span>f.  Harzard Allowance :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong style="margin-left:130px">@Model.hazard_allow</strong> </h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8"><h2><span>g. Special Forces Allowance :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong style="margin-left:65px">@Model.special_forces_allow </strong> </h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8"><h2><span>h. Other Allowances  <i>(Please Specify)</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong style="margin-left:10px">@Model.other_allow </strong> </h2></div>
+                </div>
+
+            </div>
+            <div class="row">
+                <h2>23. Are you indebted to the following:  <em>(Please indicate year granted)</em></h2>
+            </div>
+            <div style="margin-left:50px">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span>a. Federal Govt Staff Housing Loan Scheme : &nbsp;&nbsp;&nbsp; </span><strong>@Model.FGSHLS_loan</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if (Model.FGSHLS_loanYear != null)
+                            {
+                            <strong> @Model.FGSHLS_loanYear</strong>}
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span>b. CNS Car Refurbishing Loan  : &nbsp;&nbsp;&nbsp; </span><strong style="margin-left:118px">@Model.car_loan</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if (Model.car_loanYear != null)
+                            {
+                <strong>  @Model.car_loanYear</strong>}
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span>c. Welfare Loan: &nbsp;&nbsp;&nbsp; </span><strong style="margin-left:270px">@Model.welfare_loan</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if (Model.welfare_loanYear != null)
+                            {
+                <strong>  @Model.welfare_loanYear</strong>}
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span>d. NNMCS Loan <i>(Specify Type)</i> &nbsp;&nbsp;&nbsp; </span><strong style="margin-left:128px">@Model.NNNCS_loan</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if (Model.NNNCS_loanYear != null)
+                            {
+                <strong>  @Model.NNNCS_loanYear</strong>}
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span>e. NNMFBL Loan :&nbsp;&nbsp;&nbsp; </span><strong style="margin-left:249px">@Model.NNMFBL_loan</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if (Model.NNMFBL_loanYear != null)
+                            {
+                <strong>  @Model.NNMFBL_loanYear</strong>}
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span>f. Presidental Pioneer Car Finance Scheme:&nbsp;&nbsp;&nbsp; </span><strong style="margin-left:10px">@Model.PPCFS_loan</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if (Model.PPCFS_loanYear != null)
+                            {
+                <strong>   @Model.PPCFS_loanYear</strong>}
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span>f. Any Other Loan (Please Specify): &nbsp;&nbsp;&nbsp; </span><strong style="margin-left:88px">@Model.Anyother_Loan</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @if (Model.Anyother_LoanYear != null)
+                            {
+                <strong>  @Model.Anyother_LoanYear</strong>}
+                        </h2>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <h2>24. Bank Account Details:</h2>
+            </div>
+            <div style="margin-left:50px">
+                <div class="row">
+                    <div class="col-md-8"><h2><span>a. Salary Account Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.AccountName </strong> </h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8"><h2><span>b. Name of Bank :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.Bankcode </strong> </h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8"><h2><span>c. Branch/Address: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.bankbranch </strong> </h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8"><h2><span>d. Account Number:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.BankACNumber </strong> </h2></div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div style="margin-top:-10px;margin-left:50px">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h2><strong><i>I certify that the information provided by me above are, to the best of my knowledge, correct.</i></strong></h2>
+                </div>
+                <br />
+                <div class="row">
+                    <div style="text-align: center; width: 400px">
+                        <hr width="300" style="border:1px dashed; margin-left:200px" size="4"> <hr width="300" style="border:1px dashed;margin-left:900px" size="4">
+                    </div>
+                    <div class="row" style="margin-top:-10px">
+                        <h2><strong style="margin-left:350px">Date</strong><strong style="margin-left:550px">Officer's Signature</strong></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: -10px; margin-left: 40px;height:50px; padding: 3px; width: 1300px; border: 3px solid #126ea4; text-align: center ">
+
+            <h2 style="color: #126ea4; margin-top:10px"> NOTE: CERTIFICATION OF FALSE INFORMATION ATTRACTS SEVERE PUNISHMENT</h2>
+        </div>
+        <div style="margin-left:100px">
+            <div class="row" style="margin-top:-10px">
+                <div class="col-md-8">
+                    <h2><u>SECTION B</u> (To be completed by HEAD OF DEPARTMENT (in capital letters)</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.hod_name </strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>
+                        <span>Rank:&nbsp;&nbsp;&nbsp; </span><strong>@Model.div_off_rank</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="margin-left:400px"> Svc Number :&nbsp;&nbsp;&nbsp; <strong> @Model.div_off_svcno</strong></span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:-15px">
+            <div class="row" style="margin-left:50px">
+                <div class="col-md-12">
+                    <h2><strong><i>I have verified the information provided by the Officer and found them to be correct to the best of my knowledge.</i></strong></h2>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+
+                <div style="text-align: center; width: 400px">
+                    <hr width="300" style="border:1px dashed; margin-left:200px" size="4"> <hr width="300" style="border:1px dashed;margin-left:900px" size="4">
+                </div>
+                <div style="margin-left:300px;margin-top:-15px">
+                    <h2><strong><i>Date</i></strong><strong style="margin-left:600px"><i>Signature of Head of Department</i></strong></h2>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div style="margin-left:100px; margin-top:-15px">
+            <div class="row" style="margin-top:-10px">
+                <div class="col-md-8">
+                    <h2><u>SECTION C</u>&nbsp;&nbsp;&nbsp;&nbsp;(To be completed by COMMANDING OFFICER (in capital letters)</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8"><h2><span>Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.cdr_name </strong> </h2></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>
+                        <span>Rank:&nbsp;&nbsp;&nbsp; </span><strong>@Model.cdr_rank</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="margin-left:400px"> Svc Number :&nbsp;&nbsp;&nbsp; <strong> @Model.cdr_svcno</strong></span>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:-10px">
+            <div class="row" style="margin-left:50px">
+                <div class="col-md-12">
+                    <h2><strong><i>I certify that the information provided by the Officer are correct to the best of my knowledge.</i></strong></h2>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div style="text-align: center; width: 400px">
+                    <hr width="300" style="border:1px dashed; margin-left:200px" size="4"> <hr width="300" style="border:1px dashed;margin-left:920px" size="4">
+                </div>
+                <div style="margin-left: 300px; margin-top: -15px">
+                    <h2><strong><i>Date</i></strong><strong style="margin-left:500px"><i>Signature and Stamp of Commanding Officer</i></strong></h2>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+    <div style="text-align:center;margin-top:-8px" class="row"><div class="col-md-4"> <h2>A-2</h2></div> </div>
+
+    <div style="text-align:center;margin-top:-8px" class="row"><div class="col-md-4"> <h2>RESTRICTED </h2></div> </div>
+    </div>
+
+    @* <script src="~/plugins/jquery/jquery.min.js"></script>
+        <canvas id="DemoCanvas" width="500" height="200"></canvas>*@
+    <script>
+        var canvas = document.getElementById('DemoCanvas');
+        //Always check for properties and methods, to make sure your code doesn't break in other browsers.
+        if (canvas.getContext) {
+            var context = canvas.getContext('2d');
+            // Reset the current path
+            context.beginPath();
+            // Staring point (10,45)
+            context.moveTo(10, 45);
+            // End point (180,47)
+            context.lineTo(180, 47);
+            // Make the line visible
+            context.stroke();
+                    //}
+    </script>
+</body>
+</html>

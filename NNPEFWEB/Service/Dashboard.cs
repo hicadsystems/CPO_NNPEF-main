@@ -61,7 +61,7 @@ namespace NNPEFWEB.Service
  
         public int AwaiteApprovalStaffOfficers()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "HOD" || x.Status == "DO" && x.payrollclass=="1").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "HOD"  && x.payrollclass=="1").Count();
         }
 
 
@@ -114,7 +114,7 @@ namespace NNPEFWEB.Service
 
         public int AwaiteApprovalStaffTrainings()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "HOD" || x.Status == "DO" && x.payrollclass == "3").Count();
+            return _context.ef_personalInfos.Where(x => (x.Status == "HOD" || x.Status == "DO") && x.payrollclass == "3").Count();
         }
 
         public int YetToFillStaffTrainings()

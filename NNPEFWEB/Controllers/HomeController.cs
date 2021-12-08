@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NNPEFWEB.Data;
@@ -26,9 +28,11 @@ namespace NNPEFWEB.Controllers
             _commanddashboard = commanddashboard;
         }
 
+        [Authorize]
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+           // var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
             var dah = new personelCountVM()
             {
                 AllStaff = _dashboard.AllStaff(),
@@ -62,8 +66,9 @@ namespace NNPEFWEB.Controllers
         }
         public IActionResult commanddashbord()
         {
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-            string ship = _context.ef_ships.Where(x => x.Id == cmdr.ship).FirstOrDefault().shipName;
+            //var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+            int? shipid = HttpContext.Session.GetInt32("ship");
+            string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
             var dah = new personelCountVM()
             {
 

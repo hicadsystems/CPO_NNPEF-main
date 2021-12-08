@@ -13,7 +13,7 @@ namespace NNPEFWEB.Service
         Task<ef_personnelLogin> GetPersonel(string svcno);
         Task<List<ef_personnelLogin>> GetAllPersonel();
         Task<bool> updatepersonlogin(ef_personnelLogin values);
-        Task<ef_personnelLogin> GetPersonelByPassword(string password);
+        Task<ef_personnelLogin> GetPersonelByPassword(string password, string per);
         Task<ef_personnelLogin> GetPersonelByMail(string email);
         void updatepersonlogin2(ef_personnelLogin values);
     }
