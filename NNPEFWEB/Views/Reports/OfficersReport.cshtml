@@ -22,33 +22,140 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="~/css/styles.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/css/datepickeModel.css" rel="stylesheet" />
-    <script>
-        /*<![CDATA[*/
-        function subst() {
-            var vars = {};
-            var query_strings_from_url = document.location.search.substring(1).split('&');
-            for (var query_string in query_strings_from_url) {
-                if (query_strings_from_url.hasOwnProperty(query_string)) {
-                    var temp_var = query_strings_from_url[query_string].split('=', 2);
-                    vars[temp_var[0]] = decodeURI(temp_var[1]);
-                }
-            }
-            var css_selector_classes = ['page', 'topage'];
-            for (var css_class in css_selector_classes) {
-                if (css_selector_classes.hasOwnProperty(css_class)) {
-                    var element = document.getElementsByClassName(css_selector_classes[css_class]);
-                    for (var j = 0; j < element.length; ++j) {
-                        element[j].textContent = vars[css_selector_classes[css_class]];
-                    }
-                }
-            }
+
+
+    <style type="text/css">
+        .waterMark {
+            text-align: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -9999;
+            pointer-event: none;
+            font-size: 5em;
+            font-weight: bold;
+            font-family: Consolas;
+            color: #EDEDED;
+            opacity: 0.2;
         }
-        /*]]>*/
-    </script>
+
+        .waterMark-inner {
+            transform: rotate(-20deg);
+            line-height: 200px
+        }
+
+        .waterMark2 {
+            text-align: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -9999;
+            pointer-event: none;
+            font-size: 5em;
+            font-weight: bold;
+            font-family: Consolas;
+            color: #EDEDED;
+            /*opacity: 0.1;*/
+        }
+
+        .waterMark-inner2 {
+            transform: rotate(-20deg);
+            line-height: 200px
+        }
+
+        .centered {
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Create three equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 33.33%;
+            padding: 10px;
+            height: 300px; /* Should be removed. Only for demonstration */
+        }
+
+        .column2 {
+            float: left;
+            width: 40.33%;
+            
+        }
+
+        .column3 {
+            float: left;
+            width: 45.33%;
+            /*padding: 10px;*/
+            /* Should be removed. Only for demonstration */
+        }
+
+        .column4 {
+            float: left;
+            width: 20.33%;
+            /*padding: 10px;*/
+            /* Should be removed. Only for demonstration */
+        }
+
+        .column5 {
+            float: left;
+            width: 48.33%;
+            /*padding: 10px;*/
+            /* Should be removed. Only for demonstration */
+        }
+
+        .column6 {
+            float: left;
+            width: 18.33%;
+            /*padding: 10px;*/
+            /* Should be removed. Only for demonstration */
+        }
+        .column7 {
+            float: left;
+            width: 80.33%;
+        }
+        /* Clear floats after the columns */
+        .rowss:after {
+            content: "";
+            display: table;
+            clear: both;
+            height: 8px;
+        }
+    </style>
+    <style>
+        div.a {
+            font-size: 23px;
+        }
+
+        div.b {
+            font-size: large;
+        }
+
+        div.c {
+            font-size: 150%;
+        }
+    </style>
 </head>
 
-<body>
+<body style="margin: 0px; padding:0px; outline: none;">
+    <div class="centered">
+        <div class="waterMark2">
+            <div class="waterMark-inner2" style="margin-left: -120px; margin-top: -250px;"><h1><strong>2022</strong></h1></div>
+        </div>
+    </div>
+    <div class="waterMark">
+        <div class="waterMark-inner">
+            <img id="nokpassport" style="width: 640px; height: 810px; margin-top: 350px; object-fit: cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.logo))">
+
+        </div>
+
+    </div>
     <div id="btnprint">
 
 
@@ -59,19 +166,19 @@
                 <td>
                     @if (Model.Passport != null)
                     {
-                <img id="passport" style="width: 200px; height: 200px; margin-left:90px; object-fit: cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.Passport))"> }
-            else
-            {
-                <div style="height: 200px; width: 200px; margin-left:90px; border: 3px solid; text-align: center"><h3>Attach 4 Current Passport Photographs in Uniform on Blue Background(Blue Rig Not Allowed)</h3> </div>}
+            <img id="passport" style="width: 200px; height: 200px; margin-left:90px; object-fit: cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.Passport))"> }
+        else
+        {
+            <div style="height: 200px; width: 200px; margin-left:90px; border: 3px solid; text-align: center"><h3>Attach 4 Current Passport Photographs in Uniform on Blue Background(Blue Rig Not Allowed)</h3> </div>}
                 </td>
 
                 <td style="margin-left:900px;">
                     @if (Model.logo != null)
                     {
-        <img id="nokpassport" style="width: 140px; height: 210px;margin-left:57px; object-fit: cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.logo))"> }
-    else
-    {
-    <img id="logo" style="width: 200px; height: 200px; object-fit: cover " src="">}
+            <img id="nokpassport" style="width: 140px; height: 210px;margin-left:57px; object-fit: cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.logo))"> }
+        else
+        {
+            <img id="logo" style="width: 200px; height: 200px; object-fit: cover " src="">}
 
                     @*<img id="nokpassport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.FirstOrDefault().logo))">*@
                 </td>
@@ -79,26 +186,25 @@
 
                     @if (Model.NokPassport != null)
                     {
-        <img id="nokpassport" style="width: 200px; height: 200px; object-fit: cover " src="data:image/*;base64,@(Convert.ToBase64String(Model.NokPassport))"> }
-    else
-    {
-                        <div style="height:200px;width:200px; border:3px solid; text-align:center"><h3>Attach 3 Current Passport Photographs each of NOK and Alternate NOK (if any)  </h3> </div>
-    }
-                     
+            <img id="nokpassport" style="width: 200px; height: 200px; object-fit: cover " src="data:image/*;base64,@(Convert.ToBase64String(Model.NokPassport))"> }
+        else
+        {
+            <div style="height:200px;width:200px; border:3px solid; text-align:center"><h3>Attach 3 Current Passport Photographs each of NOK and Alternate NOK (if any)  </h3> </div>}
+
                 </td>
                 @*<td>
 
-                    @if (Model.AltNokPassport != null)
-                    {
-                <img id="altNokPassport" style="width: 200px; height: 200px; object-fit: cover " src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))"> }
-            else
-            {
-                <div style="height:200px;width:200px; border:3px solid; text-align:center"><h3>Attach 3 Current Passport Photographs of Alternate NOK, if any </h3> </div>
-                                                                                                                                                                           }
+                @if (Model.AltNokPassport != null)
+                {
+            <img id="altNokPassport" style="width: 200px; height: 200px; object-fit: cover " src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))"> }
+        else
+        {
+            <div style="height:200px;width:200px; border:3px solid; text-align:center"><h3>Attach 3 Current Passport Photographs of Alternate NOK, if any </h3> </div>
+                                                                                                                                                                       }
 
-                </td>*@
-                <td style="height:200px;width:100px;">
-                    <div style="height:200px;width:100px;text-align:center"><h3><u>Annex A to NNO 21/90 Dated 16 Aug 90</u></h3> </div>
+            </td>*@
+                <td style="height:200px;width:150px;">
+                    <div style="height:200px;width:150px;margin-left:-10px;"><h3><u>Annex A to<br /> NNO 21/90 <br />Dated 16 Aug 90</u></h3> </div>
 
                 </td>
 
@@ -106,172 +212,184 @@
             </tr>
         </table>
 
-        <h2 style="text-align: center; margin-top: -5px;"><u>PERSONAL EMOLUMENT RECORD FORM - @DateTime.Now.Year - OFFICERS </u></h2>
+        <h2 style="text-align: center; margin-top: -5px;"><u>PERSONAL EMOLUMENT RECORD FORM (2022) - OFFICERS </u></h2>
         <div style="margin-left: 50px; margin-top: -12px;">
             <h3><u>SECTION A</u> &nbsp;&nbsp;&nbsp;  (To be completed in capital letters)</h3>
-            <div style="margin-left:6px">
-                <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8">
-                        <h3><span>1.&nbsp;&nbsp;&nbsp; Surname:&nbsp;&nbsp;&nbsp; </span><strong>@Model.Surname</strong></h3>
-                    </div>
+            <div style="margin-left:6px;margin-top:-12px">
+                <div class="rowss">
+                    <div class="column7"><strong>1.&nbsp;&nbsp;&nbsp; Surname:&nbsp;&nbsp;  @Model.Surname</strong></div>
                 </div>
-                <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8">
-                        <h3><span>2.&nbsp;&nbsp;&nbsp; Other Names:&nbsp;&nbsp;&nbsp; </span><strong>@Model.OtherName</strong></h3>
-                    </div>
+                <div class="rowss">
+                    <div class="column7"><strong>2.&nbsp;&nbsp;&nbsp; Other Names:&nbsp;&nbsp;  @Model.OtherName</strong></div>
                 </div>
-                <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-12">
-                        <h3>
-                            <span>3.&nbsp;&nbsp;&nbsp; Service Number: &nbsp;&nbsp;&nbsp; </span><strong>@Model.serviceNumber</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left:110px">4.&nbsp;&nbsp;&nbsp;  Rank:&nbsp;&nbsp;&nbsp; <strong> @Model.Rank</strong></span>
-                        </h3>
-                    </div>
+
+                <div class="rowss">
+                    <div class="column2"><strong>3.&nbsp;&nbsp;&nbsp; Service Number:&nbsp;&nbsp;  @Model.serviceNumber</strong></div>
+                    <div class="column2"><strong>4.&nbsp;&nbsp;&nbsp; Rank:&nbsp;&nbsp; @Model.Rank</strong></div>
                 </div>
-                <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-12">
-                        <h3>
-                           <span>5.&nbsp;&nbsp;&nbsp; Date of Birth:  &nbsp;&nbsp;&nbsp; </span><strong>@Html.DisplayFor(x => x.Birthdate)</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left:140px">6.&nbsp;&nbsp;&nbsp; Date of Joining Svc:&nbsp;&nbsp;&nbsp; <strong> @Html.DisplayFor(x => x.DateEmpl)</strong></span>
-                        </h3>
-                    </div>
+                <div class="rowss">
+                    <div class="column2"><strong>5.&nbsp;&nbsp;&nbsp; Date of Birth:&nbsp;&nbsp;  @Html.DisplayFor(x => x.Birthdate)</strong></div>
+                    <div class="column2"><strong>6.&nbsp;&nbsp;&nbsp; Date of Joining Svc:&nbsp;&nbsp; @Html.DisplayFor(x => x.DateEmpl)</strong></div>
+
                 </div>
-                <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8"><h3><span>7.&nbsp;&nbsp;&nbsp; Residential Address:&nbsp;&nbsp;&nbsp; <strong>@Model.home_address</strong></span></h3></div>
+
+                @*<div class="row" style="margin-top: -12px;">
+                <div class="col-md-8"><h3><span>7.&nbsp;&nbsp;&nbsp; Residential Address:&nbsp;&nbsp;&nbsp; <strong>@Model.home_address</strong></span></h3></div>
+            </div>*@
+                <div class="rowss">
+                    <div class="column7"><strong>7.&nbsp;&nbsp;&nbsp; Residential Address:&nbsp;&nbsp;  @Model.home_address</strong></div>
                 </div>
-                <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-12">
-                        <h3>
-                            <span>8.&nbsp;&nbsp;&nbsp; Seniority on Present Rank: &nbsp;&nbsp;&nbsp; </span><strong>@Html.DisplayFor(x => x.seniorityDate)</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left:22px">9.&nbsp;&nbsp;&nbsp; Run Out Date :&nbsp;&nbsp;&nbsp; <strong> @Html.DisplayFor(x => x.runOutDate)</strong></span>
-                        </h3>
-                    </div>
+                <div class="rowss">
+                    <div class="column2"><strong>8.&nbsp;&nbsp;&nbsp; Seniority on Present Rank:&nbsp;&nbsp;  @Html.DisplayFor(x => x.seniorityDate)</strong></div>
+                    <div class="column2"><strong>9.&nbsp;&nbsp;&nbsp; Run Out Date :&nbsp;&nbsp; @Html.DisplayFor(x => x.runOutDate)</strong></div>
+
                 </div>
-            </div>
-            <div class="row" style="margin-top: -12px;">
-                <div class="col-md-8">
+
+                @*<div class="row" style="margin-top: -12px;">
+                <div class="col-md-12">
                     <h3>
-                        <span>10.&nbsp;&nbsp;&nbsp; Branch :&nbsp;&nbsp;&nbsp; </span><strong>@Model.branch</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left:124px">11.&nbsp; Specialisation : &nbsp;&nbsp;<strong>@Model.specialisation</strong></span>
+                        <span>8.&nbsp;&nbsp;&nbsp; Seniority on Present Rank: &nbsp;&nbsp;&nbsp; </span><strong>@Html.DisplayFor(x => x.seniorityDate)</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left:16px">9.&nbsp;&nbsp;&nbsp; Run Out Date :&nbsp;&nbsp;&nbsp; <strong> @Html.DisplayFor(x => x.runOutDate)</strong></span>
                     </h3>
                 </div>
+            </div>*@
             </div>
 
-            <div class="row" style="margin-top: -12px;">
-                <div class="col-md-12">
-                    <h3>
-                        <span>12.&nbsp;&nbsp;&nbsp; Ship/Establishment :&nbsp;&nbsp;&nbsp; <strong> @Model.ship</strong></span>
-                    </h3>
-                </div>
+            <div class="rowss">
+                <div class="column2"><strong>10.&nbsp;&nbsp;&nbsp; Branch:&nbsp;&nbsp;  @Model.branch</strong></div>
+                <div class="column2"><strong>11.&nbsp;&nbsp;&nbsp; Specialisation:&nbsp;&nbsp; @Model.specialisation</strong></div>
             </div>
-            <div class="row" style="margin-top: -12px;">
-                <div class="col-md-12">
-                    <h3>
-                        <span>13.&nbsp;&nbsp; Command : &nbsp;&nbsp; </span><strong>@Model.command</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-left:20px">14.&nbsp; Present Appointment :&nbsp;<strong> @Model.appointment</strong></span>
-                    </h3>
-                    
-                </div>
-            <div class="row" style="margin-top: -12px;">
-                <div class="col-md-8">
-                    <h3>
-                        <span>15.&nbsp;&nbsp;&nbsp; State of Origin:&nbsp;&nbsp;&nbsp; </span><strong>@Model.StateofOrigin</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="margin-left:120px">16.&nbsp; L.G.A: &nbsp;&nbsp;<strong>@Model.LocalGovt</strong></span>
-                    </h3>
-                </div>
+            <div class="rowss">
+                <div class="column2"><strong>12.&nbsp;&nbsp;&nbsp; Ship/Establishment :&nbsp;&nbsp;  @Model.ship</strong></div>
             </div>
-            <div class="row" style="margin-top: -12px;">
-                <div class="col-md-8"><h3><span>17.&nbsp;&nbsp;&nbsp; Religion :&nbsp;&nbsp;&nbsp; </span><strong>@Model.religion</strong></h3></div>
+            @*<div class="row" style="margin-top: -12px;">
+            <div class="col-md-12">
+                <h3>
+                    <span>12.&nbsp;&nbsp;&nbsp; Ship/Establishment :&nbsp;&nbsp;&nbsp; <strong> @Model.ship</strong></span>
+                </h3>
             </div>
-            <div class="row" style="margin-top:-12px;">
-                <div class="col-md-12">
-                    <h3><span>18.&nbsp;&nbsp;&nbsp; a. GSM No. (i) : &nbsp;&nbsp;&nbsp; </span><strong>@Model.gsm_number</strong>&nbsp;&nbsp; (ii) : &nbsp; <strong>@Model.gsm_number2</strong></h3>
-                    <h3><span style="margin-left: 50px; margin-top:-14px;">b.&nbsp;&nbsp;&nbsp; E-mail: &nbsp;&nbsp;&nbsp; </span><strong>@Model.email</strong><span style="margin-left:50px">c.&nbsp;&nbsp;&nbsp; Marital Status : &nbsp;&nbsp;&nbsp; <strong>@Model.MaritalStatus</strong></span></h3>
-                </div>
+        </div>*@
+            <div class="rowss">
+                <div class="column2"><strong>13.&nbsp;&nbsp;&nbsp; Command:&nbsp;&nbsp;  @Model.command</strong></div>
+                <div class="column2"><strong>14.&nbsp;&nbsp;&nbsp; Present Appointment :&nbsp;&nbsp; @Model.appointment</strong></div>
+            </div>
+            <div class="rowss">
+                <div class="column2"><strong>15.&nbsp;&nbsp;&nbsp; State of Origin:&nbsp;&nbsp;  @Model.StateofOrigin</strong></div>
+                <div class="column2"><strong>16.&nbsp;&nbsp;&nbsp; LGA :&nbsp;&nbsp; @Model.LocalGovt</strong></div>
             </div>
 
-            <div class="row" style="margin-top: -12px;">
-                <div class="col-md-8"><h3><span>19.&nbsp;&nbsp;&nbsp;  Name of Spouse :&nbsp;&nbsp;&nbsp; </span><strong>@Model.sp_name &nbsp;&nbsp;&nbsp; <i>(State Rank/Svc Number, If Personnel)</i></strong></h3></div>
+
+            <div class="rowss">
+                <div class="column7"><strong>17.&nbsp;&nbsp;&nbsp; Religion :&nbsp;&nbsp;  @Model.religion</strong></div>
             </div>
-            <div class="row" style="margin-left:50px">
+            <div class="rowss">
+                <div class="column2"><strong>18.&nbsp;&nbsp;&nbsp; a. GSM No. (1) :&nbsp;&nbsp;  @Model.gsm_number</strong></div>
+                <div class="column2"><strong>&nbsp;&nbsp;&nbsp; (2):&nbsp;&nbsp; @Model.gsm_number2</strong></div>
+            </div>
+            <div class="rowss" style="margin-left:35px">
+                <div class="column2"><strong>b.&nbsp;&nbsp;&nbsp; E-mail:&nbsp;&nbsp; @Model.email</strong></div>
+                <div class="column2"><strong>c.&nbsp;&nbsp;&nbsp; Marital Status :&nbsp;&nbsp;  @Model.MaritalStatus</strong></div>
+            </div>
+            @*<div class="row" style="margin-top:-12px;">
+            <div class="col-md-12">
+                <h3><span>18.&nbsp;&nbsp;&nbsp; a. GSM No. (i) : &nbsp;&nbsp;&nbsp; </span><strong>@Model.gsm_number</strong>&nbsp;&nbsp; (ii) : &nbsp; <strong>@Model.gsm_number2</strong></h3>
+                <h3><span style="margin-left: 50px; margin-top:-14px;">b.&nbsp;&nbsp;&nbsp; E-mail: &nbsp;&nbsp;&nbsp; </span><strong>@Model.email</strong><span style="margin-left:50px">c.&nbsp;&nbsp;&nbsp; Marital Status : &nbsp;&nbsp;&nbsp; <strong>@Model.MaritalStatus</strong></span></h3>
+            </div>
+        </div>*@
+
+            <div class="row" style="margin-top: -12px;">
+                <div class="col-md-8"><h3><span>19.&nbsp;&nbsp;&nbsp;  Name of Spouse :&nbsp;&nbsp;&nbsp; </span><strong>@Model.sp_name &nbsp;&nbsp;&nbsp; <i>(State Rank/Svc Number, if Personnel)</i></strong></h3></div>
+            </div>
+            <div class="row" style="margin-left:30px;margin-top:-14px;">
                 <div class="col-md-12">
                     <h3>
-                        <span>a.&nbsp;&nbsp;&nbsp;  Names of Children &nbsp;&nbsp;&nbsp; </span><strong>(i) @Model.chid_name</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong> (ii) @Model.chid_name2 </strong>
+                        <span>a.&nbsp;&nbsp;&nbsp;  Names of Children: &nbsp;&nbsp;&nbsp; </span><strong>(1): @Model.chid_name</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong> (2): @Model.chid_name2 </strong>
                     </h3>
                 </div>
             </div>
             <div class="row" style="margin-left:50px">
                 <div class="col-md-12" style="margin-top: -12px;">
                     <h3>
-                        <strong>(iii)  @Model.chid_name3 </strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong> (iv) @Model.chid_name4 </strong>
+                        <strong>(3):  @Model.chid_name3 </strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong> (4): @Model.chid_name4 </strong>
                     </h3>
                 </div>
             </div>
-            <div class="row" style="margin-left: 50px; margin-top: -12px;">
+            <div class="row" style="margin-left:30px; margin-top: -12px;">
                 <div class="col-md-12" style="margin-top: -12px;">
                     <h3>
-                        <span>b.&nbsp;&nbsp;&nbsp; GSM No. of Spouse (i) :  &nbsp;&nbsp;&nbsp; </span><strong>@Model.sp_phone</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>(ii) : @Model.sp_phone2</strong>
+                        <span>b.&nbsp;&nbsp;&nbsp; GSM No. of Spouse (1) :  &nbsp;&nbsp;&nbsp; </span><strong>@Model.sp_phone</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>(2) : @Model.sp_phone2</strong>
                     </h3>
                 </div>
             </div>
-            <div class="row" style="margin-left:50px">
+            <div class="row" style="margin-left:30px">
                 <div class="col-md-8" style="margin-top: -12px;"><h3><span>c.&nbsp;&nbsp;&nbsp; E-mail of Spouse :&nbsp;&nbsp;&nbsp; </span><strong>@Model.sp_email </strong> </h3></div>
             </div>
             <div class="row" style="margin-top: -12px;">
                 <h3>
-                    20.&nbsp;&nbsp;&nbsp; Details of NOKs, (Note that NOK as used in this form includes potential administrator of a deceased personnel's estate in relation to his personal emolument and other perquisites of office).
+                    20.&nbsp;&nbsp;&nbsp; Details of NOKs, (Note that NOK as used in this Form includes potential administrator of a deceased personnel's estate in relation to his personal emolument and other perquisites of office).
                 </h3>
-                <h3 style="margin-top: -12px;">a.&nbsp;&nbsp;&nbsp; <u>Next of Kin</u> (Attach Passport Photograph)</h3>
+                <h3 style="margin-top: -12px;margin-left:20px;">a.&nbsp;&nbsp;&nbsp; <u>Next of Kin (Attach Passport Photographs)</u></h3>
             </div>
             <div style="margin-left:50px; margin-top: -12px;">
                 <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8"><h3><span>i.&nbsp;&nbsp;&nbsp; Name :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_name </strong> </h3></div>
+                    <div class="col-md-8"><h4><span>(1)&nbsp;&nbsp;&nbsp;Name :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_name </strong> </h4></div>
                 </div>
                 <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8"><h3><span>ii.&nbsp;&nbsp;&nbsp; Relationship :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_relation </strong> </h3></div>
+                    <div class="col-md-8"><h4><span>(2)&nbsp;&nbsp;&nbsp;Relationship :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_relation </strong> </h4></div>
                 </div>
                 <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8"><h3><span>iii.&nbsp;&nbsp;&nbsp; Address :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_address </strong> </h3></div>
+                    <div class="col-md-8"><h4><span>(3)&nbsp;&nbsp;&nbsp;Address :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_address </strong> </h4></div>
                 </div>
                 <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8"><h3><span>iv.&nbsp;&nbsp;&nbsp; GSM No. :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_phone </strong> </h3></div>
+                    <div class="col-md-8"><h4><span>(4)&nbsp;&nbsp;&nbsp;(a) GSM No :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_phone </strong> <span>&nbsp;&nbsp; (b)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong>@Model.nok_phone12 </strong></h4></div>
                 </div>
                 <div class="row" style="margin-top: -12px;">
                     <div class="col-md-12">
-                        <h3>
-                            <span>v.&nbsp;&nbsp;&nbsp; E-mail : &nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_email</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi.&nbsp;&nbsp;&nbsp; NIN of NOK:&nbsp;&nbsp;&nbsp; <strong> @Model.nok_nationalId</strong>
-                        </h3>
+                        <h4>
+                            <span>(5)&nbsp;&nbsp;&nbsp;E-mail : &nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_email</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(6) NIN of NOK:&nbsp;&nbsp;&nbsp; <strong> @Model.nok_nationalId</strong>
+                        </h4>
                     </div>
                 </div>
 
             </div>
-            <div class="row" style="margin-top: -12px;">
-                <h3>b.&nbsp;&nbsp;&nbsp; <u>Alternate Next Of Kin <em>(Attach Passport Photographs)</em></u></h3>
+            <div class="row" style="margin-top: -12px; margin-left: 20px;">
+                <h3>b.&nbsp;&nbsp;&nbsp; <u>Alternate Next of Kin <em>(Attach Passport Photographs)</em></u></h3>
             </div>
             <div style="margin-left:50px; margin-top: -12px;">
                 <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8"><h3><span>i.&nbsp;&nbsp;&nbsp; Name :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_name2 </strong> </h3></div>
+                    <div class="col-md-8"><h4><span>(1)&nbsp;&nbsp;&nbsp;Name :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_name2 </strong> </h4></div>
                 </div>
                 <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8"><h3><span>ii.&nbsp;&nbsp;&nbsp; Relationship :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_relation2 </strong> </h3></div>
+                    <div class="col-md-8"><h4><span>(2)&nbsp;&nbsp;&nbsp;Relationship :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_relation2 </strong> </h4></div>
                 </div>
                 <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8"><h3><span>iii.&nbsp;&nbsp;&nbsp; Address :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_address2 </strong> </h3></div>
+                    <div class="col-md-8"><h4><span>(3)&nbsp;&nbsp;&nbsp;Address :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_address2 </strong> </h4></div>
                 </div>
                 <div class="row" style="margin-top: -12px;">
-                    <div class="col-md-8"><h3><span>iv.&nbsp;&nbsp;&nbsp; GSM No. :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_phone2 </strong> </h3></div>
+                    <div class="col-md-8"><h4><span>(4)&nbsp;&nbsp;&nbsp; (a) GSM No :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_phone2 </strong> &nbsp;&nbsp;&nbsp;&nbsp;<span>&nbsp;&nbsp; (b)&nbsp;&nbsp;&nbsp;&nbsp;</span><strong>@Model.nok_phone22 </strong></h4></div>
                 </div>
                 <div class="row" style="margin-top: -12px;">
                     <div class="col-md-12">
-                        <h3>
-                            <span>v.&nbsp;&nbsp;&nbsp; E-mail : &nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_email2</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi.&nbsp;&nbsp;&nbsp; NIN of Alternate NOK:&nbsp;&nbsp;&nbsp; <strong> @Model.nok_nationalId2</strong>
-                        </h3>
+                        <h4>
+                            <span>(5)&nbsp;&nbsp;&nbsp;E-mail : &nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_email2</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(6) NIN of Alternate NOK:&nbsp;&nbsp;&nbsp; <strong> @Model.nok_nationalId2</strong>
+                        </h4>
                     </div>
                 </div>
             </div>
-            <div class="row" style="margin-top: -12px;">
-                <div class="col-md-10"><h4><span>21.  Accommodation Status:&nbsp;&nbsp;&nbsp;</span><strong>@Model.AcommodationStatus</strong></h4></div>
+            <div class="row" style="margin-top: -16px;">
+                <div class="col-md-10"><h3>21.&nbsp;a.<span>Accommodation Status: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong>@Model.AcommodationStatus</strong></h3></div>
             </div>
+            <div class="row" style="margin-top: -18px;margin-left:30px;">
+                <div class="col-md-10"><h3><span>b. Address of Accommodation :&nbsp;&nbsp;&nbsp;&nbsp;</span><strong>@Model.AddressofAcommodation</strong></h3></div>
+            </div>
+            @*<div class="row" style="margin-top: -18px;margin-left:25px;">
+                <div class="col-md-10"><h4><span> <i>(Disparity in Serial 7 and 21b could lead to revocation of Lodging Allowance).</i></span></h4></div>
+            </div>*@
         </div>
         <div style="text-align: center; margin-top: -21px; " class="row"><div style="text-align:center;"> <h3>A-1</h3></div></div>
-            <div style="text-align: center; margin-top: -21px; " class="row"><div style="text-align:center;"> <h3>RESTRICTED</h3></div></div>
-           @* <div style="text-align: center; margin-top: -23px; color:#1177d2" class="row"><div class="col-md-10"> <h3><u>NOTE:</u> FALSE DECLARATION ATTRACTS SEVERE DISCIPLINARY ACTION </h3></div> </div>*@
+        <div style="text-align: center; margin-top: -21px; " class="row"><div style="text-align:center;"> <h3>RESTRICTED</h3></div></div>
+        @* <div style="text-align: center; margin-top: -23px; color:#1177d2" class="row"><div class="col-md-10"> <h3><u>NOTE:</u> FALSE DECLARATION ATTRACTS SEVERE DISCIPLINARY ACTION </h3></div> </div>*@
 
-        </div>
+    </div>
 
     @* <script src="~/plugins/jquery/jquery.min.js"></script>
         <canvas id="DemoCanvas" width="500" height="200"></canvas>*@

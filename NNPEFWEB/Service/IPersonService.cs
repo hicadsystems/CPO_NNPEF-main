@@ -16,5 +16,7 @@ namespace NNPEFWEB.Service
         Task<ef_personnelLogin> GetPersonelByPassword(string password, string per);
         Task<ef_personnelLogin> GetPersonelByMail(string email);
         void updatepersonlogin2(ef_personnelLogin values);
+        Task<ef_shiplogin> GetUserByShip(string person);
+        void updateshiplogin(ef_shiplogin values);
     }
 }

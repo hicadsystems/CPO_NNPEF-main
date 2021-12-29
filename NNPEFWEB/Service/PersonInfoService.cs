@@ -84,13 +84,13 @@ namespace NNPEFWEB.Service
             return unitOfWork.Personinfo.GetPEFReport2();
         }
 
-        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string appointm, string payclass, string ship)
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string payclass, string ship)
         {
-            return unitOfWork.Personinfo.GetUpdatedPersonnel(appointm, payclass,ship);
+            return unitOfWork.Personinfo.GetUpdatedPersonnel(payclass,ship);
         }
-        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string appointm, string payclass, string ship,string svcno)
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship,string svcno)
         {
-            return unitOfWork.Personinfo.GetUpdatedPersonnelBySVCNO(appointm, payclass, ship,svcno);
+            return unitOfWork.Personinfo.GetUpdatedPersonnelBySVCNO(payclass, ship,svcno);
         }
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCpo(string payclass)
         {

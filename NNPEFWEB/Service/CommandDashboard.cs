@@ -22,31 +22,31 @@ namespace NNPEFWEB.Service
       
         public int AllCommandStaffOfficers(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.payrollclass == "1" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.classes == 1 && x.ship == ship ).Count();
         }
 
         public int AllStaffOfficers(string ship)
         {
-           var pp= _context.ef_personalInfos.Where(x => x.payrollclass == "1" && x.ship == ship ).Count();
+           var pp= _context.ef_personalInfos.Where(x => x.classes == 1 && x.ship == ship ).Count();
             return pp;    
        }
 
         
         public int ApprovedStaffOfficers(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "CDR" && x.payrollclass == "1" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "BABO" && x.classes == 1 && x.ship == ship ).Count();
         }
 
        
         public int AwaiteApprovalStaffOfficers(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "HOD" && x.payrollclass == "1" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "HOD" && x.classes == 1 && x.ship == ship ).Count();
         }
 
         
         public int YetToFillStaffOfficers(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == null && x.payrollclass == "1" && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == null && x.classes == 1 && x.ship == ship ).Count();
         }
         
         public int AllCommandStaffRatings(string ship)
@@ -63,7 +63,7 @@ namespace NNPEFWEB.Service
        
         public int ApprovedStaffRatings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "CDR" && x.classes==2 && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "BABO" && x.classes==2 && x.ship == ship ).Count();
         }
 
         
@@ -94,7 +94,7 @@ namespace NNPEFWEB.Service
 
         public int ApprovedStaffTrainings(string ship)
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "CDR" && x.classes == 3 && x.ship == ship ).Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "BABO" && x.classes == 3 && x.ship == ship ).Count();
         }
 
         

@@ -2,21 +2,25 @@
   <!-- WRAPPER -->
 <div>
                            <div class="row px-3">
-                              <input v-model="postBody.username" name="username" class="mb-4 form-styling" placeholder="User Name" required />
+                                <label for="" style="margin-top:-18px">User Name</label>
+                              <input v-model="postBody.username" name="username" class="mb-4 form-styling" placeholder="" required />
                             </div>
                             <div class="row px-3">
-                                <input v-model="postBody.password" type="password" name="password" class="mb-4 form-styling" placeholder="Password" required />
+                                 <label for="" style="margin-top:-18px">Password</label>
+                                <input v-model="postBody.password" type="password" name="password" class="mb-4 form-styling" placeholder="" required />
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-top:-18px">
                             <div class="col-xs-12">
-                               <select class="form-control" v-model="postBody.commandid" name="command" @change="getship">
+                                 <label for="" style="margin-top:-18px">Command</label>
+                               <select class="form-control" v-model="postBody.commandid" name="command" @change="getship" required>
                                   <option v-for="comd in commandList" v-bind:value="comd.id" v-bind:key="comd.id">{{comd.commandName}}</option>
                                </select>
                             </div>
                             </div>
                         <div class="form-group">
                           <div class="col-xs-12 row px-3">
-                           <select class="mb-4 form-styling form-control" v-model="postBody.ship" name="ship">
+                              <label for="" style="margin-top:-18px">Ship</label>
+                           <select class="mb-4 form-styling form-control" v-model="postBody.ship" name="ship" required>
                              <option v-for="ship in shipList" v-bind:value="ship.id" v-bind:key="ship.id">{{ship.shipName}}</option>
                             </select>
                             </div>

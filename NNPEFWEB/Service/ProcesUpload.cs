@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using NNPEFWEB.Controllers;
 using NNPEFWEB.Models;
 using NNPEFWEB.Repository;
 using NNPEFWEB.ViewModel;
@@ -23,7 +25,9 @@ namespace NNPEFWEB.Service
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private string user;
+        private readonly ILogger<HomeController> _logger;
         public ProcesUpload(
+            ILogger<HomeController> logger,
             string _connectionstring, List<personLoginVM> personLoginVMs, 
              IUnitOfWorks unitOfWork, string user,
               UserManager<ApplicationUser> userManager,
@@ -33,6 +37,7 @@ namespace NNPEFWEB.Service
             this.personLoginVMs = personLoginVMs;
             //this.userVMs = userVMs;
             this.user = user;
+            _logger = logger;
             this.unitOfWork = unitOfWork;
             connectionstring = _connectionstring;
             _userManager = userManager;
@@ -120,5 +125,61 @@ namespace NNPEFWEB.Service
                 string error = ex.Message;
             }
         }
-}
+        public async Task  processUploadShipUser()
+        {
+            try
+            {
+                foreach (var s in personLoginVMs)
+                {
+                    var getPersonId = unitOfWork.shiplogin.GetShips(x => x.userName == s.svcNo);
+                    if (getPersonId == null)
+                    {
+
+                        unitOfWork.shiplogin.Create(new ef_shiplogin()
+                        {
+                            rank = s.rank,
+                            userName = s.svcNo,
+                            password = s.password,
+                            surName = s.surName,
+                            phoneNumber = s.phoneNumber,
+                            command = s.department,
+                            ship = s.ship,
+                            confirmPassword = false,
+                            dateCreated = System.DateTime.Now,
+                        }) ;
+                        await unitOfWork.Done();
+                    }
+                }
+                //foreach (var s in personLoginVMs)
+                //{
+
+                //    using (SqlConnection sqlcon = new SqlConnection(connectionstring))
+                //    {
+                //        using (SqlCommand cmd = new SqlCommand("UploadShipUsers2", sqlcon))
+                //        {
+                //            cmd.CommandTimeout = 1200;
+                //            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                //            cmd.Parameters.Add(new SqlParameter("@rank", s.rank));
+                //            cmd.Parameters.Add(new SqlParameter("@userName", s.svcNo));
+                //            cmd.Parameters.Add(new SqlParameter("@password", s.password));
+                //            cmd.Parameters.Add(new SqlParameter("@surName", s.surName));
+                //            cmd.Parameters.Add(new SqlParameter("@phoneNumber", s.phoneNumber));
+                //             cmd.Parameters.Add(new SqlParameter("@department", s.department));
+                //            cmd.Parameters.Add(new SqlParameter("@ship", s.ship));
+
+
+                //             sqlcon.Open();
+                //            cmd.ExecuteNonQuery();
+                //        }
+
+                //    }
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //_logger.LogInformation(ex.Message);
+            }
+        }
+    }
 }

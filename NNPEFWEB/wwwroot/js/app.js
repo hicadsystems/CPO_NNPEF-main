@@ -1996,10 +1996,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["privacyLink", "cookieString"],
   data: function data() {
@@ -4049,6 +4045,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "row px-3" }, [
+      _c(
+        "label",
+        { staticStyle: { "margin-top": "-18px" }, attrs: { for: "" } },
+        [_vm._v("User Name")]
+      ),
+      _vm._v(" "),
       _c("input", {
         directives: [
           {
@@ -4059,7 +4061,7 @@ var render = function() {
           }
         ],
         staticClass: "mb-4 form-styling",
-        attrs: { name: "username", placeholder: "User Name", required: "" },
+        attrs: { name: "username", placeholder: "", required: "" },
         domProps: { value: _vm.postBody.username },
         on: {
           input: function($event) {
@@ -4073,6 +4075,12 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row px-3" }, [
+      _c(
+        "label",
+        { staticStyle: { "margin-top": "-18px" }, attrs: { for: "" } },
+        [_vm._v("Password")]
+      ),
+      _vm._v(" "),
       _c("input", {
         directives: [
           {
@@ -4086,7 +4094,7 @@ var render = function() {
         attrs: {
           type: "password",
           name: "password",
-          placeholder: "Password",
+          placeholder: "",
           required: ""
         },
         domProps: { value: _vm.postBody.password },
@@ -4101,56 +4109,72 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "col-xs-12" }, [
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.postBody.commandid,
-                expression: "postBody.commandid"
+    _c(
+      "div",
+      { staticClass: "form-group", staticStyle: { "margin-top": "-18px" } },
+      [
+        _c("div", { staticClass: "col-xs-12" }, [
+          _c(
+            "label",
+            { staticStyle: { "margin-top": "-18px" }, attrs: { for: "" } },
+            [_vm._v("Command")]
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.postBody.commandid,
+                  expression: "postBody.commandid"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: "command", required: "" },
+              on: {
+                change: [
+                  function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.postBody,
+                      "commandid",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  },
+                  _vm.getship
+                ]
               }
-            ],
-            staticClass: "form-control",
-            attrs: { name: "command" },
-            on: {
-              change: [
-                function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.postBody,
-                    "commandid",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                },
-                _vm.getship
-              ]
-            }
-          },
-          _vm._l(_vm.commandList, function(comd) {
-            return _c(
-              "option",
-              { key: comd.id, domProps: { value: comd.id } },
-              [_vm._v(_vm._s(comd.commandName))]
-            )
-          }),
-          0
-        )
-      ])
-    ]),
+            },
+            _vm._l(_vm.commandList, function(comd) {
+              return _c(
+                "option",
+                { key: comd.id, domProps: { value: comd.id } },
+                [_vm._v(_vm._s(comd.commandName))]
+              )
+            }),
+            0
+          )
+        ])
+      ]
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c("div", { staticClass: "col-xs-12 row px-3" }, [
+        _c(
+          "label",
+          { staticStyle: { "margin-top": "-18px" }, attrs: { for: "" } },
+          [_vm._v("Ship")]
+        ),
+        _vm._v(" "),
         _c(
           "select",
           {
@@ -4163,7 +4187,7 @@ var render = function() {
               }
             ],
             staticClass: "mb-4 form-styling form-control",
-            attrs: { name: "ship" },
+            attrs: { name: "ship", required: "" },
             on: {
               change: function($event) {
                 var $$selectedVal = Array.prototype.filter
@@ -4190,50 +4214,6 @@ var render = function() {
             )
           }),
           0
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "col-xs-12 row px-3" }, [
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.postBody.appointment,
-                expression: "postBody.appointment"
-              }
-            ],
-            staticClass: "mb-4 form-styling form-control",
-            attrs: { name: "appointment" },
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.$set(
-                  _vm.postBody,
-                  "appointment",
-                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                )
-              }
-            }
-          },
-          [
-            _c("option", { attrs: { value: "DO" } }, [_vm._v("DO")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "HOD" } }, [_vm._v("HOD")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "CDR" } }, [_vm._v("CDR")])
-          ]
         )
       ])
     ]),

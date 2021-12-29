@@ -38,9 +38,14 @@ namespace NNPEFWEB.Models
         public string ship { get; set; }
         public string exittype { get; set; }
         public DateTime? DateEmpl { get; set; }
+        public DateTime? advanceDate { get; set; }
+        
         public DateTime? DateLeft { get; set; }
         public DateTime? seniorityDate { get; set; }
         public DateTime? runoutDate { get; set; }
+        public string nok_phone12 { get; set; }
+        public string nok_phone22 { get; set; }
+        public string AddressofAcommodation { get; set; }
         public string AcommodationStatus { get; set; }
         public string yearOfPromotion { get; set; }
         public DateTime? expirationOfEngagementDate { get; set; }
@@ -88,7 +93,8 @@ namespace NNPEFWEB.Models
         public string SBC_allow { get; set; }
         public string special_forces_allow { get; set; }
         public string other_allow { get; set; }
-       
+        public string other_allowspecify { get; set; }
+        
         public string NSITFcode { get; set; }
         public string NHFcode { get; set; }
         public string FGSHLS_loan { get; set; }

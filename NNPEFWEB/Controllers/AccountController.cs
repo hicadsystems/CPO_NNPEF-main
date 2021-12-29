@@ -38,10 +38,12 @@ namespace NNPEFWEB.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWorks _unitOfWorks;
         private readonly IConfiguration config;
+        private readonly IShipService _shipService;
         private int resetcode;
         Random rnd = new Random();
 
         public AccountController(
+            IShipService shipService,
             IConfiguration config,
                IPersonInfoService personinfoService,
             IPersonService personService,
@@ -51,6 +53,7 @@ namespace NNPEFWEB.Controllers
             ISystemsInfoService systemsInfoService,
             ApplicationDbContext context, IUnitOfWorks unitOfWorks, IConfiguration configuration)
         {
+            _shipService = shipService;
             this.config = config;
             _personinfoService = personinfoService;
             _personService = personService;
@@ -312,7 +315,7 @@ namespace NNPEFWEB.Controllers
                     var per = _personinfoService.GetPersonalInfo(com.UserName).Result;
                     if (pers.svcNo.Substring(0,2) != "NN")
                     {
-                        TempData["commandLoginMessage"] = "Not Eligable Contact Admin";
+                        TempData["commandLoginMessage"] = "Not Eligible Contact Admin";
                         return RedirectToAction("CommandLogin", "Account");
                     }
                     var checkdoublemail = _context.ef_PersonnelLogins.Where(x => x.email == pers.email).Count();
@@ -382,6 +385,99 @@ namespace NNPEFWEB.Controllers
             return View();
        
         }
+        public ActionResult ShipLogin()
+        {
+            var command = new SelectList(_context.ef_commands.ToList(), "Id", "commandName");
+            var ship = new SelectList(_context.ef_ships.ToList(), "Id", "shipName");
+
+
+            var com = new CommandLoginVM
+            {
+                commandList = command,
+                shiplist = ship,
+            };
+            return View(com);
+        }
+        [HttpPost]
+        public ActionResult ShipLogin(CommandLoginVM com)
+        {
+            try
+            {
+                MD5 md = MD5.Create();
+                if (ModelState.IsValid)
+                {
+                    var site = _context.ef_systeminfos.FirstOrDefault(x => x.closedate.Date < DateTime.Now.Date);
+                    if (site != null)
+                    {
+                        return RedirectToAction("ClosingPage", "Account");
+                    }
+
+                    var pers = _shipService.GetPersonBySvcno(com.UserName);
+                    var per = _personinfoService.GetPersonalInfo(com.UserName).Result;
+                    var shipid = _context.ef_ships.FirstOrDefault(x => x.shipName == pers.ship);
+                    if (pers.userName.Substring(0, 2) != "NN")
+                    {
+                        TempData["commandLoginMessage"] = "Not Eligible Contact Admin";
+                        return RedirectToAction("ShipLogin", "Account");
+                    }
+                    if (shipid.Id != com.ship)
+                    {
+                        TempData["commandLoginMessage"] = "Make sure you select the right ship";
+                        return RedirectToAction("ShipLogin", "Account");
+                    }
+                    //var checkdoublemail = _context.ef_shiplogins.Where(x => x.email == pers.email).Count();
+                    if (pers == null)
+                    {
+                        TempData["commandLoginMessage"] = "Invalid credentials";
+                        return RedirectToAction("ShipLogin", "Account");
+                    }
+                    else if (pers.expireDate == null && pers.userName == com.UserName && pers.password == com.Password)
+                    {
+                        
+                       //if (IsValidEmail(pers.email) != true)
+                       // {
+                       //     TempData["commandLoginMessage"] = "Invalid Email Contact CPO";
+                       // }
+                       // else if (checkdoublemail > 1)
+                       // {
+                       //     TempData["commandLoginMessage"] = "Duplicate Email Contact CPO";
+                       // }
+                       // else
+                       // {
+                            HttpContext.Session.SetString("SVC_No", com.UserName);
+                            HttpContext.Session.SetString("shipuserToReset", com.UserName);
+                            return RedirectToAction("ResetShipPassword", "Account");
+                        //}
+
+                    }
+                    else if (VerifyMd5Hash(md, com.Password, pers.password))
+                    {
+                        
+                            HttpContext.Session.SetString("ShipUser", com.UserName);
+                            HttpContext.Session.SetString("Authorization", "CommandLevel");
+                            HttpContext.Session.SetInt32("ship", com.ship);
+
+                            return RedirectToAction("commanddashbord", "Home");
+                      }
+                        else
+                        {
+                            TempData["commandLoginMessage"] = "You Are Not Eligible To Login";
+                            return RedirectToAction("ShipLogin", "Account");
+                        }
+
+
+                    }
+             
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogInformation(ex.Message);
+            }
+            return View();
+
+        }
+
         public bool IsValidEmail(string source)
         {
             return new EmailAddressAttribute().IsValid(source);
@@ -541,8 +637,49 @@ namespace NNPEFWEB.Controllers
             ModelState.AddModelError("", "Unable to Reset Password. Please Contact your Admin");
             return View(model);
         }
+        public ActionResult ResetShipPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetShipPassword(ForgetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    MD5 md5Hash = MD5.Create();
+                    var userToReset = HttpContext.Session.GetString("shipuserToReset");   // retrieve the user from session
+                    if (!string.IsNullOrEmpty(userToReset))
+                    {
+                        var user = _shipService.GetPersonBySvcno(userToReset);
+                        if (user != null)
+                        {
+                            string PasswordToHash = GetMd5Hash(md5Hash, model.ConfirmPassword);
+                            user.password = PasswordToHash;
+                            user.expireDate = DateTime.Now.AddMonths(3);
+                            _shipService.updateshiploginss(user);
 
-      
+                            HttpContext.Session.SetString("Resetmessage", "Password Reset was Successful. Please Login to Continue");
+
+                            HttpContext.Session.Clear();
+
+                            return RedirectToAction("shipLogin");
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    string log = ex.Message;
+                }
+            }
+            ModelState.AddModelError("", "Unable to Reset Password. Please Contact your Admin");
+            return View(model);
+        }
+
+
         public List<SelectListItem> GetCommand()
         {
             var commandList = (from rk in _context.ef_commands
@@ -756,6 +893,166 @@ namespace NNPEFWEB.Controllers
         {
             return View();
         }
+        public IActionResult UploadShipUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadShipUser(IFormFile formFile, CancellationToken cancellationToken)
+        {
+            if (formFile == null || formFile.Length <= 0)
+            {
+                TempData["message"] = "No File Uploaded";
+                return View();
+            }
+
+            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                TempData["message"] = "File not an Excel Format";
+                return View();
+            }
+            var listapplication = new List<personLoginVM>();
+            var listapplicationofrecordnotavailable = new List<personLoginVM>();
+
+            using (var stream = new MemoryStream())
+            {
+                await formFile.CopyToAsync(stream, cancellationToken);
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets["Sheet1"];
+                    var rowCount = worksheet.Dimension.Rows;
+                   
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        if (worksheet.Cells[1, 1].Value == null)
+                            worksheet.Cells[1, 1].Value = "";
+
+                        if (worksheet.Cells[1, 2].Value == null)
+                            worksheet.Cells[1, 2].Value = "";
+
+                        if (worksheet.Cells[1, 3].Value == null)
+                            worksheet.Cells[1, 3].Value = "";
+
+                        if (worksheet.Cells[1, 4].Value == null)
+                            worksheet.Cells[1, 4].Value = "";
+                        if (worksheet.Cells[1, 5].Value == null)
+                            worksheet.Cells[1, 5].Value = "";
+                        if (worksheet.Cells[1, 6].Value == null)
+                            worksheet.Cells[1, 6].Value = "";
+
+
+
+                        if (worksheet.Cells[row, 1].Value == null)
+                            worksheet.Cells[row, 1].Value = "";
+
+                        if (worksheet.Cells[row, 2].Value == null)
+                            worksheet.Cells[row, 2].Value = "";
+
+                        if (worksheet.Cells[row, 3].Value == null)
+                            worksheet.Cells[row, 3].Value = "";
+
+                        if (worksheet.Cells[row, 4].Value == null)
+                            worksheet.Cells[row, 4].Value = "";
+
+                        if (worksheet.Cells[row, 5].Value == null)
+                            worksheet.Cells[row, 5].Value = "";
+                        if (worksheet.Cells[row, 6].Value == null)
+                            worksheet.Cells[row, 6].Value = "";
+
+                        //string command = String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ? "" : worksheet.Cells[row, 1].Value.ToString().Trim();
+                        //string ship = String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ? "" : worksheet.Cells[row, 2].Value.ToString().Trim();
+
+                        string svcno = String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ? "" : worksheet.Cells[row, 1].Value.ToString().Trim();
+                        string rank = String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ? "" : worksheet.Cells[row, 2].Value.ToString().Trim();
+                        string name = String.IsNullOrEmpty(worksheet.Cells[row, 3].Value.ToString()) ? "" : worksheet.Cells[row, 3].Value.ToString().Trim();
+                        string command = String.IsNullOrEmpty(worksheet.Cells[row, 4].Value.ToString()) ? "" : worksheet.Cells[row, 4].Value.ToString().Trim();
+                        string ship = String.IsNullOrEmpty(worksheet.Cells[row, 5].Value.ToString()) ? "" : worksheet.Cells[row, 5].Value.ToString().Trim();
+                        string password = String.IsNullOrEmpty(worksheet.Cells[row, 6].Value.ToString()) ? "" : worksheet.Cells[row, 6].Value.ToString().Trim();
+
+
+                        if (String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ||
+                           String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()))
+
+                        {
+                            listapplicationofrecordnotavailable.Add(new personLoginVM
+                            {
+                                svcNo = svcno,
+                                rank = rank,
+                                surName = name,
+                                department =command,
+                                ship=ship,
+                                password=password
+                            });
+
+                        }
+                        else
+                        {
+                            //check if already in the list -- a possibility
+                            listapplication.Add(new personLoginVM
+                            {
+                                svcNo = svcno,
+                                rank = rank,
+                                surName = name,
+                                department = command,
+                                ship = ship,
+                                password=password
+                            });
+                        }
+
+                    }
+                    //foreach (var s in listapplication)
+                    //{
+
+                    //    using (SqlConnection sqlcon = new SqlConnection(connectionstring))
+                    //    {
+                    //        using (SqlCommand cmd = new SqlCommand("UploadShipUsers2", sqlcon))
+                    //        {
+                    //            cmd.CommandTimeout = 1200;
+                    //            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    //            cmd.Parameters.Add(new SqlParameter("@rank", s.rank));
+                    //            cmd.Parameters.Add(new SqlParameter("@userName", s.svcNo));
+                    //            cmd.Parameters.Add(new SqlParameter("@password", s.password));
+                    //            cmd.Parameters.Add(new SqlParameter("@surName", s.surName));
+                    //            cmd.Parameters.Add(new SqlParameter("@phoneNumber", s.phoneNumber));
+                    //            cmd.Parameters.Add(new SqlParameter("@department", s.department));
+                    //            cmd.Parameters.Add(new SqlParameter("@ship", s.ship));
+
+
+                    //            sqlcon.Open();
+                    //            cmd.ExecuteNonQuery();
+                    //        }
+
+                    //    }
+                    //}
+                    string userp = User.Identity.Name;
+
+                    ProcesUpload procesUpload2 = new ProcesUpload(null, connectionstring, listapplication, _unitOfWorks, userp, null, null);
+                    await procesUpload2.processUploadShipUser();
+                    TempData["message"] = "Uploaded Successfully";
+
+                }
+
+            }
+            if (listapplicationofrecordnotavailable.Count > 0)
+            {
+
+                var stream = new MemoryStream();
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    var workSheet = package.Workbook.Worksheets.Add("Sheet2");
+                    workSheet.Cells.LoadFromCollection(listapplicationofrecordnotavailable, true);
+                    package.Save();
+                }
+                stream.Position = 0;
+                string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+
+                //return File(stream, "application/octet-stream", excelName);  
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+            }
+            return View();
+        }
         public IActionResult UploadUser()
         {
             return View();
@@ -795,7 +1092,7 @@ namespace NNPEFWEB.Controllers
                     string DEPARTMENT = String.IsNullOrEmpty(worksheet.Cells[1, 8].ToString()) ? "" : worksheet.Cells[1, 8].Value.ToString().Trim();
                     string SHIP = String.IsNullOrEmpty(worksheet.Cells[1, 9].ToString()) ? "" : worksheet.Cells[1, 9].Value.ToString().Trim();
 
-                    if (SVC_NO != "SVC_NO" || RANK != "RANK" || SURNAME != "SURNAME" ||  APPOINTMENT != "APPOINTMENT" || EMAIL != "EMAIL"
+                    if (SVC_NO != "SVC_NO" || RANK != "RANK" || SURNAME != "SURNAME" || APPOINTMENT != "APPOINTMENT" || EMAIL != "EMAIL"
                         || PHONE != "PHONE")
                     {
                         return BadRequest("File not in the Right format");
@@ -876,8 +1173,8 @@ namespace NNPEFWEB.Controllers
                                 appointment = appointment,
                                 phoneNumber = phone,
                                 email = email,
-                                department=department,
-                                ship=ship
+                                department = department,
+                                ship = ship
                             });
 
                         }
@@ -901,7 +1198,7 @@ namespace NNPEFWEB.Controllers
                     }
                     string userp = User.Identity.Name;
 
-                    ProcesUpload procesUpload2 = new ProcesUpload(connectionstring, listapplication,_unitOfWorks, userp,null,null);
+                    ProcesUpload procesUpload2 = new ProcesUpload(null,connectionstring, listapplication, _unitOfWorks, userp, null, null);
                     await procesUpload2.processUploadInThread2();
                     TempData["message"] = "Uploaded Successfully";
 
@@ -927,6 +1224,7 @@ namespace NNPEFWEB.Controllers
             }
             return View();
         }
+
         static string GetMd5Hash(MD5 md5Hash, string input)
         {
 

@@ -50,24 +50,24 @@ namespace NNPEFWEB.Service
 
         public int AllStaffOfficers()
         {
-            return _context.ef_personalInfos.Where(x => x.payrollclass == "1").Count();
+            return _context.ef_personalInfos.Where(x => x.classes == 1).Count();
         }
 
         public int ApprovedStaffOfficers()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "CDR"&&x.payrollclass=="1").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "CPO" && x.classes==1).Count();
         }
 
  
         public int AwaiteApprovalStaffOfficers()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "HOD"  && x.payrollclass=="1").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "BABO"  && x.classes==1).Count();
         }
 
 
         public int YetToFillStaffOfficers()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == null&&x.payrollclass=="1").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == null && x.classes==1).Count();
         }
 
         public int AllCommandStaffRatings()
@@ -77,49 +77,49 @@ namespace NNPEFWEB.Service
 
         public int AllStaffRatings()
         {
-            return _context.ef_personalInfos.Where(x => x.payrollclass == "2").Count();
+            return _context.ef_personalInfos.Where(x => x.classes == 2).Count();
         }
 
         public int ApprovedStaffRatings()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "CDR" && x.payrollclass == "2").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "CPO" && x.classes == 2).Count();
         }
 
 
         public int AwaiteApprovalStaffRatings()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "HOD" || x.Status == "DO" && x.payrollclass == "2").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "BABO" && x.classes == 2).Count();
         }
 
         public int YetToFillStaffRatings()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == null && x.payrollclass == "2").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == null && x.classes == 2).Count();
         }
 
         public int AllCommandStaffTrainings()
         {
-            return _context.ef_personalInfos.Where(x => x.payrollclass == "3").Count();
+            return _context.ef_personalInfos.Where(x => x.classes == 3).Count();
         }
 
         public int AllStaffTrainings()
         {
-            return _context.ef_personalInfos.Where(x => x.payrollclass == "3").Count();
+            return _context.ef_personalInfos.Where(x => x.classes == 3).Count();
         }
 
         public int ApprovedStaffTrainings()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == "CDR" && x.payrollclass == "3").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "CPO" && x.classes == 3).Count();
         }
 
 
         public int AwaiteApprovalStaffTrainings()
         {
-            return _context.ef_personalInfos.Where(x => (x.Status == "HOD" || x.Status == "DO") && x.payrollclass == "3").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == "BABO"  && x.classes == 3).Count();
         }
 
         public int YetToFillStaffTrainings()
         {
-            return _context.ef_personalInfos.Where(x => x.Status == null && x.payrollclass == "3").Count();
+            return _context.ef_personalInfos.Where(x => x.Status == null && x.classes == 3).Count();
         }
 
     }

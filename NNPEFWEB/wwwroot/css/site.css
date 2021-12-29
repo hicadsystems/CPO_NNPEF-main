@@ -36,10 +36,10 @@ html {
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+  border-top: 0px solid #e5e5e5;
 }
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 0px solid #e5e5e5;
 }
 
 .box-shadow {
@@ -60,12 +60,12 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 60px;
+   /* margin-bottom: 60px;*/
     background: url('~/Image/navylogo2.png');
     background-repeat: repeat-y;
     background-position: center;
     background-attachment: fixed;
-    background-size: 100%;
+   /* background-size: 100%;*/
 }
 .footer {
   position: absolute;

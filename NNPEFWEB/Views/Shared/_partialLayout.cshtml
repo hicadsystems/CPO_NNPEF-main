@@ -56,6 +56,12 @@
 
                     </li>
                     <li class="nav-item">
+                        <a href="/Account/SiteActivities" class="nav-link">
+                            <i class="far fa nav-icon"></i>
+                            <p>Site Activities</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
 
                         <a href="/PersonalInfo/PersonalBatchUpload" class="nav-link">
                             <i class="far fa-bacon nav-icon"></i>
@@ -63,22 +69,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/Account/SiteActivities" class="nav-link">
-                            <i class="far fa nav-icon"></i>
-                            <p>Site Activities</p>
+
+                        <a href="/Account/UploadShipUser" class="nav-link">
+                            <i class="far fa-bacon nav-icon"></i>
+                            <p>Upload Users For Ship</p>
                         </a>
                     </li>
+
                 </ul>
             </li>
-                            <li class="nav-item">
-                                <a href="/Account/UpdatePayrollWithEF" class="nav-link">
-                                    <i class="nav-icon far fa-amazon-pay"></i>
-                                    <p>
-                                        Update Verify Form
-                                        <i class="fas fa-angle right"></i>
-                                    </p>
-                                </a>
-                            </li>
+      
                             @*<li class="nav-item">
                         <a href="/Personallnfo/ExportToExcel" class="nav-link">
                             <i class="nav-icon far fa-amazon"></i>
@@ -185,7 +185,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link" asp-action="UpdatedPersonelList"
-                           asp-controller="PersonalInfo" asp-route-id="1">
+                           asp-controller="Ship" asp-route-id="1">
                             <i class="far fa nav-icon"></i>
                             <p>Officers In Command</p>
                         </a>
@@ -196,14 +196,14 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-action="UpdatedPersonelList"
-                           asp-controller="PersonalInfo" asp-route-id="2">
+                           asp-controller="Ship" asp-route-id="2">
                             <i class="far fa nav-icon"></i>
                             <p>Ratings In Command</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-action="UpdatedPersonelList"
-                           asp-controller="PersonalInfo" asp-route-id="3">
+                           asp-controller="Ship" asp-route-id="3">
                             <i class="far fa nav-icon"></i>
                             <p>Training In Command</p>
                         </a>
@@ -211,14 +211,14 @@
 
                 </ul>
             </li>
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <a class="nav-link" asp-action="commanddashbord"
                                    asp-controller="Home">
                                     <i class="far fa-lock nav-icon"></i>
                                     <p>Log Out</p>
                                 </a>
                               
-                            </li>
+                            </li>*@
                             }
                 <li class="nav-item">
                     <a class="nav-link" asp-action="HomePage"

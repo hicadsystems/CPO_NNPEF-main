@@ -67,7 +67,7 @@
                         <label class="control-label">Personal Information</label>
                     </h2>
                 </div>
-                <div class="row">
+                <div class="row" style="text-align:center">
                     <div class="col-md-3">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
@@ -75,8 +75,8 @@
                             @if (Model.Passport != null)
                             {
                 <img id="passport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.Passport))"> }
-                            else
-                            {
+            else
+            {
                 <img id="passport" style="width:200px;height:200px; object-fit:cover" src="">}
                             <input type="file"
                                    accept=".png,.jpg,.jpeg,.gif,.tif"
@@ -87,24 +87,25 @@
                             <span asp-validation-for="Passport" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        @*<img src="~/Image/navylogo2.png" style="width:150px;height:180px;" />*@
+                    <div class="col-md-6">
+                        @*<img src="~/Image/navylogo2.png" style="width:180px;height:200px;" />*@
                         @if (Model.logo != null)
                         {
-            <img id="logo" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.logo))"> }
-                        else
-                        {
-            <img id="logo" style="width:200px;height:200px; object-fit:cover" src="">}
+                <img id="logo" style="width: 130px; height: 190px; " src="data:image/*;base64,@(Convert.ToBase64String(Model.logo))"> }
+            else
+            {
+                <img id="logo" style="width:140px;height:220px; object-fit:cover" src="">}
+
                     </div>
                     <div class="col-md-3">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
-                            <label asp-for="NokPassport" style="width: 100%;"></label>
+                            <label style="width: 100%;">NOK Passport</label>
                             @if (Model.NokPassport != null)
                             {
                 <img id="nokpassport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.NokPassport))"> }
-                            else
-                            {
+            else
+            {
                 <img id="nokpassport" style="width:200px;height:200px; object-fit:cover" src="">}
                             <input type="file"
                                    accept=".png,.jpg,.jpeg,.gif,.tif"
@@ -115,25 +116,25 @@
                             <span asp-validation-for="NokPassport" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="AltNokPassport" style="width: 100%;"></label>
-                            @if (Model.AltNokPassport != null)
-                            {
-                <img id="altnokpassport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))"> }
-                            else
-                            {
-                <img id="altnokpassport" style="width:200px;height:200px; object-fit:cover" src="">}
-                            <input type="file"
-                                   accept=".png,.jpg,.jpeg,.gif,.tif"
-                                   asp-for="AltNokPassport"
-                                   class="form-control"
-                                   style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
-                                   onchange="document.getElementById('altnokpassport').src = window.URL.createObjectURL(this.files[0])" />
-                            <span asp-validation-for="AltNokPassport" class="text-danger"></span>
-                        </div>
+                    @*<div class="col-md-3">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="AltNokPassport" style="width: 100%;"></label>
+                        @if (Model.AltNokPassport != null)
+                        {
+            <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))"> }
+        else
+        {
+        <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="">}
+                        <input type="file"
+                               accept=".png,.jpg,.jpeg,.gif,.tif"
+                               asp-for="AltNokPassport"
+                               class="form-control"
+                               style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+                               onchange="document.getElementById('altnokpassport').src = window.URL.createObjectURL(this.files[0])" />
+                        <span asp-validation-for="AltNokPassport" class="text-danger"></span>
                     </div>
+                </div>*@
                 </div>
                 <div class="row">
 
@@ -143,7 +144,7 @@
                         <span asp-validation-for="Surname" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="OtherName" class="control-label"></label>
+                        <label class="control-label">Other Names</label>
                         <input asp-for="OtherName" class="form-control" />
                         <span asp-validation-for="OtherName" class="text-danger"></span>
                     </div>
@@ -155,8 +156,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Birth Date</label>
-                        <input asp-for="Birthdate" class="form-control" type="date" readonly required/>
+                        <label class="control-label">Date of Birth</label>
+                        <input asp-for="Birthdate" class="form-control" type="date" readonly required />
                         <span asp-validation-for="Birthdate" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
@@ -185,25 +186,25 @@
                         <span asp-validation-for="home_address" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">GSM Number 1</label>
+                        <label class="control-label">GSM No (1)</label>
                         <input asp-for="gsm_number" class="form-control" />
                         <span asp-validation-for="gsm_number" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">GSM Number 2</label>
+                        <label class="control-label">GSM No (2)</label>
                         <input asp-for="gsm_number2" class="form-control" />
                         <span asp-validation-for="gsm_number2" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Email</label>
+                        <label class="control-label">E-mail</label>
                         <input asp-for="email" class="form-control" />
                         <span asp-validation-for="email" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Date Of Commencement Of Training</label>
-                        <input asp-for="DateEmpl" class="form-control" type="date" required/>
+                        <label class="control-label">Date of Commencement of Training</label>
+                        <input asp-for="DateEmpl" class="form-control" type="date" required />
                         <span asp-validation-for="DateEmpl" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
@@ -221,7 +222,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Qualification</label>
+                        <label class="control-label">Highest Educational Qualification</label>
                         <input asp-for="qualification" class="form-control" />
                         <span asp-validation-for="qualification" class="text-danger"></span>
                     </div>
@@ -235,8 +236,15 @@
                 </div>
                 <hr />
                 <div class="row">
+                    <h5 style="">
+                        <label class="control-label">
+                            Details of NOKs, (Note that NOK as used in this Form includes potential administrator of a deceased personnel's estate in relation to his personal emolument and other perquisites of office).
+                        </label>
+                    </h5>
+                </div>
+                <div class="row">
                     <h2 style="">
-                        <label class="control-label">Details of Next Of Kin</label>
+                        <label class="control-label"><u>Next of Kin</u> (Attach Passport Photograph)</label>
                     </h2>
                 </div>
                 <div class="row">
@@ -262,17 +270,22 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Phone Number</label>
+                        <label class="control-label">Phone Number (a)</label>
                         <input asp-for="nok_phone" class="form-control" />
                         <span asp-validation-for="nok_phone" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Email</label>
+                        <label class="control-label">Phone Number (b)</label>
+                        <input asp-for="nok_phone12" class="form-control" />
+                        <span asp-validation-for="nok_phone2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">E-mail</label>
                         <input asp-for="nok_email" class="form-control" />
                         <span asp-validation-for="nok_email" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">National Identification No</label>
+                        <label class="control-label">NIN of NOK</label>
                         <input asp-for="nok_nationalId" class="form-control" />
                         <span asp-validation-for="nok_nationalId" class="text-danger"></span>
                     </div>
@@ -283,7 +296,7 @@
 
                 <div class="row">
                     <h2 style="">
-                        <label class="control-label">Alternate Next Of Kin</label>
+                        <label class="control-label"><u>Alternate Next of Kin <em>(Attach Passport Photographs)</em></u></label>
                     </h2>
                 </div>
                 <div class="row">
@@ -312,17 +325,22 @@
                 <div class="row">
 
                     <div class="col-md-4">
-                        <label class="control-label">Phone Number</label>
+                        <label class="control-label">Phone Number (a)</label>
                         <input asp-for="nok_phone2" class="form-control" />
                         <span asp-validation-for="nok_phone2" class="text-danger"></span>
                     </div>
+                    <div class="col-md-4">
+                    <label class="control-label">Phone Number (b)</label>
+                    <input asp-for="nok_phone22" class="form-control" />
+                    <span asp-validation-for="nok_phone2" class="text-danger"></span>
+                </div>
                     <div class="col-md-4">
                         <label class="control-label">Email</label>
                         <input asp-for="nok_email2" class="form-control" />
                         <span asp-validation-for="nok_email2" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">National Identification No</label>
+                        <label class="control-label">NIN of Alternate NOK</label>
                         <input asp-for="nok_nationalId2" class="form-control" />
                         <span asp-validation-for="nok_nationalId2" class="text-danger"></span>
                     </div>
@@ -331,12 +349,12 @@
                 <hr />
                 <div class="row">
                     <h2 style="">
-                        <label class="control-label">Bank Details</label>
+                        <label class="control-label">Bank Account Details</label>
                     </h2>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Salary Account Name</label>
+                        <label class="control-label">Salary Bank Account Name</label>
                         <input asp-for="AccountName" class="form-control" />
                         <span asp-validation-for="AccountName" class="text-danger"></span>
                     </div>
@@ -349,7 +367,7 @@
                         <span asp-validation-for="Bankcode" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="bankbranch" class="control-label"></label>
+                        <label class="control-label">Branch/Address</label>
                         <input asp-for="bankbranch" class="form-control" />
                         <span asp-validation-for="bankbranch" class="text-danger"></span>
                     </div>
@@ -361,66 +379,66 @@
 
                 </div>
                 <hr />
-               
+
 
                 @*<hr />
-                @if (Model.Status == "DO" || Model.Status == "HOD" || Model.Status == "CDR")
-                {
-    <div class="row">
-        <div class="col-md-4">
-            <label class="control-label">HOD Name</label>
-            <input asp-for="hod_name" class="form-control" />
-            <span asp-validation-for="hod_name" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <label class="control-label">HOD Rank</label>
-            <select asp-for="hod_rank"
-                    class="form-control"
-                    asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
-            </select>
-            <span asp-validation-for="hod_rank" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <label class="control-label">HOD Service No</label>
-            <input asp-for="hod_svcno" class="form-control" />
-            <span asp-validation-for="hod_svcno" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <label class="control-label">HOD Update Date</label>
-            <input asp-for="div_off_date" class="form-control" />
-            <span asp-validation-for="div_off_date" class="text-danger"></span>
-        </div>
+                    @if (Model.Status == "DO" || Model.Status == "HOD" || Model.Status == "CDR")
+                    {
+        <div class="row">
+            <div class="col-md-4">
+                <label class="control-label">HOD Name</label>
+                <input asp-for="hod_name" class="form-control" />
+                <span asp-validation-for="hod_name" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">HOD Rank</label>
+                <select asp-for="hod_rank"
+                        class="form-control"
+                        asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
+                </select>
+                <span asp-validation-for="hod_rank" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">HOD Service No</label>
+                <input asp-for="hod_svcno" class="form-control" />
+                <span asp-validation-for="hod_svcno" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">HOD Update Date</label>
+                <input asp-for="div_off_date" class="form-control" />
+                <span asp-validation-for="div_off_date" class="text-danger"></span>
+            </div>
 
-    </div>}
-                <hr />
-                @if (Model.Status == "HOD" || Model.Status == "CDR")
-                {
-    <div class="row">
-        <div class="col-md-4">
-            <label class="control-label">CDR Name</label>
-            <input asp-for="cdr_name" class="form-control" />
-            <span asp-validation-for="cdr_name" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <label class="control-label">CDR Rank</label>
-            <select asp-for="cdr_rank"
-                    class="form-control"
-                    asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
-            </select>
-            <span asp-validation-for="cdr_rank" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <label class="control-label">CDR Service No</label>
-            <input asp-for="cdr_svcno" class="form-control" />
-            <span asp-validation-for="cdr_svcno" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <label class="control-label">CDR Update Date</label>
-            <input asp-for="cdr_date" class="form-control" />
-            <span asp-validation-for="cdr_date" class="text-danger"></span>
-        </div>
+        </div>}
+                    <hr />
+                    @if (Model.Status == "HOD" || Model.Status == "CDR")
+                    {
+        <div class="row">
+            <div class="col-md-4">
+                <label class="control-label">CDR Name</label>
+                <input asp-for="cdr_name" class="form-control" />
+                <span asp-validation-for="cdr_name" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">CDR Rank</label>
+                <select asp-for="cdr_rank"
+                        class="form-control"
+                        asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
+                </select>
+                <span asp-validation-for="cdr_rank" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">CDR Service No</label>
+                <input asp-for="cdr_svcno" class="form-control" />
+                <span asp-validation-for="cdr_svcno" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="control-label">CDR Update Date</label>
+                <input asp-for="cdr_date" class="form-control" />
+                <span asp-validation-for="cdr_date" class="text-danger"></span>
+            </div>
 
-    </div>}*@
+        </div>}*@
                 <hr />
                 <div class="row">
                     <div class="col-md-4">

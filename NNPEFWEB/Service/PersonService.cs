@@ -19,10 +19,15 @@ namespace NNPEFWEB.Service
             this.unitOfWork = unitOfWork;
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
+        public  Task<ef_shiplogin> GetUserByShip(string person)
+        {
+            return unitOfWork.PersonLogin.GetUserByShip(person);
+        }
         public ef_personnelLogin GetPersonBySvc_NO(string person)
         {
             return unitOfWork.PersonLogin.GetPersonBySVC_No(x => x.svcNo == person);
         }
+
         public Task<ef_personnelLogin> GetPersonel(string svcno)
         {
             return unitOfWork.PersonLogin.GetPersonnel(svcno);
@@ -76,5 +81,32 @@ namespace NNPEFWEB.Service
 
             }
         }
+        public void updateshiplogin(ef_shiplogin values)
+        {
+            try
+            {
+                using (SqlConnection sqlcon = new SqlConnection(connectionString))
+                {
+
+                    using (SqlCommand cmd = new SqlCommand("ResetShipPassword", sqlcon))
+                    {
+                        cmd.CommandTimeout = 1200;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@username", values.userName));
+                        cmd.Parameters.Add(new SqlParameter("@password", values.password));
+                        cmd.Parameters.Add(new SqlParameter("@expiredate", values.expireDate));
+
+                        sqlcon.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+
+            {
+
+            }
+        }
+
     }
 }

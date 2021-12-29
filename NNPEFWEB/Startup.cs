@@ -58,6 +58,7 @@ namespace NNPEFWEB
             services.AddScoped<IDashboard, Dashboard>();
             services.AddScoped<ICommandDashboard, CommandDashboard>();
             services.AddScoped<ISystemsInfoService, SystemsInfoService>();
+            services.AddScoped<IShipService, ShipService>();
             services.AddSession();
 
             services.AddMvc();

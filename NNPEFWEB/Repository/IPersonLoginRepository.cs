@@ -15,5 +15,6 @@ namespace NNPEFWEB.Repository
         Task<ef_personnelLogin> GetPersonnelBypassword(string password, string per);
         Task<List<ef_personnelLogin>> GetAllPersonnel();
         Task<ef_personnelLogin> GetPersonnelByMail(string email);
+        Task<ef_shiplogin> GetUserByShip(string svcno);
     }
 }

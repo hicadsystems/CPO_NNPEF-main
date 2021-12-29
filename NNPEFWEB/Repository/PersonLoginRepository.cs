@@ -25,6 +25,12 @@ namespace NNPEFWEB.Repository
             return dd;
 
         }
+        public async Task<ef_shiplogin> GetUserByShip(string svcno)
+        {
+            var dd = _context.ef_shiplogins.FirstOrDefault(x => x.userName == svcno);
+            return dd;
+
+        }
         public async Task<ef_personnelLogin> GetPersonnelByMail(string email)
         {
             return _context.ef_PersonnelLogins.FirstOrDefault(x => x.email == email);

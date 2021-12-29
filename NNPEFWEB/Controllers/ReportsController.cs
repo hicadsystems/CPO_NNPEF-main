@@ -128,6 +128,8 @@ namespace NNPEFWEB.Controllers
                                 pp.DateEmpl = Convert.ToDateTime(sdr["DateEmpl"]);
                                 pp.seniorityDate = Convert.ToDateTime(sdr["seniorityDate"]);
                                 pp.runOutDate = Convert.ToDateTime(sdr["runOutDate"]);
+                        pp.advanceDate = Convert.ToDateTime(sdr["advanceDate"]);
+                        pp.yearOfPromotion = sdr["yearOfPromotion"].ToString();
                         pp.expirationOfEngagementDate = Convert.ToDateTime(sdr["expirationOfEngagementDate"]);
                         pp.home_address = sdr["home_address"].ToString();
                                 pp.branch = sdr["branchName"].ToString();
@@ -158,7 +160,10 @@ namespace NNPEFWEB.Controllers
                                 pp.nok_relation = sdr["nok_relation"].ToString();
                                 pp.nok_name2 = sdr["nok_name2"].ToString();
                                 pp.nok_phone2 = sdr["nok_phone2"].ToString();
-                                pp.nok_address2 = sdr["nok_address2"].ToString();
+                        pp.AddressofAcommodation= sdr["AddressofAcommodation"].ToString();
+                        pp.nok_phone12 = sdr["nok_phone12"].ToString();
+                        pp.nok_phone22 = sdr["nok_phone22"].ToString();
+                        pp.nok_address2 = sdr["nok_address2"].ToString();
                                 pp.nok_email2 = sdr["nok_email2"].ToString();
                                 pp.nok_nationalId2 = sdr["nok_nationalId2"].ToString();
                                 pp.nok_relation2 = sdr["nok_relation2"].ToString();
@@ -206,13 +211,15 @@ namespace NNPEFWEB.Controllers
                         //pp.Add(new PersonalInfoModel
                         //{
                         sdr.Read();
-                        
 
 
+                        pp.logo = systemsInfo.company_image;
                         pp.Bankcode = sdr["bankname"].ToString();
                         pp.BankACNumber = sdr["BankACNumber"].ToString();
                         pp.bankbranch = sdr["bankbranch"].ToString();
                         pp.AccountName = sdr["AccountName"].ToString();
+
+                        pp.yearOfPromotion= sdr["yearOfPromotion"].ToString();
 
                         pp.rent_subsidy = sdr["rent_subsidy"].ToString();
                         pp.shift_duty_allow = sdr["shift_duty_allow"].ToString();
@@ -223,6 +230,7 @@ namespace NNPEFWEB.Controllers
                         pp.GBC_Number = sdr["GBC_Number"].ToString();
                         pp.special_forces_allow = sdr["special_forces_allow"].ToString();
                         pp.other_allow = sdr["other_allow"].ToString();
+                        pp.other_allowspecify = sdr["other_allowspecify"].ToString();
 
                         pp.FGSHLS_loan = sdr["FGSHLS_loan"].ToString();
                         pp.welfare_loan = sdr["welfare_loan"].ToString();
@@ -311,6 +319,7 @@ namespace NNPEFWEB.Controllers
 
                         pp.nok_name = sdr["nok_name"].ToString();
                         pp.nok_phone = sdr["nok_phone"].ToString();
+                        pp.nok_phone12 = sdr["nok_phone12"].ToString();
                         pp.nok_address = sdr["nok_address"].ToString();
                         pp.nok_email = sdr["nok_email"].ToString();
                         pp.nok_nationalId = sdr["nok_nationalId"].ToString();
@@ -358,7 +367,7 @@ namespace NNPEFWEB.Controllers
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
                         sdr.Read();
-                                             
+                        pp.logo = systemsInfo.company_image;
                         pp.nok_name = sdr["nok_name"].ToString();
                         pp.nok_phone = sdr["nok_phone"].ToString();
                         pp.nok_address = sdr["nok_address"].ToString();
@@ -366,6 +375,7 @@ namespace NNPEFWEB.Controllers
                         //nok_nationalId = sdr["nok_nationalId"].ToString();
                         pp.nok_relation = sdr["nok_relation"].ToString();
                         pp.nok_name2 = sdr["nok_name2"].ToString();
+                        pp.nok_phone22 = sdr["nok_phone22"].ToString();
                         pp.nok_phone2 = sdr["nok_phone2"].ToString();
                         pp.nok_address2 = sdr["nok_address2"].ToString();
                         pp.nok_email2 = sdr["nok_email2"].ToString();
@@ -447,6 +457,9 @@ namespace NNPEFWEB.Controllers
                         pp.MaritalStatus = sdr["MaritalStatus"].ToString();
                         pp.appointment = sdr["appointment"].ToString();
                         pp.AcommodationStatus = sdr["AcommodationStatus"].ToString();
+                        pp.AddressofAcommodation = sdr["AddressofAcommodation"].ToString();
+                        pp.nok_phone12 = sdr["nok_phone12"].ToString();
+                        pp.nok_phone22 = sdr["nok_phone22"].ToString();
 
                         pp.chid_name = sdr["chid_name"].ToString();
                         pp.chid_name2 = sdr["chid_name2"].ToString();
@@ -506,7 +519,7 @@ namespace NNPEFWEB.Controllers
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
                         sdr.Read();
-
+                        pp.logo = systemsInfo.company_image;
                         pp.Bankcode = sdr["bankname"].ToString();
                         pp.BankACNumber = sdr["BankACNumber"].ToString();
                         pp.bankbranch = sdr["bankbranch"].ToString();
@@ -520,6 +533,7 @@ namespace NNPEFWEB.Controllers
                         pp.hazard_allow = sdr["hazard_allow"].ToString();
                         pp.special_forces_allow = sdr["special_forces_allow"].ToString();
                         pp.other_allow = sdr["other_allow"].ToString();
+                        pp.other_allowspecify= sdr["other_allowspecify"].ToString();
 
                         pp.FGSHLS_loan = sdr["FGSHLS_loan"].ToString();
                         pp.welfare_loan = sdr["welfare_loan"].ToString();

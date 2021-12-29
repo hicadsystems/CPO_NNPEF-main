@@ -340,6 +340,9 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("AcommodationStatus")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AddressofAcommodation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("AltNokPassport")
                         .HasColumnType("varbinary(max)");
 
@@ -447,6 +450,9 @@ namespace NNPEFWEB.Migrations
 
                     b.Property<string>("accomm_type")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("advanceDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("aircrew_allow")
                         .HasColumnType("nvarchar(max)");
@@ -607,7 +613,13 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("nok_phone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("nok_phone12")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("nok_phone2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_phone22")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("nok_relation")
@@ -617,6 +629,9 @@ namespace NNPEFWEB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("other_allow")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("other_allowspecify")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("payrollclass")
@@ -842,6 +857,63 @@ namespace NNPEFWEB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ef_ships");
+                });
+
+            modelBuilder.Entity("NNPEFWEB.Models.ef_shiplogin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Appointment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("command")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("confirmPassword")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("dateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("expireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("loginDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("otheName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("payClass")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("phoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rank")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ship")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("surName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ef_shiplogins");
                 });
 
             modelBuilder.Entity("NNPEFWEB.Models.ef_specialisationarea", b =>

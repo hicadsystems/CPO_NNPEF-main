@@ -83,6 +83,10 @@ namespace NNPEFWEB.ViewModel
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         [Display(Name = "seniorityDate")]
         public DateTime? seniorityDate { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        [Display(Name = "advanceDate")]
+        public DateTime? advanceDate { get; set; }
         public string yearOfPromotion { get; set; }
 
         [DataType(DataType.Date)]
@@ -98,6 +102,9 @@ namespace NNPEFWEB.ViewModel
         public string nok_relation { get; set; }
         public List<SelectListItem> nok_relationList { get; set; }
         public string nok_phone { get; set; }
+        public string nok_phone12 { get; set; }
+        public string nok_phone22 { get; set; }
+        public string other_allowspecify { get; set; }
         public string nok_email { get; set; }
         public string nok_nationalId { get; set; }
         public string nok_name { get; set; }
@@ -109,6 +116,7 @@ namespace NNPEFWEB.ViewModel
         public string nok_email2 { get; set; }
         public string nok_nationalId2 { get; set; }
         public string AcommodationStatus { get; set; }
+        public string AddressofAcommodation { get; set; }
         public string nok_name2 { get; set; }
 
         public string sp_name { get; set; }

@@ -78,7 +78,7 @@ namespace NNPEFWEB.Controllers.API
             string Appointment = HttpContext.Session.GetString("Appointment");
             string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
             string id ="1";
-            var pp = personinfoService.GetUpdatedPersonnelBySVCNO(Appointment, id, ship, serviceno);
+            var pp = personinfoService.GetUpdatedPersonnelBySVCNO(id, ship, serviceno);
             return Ok(new { respondCode=200, plist= pp});
         }
   //      public JsonResult<List<ef_personalInfo>> getListofPersonelPagedSearch(string sEcho, int iDisplayStart, int iDisplayLength, string commandid, string sortby)

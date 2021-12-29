@@ -16,10 +16,12 @@ namespace NNPEFWEB.Repository
             PersonLogin = new PersonLoginRepository(_context);
             Personinfo = new PersonInfoRepository(_context);
             SystemsInfo = new SystemsInfoRepository(_context);
+            shiplogin = new ShipRepository(_context);
         }
         public IPersonLoginRepository PersonLogin { get; }
 
         public IPersonInfoRepository Personinfo { get; }
+        public IShipRepo shiplogin { get; }
 
         public ISystemsInfoRepository SystemsInfo { get; }
 

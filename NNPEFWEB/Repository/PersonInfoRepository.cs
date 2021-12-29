@@ -501,7 +501,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             }
             return pp;
         }
-        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string appointm, string payclass, string ship, string svcno)
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship, string svcno)
         {
             var pp = new List<ef_personalInfo>();
 
@@ -521,17 +521,15 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                   }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
             return pp;
         }
-            public IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string appointm, string payclass,string ship)
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string payclass,string ship)
         {
             var pp = new List<ef_personalInfo>();
-            if (appointm == "CDR")
-            {
+
                 pp = (from ppl in _context.ef_personalInfos
-                      //join rk in _context.ef_ranks on ppl.Rank equals rk.rankName
-                      //join cm in _context.ef_commands on ppl.command equals cm.code
-                      where (ppl.ship == ship && ppl.classes == Convert.ToInt32(payclass) && ppl.Status=="CDR")
+                      where (ppl.ship == ship && ppl.classes == Convert.ToInt32(payclass) && ppl.Status!="SHIP")
                       select new ef_personalInfo
                       {
+                          Id=ppl.Id,
                           serviceNumber = ppl.serviceNumber,
                           Surname = ppl.Surname,
                           OtherName = ppl.OtherName,
@@ -542,47 +540,6 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           classes=ppl.classes,
                           ship = ppl.ship
                       }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
-
-            }
-            else if (appointm == "HOD")
-            {
-                pp = (from ppl in _context.ef_personalInfos
-                          //join rk in _context.ef_ranks on ppl.Rank equals rk.rankName
-                      //join cm in _context.ef_commands on ppl.command equals cm.code
-                      where (ppl.ship == ship && ppl.classes == Convert.ToInt32(payclass) && ppl.Status == "HOD")
-                      select new ef_personalInfo
-                      {
-                          serviceNumber = ppl.serviceNumber,
-                          Surname = ppl.Surname,
-                          OtherName = ppl.OtherName,
-                          Rank = ppl.Rank,
-                          seniorityDate = ppl.seniorityDate,
-                          command = ppl.command,
-                          payrollclass = ppl.payrollclass,
-                          classes = ppl.classes,
-                          ship = ppl.ship
-                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
-
-            }
-            else
-            {
-                pp = (from ppl in _context.ef_personalInfos
-                          //join rk in _context.ef_ranks on ppl.Rank equals rk.rankName
-                      //join cm in _context.ef_commands on ppl.command equals cm.code
-                      where ( ppl.ship == ship && ppl.classes == Convert.ToInt32(payclass) && ppl.Status!="HOD" && ppl.Status != "CDR" && ppl.formNumber!=null)
-                      select new ef_personalInfo
-                      {
-                          serviceNumber = ppl.serviceNumber,
-                          Surname = ppl.Surname,
-                          OtherName = ppl.OtherName,
-                          Rank = ppl.Rank,
-                          seniorityDate = ppl.seniorityDate,
-                          command = ppl.command,
-                          payrollclass = ppl.payrollclass,
-                          classes = ppl.classes,
-                          ship = ppl.ship
-                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
-            }
          
             return pp;
         }

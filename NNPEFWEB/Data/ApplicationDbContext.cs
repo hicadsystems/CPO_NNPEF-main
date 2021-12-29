@@ -27,6 +27,8 @@ namespace NNPEFWEB.Data
         public DbSet<ef_rank> ef_ranks { get; set; }
         public DbSet<ef_personnelLogin> ef_PersonnelLogins { get; set; }
         public DbSet<ef_relationship> ef_relationships { get; set; }
+        public DbSet<ef_shiplogin> ef_shiplogins { get; set; }
+
         public DbSet<ef_systeminfo> ef_systeminfos { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {

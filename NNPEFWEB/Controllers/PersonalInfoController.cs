@@ -63,12 +63,12 @@ namespace NNPEFWEB.Controllers
                  string id= HttpContext.Session.GetString("classid");
                 if (svcno != null)
                 {
-                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO(Appointment, id, ship, svcno);
+                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO(id, ship, svcno);
                     return View(pp2);
                 }
                 else
                 {
-                    var pp = personinfoService.GetUpdatedPersonnel(Appointment, id, ship);
+                    var pp = personinfoService.GetUpdatedPersonnel(id, ship);
                     return View(pp);
                 }
                 return View();
@@ -97,12 +97,12 @@ namespace NNPEFWEB.Controllers
                 //string depart = _context.ef_specialisationareas.Where(x => x.Id == cmdr.spec).FirstOrDefault().specName;
                 if (svcno != null)
                 {
-                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO(Appointment, id, ship, svcno);
+                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO(id, ship, svcno);
                     return View(pp2);
                 }
                 else
                 {
-                    var pp = personinfoService.GetUpdatedPersonnel(Appointment, id, ship);
+                    var pp = personinfoService.GetUpdatedPersonnel(id, ship);
                     return View(pp);
                 }
                 return View();
@@ -673,6 +673,9 @@ namespace NNPEFWEB.Controllers
                 NokPassport=nokpix,
                 AltNokPassport=altnokpic,
                 AcommodationStatus=per.AcommodationStatus,
+                AddressofAcommodation=per.AddressofAcommodation,
+                nok_phone22=per.nok_phone22,
+                nok_phone12=per.nok_phone12,
                 appointment=per.appointment,
                 runOutDate=per.runoutDate,
                 entitlement=per.entitlement,
@@ -713,6 +716,7 @@ namespace NNPEFWEB.Controllers
                 special_forces_allow = per.special_forces_allow,
                 other_allow = per.other_allow,
                 pilot_allow=per.pilot_allow,
+                other_allowspecify=per.other_allowspecify,
 
                 FGSHLS_loan = per.FGSHLS_loan,
                 welfare_loan = per.welfare_loan,
@@ -760,8 +764,22 @@ namespace NNPEFWEB.Controllers
 
             try
             {
+                if (value.FGSHLS_loan == "No")
+                    value.FGSHLS_loanYear = "";
+                if (value.welfare_loan == "No")
+                    value.welfare_loanYear = "";
+                if (value.car_loan == "No")
+                    value.car_loanYear = "";
+                if (value.NNMFBL_loan == "No")
+                    value.NNMFBL_loanYear = "";
+                if (value.NNNCS_loan == "No")
+                    value.NNNCS_loanYear = "";
+                if (value.PPCFS_loanYear == "No")
+                    value.PPCFS_loanYear = "";
+                if (value.Anyother_Loan == "No")
+                    value.Anyother_LoanYear = "";
 
-            var per = personService.GetPersonel(value.serviceNumber).Result;
+                var per = personService.GetPersonel(value.serviceNumber).Result;
            // string profilepicture = UploadedFile(PassportFile);
             if (Request.Form.Files.Count > 0)
             {
@@ -861,7 +879,12 @@ namespace NNPEFWEB.Controllers
                 person.sp_phone2 = value.sp_phone2;
                 person.sp_email = value.sp_email;
                 person.AcommodationStatus = value.AcommodationStatus;
-                person.nok_name = value.nok_name;
+                    //added 12/13/2021
+                    person.AddressofAcommodation = value.AddressofAcommodation;
+                    person.nok_phone12 = value.nok_phone12;
+                    person.nok_phone22 = value.nok_phone22;
+
+                    person.nok_name = value.nok_name;
                 person.nok_phone = value.nok_phone;
                 person.nok_address = value.nok_address;
                 person.nok_email = value.nok_email;
@@ -886,6 +909,7 @@ namespace NNPEFWEB.Controllers
                 person.special_forces_allow = value.special_forces_allow;
                 person.other_allow = value.other_allow;
                 person.pilot_allow = value.pilot_allow;
+                    person.other_allowspecify = value.other_allowspecify;
 
                 person.FGSHLS_loan = value.FGSHLS_loan;
                 person.welfare_loan = value.welfare_loan;
@@ -987,6 +1011,7 @@ namespace NNPEFWEB.Controllers
                     gsm_number2 = per.gsm_number2,
                     Birthdate = per.Birthdate,
                     DateEmpl = per.DateEmpl,
+                    advanceDate=per.advanceDate,
                     seniorityDate = per.seniorityDate,
                     expirationOfEngagementDate = per.expirationOfEngagementDate,
                     runOutDate = per.runoutDate,
@@ -996,7 +1021,10 @@ namespace NNPEFWEB.Controllers
                     command = per.command,
                     ship = per.ship,
                     AcommodationStatus = per.AcommodationStatus,
-                specialisation = per.specialisation,
+                    AddressofAcommodation = per.AddressofAcommodation,
+                    nok_phone22 = per.nok_phone22,
+                    nok_phone12 = per.nok_phone12,
+                    specialisation = per.specialisation,
                 StateofOrigin = per.StateofOrigin,
                 LocalGovt = per.LocalGovt,
                 religion = per.religion,
@@ -1041,8 +1069,8 @@ namespace NNPEFWEB.Controllers
                 special_forces_allow = per.special_forces_allow,
                 other_allow = per.other_allow,
                 GBC_Number=per.GBC_Number,
-
-                FGSHLS_loan = per.FGSHLS_loan,
+                    other_allowspecify = per.other_allowspecify,
+                    FGSHLS_loan = per.FGSHLS_loan,
                 welfare_loan = per.welfare_loan,
                 car_loan = per.car_loan,
                 NNMFBL_loan = per.NNMFBL_loan,
@@ -1102,7 +1130,22 @@ namespace NNPEFWEB.Controllers
         {
             try
             {
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                if (value.FGSHLS_loan == "No")
+                  value.FGSHLS_loanYear="";
+                if (value.welfare_loan == "No")
+                    value.welfare_loanYear = "";
+                if (value.car_loan == "No")
+                    value.car_loanYear = "";
+                if (value.NNMFBL_loan == "No")
+                    value.NNMFBL_loanYear = "";
+                if (value.NNNCS_loan == "No")
+                    value.NNNCS_loanYear = "";
+                if (value.Anyother_Loan == "No")
+                    value.Anyother_LoanYear = "";
+
+
+
+                var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
             var per = personService.GetPersonel(value.serviceNumber).Result;
             // string profilepicture = UploadedFile(PassportFile);
             if (Request.Form.Files.Count > 0)
@@ -1188,11 +1231,18 @@ namespace NNPEFWEB.Controllers
                 person.dateconfirmed = value.dateconfirmed;
                 person.DateEmpl = value.DateEmpl;
                 person.DateLeft = value.DateLeft;
+                    person.advanceDate = value.advanceDate;
                 person.dateModify = DateTime.Now;
                 person.seniorityDate = value.seniorityDate;
                 person.expirationOfEngagementDate = value.expirationOfEngagementDate;
                 person.yearOfPromotion = value.yearOfPromotion;
                     person.AcommodationStatus = value.AcommodationStatus;
+                    //added 12/13/2021
+                    person.AddressofAcommodation = value.AddressofAcommodation;
+                    person.nok_phone12 = value.nok_phone12;
+                    person.nok_phone22 = value.nok_phone22;
+                    //
+
                     person.classes = 2;
 
                 person.chid_name = value.chid_name;
@@ -1232,6 +1282,7 @@ namespace NNPEFWEB.Controllers
                 person.other_allow = value.other_allow;
                 person.GBC_Number = value.GBC_Number;
                     person.GBC = value.GBC;
+                    person.other_allowspecify = value.other_allowspecify;
                 person.FGSHLS_loan = value.FGSHLS_loan;
                 person.welfare_loan = value.welfare_loan;
                 person.car_loan = value.car_loan;
@@ -1320,6 +1371,8 @@ namespace NNPEFWEB.Controllers
                 LocalGovt = per.LocalGovt,
                 religion = per.religion,
                 MaritalStatus = per.MaritalStatus,
+                nok_phone22 = per.nok_phone22,
+                nok_phone12 = per.nok_phone12,
                 Passport = pix,
                 NokPassport = nokpix,
                 AltNokPassport = altnokpix,
@@ -1460,8 +1513,10 @@ namespace NNPEFWEB.Controllers
                 person.dateModify = DateTime.Now;
                 person.seniorityDate = value.seniorityDate;
                 person.classes = 3;
-
-                person.Status = "DO";
+                    //added 12/13/2021
+                    person.nok_phone12 = value.nok_phone12;
+                    person.nok_phone22 = value.nok_phone22;
+                    person.Status = "DO";
 
                 person.qualification = value.qualification;
                 person.division = value.division;
@@ -1883,7 +1938,7 @@ namespace NNPEFWEB.Controllers
                         }
                         string userp = User.Identity.Name;
 
-                        ProcesUpload procesUpload2 = new ProcesUpload(null,listapplication, unitOfWorks, userp, null, null);
+                        ProcesUpload procesUpload2 = new ProcesUpload(null,null, listapplication, unitOfWorks, userp, null, null);
                         await procesUpload2.processUploadInThread();
                         TempData["message"] = "Uploaded Successfully";
 

@@ -11,6 +11,7 @@ namespace NNPEFWEB.Repository
         IPersonLoginRepository PersonLogin { get; }
         IPersonInfoRepository Personinfo { get; }
         ISystemsInfoRepository SystemsInfo { get; }
+        IShipRepo shiplogin { get; }
         Task<bool> Done();
     }
 }
