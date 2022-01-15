@@ -187,33 +187,37 @@ namespace NNPEFWEB.Controllers
 
             return RedirectToAction("UpdatedPersonelList");
          }
-        public ActionResult ListOfAllStaff(string ship)
+        public ActionResult ListOfAllStaff(string reporttype)
         {
-            if (ship == "AllStaff")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2();
-                return View(ppersons);
-            }
-            else if (ship == "Completed")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "SHIP");
-                return View(ppersons);
-            }
-            if (ship == "Auth")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "CPO");
-                return View(ppersons);
-            }
-            else if (ship == "Verified")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "Verified");
-                return View(ppersons);
-            }
-            else
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2();
-                return View(ppersons);
-            }
+            //if (ship == "AllStaff")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2();
+            //    return View(ppersons);
+            //}
+            //else if (ship == "Completed")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "SHIP").ToList();
+            //    return View(ppersons);
+            //}
+            //if (ship == "Auth")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "CPO").ToList();
+            //    return View(ppersons);
+            //}
+            //else if (ship == "Verified")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "Verified");
+            //    return View(ppersons);
+            //}
+            //else
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2();
+            //    return View(ppersons);
+            //}
+
+            var ppersons = personinfoService.GetPersonnelStatusReport(reporttype);
+
+            return View(ppersons);
         }
         public async Task<IActionResult> ListOfAllStaffReport(string ship)
         {
@@ -317,18 +321,15 @@ namespace NNPEFWEB.Controllers
             }
             var stream = new MemoryStream();
 
-
-            int row = 2;
             using (var package = new ExcelPackage(stream))
             {
-                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+                var workSheet = package.Workbook.Worksheets.Add("Sheet2");
                 workSheet.Cells.LoadFromCollection(rpt, true);
                 package.Save();
             }
-            string excelname = "ShipReport.xlsx";
-            stream.Position = 2;
+            stream.Position = 0;
             string excelName = $"ShipReport-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
-            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelname);
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
     }
 }
