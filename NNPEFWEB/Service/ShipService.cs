@@ -26,7 +26,20 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.shiplogin.GetShips(x => x.userName == person);
         }
-
+        public async Task<bool> addShipLogin(ef_shiplogin value)
+        {
+            unitOfWork.shiplogin.Create(value);
+            return await unitOfWork.Done();
+        }
+        public async Task<bool> UpdateShipLogin(ef_shiplogin value)
+        {
+            unitOfWork.shiplogin.Update(value);
+            return await unitOfWork.Done();
+        }
+         public Task<ef_shiplogin> GetshiploginById(int id)
+        {
+            return unitOfWork.shiplogin.Find(id);
+        }
         public Task<ef_shiplogin> GetPersonel(string svcno)
         {
             return unitOfWork.shiplogin.GetPersonnel(svcno);
@@ -45,9 +58,32 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.shiplogin.GetPersonnelLogin(username, password);
         }
-
-        public async Task<List<ef_shiplogin>> GetAllPersonel()
+        public void DeleteUser(int id)
         {
+            try
+            {
+                using (SqlConnection sqlcon = new SqlConnection(connectionString))
+                {
+
+                    using (SqlCommand cmd = new SqlCommand("DeleteShipUser", sqlcon))
+                    {
+                        cmd.CommandTimeout = 1200;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                        sqlcon.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+
+            {
+
+            }
+        }
+        public async Task<IEnumerable<ef_shiplogin>> GetAllPersonel()
+        { 
             return await unitOfWork.shiplogin.GetAllPersonnel();
         }
         public Task<ef_shiplogin> GetPersonelByMail(string email)

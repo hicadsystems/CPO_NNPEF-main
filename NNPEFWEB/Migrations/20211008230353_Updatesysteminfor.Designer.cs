@@ -152,7 +152,7 @@ namespace NNPEFWEB.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("NNPEFWEB.Models.ApplicationUser", b =>
+            modelBuilder.Entity("NNPEFWEB.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -956,7 +956,7 @@ namespace NNPEFWEB.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("NNPEFWEB.Models.ApplicationUser", null)
+                    b.HasOne("NNPEFWEB.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -965,7 +965,7 @@ namespace NNPEFWEB.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("NNPEFWEB.Models.ApplicationUser", null)
+                    b.HasOne("NNPEFWEB.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -980,7 +980,7 @@ namespace NNPEFWEB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NNPEFWEB.Models.ApplicationUser", null)
+                    b.HasOne("NNPEFWEB.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -989,7 +989,7 @@ namespace NNPEFWEB.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("NNPEFWEB.Models.ApplicationUser", null)
+                    b.HasOne("NNPEFWEB.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

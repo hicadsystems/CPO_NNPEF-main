@@ -21,12 +21,14 @@
                                 <div class="card-body">
                                     <h2 style="color:#ff0000">@TempData["regError"]</h2>
                                     <div asp-validation-summary="All" class="text-danger"></div>
-                                      <div class="row">
+                                    <div class="row">
                                         <div class="col-md-4">
-                                            <label asp-for="Input.UserName"></label>
-                                            <input asp-for="Input.UserName" class="form-control" required />
-                                            <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                                            <label asp-for="Input.Rank"></label>
+                                            <select asp-for="Input.Rank" class="form-control" required
+                                                    asp-items="@(new SelectList(Model.RankList,"rankName", "rankName"))"></select>
+                                            <span asp-validation-for="Input.Rank" class="text-danger"></span>
                                         </div>
+                                        
                                         <div class="col-md-4">
                                             <label asp-for="Input.FirstName"></label>
                                             <input asp-for="Input.FirstName" class="form-control" />
@@ -39,58 +41,57 @@
                                         </div>
 
                                     </div>
-                                      <div class="row">
-                                          <div class="col-md-4">
-                                              <label asp-for="Input.Email"></label>
-                                              <input asp-for="Input.Email" class="form-control" />
-                                              <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                          </div>
-                                          <div class="col-md-4">
-                                              <label asp-for="Input.Rank"></label>
-                                              <select asp-for="Input.Rank" class="form-control" required
-                                                      asp-items="@(new SelectList(Model.RankList,"rankName", "rankName"))"></select>
-                                              <span asp-validation-for="Input.Rank" class="text-danger"></span>
-                                          </div>
-                                          <div class="col-md-4">
-                                              <label asp-for="Input.Command"></label>
-                                              <select asp-for="Input.Command" class="form-control" required
-                                                      asp-items="@(new SelectList(Model.CommandList,"Id", "commandName"))"></select>
-                                              <span asp-validation-for="Input.Command" class="text-danger"></span>
-                                          </div>
-                                          
-                                      </div>
-                                      <div class="row">
-                                          <div class="col-md-4">
-                                              <label asp-for="Input.ship"></label>
-                                              <select asp-for="Input.ship" class="form-control" required
-                                                      asp-items="@(new SelectList(Model.ShipList,"Id", "shipName"))"></select>
-                                              <span asp-validation-for="Input.ship" class="text-danger"></span>
-                                          </div>
-                                          <div class="col-md-4">
-                                              <label asp-for="Input.spec"></label>
-                                              <select asp-for="Input.spec" class="form-control" required
-                                                      asp-items="@(new SelectList(Model.SpecList,"Id", "specName"))"></select>
-                                              <span asp-validation-for="Input.spec" class="text-danger"></span>
-                                          </div>
-                                      </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label asp-for="Input.Appointment"></label>
+                                            <label asp-for="Input.UserName"></label>
+                                            <input asp-for="Input.UserName" class="form-control" required />
+                                            <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label asp-for="Input.Email"></label>
+                                            <input asp-for="Input.Email" class="form-control" />
+                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label>Login Type</label>
                                             <select asp-for="Input.Appointment" class="form-control" required>
-                                                <option>Select Appointment...</option>
-                                                <option value="DO">Divisional Officer</option>
-                                                <option value="HOD">Head Of Department</option>
-                                                <option value="Cdr">Commanding Officer</option>
+                                                <option>Select...</option>
                                                 <option value="Adm">Admin Officer</option>
                                                 <option value="SectionA">Section A</option>
                                                 <option value="SectionB">Section B</option>
                                                 <option value="SectionC">Section C</option>
                                                 <option value="SectionD">Section D</option>
                                                 <option value="SectionE">Section E</option>
+                                                <option value="SectionF">Section F</option>
                                             </select>
                                             @*<input asp-for="Input.Appointment" class="form-control" />*@
                                             <span asp-validation-for="Input.Appointment" class="text-danger"></span>
                                         </div>
+                                        @*<div class="col-md-4">
+            <label asp-for="Input.Command"></label>
+            <select asp-for="Input.Command" class="form-control" required
+                    asp-items="@(new SelectList(Model.CommandList,"Id", "commandName"))"></select>
+            <span asp-validation-for="Input.Command" class="text-danger"></span>
+        </div>*@
+
+                                    </div>
+                                     
+                                          @*<div class="col-md-4">
+                                              <label asp-for="Input.ship"></label>
+                                              <select asp-for="Input.ship" class="form-control" required
+                                                      asp-items="@(new SelectList(Model.ShipList,"Id", "shipName"))"></select>
+                                              <span asp-validation-for="Input.ship" class="text-danger"></span>
+                                          </div>*@
+                                          @*<div class="col-md-4">
+                                              <label asp-for="Input.spec"></label>
+                                              <select asp-for="Input.spec" class="form-control" required
+                                                      asp-items="@(new SelectList(Model.SpecList,"Id", "specName"))"></select>
+                                              <span asp-validation-for="Input.spec" class="text-danger"></span>
+                                          </div>*@
+                           
+                                    <div class="row">
+                                       
                                         <div class="col-md-4">
                                             <label asp-for="Input.Password"></label>
                                             <input asp-for="Input.Password" class="form-control" required />

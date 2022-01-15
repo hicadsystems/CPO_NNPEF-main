@@ -1,19 +1,18 @@
 ﻿@using Microsoft.AspNetCore.Http
 @{
-    ViewData["Title"] = "SiteActivities";
-}
+    ViewData["Title"] = "SiteActivities";}
 
 <section class="content">
     <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-default">
             <div class="card-header">
+               @if (TempData["SiteMessage"] != null) {<h3 style="color:red">@TempData["SiteMessage"]</h3>}
                 @*<h3 class="card-title">Select2 (Default Theme)</h3>*@
                 <div>
                     @if (Context.Session.GetInt32("Site") != null || Context.Session.GetInt32("Site") != 0)
                     {
-                        <h1>Site Has Been Close, Select Open To Reopen</h1>
-                    }
+            <h1>Site Has Been Close, Select Open To Reopen</h1>}
                 </div>
                 <form method="post">
                     <div class="card-body">
@@ -22,7 +21,7 @@
                                 <select class="form-control" name="SiteStatus">
                                     <option></option>
                                     <option value="0">Open Emolument Form</option>
-                                     <option value="1">Open Emolument To Command</option>
+                                    <option value="1">Open Emolument To Command</option>
                                 </select>
 
 
@@ -32,11 +31,11 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <label class="control-label">Start Date</label>
-                                <input name="opendate" class="form-control" id="startdate" type="text" />
+                                <input name="opendate" class="form-control" id="startdate" type="date" />
                             </div>
                             <div class="col-sm-4">
                                 <label class="control-label">End Date</label>
-                                <input name="cloasedate" class="form-control" id="enddate" type="text" />
+                                <input name="closedate" class="form-control" id="enddate" type="date" />
 
                             </div>
                         </div>
@@ -46,7 +45,7 @@
                                 <input type="submit" class="btn btn-success" value="Proceed>>>" />
                             </div>
                         </div>
-                        </div>
+                    </div>
                 </form>
 
 

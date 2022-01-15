@@ -1,4 +1,4 @@
-﻿@inject SignInManager<NNPEFWEB.Models.ApplicationUser> SignInManager
+﻿@inject SignInManager<NNPEFWEB.Models.User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

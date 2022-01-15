@@ -1,0 +1,43 @@
+﻿@model IEnumerable<NNPEFWEB.Models.ef_shiplogin>
+@{
+    ViewData["Title"] = "GetshipUser";
+}
+
+<h1>Ship User</h1>
+
+<div class="row">
+    <div class="col-3">
+        <form asp-action="Register" asp-controller="Account">
+            <input type="submit" class="btn btn-success btn-block fa fa-plus" value="Add New Ship User" />
+        </form>
+    </div>
+    <div class="col-3">
+        <form asp-action="UploadShipUser" asp-controller="Account">
+            <input type="submit" class="btn btn-success btn-block fa fa-plus" value="Upload Ship User" />
+        </form>
+    </div>
+    <hr class="btn-block">
+</div>
+<table class="table table-striped">
+    <tr>
+        <td>Name</td>
+        <td>Rank</td>
+        <td>UserName</td>
+        <td>Ship</td>
+        <td>Action</td>
+    </tr>
+    @foreach (var m in Model)
+    {
+        <tr>
+            <td>@m.surName  @m.otheName</td>
+            <td>@m.rank</td>
+            <td>@m.userName</td>
+            <td>@m.ship</td>
+            <td>
+                <a class="btn btn-primary" asp-action="EditRegister" asp-controller="Account" asp-route-id="@m.Id">Edit</a>
+                <a class="btn btn-danger" asp-action="DeleteShipUser" asp-controller="Account" asp-route-id="@m.Id">Delete</a>
+
+            </td>
+        </tr>
+    }
+</table>

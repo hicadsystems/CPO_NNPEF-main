@@ -1,0 +1,254 @@
+﻿</div>
+			</main>
+</aside>
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row text-muted">
+            <div class="col-8 text-left">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a class="text-muted" href="#">Support</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="text-muted" href="#">Privacy</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="text-muted" href="#">Terms of Service</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="text-muted" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-4 text-right">
+                <p class="mb-0">
+                    &copy; @DateTime.Now.Year - <a href="dashboard-default.html" class="text-muted">Hicad Systems Ltd</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+		</div>
+
+	</div>
+</div>
+
+<script src="~/js/app.js"></script>
+
+<script src="~/dist/app.js" asp-append-version="true"></script>
+
+
+<script>
+
+
+    $(function () {
+        $("#smartwizard-default-primary").smartWizard({
+            theme: "default",
+            showStepURLhash: false
+        });
+        $("#smartwizard-default-success").smartWizard({
+            theme: "default",
+            showStepURLhash: false
+        });
+        $("#smartwizard-default-danger").smartWizard({
+            theme: "default",
+            showStepURLhash: false
+        });
+        $("#smartwizard-default-warning").smartWizard({
+            theme: "default",
+            showStepURLhash: false
+        });
+        $("#smartwizard-arrows-primary").smartWizard({
+            theme: "arrows",
+            showStepURLhash: false
+        });
+        $("#smartwizard-arrows-success").smartWizard({
+            theme: "arrows",
+            showStepURLhash: false
+        });
+        $("#smartwizard-arrows-danger").smartWizard({
+            theme: "arrows",
+            showStepURLhash: false
+        });
+        $("#smartwizard-arrows-warning").smartWizard({
+            theme: "arrows",
+            showStepURLhash: false
+        });
+        // Validation
+        var $validationForm = $("#smartwizard-validation");
+        $validationForm.validate({
+            errorPlacement: function errorPlacement(error, element) {
+                $(element).parents(".form-group").append(
+                    error.addClass("invalid-feedback small d-block")
+                )
+            },
+            highlight: function (element) {
+                $(element).addClass("is-invalid");
+            },
+            unhighlight: function (element) {
+                $(element).removeClass("is-invalid");
+            },
+            rules: {
+                "wizard-confirm": {
+                    equalTo: "input[name=\"wizard-password\"]"
+                }
+            }
+        });
+        $validationForm
+            .smartWizard({
+                autoAdjustHeight: false,
+                backButtonSupport: false,
+                useURLhash: false,
+                showStepURLhash: false,
+                toolbarSettings: {
+                    toolbarExtraButtons: [$("<button class=\"btn btn-submit btn-primary\" type=\"submit\">Finish</button>")]
+                }
+            })
+            .on("leaveStep", function (e, anchorObject, stepNumber, stepDirection) {
+                if (stepDirection === "forward") {
+                    return $validationForm.valid();
+                }
+                return true;
+            });
+        $validationForm.find(".btn-submit").on("click", function () {
+            if (!$validationForm.valid()) {
+                return;
+            }
+            //alert("Great! The form is valid and ready to submit.");
+            //return false;
+        });
+    });</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table-role').DataTable({
+            "language ": {
+                "emptyTable ": "No Role. Add new Role. "
+            }
+        });
+
+        $("#menus").select2();
+
+
+        $('#data-table-role tbody').on('click', '.e-details', function () {
+            $("#roleModalLabel").text("Edit Role");
+            roleId = $(this).data('role-id')
+
+
+            var url = window.location.origin + '/role/' + roleId;
+            $.get(url, function (response) {
+                if (response.success) {
+                    $("#id").val(response.data.role.id)
+                    $("#name").val(response.data.role.name);
+                    $("#description").val(response.data.role.description)
+                    $("#post-form").attr('action', "/role/update")
+
+                    if (response.data.menus) {
+                        $("#menus").val(response.data.menus).trigger('change')
+                    }
+
+                    $("#add-edit").trigger("click")
+                }
+
+            });
+        });
+
+        $(".dismiss-modal").click(function () {
+            $("#roleModalLabel").text("Add User")
+            $("#post-form :input").each(function () {
+                $(this).val("")
+            });
+            $("#post-form").attr('action', "/role/create")
+            $("#menus").val("").trigger('change')
+
+        });
+
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table-user').DataTable({
+            "language ": {
+                "emptyTable ": "No User. Add new User. "
+            }
+        });
+
+
+        $("#roles").select2();
+        $("#device").select2();
+
+
+        $('#data-table-user tbody').on('click', '.e-details', function () {
+            $("#userModalLabel").text("Edit User");
+            userId = $(this).data('user-id')
+
+
+            var url = window.location.origin + '/user/' + userId;
+            $.get(url, function (response) {
+                console.log(response)
+                if (response.success) {
+                    $("#id").val(response.data.user.id)
+                    $("#email").val(response.data.user.email);
+                    $("#firstname").val(response.data.user.firstName)
+                    $("#lastname").val(response.data.user.lastName)
+                    $("#username").val(response.data.user.userName)
+                    $("#password").val("F^&^&Y(HBJKBJ")
+                    $("#confirmpassword").val("F^&^&Y(HBJKBJ")
+                    $("#password").attr("readonly", "readonly")
+                    $("#confirmpassword").attr("readonly", "readonly")
+                    $("#post-form").attr('action', "/user/update")
+
+                    if (response.data.roles) {
+                        $("#roles").val(response.data.roles).trigger('change')
+                    }
+
+
+                    if (response.data.devices) {
+                        response.data.devices.forEach(function (element) {
+                            $("#device").val(element).trigger('change')
+                        });
+                    }
+
+
+
+                    if (response.data.user.isActive) {
+                        $("#isactive").attr("checked", response.data.user.isActive.toString())
+                    } else {
+                        $("#isactive").removeAttr("checked")
+                    }
+                    $("#add-edit").trigger("click")
+                }
+
+            });
+        });
+
+
+
+        $(".dismiss-modal").click(function () {
+            $("#userModalLabel").text("Add User")
+            $("#post-form :input").each(function () {
+                if ($(this).attr('name') == "id") {
+                    $(this).val(0)
+                }
+                else {
+                    $(this).val("")
+                }
+
+            });
+            $("#post-form").attr('action', "/user/create")
+            $("#device").val("").trigger('change')
+            $("#roles").val("").trigger('change')
+            $("#password").removeAttr("readonly")
+            $("#confirmpassword").removeAttr("readonly")
+
+        });
+    });
+</script>
+
+
+<!body>
+    </html>
+

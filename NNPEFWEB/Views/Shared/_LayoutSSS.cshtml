@@ -1,0 +1,15 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using NNPEFWEB.Models
+@using NNPEFWEB.Service
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject IUserService userService
+@{ var model = await UserManager.GetUserAsync(User);
+
+var user = await userService.GetUserWithRolesAndMenus(model.Id); }
+<partial name="_Header" model="user" />
+@RenderBody()
+<partial name="_Footer" />

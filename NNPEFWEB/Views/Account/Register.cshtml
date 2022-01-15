@@ -36,11 +36,11 @@
 
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            @*<div class="col-md-4">
                                 <label asp-for="Email"></label>
                                 <input asp-for="Email" class="form-control" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
+                            </div>*@
                             <div class="col-md-4">
                                 <label asp-for="Rank"></label>
                                 <select asp-for="Rank" class="form-control" required
@@ -48,33 +48,20 @@
                                 <span asp-validation-for="Rank" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="Command"></label>
-                                <select asp-for="Command" class="form-control" required
-                                        asp-items="@(new SelectList(Model.CommandList,"Value", "Text"))"></select>
-                                <span asp-validation-for="Command" class="text-danger"></span>
+                                <label >Ship</label>
+                                <select asp-for="Ship" class="form-control" required
+                                        asp-items="@(new SelectList(Model.shipList,"Value", "Text"))"></select>
+                                <span asp-validation-for="Ship" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label asp-for="Appointment"></label>
-                                <select asp-for="Appointment" class="form-control" required>
-                                    <option>Select Appointment...</option>
-                                    <option value="DO">Divisional Officer</option>
-                                    <option value="HOD">Head Of Department</option>
-                                    <option value="Cdr">Commanding Officer</option>
-                                    <option value="Adm">Admin Officer</option>
-                                    <option value="Sec">Admin Sections</option>
-                                </select>
-                                @*<input asp-for="Appointment" class="form-control" />*@
-                                <span asp-validation-for="Appointment" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-4">
-                                <label asp-for="Password"></label>
-                                <input asp-for="Password" class="form-control" required />
+                                <label>Password</label>
+                                <input asp-for="Password" class="form-control" />
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <div class="col-md-4">
-                                <label asp-for="ConfirmPassword"></label>
+                                <label>Confirm Password</label>
                                 <input asp-for="ConfirmPassword" class="form-control" />
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>

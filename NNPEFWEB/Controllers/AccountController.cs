@@ -28,8 +28,8 @@ namespace NNPEFWEB.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly ISystemsInfoService _systemsInfoService;
         private readonly string connectionstring;
         private IPersonInfoService _personinfoService;
@@ -48,8 +48,8 @@ namespace NNPEFWEB.Controllers
                IPersonInfoService personinfoService,
             IPersonService personService,
             ILogger<HomeController> logger,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             ISystemsInfoService systemsInfoService,
             ApplicationDbContext context, IUnitOfWorks unitOfWorks, IConfiguration configuration)
         {
@@ -183,8 +183,10 @@ namespace NNPEFWEB.Controllers
         [HttpPost]
         public ActionResult SiteActivities(ef_systeminfo  status )
         {
+            try
+            {
             string user = User.Identity.Name;
-            using(SqlConnection sqlcon=new SqlConnection())
+            using(SqlConnection sqlcon=new SqlConnection(connectionstring))
             {
                 using(SqlCommand cmd=new SqlCommand("OpenCloseForm", sqlcon))
                 {
@@ -197,8 +199,16 @@ namespace NNPEFWEB.Controllers
               
                     sqlcon.Open();
                     cmd.ExecuteNonQuery();
+                        TempData["SiteMessage"] = "Successful";
                 }
                
+            }
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogInformation(ex.Message);
             }
             return View();
         }
@@ -736,61 +746,94 @@ namespace NNPEFWEB.Controllers
         {
             var reg = new RegisterVM
             {
-                CommandList = GetCommand(),
-                RankList = GetRank()
+               
+                RankList = GetRank(),
+               shipList = GetShips()
             };
             return View(reg);
         }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM Input)
         {
-            GetCommand();
+            GetShips();
             GetRank();
             if (ModelState.IsValid)
             {
 
-                var user = new ApplicationUser
+                var user = new ef_shiplogin
                 {
-                    UserName = Input.UserName,
-                    Email = Input.Email,
-                    FirstName = Input.FirstName,
-                    LastName = Input.LastName,
-                    Command = Input.Command,
-                    Rank = Input.Rank,
-                    Appointment = Input.Appointment
-
+                    userName = Input.UserName,
+                    otheName = Input.FirstName,
+                    surName = Input.LastName,
+                    rank = Input.Rank,
+                    password = Input.Password,
+                    confirmPassword=true,
+                    ship=Input.Ship
                 };
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
-                {
-                   
-                    if (Input.Appointment == "CDR")
-                        await _userManager.AddToRoleAsync(user, Enum.Roles.CDR.ToString());
-                    if (Input.Appointment == "HOD")
-                        await _userManager.AddToRoleAsync(user, Enum.Roles.HOD.ToString());
-                    if (Input.Appointment == "DO")
-                        await _userManager.AddToRoleAsync(user, Enum.Roles.DO.ToString());
-                    if (Input.Appointment == "Admin")
-                        await _userManager.AddToRoleAsync(user, Enum.Roles.Admin.ToString());
-                    if (Input.Appointment == "SEC")
-                        await _userManager.AddToRoleAsync(user, Enum.Roles.Operator.ToString());
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Index", "UserRole");
-                    }
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                    TempData["regError"] = error.Description;
-                    return View();
-                }
+               await _shipService.addShipLogin(user);
+               
             }
 
             // If we got this far, something failed, redisplay form
-            return View();
+            return RedirectToAction("GetshipUser");
         }
-        public List<SelectListItem> GetRank()
+        public IActionResult EditRegister(int id)
+        {
+            GetShips();
+            GetRank();
+            var ships = _shipService.GetshiploginById(id).Result;
+            var sh = new RegisterVM()
+            {
+                Id = ships.Id,
+                UserName = ships.userName,
+                FirstName = ships.otheName,
+                LastName = ships.surName,
+                Rank = ships.rank,
+                Password = ships.password,
+                Ship = ships.ship,
+                RankList = GetRank(),
+                shipList = GetShips()
+            };
+            return View(sh);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditRegister(RegisterVM Input)
+        {
+            GetShips();
+            GetRank();
+            if (ModelState.IsValid)
+            {
+
+                var user = new ef_shiplogin
+                {
+                    Id=Input.Id,
+                    userName = Input.UserName,
+                    otheName = Input.FirstName,
+                    surName = Input.LastName,
+                    rank = Input.Rank,
+                    password = Input.Password,
+                    confirmPassword = true,
+                    ship = Input.Ship
+                };
+              await _shipService.UpdateShipLogin(user);
+
+            }
+
+           
+            return RedirectToAction("GetshipUser");
+        }
+        public async Task<IActionResult> GetshipUser()
+        {
+            var list = await _shipService.GetAllPersonel();
+            return  View(list);
+        }
+        public IActionResult DeleteShipUser(int id)
+        {
+            
+            _shipService.DeleteUser(id);
+            return RedirectToAction("GetshipUser");
+        }
+            public List<SelectListItem> GetRank()
         {
            var RankList = (from rk in _context.ef_ranks
                            select new SelectListItem()
@@ -806,6 +849,23 @@ namespace NNPEFWEB.Controllers
             });
 
             return RankList;
+        }
+        public List<SelectListItem> GetShips()
+        {
+            var shipList = (from rk in _context.ef_ships
+                            select new SelectListItem()
+                            {
+                                Text = rk.shipName,
+                                Value = rk.shipName.ToString(),
+                            }).ToList();
+
+            shipList.Insert(0, new SelectListItem()
+            {
+                Text = "----Select----",
+                Value = string.Empty
+            });
+
+            return shipList;
         }
         public List<ef_command> GetCommand2()
         {
@@ -1027,7 +1087,7 @@ namespace NNPEFWEB.Controllers
                     //}
                     string userp = User.Identity.Name;
 
-                    ProcesUpload procesUpload2 = new ProcesUpload(null, connectionstring, listapplication, _unitOfWorks, userp, null, null);
+                    ProcesUpload procesUpload2 = new ProcesUpload(null, connectionstring, listapplication, _unitOfWorks, userp);
                     await procesUpload2.processUploadShipUser();
                     TempData["message"] = "Uploaded Successfully";
 
@@ -1198,7 +1258,7 @@ namespace NNPEFWEB.Controllers
                     }
                     string userp = User.Identity.Name;
 
-                    ProcesUpload procesUpload2 = new ProcesUpload(null,connectionstring, listapplication, _unitOfWorks, userp, null, null);
+                    ProcesUpload procesUpload2 = new ProcesUpload(null,connectionstring, listapplication, _unitOfWorks, userp);
                     await procesUpload2.processUploadInThread2();
                     TempData["message"] = "Uploaded Successfully";
 

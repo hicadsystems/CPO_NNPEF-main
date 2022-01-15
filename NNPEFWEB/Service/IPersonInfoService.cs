@@ -19,15 +19,18 @@ namespace NNPEFWEB.Service
         ef_personalInfo GetPersonalInfoByRank(string svcno, string rank);
         ef_personalInfo GetPersonalInfoByClass(string payclass);
         ef_personalInfo GetPersonalInfoByShip(string ship);
-        IEnumerable<ef_personalInfo> GetPersonnelByCommand(string command, string appointm, string payclass);
+        IEnumerable<ef_personalInfo> GetUpdatedPersonnel2();
+        IEnumerable<ef_personalInfo> GetPersonnelByCommand(string payclass);
         IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string payclass, string ship);
+        IEnumerable<ef_personalInfo> GetUpdatedPersonnel3(string payclass, string ship);
         IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship,string svcno);
+        IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO2(string payclass, string svcno);
         Task<bool> AddPersonalInfo(ef_personalInfo value);
         List<ef_personalInfo> PEFReport(ApiSearchModel apiSearchModel);
         IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno);
         List<ef_personalInfo> GetPEFReport();
         Task<List<PersonalInfoModel>> getPersonList(int iDisplayStart, int iDisplayLength);
         Task<int> getPersonListCount();
-        IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCpo(string payclass);
+        IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCpo(string payclass, string ship);
     }
 }

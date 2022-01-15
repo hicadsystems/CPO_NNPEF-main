@@ -18,10 +18,10 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly string connectionstring;
 
-        public ResetPasswordModel(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public ResetPasswordModel(UserManager<User> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             connectionstring = configuration.GetConnectionString("DefaultConnection");

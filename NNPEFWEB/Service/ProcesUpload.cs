@@ -22,16 +22,14 @@ namespace NNPEFWEB.Service
         //private readonly ILoanTypeService loanTypeService;
         private readonly string connectionstring;
         private readonly IUnitOfWorks unitOfWork;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+
         private string user;
         private readonly ILogger<HomeController> _logger;
         public ProcesUpload(
             ILogger<HomeController> logger,
             string _connectionstring, List<personLoginVM> personLoginVMs, 
-             IUnitOfWorks unitOfWork, string user,
-              UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager
+             IUnitOfWorks unitOfWork, string user
+              
             )
         {
             this.personLoginVMs = personLoginVMs;
@@ -40,8 +38,6 @@ namespace NNPEFWEB.Service
             _logger = logger;
             this.unitOfWork = unitOfWork;
             connectionstring = _connectionstring;
-            _userManager = userManager;
-            _signInManager = signInManager;
 
         }
 

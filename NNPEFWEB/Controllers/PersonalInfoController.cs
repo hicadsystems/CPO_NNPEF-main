@@ -83,29 +83,32 @@ namespace NNPEFWEB.Controllers
 
         }
         // GET: PersonalInfoController
-        public ActionResult UpdatedPersonelList(string id,string svcno)
+        public ActionResult UpdatedPersonelList2(string id,string svcno)
         {
             try
             {
                 var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-                //cmdr.Command=HttpContext.Session.GetInt32("LoginCommand");
                 HttpContext.Session.SetString("classid", id);
                 int ? shipid = HttpContext.Session.GetInt32("ship");
                 string Appointment = HttpContext.Session.GetString("Appointment");
-                //string com = _context.ef_commands.Where(x => x.Id == cmdr.Command).FirstOrDefault().code;
                 string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
-                //string depart = _context.ef_specialisationareas.Where(x => x.Id == cmdr.spec).FirstOrDefault().specName;
                 if (svcno != null)
                 {
                     var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO(id, ship, svcno);
                     return View(pp2);
                 }
-                else
+                else if(ship!=null)
                 {
                     var pp = personinfoService.GetUpdatedPersonnel(id, ship);
                     return View(pp);
                 }
-                return View();
+                else 
+                {
+
+                    var pp = personinfoService.GetUpdatedPersonnel(cmdr.Appointment, ship);
+                    return View(pp);
+                }
+
 
             }
             catch (Exception ex)
@@ -116,13 +119,39 @@ namespace NNPEFWEB.Controllers
             }
            
         }
+        public ActionResult UpdatedPersonelList(string id, string svcno)
+        {
+            try
+            {
+                var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                if (svcno != null)
+                {
+                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO2(cmdr.Appointment, svcno);
+                    return View(pp2);
+                }
+                
+                else
+                {
+
+                    var pp = personinfoService.GetUpdatedPersonnel2();
+                    return View(pp);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogInformation(ex.Message);
+                throw;
+            }
+
+        }
         public ActionResult PEFReport(string sortby,string cmd)
         {
             try
             {
                 ViewBag.commandList = GetCommand2();
                 var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-                cmdr.Command = HttpContext.Session.GetInt32("LoginCommand");
+                //cmdr.Command = HttpContext.Session.GetInt32("LoginCommand");
                 ApiSearchModel apimodelSearch = new ApiSearchModel()
                 {
                     command = cmd,
@@ -144,9 +173,9 @@ namespace NNPEFWEB.Controllers
             try
             {
                 var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-                var com = _context.ef_commands.Where(x => x.Id == cmdr.Command).FirstOrDefault();
+               // var com = _context.ef_commands.Where(x => x.Id == cmdr.Command).FirstOrDefault();
 
-                var pp = personinfoService.GetPersonnelByCommand(com.code, cmdr.Appointment, id);
+                var pp = personinfoService.GetPersonnelByCommand(id);
 
                 return View(pp);
             }
@@ -518,20 +547,20 @@ namespace NNPEFWEB.Controllers
             {
                 per.Status = "DO";
                 per.div_off_name = cmdr.LastName + "" + cmdr.FirstName;
-                per.div_off_rank = cmdr.Rank;
+               // per.div_off_rank = cmdr.Rank;
                 per.div_off_svcno = cmdr.UserName;
             }
             if (per.Status == "DO")
             {
                 per.hod_name = cmdr.LastName + "" + cmdr.FirstName;
-                per.hod_rank = cmdr.Rank;
+                //per.hod_rank = cmdr.Rank;
                 per.hod_svcno = cmdr.UserName;
 
             }
             if (per.Status == "HOD")
             {
                 per.cdr_name = cmdr.LastName + "" + cmdr.FirstName;
-                per.cdr_rank = cmdr.Rank;
+                //per.cdr_rank = cmdr.Rank;
                 per.cdr_svcno = cmdr.UserName;
             }
             var pix = per.Passport;
@@ -926,7 +955,7 @@ namespace NNPEFWEB.Controllers
                 person.NNNCS_loanYear = value.NNNCS_loanYear;
                 person.PPCFS_loanYear = value.PPCFS_loanYear;
                 person.Anyother_LoanYear = value.Anyother_LoanYear;
-                person.Status = "HOD";
+                person.Status = "SHIP";
 
                     //value.Passport = profilepicture;
                 await personinfoService.AddPersonalInfo(person);
@@ -1314,7 +1343,7 @@ namespace NNPEFWEB.Controllers
                 person.cdr_svcno = value.cdr_svcno;
                 person.cdr_date = value.cdr_date;
 
-                person.Status = "DO";
+                person.Status = "SHIP";
 
                 //person.Status = cmdr.Appointment;
                 person.Passport = value.Passport;
@@ -1516,7 +1545,7 @@ namespace NNPEFWEB.Controllers
                     //added 12/13/2021
                     person.nok_phone12 = value.nok_phone12;
                     person.nok_phone22 = value.nok_phone22;
-                    person.Status = "DO";
+                    person.Status = "SHIP";
 
                 person.qualification = value.qualification;
                 person.division = value.division;
@@ -1938,7 +1967,7 @@ namespace NNPEFWEB.Controllers
                         }
                         string userp = User.Identity.Name;
 
-                        ProcesUpload procesUpload2 = new ProcesUpload(null,null, listapplication, unitOfWorks, userp, null, null);
+                        ProcesUpload procesUpload2 = new ProcesUpload(null,null, listapplication, unitOfWorks, userp);
                         await procesUpload2.processUploadInThread();
                         TempData["message"] = "Uploaded Successfully";
 

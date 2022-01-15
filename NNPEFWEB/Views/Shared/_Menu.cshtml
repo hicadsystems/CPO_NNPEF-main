@@ -1,0 +1,70 @@
+﻿@using NNPEFWEB.Models
+
+
+@model User
+
+@{
+    var userMenus = new List<RoleMenu>();
+  
+    var counter = 0;
+    foreach (var role in Model.UserRoles)
+    {
+
+        userMenus.AddRange(role.Role.RoleMenus);
+    }
+
+    var menuGroups = userMenus.GroupBy(
+        x => x.Menu.MenuGroup,
+        x => x.Menu,
+        (menuGroup, menu) => new { Group = menuGroup, menus = menu.ToList() });
+}
+
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    @foreach (var group in menuGroups)
+    {
+        counter++;
+        if (group.Group == null)
+        {
+            @foreach (var menu in group.menus)
+            {
+
+                <li class="nav-item has-treeview">
+                    <a class="nav-link" href="/@menu.Controller/@menu.Action">
+                        <i class="nav-icon far fa-adobe"></i>
+                        <span class="align-middle"> @menu.Name </span>
+                    </a>
+                </li>
+
+            }
+        }
+        else
+        {
+
+<li class="nav-item has-treeview">
+    <a href="javascript:void(0)" class="nav-link">
+        <i class="nav-icon far fa-adobe"></i>
+        <p>
+            @group.Group.Name
+            <i class="fas fa-angle-left right"></i>
+        </p>
+
+    </a>
+    <ul class="nav nav-treeview">
+            @foreach (var menu in group.menus)
+            {
+        <li class="nav-item">
+            
+            <a asp-controller="@menu.Controller" asp-action="@menu.Action" class="nav-link">
+                <i class="far fa-app-store nav-icon"></i>
+                <p>@menu.Name</p>
+            </a>
+        </li>}
+        </ul>
+</li>
+        }
+
+    }
+
+</ul>
+
+

@@ -70,9 +70,9 @@ namespace NNPEFWEB.Service
             return unitOfWork.Personinfo.GetPersonalReport(username);
         }
 
-        public IEnumerable<ef_personalInfo> GetPersonnelByCommand(string command, string appointm, string payclass)
+        public IEnumerable<ef_personalInfo> GetPersonnelByCommand(string payclass)
         {
-            return unitOfWork.Personinfo.GetPersonnelByCommand(command,appointm, payclass);
+            return unitOfWork.Personinfo.GetPersonnelByCommand(payclass);
         }
    
         public List<ef_personalInfo> PEFReport(ApiSearchModel apiSearchModel)
@@ -88,13 +88,25 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.Personinfo.GetUpdatedPersonnel(payclass,ship);
         }
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel3(string payclass, string ship)
+        {
+            return unitOfWork.Personinfo.GetUpdatedPersonnel3(payclass, ship);
+        }
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel2()
+        {
+            return unitOfWork.Personinfo.GetUpdatedPersonnel2();
+        }
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship,string svcno)
         {
             return unitOfWork.Personinfo.GetUpdatedPersonnelBySVCNO(payclass, ship,svcno);
         }
-        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCpo(string payclass)
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO2(string payclass,string svcno)
         {
-            return unitOfWork.Personinfo.GetUpdatedPersonnelByCPO(payclass);
+            return unitOfWork.Personinfo.GetUpdatedPersonnelBySVCNO2(payclass, svcno);
+        }
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCpo(string payclass,string ship)
+        {
+            return unitOfWork.Personinfo.GetUpdatedPersonnelByCPO(payclass,ship);
         }
         public Task<List<PersonalInfoModel>> getPersonList(int iDisplayStart, int iDisplayLength)
         {

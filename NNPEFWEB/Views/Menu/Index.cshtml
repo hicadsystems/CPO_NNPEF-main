@@ -1,0 +1,192 @@
+﻿@using NNPEFWEB.ViewModels.Menus
+@model MenusViewModel
+
+@{
+    ViewData["Title"] = "Menus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card">
+    <div class="card-header">
+        Menus
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div style="display:none" class="col-3 offset-9">
+                <button class='btn btn-success btn-block' id="add-edit" data-toggle="modal" data-target="#menuModal">
+                    <i class="fa fa-plus"></i> &nbsp; Add Menu
+                </button>
+            </div>
+            <hr class="btn-block">
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="data-table" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Status</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var menu in Model.Menus)
+                        {
+                            <tr class="e-row" data-menu-id="@menu.Id">
+                                <td class="e-details" data-menu-id="@menu.Id">
+                                    @menu.Name
+                                </td>
+                                @if (menu.IsActive)
+                                {
+                                    <td><span class="badge badge-success"><i class="fa fa-check"></i>&nbsp;Active</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge badge-danger"><i class="fa fa-times"></i>&nbsp;Inactive</span></td>
+                                }
+                                @if (menu.IsActive)
+                                {
+                                    <td><a type="button" class="btn btn-danger" href="menu/ToggleStatus/@menu.Id">Deactivate</a></td>
+                                }
+                                else
+                                {
+                                    <td><a type="button" class="btn btn-primary" href="menu/ToggleStatus/@menu.Id">Activate</a></td>
+                                }
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Device Modal-->
+<div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="vLabel" aria-hidden="true"
+     data-backdrop="static">
+    <form action="/menu/update" id="post-form" class="form" method="post">
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="menuModalLabel">Edit Menu</h5>
+                    <button type="button" class="close dismiss-modal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="0" id="id" name="id" />
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="Name" class="control-label">
+                                Name
+                            </label>
+                            <input type="text" id="name" name="name" required class="form-control">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="code" class="control-label">
+                                Code
+                            </label>
+                            <input type="text" id="code" name="code" required class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Description" class="control-label">
+                            Description
+                        </label>
+                        <textarea name="Description" id="description" class="form-control" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="controller" class="control-label">
+                                Controller
+                            </label>
+                            <input readonly type="text" id="controller" name="controller" required class="form-control">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="action" class="control-label">
+                                Action
+                            </label>
+                            <input readonly type="text" id="action" name="action" required class="form-control">
+                        </div>
+                    </div>
+
+                    <label for="menus" class="">
+                        Menus Group
+                    </label>
+                    <div class="form-group">
+                        <select style="width:100%" id="menugroup" name="menugroup" class="required form-control row">
+                            <option value="">Select Menus</option>
+                            @foreach (var menugroups in Model.MenuGroups)
+                            {
+                                <option value="@menugroups.Id">@menugroups.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label for="active" class="control-label">
+                            Active
+                        </label>
+                        <label class="switch switch-default switch-pill switch-secondary mr-2">
+                            <input name="Active" type="checkbox" class="switch-input" value="true" checked="true">
+                            <span class="switch-label"></span>
+                            <span class="switch-handle"></span>
+                        </label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary dismiss-modal" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success" id="addDevice">Save</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- End Create menu Modal-->
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table').DataTable({
+            "language ": {
+                "emptyTable ": "No Menus. Add new Menu. "
+            }
+        });
+
+        $("#menugroup").select2();
+
+        $('#data-table tbody').on('click', '.e-details', function () {
+
+            menuId = $(this).data('menu-id')
+
+            var url = window.location.origin + '/menu/' + menuId;
+            $.get(url, function (response) {
+                if (response.success) {
+                    $("#id").val(response.data.menu.id)
+                    $("#name").val(response.data.menu.name);
+                    $("#code").attr("readonly", "readonly")
+                    $("#code").val(response.data.menu.code);
+                    $("#description").val(response.data.menu.description)
+                    $("#controller").val(response.data.menu.controller)
+                    $("#action").val(response.data.menu.action)
+                    $("#add-edit").trigger("click")
+
+                    if (response.data.menu.menuGroupId) {
+                        $("#menugroup").val(response.data.menu.menuGroupId).trigger('change')
+                    }
+
+                }
+
+            });
+        });
+
+    });
+</script>
+

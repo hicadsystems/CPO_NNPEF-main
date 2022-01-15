@@ -9,7 +9,7 @@ namespace NNPEFWEB.Data
 {
     public static class ContextSeed
     {
-        public static async Task SeedRolesAsync(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesAsync(UserManager<User> userManager,RoleManager<IdentityRole> roleManager)
         {
             await roleManager.CreateAsync(new IdentityRole(Enum.Roles.Secertariat.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Enum.Roles.SuperAdmin.ToString()));
@@ -19,9 +19,9 @@ namespace NNPEFWEB.Data
             await roleManager.CreateAsync(new IdentityRole(Enum.Roles.Admin.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Enum.Roles.Operator.ToString()));
         }
-        public static async Task SuperAdminAsync(UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
+        public static async Task SuperAdminAsync(UserManager<User> userManager,RoleManager<IdentityRole> roleManager)
         {
-            var defaultuser = new ApplicationUser
+            var defaultuser = new User
             {
                 UserName = "SupperAdmin",
                 FirstName = "Kenneth",

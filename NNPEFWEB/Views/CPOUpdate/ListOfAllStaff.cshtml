@@ -1,0 +1,78 @@
+﻿@model IEnumerable<NNPEFWEB.Models.ef_personalInfo>
+@using Microsoft.AspNetCore.Authorization
+
+@{ ViewData["Title"] = "UpdatedPersonelByCPO"; }
+
+
+
+<h1 style="margin-top:-20px">Personnel Report List</h1>
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="ListOfAllStaff" method="get" asp-controller="CPOUpdate">
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="control-label">Filtered By:</label>
+                    <select name="reporttype" class="form-control">
+                        <option value="AllStaff">All Staff</option>
+                        <option value="Completed">Completed Form</option>
+                        <option value="Auth">Authenticated Form</option>
+                        <option value="Verified">Certisfied Form</option>
+                        <option value="Processed">Processed Form</option>
+
+
+                    </select>
+                </div>
+
+                <div class="col-md-4" style="margin-top:30px">
+                    <input type="submit" class="btn btn-primary" value="Filtered" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Export" method="post" asp-controller="CPOUpdate">
+
+            <input type="submit" class="btn btn-primary" value="Download To Excel" />
+
+        </form>
+    </div>
+    <div class="col-md-2">
+        <form asp-action="ListOfAllStaffReport" method="get" asp-controller="CPOUpdate">
+
+            <input type="submit" class="btn btn-primary" value="Download To PDF" />
+        </form>
+    </div>
+
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Service No</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Ship</th>
+
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var r in Model)
+        {
+<tr>
+    <td>@r.Rank</td>
+    <td>@r.serviceNumber</td>
+    <td>@r.Surname</td>
+    <td>@r.OtherName</td>
+    <td>@r.ship</td>
+    <td>
+    
+
+
+</tr>
+}
+    </tbody>
+</table>

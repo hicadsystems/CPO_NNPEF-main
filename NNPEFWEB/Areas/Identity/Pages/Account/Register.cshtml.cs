@@ -23,15 +23,15 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext context;
 
         public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             ApplicationDbContext _context)
@@ -66,13 +66,13 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account
             [Display(Name = "User Name")]
             public string UserName { get; set; }
 
-            [Required]
-            [Display(Name = "Command")]
-            public int Command { get; set; }
-            [Required]
-            [Display(Name = "Ship")]
-            public int ship { get; set; }
-            public int spec { get; set; }
+            //[Required]
+            //[Display(Name = "Command")]
+            //public int Command { get; set; }
+            //[Required]
+            //[Display(Name = "Ship")]
+            //public int ship { get; set; }
+            //public int spec { get; set; }
             [Required]
             [Display(Name = "Rank")]
             public string Rank { get; set; }
@@ -94,9 +94,9 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account
         }
       
         public List<ef_rank> RankList { get; set; }
-        public List<ef_command> CommandList { get; set; }
-        public List<ef_ship> ShipList { get; set; }
-        public List<ef_specialisationarea> SpecList { get; set; }
+        //public List<ef_command> CommandList { get; set; }
+        //public List<ef_ship> ShipList { get; set; }
+        //public List<ef_specialisationarea> SpecList { get; set; }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -110,26 +110,26 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account
 
            
 
-            CommandList = (from rk in context.ef_commands
-                           select new ef_command()
-                           {
-                               commandName = rk.commandName,
-                               code = rk.code,
-                           }).ToList();
+            //CommandList = (from rk in context.ef_commands
+            //               select new ef_command()
+            //               {
+            //                   commandName = rk.commandName,
+            //                   code = rk.code,
+            //               }).ToList();
 
-            ShipList = (from sh in context.ef_ships
-                           select new ef_ship()
-                           {
-                               shipName = sh.shipName,
-                               Id = sh.Id,
-                           }).ToList();
+            //ShipList = (from sh in context.ef_ships
+            //               select new ef_ship()
+            //               {
+            //                   shipName = sh.shipName,
+            //                   Id = sh.Id,
+            //               }).ToList();
 
-            SpecList = (from sp in context.ef_specialisationareas
-                        select new ef_specialisationarea()
-                        {
-                            specName = sp.specName,
-                            Id = sp.Id,
-                        }).ToList();
+            //SpecList = (from sp in context.ef_specialisationareas
+            //            select new ef_specialisationarea()
+            //            {
+            //                specName = sp.specName,
+            //                Id = sp.Id,
+            //            }).ToList();
 
 
 
@@ -146,14 +146,11 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account
                 MailAddress address = new MailAddress(Input.Email);
                 string userName = address.User;
                
-                var user = new ApplicationUser {
+                var user = new User {
                     UserName = Input.UserName,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
-                    Command=Input.Command,
-                    ship=Input.ship,
-                    spec=Input.spec,
                     Rank=Input.Rank,
                     Appointment=Input.Appointment
 

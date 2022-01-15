@@ -8,6 +8,12 @@ namespace NNPEFWEB.Repository
 {
     public interface IUnitOfWorks
     {
+        IUserRepository Users { get; }
+        IUserRoleRepository UserRoles { get; }
+        IMenuRepository Menus { get; }
+        IRoleMenuRepository RoleMenus { get; }
+        IMenuGroupRepository MenuGroups { get; }
+
         IPersonLoginRepository PersonLogin { get; }
         IPersonInfoRepository Personinfo { get; }
         ISystemsInfoRepository SystemsInfo { get; }

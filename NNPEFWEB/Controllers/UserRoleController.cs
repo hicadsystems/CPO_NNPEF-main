@@ -14,8 +14,8 @@ namespace NNPEFWEB.Controllers
     public class UserRoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        public UserRoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        private readonly UserManager<User> _userManager;
+        public UserRoleController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -25,23 +25,20 @@ namespace NNPEFWEB.Controllers
         {
             var users = await _userManager.Users.ToListAsync();
            var userRoles = new List<UserRolesViewModel>();
-            foreach(ApplicationUser user in users)
+            foreach(User user in users)
             {
                 var vm = new UserRolesViewModel();
-                vm.UserId = user.Id;
                 vm.FirstName = user.FirstName;
                 vm.LastName = user.LastName;
                 vm.Email = user.Email;
                 vm.Rank = user.Rank;
-                vm.Command = user.Command;
-                vm.Ship = user.ship;
                 vm.Appointment = user.Appointment;
                 vm.Roles = await GetUserRoles(user);
                 userRoles.Add(vm);
             }
             return View(userRoles);
         }
-        private async Task<List<string>> GetUserRoles(ApplicationUser user)
+        private async Task<List<string>> GetUserRoles(User user)
         {
             return new List<string>(await _userManager.GetRolesAsync(user));
         }

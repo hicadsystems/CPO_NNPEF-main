@@ -11,12 +11,16 @@ namespace NNPEFWEB.Service
         ef_shiplogin GetPersonBySvcno(string person);
         ef_shiplogin personnelLogin(string username, string password);
         Task<ef_shiplogin> GetPersonel(string svcno);
-        Task<List<ef_shiplogin>> GetAllPersonel();
+        Task<IEnumerable<ef_shiplogin>> GetAllPersonel();
        // Task<bool> updatepersonlogin(ef_shiplogin values);
         Task<ef_shiplogin> GetPersonelByPassword(string password, string per);
         Task<ef_shiplogin> GetPersonelByMail(string email);
         void updateshiplogin2(ef_shiplogin values);
         Task<ef_shiplogin> GetUserByShip(string person);
         void updateshiploginss(ef_shiplogin values);
+        Task<bool> addShipLogin(ef_shiplogin value);
+        Task<bool> UpdateShipLogin(ef_shiplogin value);
+        Task<ef_shiplogin> GetshiploginById(int id);
+        void DeleteUser(int id);
     }
 }

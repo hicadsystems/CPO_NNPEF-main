@@ -14,12 +14,12 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
         public IndexModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -52,13 +52,13 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account.Manage
             
         }
 
-        private async Task LoadAsync(ApplicationUser user)
+        private async Task LoadAsync(User user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var firstName = user.FirstName;
             var lastName = user.LastName;
-            var profilePicture = user.ProfilePicture;
+           // var profilePicture = user.ProfilePicture;
             Username = userName;
 
             Input = new InputModel
@@ -67,7 +67,7 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account.Manage
                 Username=userName,
                 FirstName=firstName,
                 LastName=lastName,
-                ProfilePicture=profilePicture
+                //ProfilePicture=profilePicture
             };
         }
 
@@ -78,7 +78,7 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-             UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).";
+            // UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).";
 
             await LoadAsync(user);
             return Page();
@@ -115,7 +115,7 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account.Manage
                 using (var dataStream=new MemoryStream())
                 {
                     await file.CopyToAsync(dataStream);
-                    user.ProfilePicture = dataStream.ToArray();
+                    //user.ProfilePicture = dataStream.ToArray();
                 }
                 await _userManager.UpdateAsync(user);
             }
@@ -129,29 +129,29 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
-            if (user.UsernameChangeLimit > 0)
-            {
-                if (Input.Username != user.UserName)
-                {
-                    var userNameExists = await _userManager.FindByNameAsync(Input.Username);
-                    if (userNameExists != null)
-                    {
-                        StatusMessage = "User name already taken. Select a different username";
-                        return RedirectToPage();
-                    }
-                    var setUserName = await _userManager.SetUserNameAsync(user, Input.Username);
-                    if (!setUserName.Succeeded)
-                    {
-                        StatusMessage = "Unespected error when trying to set username ";
-                        return RedirectToPage();
-                    }
-                    else
-                    {
-                        user.UsernameChangeLimit -= 1;
-                        await _userManager.UpdateAsync(user);
-                    }
-                }
-            }
+            //if (user.UsernameChangeLimit > 0)
+            //{
+            //    if (Input.Username != user.UserName)
+            //    {
+            //        var userNameExists = await _userManager.FindByNameAsync(Input.Username);
+            //        if (userNameExists != null)
+            //        {
+            //            StatusMessage = "User name already taken. Select a different username";
+            //            return RedirectToPage();
+            //        }
+            //        var setUserName = await _userManager.SetUserNameAsync(user, Input.Username);
+            //        if (!setUserName.Succeeded)
+            //        {
+            //            StatusMessage = "Unespected error when trying to set username ";
+            //            return RedirectToPage();
+            //        }
+            //        else
+            //        {
+            //            user.UsernameChangeLimit -= 1;
+            //            await _userManager.UpdateAsync(user);
+            //        }
+            //    }
+            //}
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

@@ -438,15 +438,14 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             return _context.ef_personalInfos.FirstOrDefault(predicate);
         }
 
-        public IEnumerable<ef_personalInfo> GetPersonnelByCommand(string command,string appointm,string payclass)
+        public IEnumerable<ef_personalInfo> GetPersonnelByCommand(string payclass)
         {
             var pp = new List<ef_personalInfo>();
-            if (appointm == "CDR")
-            {
+            
                 pp = (from ppl in _context.ef_personalInfos
                       //join rk in _context.ef_ranks on ppl.Rank equals rk.rankName
                       join cm in _context.ef_commands on ppl.command equals cm.code
-                      where (ppl.command == command && ppl.payrollclass == payclass && (ppl.Status == "HOD"|| ppl.Status == "CDR"))
+                      where (ppl.payrollclass == payclass && (ppl.Status == "HOD"|| ppl.Status == "CDR"))
                       select new ef_personalInfo
                       {
                           serviceNumber = ppl.serviceNumber,
@@ -460,76 +459,19 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           Status=ppl.Status
 
                       }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
-            }
-            else if (appointm == "HOD")
-            {
-                 pp = (from ppl in _context.ef_personalInfos
-                      // join rk in _context.ef_ranks on ppl.Rank equals rk.rankName
-                       join cm in _context.ef_commands on ppl.command equals cm.code
-                       where (ppl.command == command && ppl.payrollclass == payclass && ppl.Status=="DO")
-                          select new ef_personalInfo
-                          {
-                              serviceNumber = ppl.serviceNumber,
-                              Surname = ppl.Surname,
-                              OtherName = ppl.OtherName,
-                              Rank = ppl.Rank,
-                              seniorityDate = ppl.seniorityDate,
-                              command = cm.commandName,
-                              payrollclass = ppl.payrollclass,
-                              ship = ppl.ship
-                          }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
-               
-            }
-            else 
-            {
-                 pp = (from ppl in _context.ef_personalInfos
-                       //join rk in _context.ef_ranks on ppl.Rank equals rk.rankName
-                       join cm in _context.ef_commands on ppl.command equals cm.code
-                       where (ppl.command == command && ppl.payrollclass == payclass && ppl.Status==null)
-                          select new ef_personalInfo
-                          {
-                              serviceNumber = ppl.serviceNumber,
-                              Surname = ppl.Surname,
-                              OtherName = ppl.OtherName,
-                              Rank = ppl.Rank,
-                              seniorityDate = ppl.seniorityDate,
-                              command = ppl.command,
-                              payrollclass = ppl.payrollclass,
-                              ship = ppl.ship
-                          }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
-               
-            }
+
+            
             return pp;
         }
-        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship, string svcno)
+
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO2(string payclass,string svcno)
         {
             var pp = new List<ef_personalInfo>();
-
-            pp = (from ppl in _context.ef_personalInfos
-                  where (ppl.ship == ship && ppl.classes == Convert.ToInt32(payclass) && ppl.serviceNumber == svcno)
-                  select new ef_personalInfo
-                  {
-                      serviceNumber = ppl.serviceNumber,
-                      Surname = ppl.Surname,
-                      OtherName = ppl.OtherName,
-                      Rank = ppl.Rank,
-                      seniorityDate = ppl.seniorityDate,
-                      command = ppl.command,
-                      payrollclass = ppl.payrollclass,
-                      classes = ppl.classes,
-                      ship = ppl.ship
-                  }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
-            return pp;
-        }
-        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string payclass,string ship)
-        {
-            var pp = new List<ef_personalInfo>();
-
+            
                 pp = (from ppl in _context.ef_personalInfos
-                      where (ppl.ship == ship && ppl.classes == Convert.ToInt32(payclass) && ppl.Status!="SHIP")
+                      where (ppl.payrollclass == payclass && ppl.serviceNumber == svcno)
                       select new ef_personalInfo
                       {
-                          Id=ppl.Id,
                           serviceNumber = ppl.serviceNumber,
                           Surname = ppl.Surname,
                           OtherName = ppl.OtherName,
@@ -537,12 +479,161 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           seniorityDate = ppl.seniorityDate,
                           command = ppl.command,
                           payrollclass = ppl.payrollclass,
-                          classes=ppl.classes,
+                          classes = ppl.classes,
                           ship = ppl.ship
                       }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
-         
+
+           
             return pp;
         }
+
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship, string svcno)
+        {
+            var pp = new List<ef_personalInfo>();
+            if (ship == null)
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      where (ppl.payrollclass == payclass && ppl.serviceNumber == svcno)
+                      select new ef_personalInfo
+                      {
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship
+                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
+
+            }
+            else
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      where (ppl.ship == ship && ppl.classes == Convert.ToInt32(payclass) && ppl.serviceNumber == svcno)
+                      select new ef_personalInfo
+                      {
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship
+                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
+            }
+                return pp;
+        }
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string payclass,string ship)
+        {
+            var pp = new List<ef_personalInfo>();
+            if (ship == null)
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      where (ppl.payrollclass == payclass && ppl.Status == "SHIP")
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship
+                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
+
+            }
+            else
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      where (ppl.ship == ship && ppl.classes == Convert.ToInt32(payclass) && ppl.Status == "SHIP")
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship
+                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
+            }
+            return pp;
+        }
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel2()
+        {
+            var pp = new List<ef_personalInfo>();
+
+                pp = (from ppl in _context.ef_personalInfos
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship
+                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
+
+           
+            return pp;
+        }
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnel3(string payclass, string ship)
+        {
+            var pp = new List<ef_personalInfo>();
+            if (ship == null)
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      where (ppl.payrollclass == payclass && ppl.Status == "CPO")
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship
+                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
+
+            }
+            else
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      where (ppl.ship == ship && ppl.classes == Convert.ToInt32(payclass) && ppl.Status == "CPO")
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship
+                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
+            }
+            return pp;
+        }
+
         public List<ef_personalInfo> GetPEFReport2()
         {
             var pp = new List<ef_personalInfo>();
@@ -720,12 +811,13 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
 
                           }).CountAsync();
         }
-        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCPO(string payclass)
+        public IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCPO(string payclass, string ship)
         {
                 var pp = new List<ef_personalInfo>();
+            if (ship == null)
+            {
                 pp = (from ppl in _context.ef_personalInfos
-                      join cm in _context.ef_commands on ppl.command equals cm.code
-                      where (ppl.payrollclass == payclass && ppl.Status == "CPO" && ppl.emolumentform!="Yes")
+                      where (ppl.payrollclass == payclass && ppl.Status == "SHIP" && ppl.emolumentform != "Yes")
                       select new ef_personalInfo
                       {
                           serviceNumber = ppl.serviceNumber,
@@ -733,17 +825,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           OtherName = ppl.OtherName,
                           Rank = ppl.Rank,
                           seniorityDate = ppl.seniorityDate,
-                          command = cm.commandName,
                           payrollclass = ppl.payrollclass,
-                          ship = ppl.ship,
-                          cdr_name=ppl.cdr_name,
-                          cdr_date=ppl.cdr_date,
-                          hod_name=ppl.hod_name,
-                          hod_date=ppl.hod_date,
-                          div_off_name=ppl.div_off_name,
-                          div_off_date=ppl.div_off_date
+                          ship = ppl.ship
+
                       }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
 
+
+            }
+            else
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      where (ppl.payrollclass == payclass && ppl.Status == "CPO" && ppl.emolumentform != "Yes" && ppl.ship == ship)
+                      select new ef_personalInfo
+                      {
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          payrollclass = ppl.payrollclass,
+                          ship = ppl.ship
+
+                      }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
+            }
             return pp;
         }
         }

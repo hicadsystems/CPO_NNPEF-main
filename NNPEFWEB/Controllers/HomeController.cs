@@ -32,34 +32,69 @@ namespace NNPEFWEB.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-           // var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+            if (User.Identity.Name != "hicad@hicad.com")
+            {
+                return RedirectToAction("sectiondashboard");
+            }
+            else
+            {
+                // var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                var dah = new personelCountVM()
+                {
+                    AllStaff = _dashboard.AllStaff(),
+                    ApproveStaff = _dashboard.ApprovedStaff(),
+                    AwaitingApprovalStaff = _dashboard.AwaiteApprovalStaff(),
+                    YettoFillStaff = _dashboard.YetToFillStaff(),
+                    CommandYetToFill = _dashboard.AllCommandStaff(),
+
+                    AllStaffOfficers = _dashboard.AllStaffOfficers(),
+                    ApproveStaffOfficers = _dashboard.ApprovedStaffOfficers(),
+                    AwaitingApprovalStaffOfficers = _dashboard.AwaiteApprovalStaffOfficers(),
+                    YettoFillStaffOfficers = _dashboard.YetToFillStaffOfficers(),
+                    CommandYetToFillOfficers = _dashboard.AllCommandStaffOfficers(),
+
+                    AllStaffRatings = _dashboard.AllStaffRatings(),
+                    ApproveStaffRatings = _dashboard.ApprovedStaffRatings(),
+                    AwaitingApprovalStaffRatings = _dashboard.AwaiteApprovalStaffRatings(),
+                    YettoFillStaffRatings = _dashboard.YetToFillStaffRatings(),
+                    CommandYetToFillRatings = _dashboard.AllCommandStaffRatings(),
+
+                    AllStaffTrainings = _dashboard.AllStaffTrainings(),
+                    ApproveStaffTrainings = _dashboard.ApprovedStaffTrainings(),
+                    AwaitingApprovalStaffTrainings = _dashboard.AwaiteApprovalStaffTrainings(),
+                    YettoFillStaffTrainings = _dashboard.YetToFillStaffTrainings(),
+                    CommandYetToFillTrainings = _dashboard.AllCommandStaffTrainings(),
+
+
+                };
+
+                return View(dah);
+            }
+        }
+        public IActionResult sectiondashboard()
+        {
+
+            string ship = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault().Appointment;
             var dah = new personelCountVM()
             {
-                AllStaff = _dashboard.AllStaff(),
-                ApproveStaff = _dashboard.ApprovedStaff(),
-                AwaitingApprovalStaff = _dashboard.AwaiteApprovalStaff(),
-                YettoFillStaff = _dashboard.YetToFillStaff(),
-                CommandYetToFill = _dashboard.AllCommandStaff(),
 
-                AllStaffOfficers = _dashboard.AllStaffOfficers(),
-                ApproveStaffOfficers = _dashboard.ApprovedStaffOfficers(),
-                AwaitingApprovalStaffOfficers = _dashboard.AwaiteApprovalStaffOfficers(),
-                YettoFillStaffOfficers = _dashboard.YetToFillStaffOfficers(),
-                CommandYetToFillOfficers = _dashboard.AllCommandStaffOfficers(),
+                AllStaffOfficers = _commanddashboard.AllStaffOfficers(ship),
+                ApproveStaffOfficers = _commanddashboard.ApprovedStaffOfficers(ship),
+                AwaitingApprovalStaffOfficers = _commanddashboard.AwaiteApprovalStaffOfficers(ship),
+                YettoFillStaffOfficers = _commanddashboard.YetToFillStaffOfficers(ship),
+                CommandYetToFillOfficers = _commanddashboard.AllCommandStaffOfficers(ship),
 
-                AllStaffRatings = _dashboard.AllStaffRatings(),
-                ApproveStaffRatings = _dashboard.ApprovedStaffRatings(),
-                AwaitingApprovalStaffRatings = _dashboard.AwaiteApprovalStaffRatings(),
-                YettoFillStaffRatings = _dashboard.YetToFillStaffRatings(),
-                CommandYetToFillRatings = _dashboard.AllCommandStaffRatings(),
+                AllStaffRatings = _commanddashboard.AllStaffRatings(ship),
+                ApproveStaffRatings = _commanddashboard.ApprovedStaffRatings(ship),
+                AwaitingApprovalStaffRatings = _commanddashboard.AwaiteApprovalStaffRatings(ship),
+                YettoFillStaffRatings = _commanddashboard.YetToFillStaffRatings(ship),
+                CommandYetToFillRatings = _commanddashboard.AllCommandStaffRatings(ship),
 
-                AllStaffTrainings = _dashboard.AllStaffTrainings(),
-                ApproveStaffTrainings = _dashboard.ApprovedStaffTrainings(),
-                AwaitingApprovalStaffTrainings = _dashboard.AwaiteApprovalStaffTrainings(),
-                YettoFillStaffTrainings = _dashboard.YetToFillStaffTrainings(),
-                CommandYetToFillTrainings = _dashboard.AllCommandStaffTrainings(),
-
-
+                AllStaffTrainings = _commanddashboard.AllStaffTrainings(ship),
+                ApproveStaffTrainings = _commanddashboard.ApprovedStaffTrainings(ship),
+                AwaitingApprovalStaffTrainings = _commanddashboard.AwaiteApprovalStaffTrainings(ship),
+                YettoFillStaffTrainings = _commanddashboard.YetToFillStaffTrainings(ship),
+                CommandYetToFillTrainings = _commanddashboard.AllCommandStaffTrainings(ship),
             };
 
             return View(dah);
@@ -93,7 +128,7 @@ namespace NNPEFWEB.Controllers
 
             return View(dah);
         }
-            public IActionResult HomePage()
+         public IActionResult HomePage()
         {
             return View();
         }

@@ -1,0 +1,87 @@
+﻿@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NNCPO</title>
+
+
+    <style>
+
+        body {
+            opacity: 0;
+        }
+    </style>
+    <style>
+
+        .caption {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user {
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+    <style>
+        .e-row:hover {
+            cursor: pointer;
+            background-color: #03a9f430 !important
+        }
+    </style>
+
+
+    @*<link href="~/dist/app.css" rel="stylesheet" />
+    <script src="~/js/settings.js"></script>
+    <script src="~/js/jquery.min.js"></script>*@
+</head>
+
+<!body>
+
+    <div id="app">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="../../index3.html" class="brand-link elevation-4">
+
+                <img src="~/Image/navylogo2.png" alt="AdminLTE Logo"
+                     class="brand-image img-circle elevation-3"
+                     style="opacity: .8" />
+                @*<span class="brand-text font-weight-light">AdminLTE 3</span>*@
+            </a>
+
+            <partial name="_Menu" model="@Model" />
+
+</div>
+            </nav>
+
+            <div class="main">
+                <nav class="navbar navbar-expand navbar-theme">
+                    <a class="sidebar-toggle d-flex mr-2">
+                        <i class="hamburger align-self-center"></i>
+                    </a>
+
+                    <form class="form-inline d-none d-sm-inline-block">
+                       @* <h5 style="color:white"> @Context.Session.GetString("fundtypedescription") </h5>*@
+                    </form>
+
+                    <div class="navbar-collapse collapse">
+                        <ul class="navbar-nav ml-auto">
+                           
+                            <li class="nav-item dropdown ml-lg-2">
+                                <a class="nav-link dropdown-toggle position-relative" href="#" id="userDropdown" data-toggle="dropdown">
+                                    <i class="align-middle fas fa-cog"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/Authentication/LogOut"><i class="align-middle mr-1 fas fa-fw fa-arrow-alt-circle-right"></i> Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </nav>
+                <main class="content">
+                    <div class="container-fluid">

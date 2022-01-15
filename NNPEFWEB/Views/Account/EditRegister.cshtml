@@ -1,0 +1,84 @@
+﻿@model NNPEFWEB.ViewModel.RegisterVM
+
+<section class="content">
+    <div class="container-fluid">
+
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+                <div class="card-header text-center">
+                    <h1 class="card-title">Register User</h1>
+                </div>
+                @*<div class="row">
+                    <div class="col-md-4">*@
+                <form method="post">
+
+                    <div class="card-body">
+                        <h2 style="color:#ff0000">@TempData["regError"]</h2>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <input asp-for="Id" class="form-control" hidden />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label asp-for="UserName"></label>
+                                <input asp-for="UserName" class="form-control" required />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="FirstName"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="LastName"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            @*<div class="col-md-4">
+                                    <label asp-for="Email"></label>
+                                    <input asp-for="Email" class="form-control" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>*@
+                            <div class="col-md-4">
+                                <label asp-for="Rank"></label>
+                                <select asp-for="Rank" class="form-control" required
+                                        asp-items="@(new SelectList(Model.RankList,"Value", "Text"))"></select>
+                                <span asp-validation-for="Rank" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Ship</label>
+                                <select asp-for="Ship" class="form-control" required
+                                        asp-items="@(new SelectList(Model.shipList,"Value", "Text"))"></select>
+                                <span asp-validation-for="Ship" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Password</label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Confirm Password</label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </form>
+                @*</div>
+
+                    </div>*@
+            </div>
+        </div>
+    </div>
+
+
+</section>
+

@@ -20,10 +20,10 @@ namespace NNPEFWEB.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _config;
-        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, IConfiguration config)
+        public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender, IConfiguration config)
         {
             _userManager = userManager;
             _emailSender = emailSender;

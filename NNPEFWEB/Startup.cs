@@ -21,6 +21,7 @@ using Wkhtmltopdf.NetCore;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Microsoft.AspNetCore.DataProtection;
+using NNPEFWEB.Services;
 
 namespace NNPEFWEB
 {
@@ -37,21 +38,40 @@ namespace NNPEFWEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataProtection();
-             //.PersistKeysToDbContext<DbContext>()
+            //.PersistKeysToDbContext<DbContext>()
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(40);
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-                    services.AddIdentity<ApplicationUser, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
-                    .AddDefaultUI()
-                    .AddDefaultTokenProviders();
+            
+            services.AddIdentity<User, Role>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = false;
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddWkhtmltopdf("wkhtmltopdf");
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IMenuGroupRepository, MenuGroupRepository>();
+            services.AddScoped<IMenuGroupService, MenuGroupService>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<ISectionDashboard, SectionDashboard>();
             services.AddScoped<IUnitOfWorks, UnitOfWorks>();
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IPersonInfoService, PersonInfoService>();
@@ -96,7 +116,8 @@ namespace NNPEFWEB
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory loggerFactory, UserManager<User> userManager, RoleManager<Role> roleManager,
+           IConfiguration config, IUnitOfWorks unitOfWork)
         {
             var path = Directory.GetCurrentDirectory();
             loggerFactory.AddFile($"{path}\\Logs\\Log.txt");
@@ -111,7 +132,11 @@ namespace NNPEFWEB
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            var IsCentralServer = config.GetValue<bool>("ServerSettings:CentralServer");
+            if (!IsCentralServer)
+            {
+                Seeder.SeedData(userManager, roleManager, config, unitOfWork);
+            }
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

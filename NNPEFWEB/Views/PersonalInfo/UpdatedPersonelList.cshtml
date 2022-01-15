@@ -27,8 +27,6 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Ship</th>
-            <th>Command</th>
-            @* <th>Appointment</th>*@
 
             <th>Action</th>
         </tr>
@@ -43,18 +41,18 @@
     <td>@r.Surname</td>
     <td>@r.OtherName</td>
     <td>@r.ship</td>
-    <td>@r.command</td>
+
 
     <td>
         @if (r.classes == 1)
         {
-<a asp-controller="PersonalInfo" asp-action="ViewPersonel" asp-route-svcno="@r.serviceNumber" class="btn btn-success">Authenticate</a>}
+<a asp-controller="PersonalInfo" asp-action="ViewPersonel" asp-route-svcno="@r.serviceNumber" class="btn btn-success">View Details</a>}
         @if (r.classes == 2)
         {
-    <a asp-controller="PersonalInfo" asp-action="ViewPersonelRating" asp-route-svcno="@r.serviceNumber" class="btn btn-success">Authenticate</a>}
+    <a asp-controller="PersonalInfo" asp-action="ViewPersonelRating" asp-route-svcno="@r.serviceNumber" class="btn btn-success">View Details</a>}
         @if (r.classes == 3)
         {
-    <a asp-controller="PersonalInfo" asp-action="ViewPersonelTraining" asp-route-svcno="@r.serviceNumber" class="btn btn-success">Authenticate</a>
+    <a asp-controller="PersonalInfo" asp-action="ViewPersonelTraining" asp-route-svcno="@r.serviceNumber" class="btn btn-success">View Details</a>
 
     }
     </td>
