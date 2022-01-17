@@ -189,6 +189,7 @@ namespace NNPEFWEB.Controllers
          }
         public ActionResult ListOfAllStaff(string reporttype)
         {
+            ViewData["reporttype"] = String.IsNullOrEmpty(reporttype) ? "AllStaff" : reporttype;
             //if (ship == "AllStaff")
             //{
             //    var ppersons = personinfoService.GetUpdatedPersonnel2();
@@ -221,33 +222,37 @@ namespace NNPEFWEB.Controllers
         }
         public async Task<IActionResult> ListOfAllStaffReport(string ship)
         {
-            var pperson = new List<ef_personalInfo>();
-            if (ship== "AllStaff")
-            {
-               var ppersons= personinfoService.GetUpdatedPersonnel2();
-                return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
-            }
-            else if (ship == "Completed")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x=>x.Status=="SHIP");
-                return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
-            }
-            if (ship == "Auth")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "CPO");
-                return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
-            }
-            else if (ship == "Verified")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "Verified");
-                return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
-            }
-            else 
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2();
-                return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
-            }
-            
+            //var pperson = new List<ef_personalInfo>();
+
+            //if (ship== "AllStaff")
+            //{
+            //   var ppersons= personinfoService.GetUpdatedPersonnel2();
+            //    return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
+            //}
+            //else if (ship == "Completed")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x=>x.Status=="SHIP");
+            //    return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
+            //}
+            //if (ship == "Auth")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "CPO");
+            //    return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
+            //}
+            //else if (ship == "Verified")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "Verified");
+            //    return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
+            //}
+            //else 
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2();
+            //    return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
+            //}
+
+            var ppersons = personinfoService.GetPersonnelStatusReport(ship);
+            return await _generatepdf.GetPdf("Reports/StaffReportList", ppersons);
+
         }
         public ActionResult ListOfCompletedForm(string ship)
         {
@@ -284,7 +289,7 @@ namespace NNPEFWEB.Controllers
         [HttpPost]
         public IActionResult Export(string ship)
         {
-            var pp = personinfoService.GetUpdatedPersonnel2();
+            var pp = personinfoService.GetPersonnelStatusReport(ship);
             List<RPTPersonModel> rpt = new List<RPTPersonModel>();
             foreach (var person in pp)
             {
@@ -298,27 +303,28 @@ namespace NNPEFWEB.Controllers
                 };
                 rpt.Add(pps);
             }
-            if (ship == "AllStaff")
-            {
-                 rpt=rpt.ToList();
+            //if (ship == "AllStaff")
+            //{
+            //     rpt=rpt.ToList();
                 
-            }
-            else if (ship == "Completed")
-            {
-                rpt = rpt.Where(x=>x.Status=="SHIP").ToList();
-            }
-            if (ship == "Auth")
-            {
-                rpt = rpt.Where(x => x.Status == "CPO").ToList();
-            }
-            else if (ship == "Verified")
-            {
-                rpt = rpt.Where(x => x.Status == "Verified").ToList();
-            }
-            else
-            {
-                rpt = rpt.ToList();
-            }
+            //}
+            //else if (ship == "Completed")
+            //{
+            //    rpt = rpt.Where(x=>x.Status=="SHIP").ToList();
+            //}
+            //if (ship == "Auth")
+            //{
+            //    rpt = rpt.Where(x => x.Status == "CPO").ToList();
+            //}
+            //else if (ship == "Verified")
+            //{
+            //    rpt = rpt.Where(x => x.Status == "Verified").ToList();
+            //}
+            //else
+            //{
+            //    rpt = rpt.ToList();
+            //}
+
             var stream = new MemoryStream();
 
             using (var package = new ExcelPackage(stream))
