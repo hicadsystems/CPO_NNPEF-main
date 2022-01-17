@@ -671,21 +671,6 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                       }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).ToList();
             }
 
-            //var rankinDb = _context.ef_ranks.ToList();
-            //rankinDb.Reverse();
-
-            //foreach (var rank in rankinDb)
-            //{
-            //    foreach (var personInfo in pp)
-            //    {
-            //        if (rank.rankName == personInfo.Rank)
-            //        {
-            //            sortedpersonelInfo.Add(personInfo);
-            //        }
-            //    }
-            //}
-
-
             return pp;
         }
 
