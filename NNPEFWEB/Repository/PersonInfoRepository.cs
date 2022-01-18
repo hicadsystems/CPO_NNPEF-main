@@ -573,7 +573,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             return pp;
         }
 
-        public IEnumerable<ef_personalInfo> GetPersonnelStatusRepo(string statusToSearch)
+        public async Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusRepo(string statusToSearch, int? pageNumber)
         {
             // statusToSearch = statusCriteria.Trim();
 
@@ -602,7 +602,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                               ship = ppl.ship,
                               Status = ppl.Status,
 
-                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).ToList();
+                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                 }
                 else if (statusToSearch == "Processed")
                 {
@@ -624,7 +624,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                               ship = ppl.ship,
                               Status = ppl.Status,
 
-                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).ToList();
+                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                 }
                 else
                 {
@@ -646,7 +646,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                               ship = ppl.ship,
                               Status = ppl.Status,
 
-                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).ToList();
+                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                 }
             }
             else
@@ -668,10 +668,12 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           ship = ppl.ship,
                           Status = ppl.Status,
 
-                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).ToList();
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
             }
 
-            return pp;
+            int pageSize = 10;
+
+            return await PaginatedList<ef_personalInfo>.CreateAsync(pp.AsQueryable(), pageNumber ?? 1, pageSize);
         }
 
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnel2()
