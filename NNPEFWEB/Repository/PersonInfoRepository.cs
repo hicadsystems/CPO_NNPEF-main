@@ -633,6 +633,95 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             }
             return pp;
         }
+        public IEnumerable<ef_personalInfo> GetPersonnelStatusRepo(string statusToSearch)
+        {
+            // statusToSearch = statusCriteria.Trim();
+
+            var pp = new List<ef_personalInfo>();
+
+            if (statusToSearch != " " && statusToSearch != null)
+            {
+                if (statusToSearch == "AllStaff")
+                {
+                    pp = (from ppl in _context.ef_personalInfos
+                          select new ef_personalInfo
+                          {
+                              Id = ppl.Id,
+                              serviceNumber = ppl.serviceNumber,
+                              Surname = ppl.Surname,
+                              OtherName = ppl.OtherName,
+                              Rank = ppl.Rank,
+                              seniorityDate = ppl.seniorityDate,
+                              command = ppl.command,
+                              payrollclass = ppl.payrollclass,
+                              classes = ppl.classes,
+                              ship = ppl.ship
+
+                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.Id).ToList();
+                }
+                else if (statusToSearch == "Processed")
+                {
+                    pp = (from ppl in _context.ef_personalInfos
+                          where ppl.emolumentform == "Yes"
+                          select new ef_personalInfo
+                          {
+                              Id = ppl.Id,
+                              serviceNumber = ppl.serviceNumber,
+                              Surname = ppl.Surname,
+                              OtherName = ppl.OtherName,
+                              Rank = ppl.Rank,
+                              seniorityDate = ppl.seniorityDate,
+                              command = ppl.command,
+                              payrollclass = ppl.payrollclass,
+                              classes = ppl.classes,
+                              ship = ppl.ship
+
+                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.Id).ToList();
+                }
+                else
+                {
+                    pp = (from ppl in _context.ef_personalInfos
+                          where ppl.Status == statusToSearch
+                          select new ef_personalInfo
+                          {
+                              Id = ppl.Id,
+                              serviceNumber = ppl.serviceNumber,
+                              Surname = ppl.Surname,
+                              OtherName = ppl.OtherName,
+                              Rank = ppl.Rank,
+                              seniorityDate = ppl.seniorityDate,
+                              command = ppl.command,
+                              payrollclass = ppl.payrollclass,
+                              classes = ppl.classes,
+                              ship = ppl.ship
+
+                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.Id).ToList();
+                }
+            }
+            else
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship
+
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.Id).ToList();
+            }
+
+
+
+
+            return pp;
+        }
 
         public List<ef_personalInfo> GetPEFReport2()
         {

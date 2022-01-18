@@ -187,33 +187,35 @@ namespace NNPEFWEB.Controllers
 
             return RedirectToAction("UpdatedPersonelList");
          }
-        public ActionResult ListOfAllStaff(string ship)
+        public ActionResult ListOfAllStaff(string reporttype)
         {
-            if (ship == "AllStaff")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2();
-                return View(ppersons);
-            }
-            else if (ship == "Completed")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "SHIP");
-                return View(ppersons);
-            }
-            if (ship == "Auth")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "CPO");
-                return View(ppersons);
-            }
-            else if (ship == "Verified")
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "Verified");
-                return View(ppersons);
-            }
-            else
-            {
-                var ppersons = personinfoService.GetUpdatedPersonnel2();
-                return View(ppersons);
-            }
+            //if (ship == "AllStaff")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2();
+            //    return View(ppersons);
+            //}
+            //else if (ship == "Completed")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "SHIP");
+            //    return View(ppersons);
+            //}
+            //if (ship == "Auth")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "CPO");
+            //    return View(ppersons);
+            //}
+            //else if (ship == "Verified")
+            //{
+            //    var ppersons = personinfoService.GetUpdatedPersonnel2().Where(x => x.Status == "Verified");
+            //    return View(ppersons);
+            //}
+            //else
+            //{
+            var ppersons = personinfoService.GetPersonnelStatusReport(reporttype);
+
+            return View(ppersons);
+            
+           // }
         }
         public async Task<IActionResult> ListOfAllStaffReport(string ship)
         {

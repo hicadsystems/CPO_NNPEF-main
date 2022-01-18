@@ -19,13 +19,15 @@ namespace NNPEFWEB.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IDashboard _dashboard;
         private readonly ICommandDashboard _commanddashboard;
+        private readonly ISectionDashboard _sectiondashboard;
         private readonly ApplicationDbContext _context;
-        public HomeController(ILogger<HomeController> logger, IDashboard dashboard, ICommandDashboard commanddashboard, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, IDashboard dashboard, ICommandDashboard commanddashboard, ISectionDashboard sectiondashboard,ApplicationDbContext context)
         {
             _logger = logger;
             _dashboard = dashboard;
             _context = context;
             _commanddashboard = commanddashboard;
+            _sectiondashboard = sectiondashboard;
         }
 
         [Authorize]
@@ -78,23 +80,23 @@ namespace NNPEFWEB.Controllers
             var dah = new personelCountVM()
             {
 
-                AllStaffOfficers = _commanddashboard.AllStaffOfficers(ship),
-                ApproveStaffOfficers = _commanddashboard.ApprovedStaffOfficers(ship),
-                AwaitingApprovalStaffOfficers = _commanddashboard.AwaiteApprovalStaffOfficers(ship),
-                YettoFillStaffOfficers = _commanddashboard.YetToFillStaffOfficers(ship),
-                CommandYetToFillOfficers = _commanddashboard.AllCommandStaffOfficers(ship),
+                AllStaffOfficers = _sectiondashboard.AllStaffOfficers(ship),
+                ApproveStaffOfficers = _sectiondashboard.ApprovedStaffOfficers(ship),
+                AwaitingApprovalStaffOfficers = _sectiondashboard.AwaiteApprovalStaffOfficers(ship),
+                YettoFillStaffOfficers = _sectiondashboard.YetToFillStaffOfficers(ship),
+                CommandYetToFillOfficers = _sectiondashboard.AllCommandStaffOfficers(ship),
 
-                AllStaffRatings = _commanddashboard.AllStaffRatings(ship),
-                ApproveStaffRatings = _commanddashboard.ApprovedStaffRatings(ship),
-                AwaitingApprovalStaffRatings = _commanddashboard.AwaiteApprovalStaffRatings(ship),
-                YettoFillStaffRatings = _commanddashboard.YetToFillStaffRatings(ship),
-                CommandYetToFillRatings = _commanddashboard.AllCommandStaffRatings(ship),
+                AllStaffRatings = _sectiondashboard.AllStaffRatings(ship),
+                ApproveStaffRatings = _sectiondashboard.ApprovedStaffRatings(ship),
+                AwaitingApprovalStaffRatings = _sectiondashboard.AwaiteApprovalStaffRatings(ship),
+                YettoFillStaffRatings = _sectiondashboard.YetToFillStaffRatings(ship),
+                CommandYetToFillRatings = _sectiondashboard.AllCommandStaffRatings(ship),
 
-                AllStaffTrainings = _commanddashboard.AllStaffTrainings(ship),
-                ApproveStaffTrainings = _commanddashboard.ApprovedStaffTrainings(ship),
-                AwaitingApprovalStaffTrainings = _commanddashboard.AwaiteApprovalStaffTrainings(ship),
-                YettoFillStaffTrainings = _commanddashboard.YetToFillStaffTrainings(ship),
-                CommandYetToFillTrainings = _commanddashboard.AllCommandStaffTrainings(ship),
+                AllStaffTrainings = _sectiondashboard.AllStaffTrainings(ship),
+                ApproveStaffTrainings = _sectiondashboard.ApprovedStaffTrainings(ship),
+                AwaitingApprovalStaffTrainings = _sectiondashboard.AwaiteApprovalStaffTrainings(ship),
+                YettoFillStaffTrainings = _sectiondashboard.YetToFillStaffTrainings(ship),
+                CommandYetToFillTrainings = _sectiondashboard.AllCommandStaffTrainings(ship),
             };
 
             return View(dah);

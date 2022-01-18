@@ -96,6 +96,10 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.Personinfo.GetUpdatedPersonnel2();
         }
+        public IEnumerable<ef_personalInfo> GetPersonnelStatusReport(string status)
+        {
+            return unitOfWork.Personinfo.GetPersonnelStatusRepo(status);
+        }
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship,string svcno)
         {
             return unitOfWork.Personinfo.GetUpdatedPersonnelBySVCNO(payclass, ship,svcno);
