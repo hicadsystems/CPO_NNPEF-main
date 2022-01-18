@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NNPEFWEB.Models.ef_personalInfo>
+﻿@model NNPEFWEB.ViewModel.PaginatedList<NNPEFWEB.Models.ef_personalInfo>
 @using Microsoft.AspNetCore.Authorization
 
 @{ ViewData["Title"] = "UpdatedPersonelByCPO"; }
@@ -13,11 +13,65 @@
                 <div class="col-md-4">
                     <label class="control-label">Filtered By:</label>
                     <select name="reporttype" class="form-control">
-                        <option value="AllStaff">All Staff</option>
-                        <option value="Completed">Completed Form</option>
-                        <option value="Auth">Authenticated Form</option>
-                        <option value="Verified">Certisfied Form</option>
-                        <option value="Processed">Processed Form</option>
+                        @if (ViewData["reporttype"] != null)
+                        {
+
+                            @switch (ViewData["reporttype"])
+                            {
+                                case "AllStaff":
+                                    <option selected value="@ViewData["reporttype"]">All Staff</option>
+                                    <option value="Completed">Completed Form</option>
+                                    <option value="Auth">Authenticated Form</option>
+                                    <option value="Verified">Certified Form</option>
+                                    <option value="Processed">Processed Form</option>
+                                    break;
+                                case "Completed":
+                                    <option value="AllStaff">All Staff</option>
+                                    <option selected value="@ViewData["reporttype"]">Completed Form</option>
+                                    <option value="Completed">Completed Form</option>
+                                    <option value="Auth">Authenticated Form</option>
+                                    <option value="Verified">Certified Form</option>
+                                    <option value="Processed">Processed Form</option>
+                                    break;
+                                case "Auth":
+                                    <option value="AllStaff">All Staff</option>
+                                    <option value="Completed">Completed Form</option>
+                                    <option selected value="@ViewData["reporttype"]">Authenticated Form</option>
+                                    <option value="Verified">Certified Form</option>
+                                    <option value="Processed">Processed Form</option>
+                                    break;
+                                case "Verified":
+                                    <option value="AllStaff">All Staff</option>
+                                    <option value="Completed">Completed Form</option>
+                                    <option value="Auth">Authenticated Form</option>
+                                    <option selected value="@ViewData["reporttype"]">Certified Form</option>
+                                    <option value="Processed">Processed Form</option>
+                                    break;
+                                case "Processed":
+                                    <option value="AllStaff">All Staff</option>
+                                    <option value="Completed">Completed Form</option>
+                                    <option value="Auth">Authenticated Form</option>
+                                    <option value="Verified">Certified Form</option>
+                                    <option selected value="@ViewData["reporttype"]">Processed Form</option>
+                                    break;
+                                default:
+                                    <option value="AllStaff">All Staff</option>
+                                    <option value="Completed">Completed Form</option>
+                                    <option value="Auth">Authenticated Form</option>
+                                    <option value="Verified">Certified Form</option>
+                                    <option value="Processed">Processed Form</option>
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            <option value="AllStaff">All Staff</option>
+                            <option value="Completed">Completed Form</option>
+                            <option value="Auth">Authenticated Form</option>
+                            <option value="Verified">Certified Form</option>
+                            <option value="Processed">Processed Form</option>
+                        }
+
 
 
                     </select>
@@ -33,6 +87,8 @@
     <div class="col-md-4">
         <form asp-action="Export" method="post" asp-controller="CPOUpdate">
 
+            <input type="hidden" name="ship" value="@ViewData["reporttype"]" />
+            <input type="hidden" name="pageNumber" value="@(Model.PageIndex)" />
             <input type="submit" class="btn btn-primary" value="Download To Excel" />
 
         </form>
@@ -40,6 +96,8 @@
     <div class="col-md-2">
         <form asp-action="ListOfAllStaffReport" method="get" asp-controller="CPOUpdate">
 
+            <input type="hidden" name="ship" value="@ViewData["reporttype"]" />
+            <input type="hidden" name="pageNumber" value="@(Model.PageIndex)" />
             <input type="submit" class="btn btn-primary" value="Download To PDF" />
         </form>
     </div>
@@ -54,7 +112,6 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Ship</th>
-
             <th>Action</th>
         </tr>
     </thead>
@@ -62,17 +119,31 @@
 
         @foreach (var r in Model)
         {
-<tr>
-    <td>@r.Rank</td>
-    <td>@r.serviceNumber</td>
-    <td>@r.Surname</td>
-    <td>@r.OtherName</td>
-    <td>@r.ship</td>
-    <td>
-    
-
-
-</tr>
-}
+            <tr>
+                <td>@r.Rank</td>
+                <td>@r.serviceNumber</td>
+                <td>@r.Surname</td>
+                <td>@r.OtherName</td>
+                <td>@r.ship</td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@*pagination buttons starts here*@
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="ListOfAllStaff" media="get" asp-controller="CPOUpdate"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="ListOfAllStaff" media="get" asp-controller="CPOUpdate"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

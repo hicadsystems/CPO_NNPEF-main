@@ -10,6 +10,7 @@ namespace NNPEFWEB.Models
     {
         [Key]
         public int Id { get; set; }
+        public int rankId { get; set; }
         public string formNumber { get; set; }
         public string serviceNumber { get; set; }
         public string Surname { get; set; }
