@@ -119,21 +119,24 @@ namespace NNPEFWEB.Controllers
             }
            
         }
-        public ActionResult UpdatedPersonelList(string id, string svcno)
+        public ActionResult UpdatedPersonelList(string id, string svcno, int? pageNumber)
         {
             try
             {
                 var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
                 if (svcno != null)
                 {
-                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO2(cmdr.Appointment, svcno);
-                    return View(pp2);
+                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO2(cmdr.Appointment, svcno).ToList();
+
+                    PaginatedList<ef_personalInfo> personalInfos = new PaginatedList<ef_personalInfo>(pp2, 1, 1,1);
+
+                    return View(personalInfos);
                 }
                 
                 else
                 {
 
-                    var pp = personinfoService.GetUpdatedPersonnel2();
+                    var pp = personinfoService.GetUpdatedPersonnelRepo2(pageNumber).Result;
                     return View(pp);
                 }
             }

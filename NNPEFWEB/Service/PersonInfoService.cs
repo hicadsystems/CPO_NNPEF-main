@@ -97,9 +97,19 @@ namespace NNPEFWEB.Service
             return unitOfWork.Personinfo.GetUpdatedPersonnel2();
         }
 
-        public Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusReport(string status, int? pageNumber)
+        public Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelRepo2(int? pageNumber)
         {
-            return unitOfWork.Personinfo.GetPersonnelStatusRepo(status, pageNumber);
+            return unitOfWork.Personinfo.GetUpdatedPersonnelRepo2(pageNumber);
+        }
+
+        public Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusReport(string status, string shipToSearch, int? pageNumber)
+        {
+            return unitOfWork.Personinfo.GetPersonnelStatusRepo(status,shipToSearch, pageNumber);
+        }
+
+        public IEnumerable<ef_personalInfo> GetPersonnelStatusReportrepo(string status, string shipToSearch)
+        {
+            return unitOfWork.Personinfo.GetPersonnelStatusReportrepo(status, shipToSearch);
         }
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship,string svcno)
         {

@@ -187,20 +187,39 @@ namespace NNPEFWEB.Controllers
 
             return RedirectToAction("UpdatedPersonelList");
          }
-        public async Task<IActionResult> ListOfAllStaff(string reporttype, int? pageNumber)
+        public async Task<IActionResult> ListOfAllStaff(string reporttype, string shipToSearch, int? pageNumber)
         {
             ViewData["reporttype"] = String.IsNullOrEmpty(reporttype) ? "AllStaff" : reporttype;
-           
 
-            var ppersons = await personinfoService.GetPersonnelStatusReport(reporttype, pageNumber);
+            var ppersons = await personinfoService.GetPersonnelStatusReport(reporttype, shipToSearch, pageNumber);
+
+            var allShip = GetShip();
+
+            if (!string.IsNullOrEmpty(shipToSearch) && shipToSearch != "AllShip")
+            {
+                var shipSearched = _context.ef_ships.Find(int.Parse(shipToSearch));
+
+                ViewData["shipSearchedID"] = shipSearched.Id.ToString();
+
+                allShip.Insert(0, new SelectListItem { Value = shipSearched.Id.ToString(), Text = shipSearched.shipName });
+                allShip.Insert(1, new SelectListItem { Value = "AllShip", Text = "All Ship" });
+            }
+            else
+            {
+                ViewData["shipSearchedID"] = "AllShip";
+
+                allShip.Insert(0, new SelectListItem { Value = "AllShip", Text = "All Ship" });
+            }
+
+            ViewBag.ShipList = allShip;
 
             return View(ppersons);
 
         }
-        public Task<IActionResult> ListOfAllStaffReport(string ship, int? pageNumber)
+        public Task<IActionResult> ListOfAllStaffReport(string ship, string shipToSearch)
         {
             
-            var ppersons = personinfoService.GetPersonnelStatusReport(ship, pageNumber).Result;
+            var ppersons = personinfoService.GetPersonnelStatusReportrepo(ship, shipToSearch);
 
             List<ef_personalInfo> rpt = new List<ef_personalInfo>();
 
@@ -252,9 +271,9 @@ namespace NNPEFWEB.Controllers
             return View(pp);
         }
         [HttpPost]
-        public IActionResult Export(string ship, int? pageNumber)
+        public IActionResult Export(string ship, string shipToSearch)
         {
-            var pp = personinfoService.GetPersonnelStatusReport(ship, pageNumber).Result;
+            var pp = personinfoService.GetPersonnelStatusReportrepo(ship, shipToSearch);
             List<RPTPersonModel> rpt = new List<RPTPersonModel>();
             foreach (var person in pp)
             {
@@ -262,9 +281,10 @@ namespace NNPEFWEB.Controllers
                 {
                     ServiceNumber = person.serviceNumber,
                     Rank = person.Rank,
+                    Seniority = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
                     Name = person.Surname + " " + person.OtherName,
                     Status = person.Status,
-                    Ship = person.ship
+                    Ship = person.ship,
                 };
                 rpt.Add(pps);
             }
