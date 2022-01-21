@@ -578,7 +578,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             // statusToSearch = statusCriteria.Trim();
 
             //var sortedpersonelInfo = new List<ef_personalInfo>();
-
+            
             var pp = new List<ef_personalInfo>();
 
             if (statusToSearch != " " && statusToSearch != null)
@@ -628,6 +628,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                 }
                 else
                 {
+
                     pp = (from ppl in _context.ef_personalInfos
                           where ppl.Status == statusToSearch
                           join rak in _context.ef_ranks on ppl.Rank equals rak.rankName

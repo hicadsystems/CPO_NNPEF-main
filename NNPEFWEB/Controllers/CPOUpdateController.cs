@@ -189,6 +189,9 @@ namespace NNPEFWEB.Controllers
          }
         public async Task<IActionResult> ListOfAllStaff(string reporttype, int? pageNumber)
         {
+            try
+            {
+
             ViewData["reporttype"] = String.IsNullOrEmpty(reporttype) ? "AllStaff" : reporttype;
            
 
@@ -196,6 +199,13 @@ namespace NNPEFWEB.Controllers
 
             return View(ppersons);
 
+            }
+            catch (Exception ex)
+            {
+                TempData["UpdateMessage"] = "Updated Fail";
+
+                throw;
+            }
         }
         public Task<IActionResult> ListOfAllStaffReport(string ship, int? pageNumber)
         {
