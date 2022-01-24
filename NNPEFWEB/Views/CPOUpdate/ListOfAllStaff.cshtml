@@ -6,12 +6,14 @@
 
 
 <h1 style="margin-top:-20px">Personnel Report List</h1>
+<br />
+<h4>Filter By: </h4>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 mb-4">
         <form asp-action="ListOfAllStaff" method="get" asp-controller="CPOUpdate">
             <div class="row">
                 <div class="col-md-4">
-                    <label class="control-label">Filtered By:</label>
+                    <label class="control-label">Staff</label>
                     <select name="reporttype" class="form-control">
                         @if (ViewData["reporttype"] != null)
                         {
@@ -28,7 +30,6 @@
                                 case "Completed":
                                     <option value="AllStaff">All Staff</option>
                                     <option selected value="@ViewData["reporttype"]">Completed Form</option>
-                                    <option value="Completed">Completed Form</option>
                                     <option value="Auth">Authenticated Form</option>
                                     <option value="Verified">Certified Form</option>
                                     <option value="Processed">Processed Form</option>
@@ -77,31 +78,43 @@
                     </select>
                 </div>
 
+                <div class="col-md-4">
+                    <label class="control-label">Ship</label>
+                    <select name="shipToSearch"
+                            class="form-control"
+                            asp-items="@(new SelectList(ViewBag.ShipList,"Value", "Text"))">
+                    </select>
+                </div>
+
                 <div class="col-md-4" style="margin-top:30px">
-                    <input type="submit" class="btn btn-primary" value="Filtered" />
+                    <input type="submit" class="btn btn-primary" value="Filter" />
                 </div>
 
             </div>
         </form>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3 mt-4">
         <form asp-action="Export" method="post" asp-controller="CPOUpdate">
 
             <input type="hidden" name="ship" value="@ViewData["reporttype"]" />
-            <input type="hidden" name="pageNumber" value="@(Model.PageIndex)" />
+
+            <input type="hidden" name="shipToSearch" value="@ViewData["shipSearchedID"]" />
+            
             <input type="submit" class="btn btn-primary" value="Download To Excel" />
 
         </form>
     </div>
-    <div class="col-md-2">
+
+    <div class="col-md-3 mt-4">
         <form asp-action="ListOfAllStaffReport" method="get" asp-controller="CPOUpdate">
 
             <input type="hidden" name="ship" value="@ViewData["reporttype"]" />
-            <input type="hidden" name="pageNumber" value="@(Model.PageIndex)" />
+
+            <input type="hidden" name="shipToSearch" value="@ViewData["shipSearchedID"]" />
+
             <input type="submit" class="btn btn-primary" value="Download To PDF" />
         </form>
     </div>
-
 </div>
 
 <table class="table table-striped">
@@ -112,7 +125,6 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Ship</th>
-            <th>Action</th>
         </tr>
     </thead>
     <tbody>

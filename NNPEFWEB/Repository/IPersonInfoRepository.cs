@@ -25,9 +25,9 @@ namespace NNPEFWEB.Repository
         ef_personalInfo GetPersonalInfoByShip(string ship);
         IEnumerable<ef_personalInfo> GetPersonnelByCommand(string payclass);
         IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string payclass, string ship);
-
-        Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusRepo(string searchCriteria, int? pageNumber);
-
+        IEnumerable<ef_personalInfo> GetPersonnelStatusReportrepo(string statusToSearch, string shipToSearch);
+        Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusRepo(string searchCriteria, string shipToSearch, int? pageNumber);
+        Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelRepo2(int? pageNumber);
         IEnumerable<ef_personalInfo> GetUpdatedPersonnel3(string payclass, string ship);
         List<ef_personalInfo> GetPEFReport(ApiSearchModel apiSearchModel);
         IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno);
