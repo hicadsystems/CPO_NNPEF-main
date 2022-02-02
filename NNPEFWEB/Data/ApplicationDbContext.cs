@@ -38,6 +38,7 @@ namespace NNPEFWEB.Data
         public DbSet<ef_shiplogin> ef_shiplogins { get; set; }
 
         public DbSet<ef_systeminfo> ef_systeminfos { get; set; }
+        public DbSet<ef_ContactUs> ef_contactUs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

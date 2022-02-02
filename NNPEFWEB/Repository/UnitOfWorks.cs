@@ -23,6 +23,7 @@ namespace NNPEFWEB.Repository
             Personinfo = new PersonInfoRepository(_context);
             SystemsInfo = new SystemsInfoRepository(_context);
             shiplogin = new ShipRepository(_context);
+            ContactUs = new ContactUsRepository(_context);
         }
         public IUserRepository Users { get; private set; }
         public IMenuGroupRepository MenuGroups { get; private set; }
@@ -34,6 +35,7 @@ namespace NNPEFWEB.Repository
 
         public IPersonInfoRepository Personinfo { get; }
         public IShipRepo shiplogin { get; }
+        public IContactUs ContactUs { get; }
 
         public ISystemsInfoRepository SystemsInfo { get; }
 
