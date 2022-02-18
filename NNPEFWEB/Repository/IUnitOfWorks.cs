@@ -13,11 +13,11 @@ namespace NNPEFWEB.Repository
         IMenuRepository Menus { get; }
         IRoleMenuRepository RoleMenus { get; }
         IMenuGroupRepository MenuGroups { get; }
-
         IPersonLoginRepository PersonLogin { get; }
         IPersonInfoRepository Personinfo { get; }
         ISystemsInfoRepository SystemsInfo { get; }
         IShipRepo shiplogin { get; }
+        IContactUs ContactUs { get; }
         Task<bool> Done();
     }
 }

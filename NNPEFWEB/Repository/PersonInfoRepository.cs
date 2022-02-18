@@ -20,7 +20,7 @@ namespace NNPEFWEB.Repository
         public PersonInfoRepository(ApplicationDbContext context) :base(context)
         {
             this._context = context;
-          }
+        }
 
         public async Task<ef_personalInfo> GetPersonalInfo(string svcno)
         {
@@ -926,9 +926,11 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             var pp = new List<ef_personalInfo>();
 
             pp = (from ppl in _context.ef_personalInfos
+                  join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
                   select new ef_personalInfo
                   {
                       Id = ppl.Id,
+                      rankId = rak.Id,
                       serviceNumber = ppl.serviceNumber,
                       Surname = ppl.Surname,
                       OtherName = ppl.OtherName,
@@ -939,7 +941,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                       classes = ppl.classes,
                       ship = ppl.ship
 
-                  }).OrderByDescending(x => x.ship).ThenByDescending(x => x.Id).AsNoTracking().ToList();
+                  }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
 
 
             int pageSize = 10;

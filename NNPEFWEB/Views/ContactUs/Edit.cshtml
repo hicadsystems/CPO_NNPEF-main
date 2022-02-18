@@ -1,0 +1,115 @@
+﻿@using NNPEFWEB.ViewModel
+@model ContactUsViewModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    body {
+        opacity: 0;
+    }
+</style>
+<style>
+
+    .caption {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user {
+        display: flex;
+        flex-direction: row;
+    }
+</style>
+<style>
+    .e-row:hover {
+        cursor: pointer;
+        background-color: #03a9f430 !important
+    }
+</style>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="page-wrapper">
+
+    @using (Html.BeginForm("Edit", "ContactUs", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="section-heading">
+                        <h1 class="page-title">Edit Contacts</h1>
+                    </div>
+                    <button type="button" class="close dismiss-modal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    @Html.HiddenFor(model => model.Id)
+                    <span style="font-weight:bold; ">Contact Details</span>
+                    <hr />
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">
+                                Person Name
+                            </label>
+                            @Html.TextBoxFor(model => model.PersonName, new { @class = "form-control", @readonly = "true" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">
+                                Ship
+                            </label>
+                            @Html.TextBoxFor(model => model.Ship, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="email" class="control-label">
+                                Email
+                            </label>
+                            @Html.TextBoxFor(model => model.Email, new { @type = "email", @class = "form-control", @readonly = "true" })
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">
+                                Phone Number
+                            </label>
+                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @readonly = "true" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">
+                                Message
+                            </label>
+                            @Html.TextAreaFor(model => model.Message, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">
+                                Response
+                            </label>
+                            @Html.TextAreaFor(model => model.Response, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-secondary ">Cancel</button>
+                        <button type="submit" value="save" name="save" class="btn btn-success">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
