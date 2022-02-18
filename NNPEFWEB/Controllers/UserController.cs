@@ -36,21 +36,23 @@ namespace NNPEFWEB.Controllers
         }
         public ActionResult Update(int id)
         {
-                var updatedUser = userService.GetUserById(id).Result;
-                var u = new UserViewModel()
-                {
-                FirstName =updatedUser.FirstName, 
+            var updatedUser = userService.GetUserById(id).Result;
+            var Roles = updatedUser.UserRoles?.Select(x => x.RoleId).ToArray();
+
+            var u = new UserViewModel()
+            {
+                FirstName = updatedUser.FirstName,
                 Lastname = updatedUser.LastName,
-                Email= updatedUser.Email,
-                UserName= updatedUser.UserName,
-                Appointment= updatedUser.Appointment,
-                Rank=updatedUser.Rank,
-                UpdatedOn=DateTime.Now,
+                Email = updatedUser.Email,
+                UserName = updatedUser.UserName,
+                Appointment = updatedUser.Appointment,
+                Rank = updatedUser.Rank,
+                UpdatedOn = DateTime.Now,
                 Users = userService.GetUsers().ToList(),
                 Roles = roleService.GetActiveRoles()
-                };
-                return View(u);
-         }
+            };
+            return View(u);
+        }
         [HttpPost]
         public async Task<IActionResult> Update(UserViewModel user)
         {
@@ -141,5 +143,23 @@ namespace NNPEFWEB.Controllers
             TempData["SuccessMessage"] = $"Status Change Successful";
             return RedirectToAction(nameof(Index));
         }
+
+    public async Task<IActionResult> EditUser(int id)
+    {
+        var user = await userService.GetUserById(id);
+
+        user.IsActive = !user.IsActive;
+
+        var toggled = await userService.UpdateUser(user);
+
+        if (!toggled.Succeeded)
+        {
+            TempData["ErrorMessage"] = toggled.Errors.ToList().First().Description;
+            return RedirectToAction(nameof(Index));
+        }
+
+        TempData["SuccessMessage"] = $"Status Change Successful";
+        return RedirectToAction(nameof(Index));
     }
+}
 }

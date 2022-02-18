@@ -11,25 +11,25 @@
         <div class="row align-items-end">
             <div class="col-lg-8">
                 @*<div class="page-header-title">
-                    <div class="d-inline">
-                        <h4>Styling DataTable</h4>
-                        <span>Easy to customise core stylesheets</span>
-                    </div>
-                </div>*@
+                        <div class="d-inline">
+                            <h4>Styling DataTable</h4>
+                            <span>Easy to customise core stylesheets</span>
+                        </div>
+                    </div>*@
             </div>
             <div class="col-lg-4">
                 <div class="page-header-breadcrumb">
                     @*<ul class="breadcrumb-title">
-                        <li class="breadcrumb-item">
-                            <a href="index.html"> <i class="feather icon-home"></i> </a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="#!">Data Table</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="#!">Styling</a>
-                        </li>
-                    </ul>*@
+                            <li class="breadcrumb-item">
+                                <a href="index.html"> <i class="feather icon-home"></i> </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#!">Data Table</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#!">Styling</a>
+                            </li>
+                        </ul>*@
                 </div>
             </div>
         </div>
@@ -53,8 +53,8 @@
                     </div>
                 </div>
                 @*<button class='btn btn-success' id="add-edit" data-toggle="modal" data-target="#userModal">
-                    <i class="icon icon-plus"></i> &nbsp; Add User
-                </button>*@
+                        <i class="icon icon-plus"></i> &nbsp; Add User
+                    </button>*@
             </div>
             <div class="card-block">
                 <div class="dt-responsive table-responsive">
@@ -70,38 +70,39 @@
                         <tbody>
                             @foreach (var user in Model.Users)
                             {
-                            <tr class="e-row">
-                                <td class="e-details" data-user-id="@user.Id">
-                                    @user.FirstName @user.LastName
-                                </td>
-                                <td>
-                                    @user.Email
-                                </td>
-                                @if (user.IsActive)
-                                {
-                                <td><span class="badge badge-success"><i class="fa fa-check"></i>&nbsp;Active</span></td>
-                                }
-                                else
-                                {
-                                <td><span class="badge badge-danger"><i class="fa fa-times"></i>&nbsp;Inactive</span></td>
-                                }
-                                @if (user.IsActive)
-                                {
-                                <td><a type="button" class="btn btn-danger" asp-controller="User" asp-action="ToggleStatus/@user.Id">Deactivate</a></td>
-                                }
-                                else
-                                {
-                                <td><a asp-controller="User" asp-action="ToggleStatus/@user.Id" type="button" class="btn btn-primary">Activate</a></td>
-                                }
-                            </tr>
+                <tr class="e-row">
+                    <td class="e-details" data-user-id="@user.Id">
+                        @user.FirstName @user.LastName
+                    </td>
+                    <td>
+                        @user.Email
+                    </td>
+                    @if (user.IsActive)
+                    {
+    <td><span class="badge badge-success"><i class="fa fa-check"></i>&nbsp;Active</span></td>
+ }
+else
+{
+<td><span class="badge badge-danger"><i class="fa fa-times"></i>&nbsp;Inactive</span></td>
+}
+                    @if (user.IsActive)
+                    {
+    <td><a type="button" class="btn btn-danger" asp-controller="User" asp-action="ToggleStatus/@user.Id">Deactivate</a></td>
+ }
+else
+{
+<td><a asp-controller="User" asp-action="ToggleStatus/@user.Id" type="button" class="btn btn-primary">Activate</a></td>
+}
 
-                            }
+
+                    <td><a asp-controller="User" asp-action="GetUserById" asp-route-id="@user.Id" class="btn btn-primary">Edit User</a></td>
+                </tr>}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="vLabel" aria-hidden="true"
              data-backdrop="static">
             <form action="/user/create" id="post-form" class="form" method="post">
@@ -198,7 +199,8 @@
                                     <option value="">Select Roles</option>
                                     @foreach (var role in Model.Roles)
                                     {
-                                    <option value="@role.Id">@role.Name</option>}
+                        <option value="@role.Id">@role.Name</option>
+}
                                 </select>
                             </div>
 

@@ -76,8 +76,6 @@
   <ItemGroup>
     <Content Remove="Areas\Identity\Pages\Account\ExternalLogin.cshtml" />
     <Content Remove="Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml" />
-    <Content Remove="Views\Shared\_Footer.cshtml" />
-    <Content Remove="Views\Shared\_Header.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

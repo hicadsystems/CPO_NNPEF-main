@@ -471,7 +471,7 @@ namespace NNPEFWEB.Controllers
                       }
                         else
                         {
-                            TempData["commandLoginMessage"] = "You Are Not Eligible To Login";
+                            TempData["commandLoginMessage"] = "Invalid UserName or Password";
                             return RedirectToAction("ShipLogin", "Account");
                         }
 

@@ -16,7 +16,7 @@ namespace NNPEFWEB.Repository
         IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship, string svcno);
         IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO2(string payclass, string svcno);
         IEnumerable<ef_personalInfo> GetUpdatedPersonnel2();
-        IEnumerable<ef_personalInfo> GetPersonnelStatusRepo(string statusToSearch);
+        Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelBySHip(string payclass, string ship, int? pageNumber);
         ef_personalInfo GetPersonBySVC_No(Expression<Func<ef_personalInfo, bool>> predicate);
         Task<ef_personalInfo> GetPersonalInfo(string svcno);
         IEnumerable<PersonalInfoModel> GetPersonalReport(string svcno);

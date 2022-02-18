@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NNPEFWEB.Data;
+using NNPEFWEB.Models;
 using NNPEFWEB.Repository;
 using NNPEFWEB.Service;
 using NNPEFWEB.ViewModel;
@@ -62,6 +63,39 @@ namespace NNPEFWEB.Controllers
                     return View(pp);
                 }
 
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogInformation(ex.Message);
+                throw;
+            }
+
+        }
+
+        public ActionResult UpdatedPersonelList(string id, string svcno, int? pageNumber)
+        {
+            try
+            {
+                HttpContext.Session.SetString("classid", id);
+                int? shipid = HttpContext.Session.GetInt32("ship");
+                string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
+
+                if (svcno != null)
+                {
+                   // var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO2(cmdr.Appointment, svcno).ToList();
+                    var pp2 = personinfoService.GetUpdatedPersonnelBySVCNO(id, ship, svcno).ToList();
+                    PaginatedList<ef_personalInfo> personalInfos = new PaginatedList<ef_personalInfo>(pp2, 1, 1, 1);
+
+                    return View(personalInfos);
+                }
+
+                else
+                {
+
+                    var pp = personinfoService.GetUpdatedPersonnelBySHip(id, ship, pageNumber).Result;
+                    return View(pp);
+                }
             }
             catch (Exception ex)
             {

@@ -22,6 +22,7 @@ namespace NNPEFWEB.Service
         IEnumerable<ef_personalInfo> GetUpdatedPersonnel2();
         Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusReport(string status, string shipToSearch, int? pageNumber);
         Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelRepo2(int? pageNumber);
+        Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelBySHip(string payclass, string ship, int? pageNumber);
         IEnumerable<ef_personalInfo> GetPersonnelStatusReportrepo(string status, string shipToSearch);
         IEnumerable<ef_personalInfo> GetPersonnelByCommand(string payclass);
         IEnumerable<ef_personalInfo> GetUpdatedPersonnel(string payclass, string ship);
