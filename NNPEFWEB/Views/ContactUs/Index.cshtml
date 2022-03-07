@@ -42,15 +42,15 @@
 <div class="page-wrapper">
     <div class="container-fluid">
         <div class="section-heading">
-            <h1 class="page-title">Contacts</h1>
+            <h1 class="page-title">View Ticket</h1>
         </div>
 
         <div class="card-body">
             <div class="row">
                 <div class="col-3">
-                    <button class='btn btn-success btn-block'>
+                    @*<button class='btn btn-success btn-block'>
                         <i class="fa fa-plus"></i> &nbsp; @Html.ActionLink("Create Contact", "Create", "ContactUs", null, new { style = "color: white;" })
-                    </button>
+                    </button>*@
                 </div>
                 <hr class="btn-block">
             </div>
@@ -91,10 +91,10 @@
                                         @contact.Response
                                     </td>
                                     <td>
-                                        @Html.ActionLink("Edit", "Edit", "ContactUs", new { Id = contact.Id }, new { @class = "btn btn-primary" })
+                                        @Html.ActionLink("Response", "Edit", "ContactUs", new { Id = contact.Id }, new { @class = "btn btn-primary" })
                                     </td>
                                     <td>
-                                        @Html.ActionLink("Delete", "Delete", "ContactUs", new { Id = contact.Id }, new { @class = "btn btn-danger" })
+                                        @Html.ActionLink("Remove", "Delete", "ContactUs", new { Id = contact.Id }, new { @class = "btn btn-danger" })
                                     </td>
                                 </tr>
                             }

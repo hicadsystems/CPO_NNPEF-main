@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using NNPEFWEB.Models;
 using NNPEFWEB.Service;
 using NNPEFWEB.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace NNPEFWEB.Controllers
@@ -13,16 +16,18 @@ namespace NNPEFWEB.Controllers
     public class ContactUsController : Controller
     {
         private readonly IContactUsService _contactUsService;
-        public ContactUsController(IContactUsService contactUsService)
+        private readonly IConfiguration config;
+        public ContactUsController(IContactUsService contactUsService, IConfiguration configuration)
         {
             this._contactUsService = contactUsService;
+            config = configuration;
         }
 
         // GET: ContactUsController
         [HttpGet]
         public IActionResult Index()
         {
-            var contactList = _contactUsService.GetContacts();
+            var contactList = _contactUsService.GetContacts().Where(x=>x.Response==null);
 
             List<ContactUsViewModel> contactUsViewModel = new List<ContactUsViewModel>();
 
@@ -59,7 +64,6 @@ namespace NNPEFWEB.Controllers
 
         // POST: ContactUsController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Create(ContactUsViewModel contactsVM)
         {
             try
@@ -86,12 +90,12 @@ namespace NNPEFWEB.Controllers
                         TempData["Message"] = "Error occured while trying to Create Contact!!!";
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("homepage","Home");
             }
             catch(Exception ex)
             {
                 TempData["Message"] = ex.Message;
-                return View();
+                return RedirectToAction("homepage", "Home");
             }
         }
 
@@ -147,6 +151,10 @@ namespace NNPEFWEB.Controllers
                         Message = contactsVM.Message,
                         Response = contactsVM.Response
                     };
+                    string emailFrom = "NN-CPO";
+                    string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
+                    if (!string.IsNullOrEmpty(contactsVM.Email))
+                        SendEmailNotification(emailFrom, emailSender, contactsVM.Response+" To Your "+contactsVM.Message , contactsVM.Email);
 
                     var response = _contactUsService.UpdateContactInfo(newContact).Result;
 
@@ -160,7 +168,44 @@ namespace NNPEFWEB.Controllers
                 return View(contactsVM);
             }
         }
+        public void SendEmailNotification(string emailFrom, string sender, string messageToSend, string receipient)
+        {
 
+            var UserName = config.GetValue<string>("mailconfig:SenderEmail");
+            var Password = config.GetValue<string>("mailconfig:Password");
+            var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+            var message = new MailMessage();
+            message.To.Add(new MailAddress(receipient));
+            message.From = new MailAddress(sender, emailFrom);
+            message.Subject = "Password Verification Code";
+            message.Body = string.Format(body, emailFrom, sender, messageToSend);
+            message.IsBodyHtml = true;
+
+
+
+            string host = config.GetValue<string>("mailconfig:Server");
+            int port = config.GetValue<int>("mailconfig:Port");
+            var enableSSL = config.GetValue<bool>("mailconfig:enableSSL");
+
+            SmtpClient SmtpServer = new SmtpClient(host);
+
+            var smtp = new SmtpClient
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = enableSSL,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = true,
+                Credentials = new NetworkCredential(UserName, Password)
+            };
+            SmtpServer.Port = port; // Also Add the port number to send it, its default for Gmail
+            SmtpServer.Credentials = new System.Net.NetworkCredential(UserName, Password);
+            SmtpServer.EnableSsl = enableSSL;
+            SmtpServer.Timeout = 200000; // Add Timeout property
+            SmtpServer.Send(message);
+
+
+        }
         // GET: ContactUsController/Delete/5
         public ActionResult Delete(int id)
         {

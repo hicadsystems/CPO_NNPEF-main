@@ -2,10 +2,10 @@
 @model ContactUsViewModel
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_CustomLayout.cshtml"; 
 }
 
-<style>
+@*<style>
 
     body {
         opacity: 0;
@@ -28,81 +28,113 @@
         cursor: pointer;
         background-color: #03a9f430 !important
     }
-</style>
+</style>*@
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["Message"]
-    </div>
-}
+    <!--<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+        <div class="card card0 border-0">
+            <div class="row d-flex">
 
-<div class="page-wrapper">
+                <div class="col-lg-6">
+                    <div class="card2 card border-0 px-4 py-5">-->
+                        @*<div class="row mb-4 px-3">
+                                <h3>Sign in Here</h3>
 
-    @using (Html.BeginForm("Create", "ContactUs", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="section-heading">
-                        <h1 class="page-title">Add Contacts</h1>
-                    </div>
-                    <button type="button" class="close dismiss-modal" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+
+                            </div>*@
+
+                        <!--<div class="row px-3 mb-4">
+                            <div class="line"></div>
+                            <div class="line"></div>
+                        </div>-->
+
+
+                        @if (TempData["Message"] != null)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                @TempData["Message"]
+                            </div>
+                        }
+
+                        <div class="page-wrapper">
+
+                            @using (Html.BeginForm("Create", "ContactUs", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="section-heading">
+                                                <h1 class="page-title">Add Contacts</h1>
+                                            </div>
+                                            <button type="button" class="close dismiss-modal" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <span style="font-weight:bold; ">Contact Details</span>
+                                            <hr />
+                                            <div class="row">
+                                                <div class="form-group col-sm-6">
+                                                    <label class="control-label">
+                                                        Person Name
+                                                    </label>
+                                                    @Html.TextBoxFor(model => model.PersonName, new { @class = "form-control" })
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                    <label class="control-label">
+                                                        Ship
+                                                    </label>
+                                                    @Html.TextBoxFor(model => model.Ship, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group col-sm-6">
+                                                    <label for="email" class="control-label">
+                                                        Email
+                                                    </label>
+                                                    @Html.TextBoxFor(model => model.Email, new { @type = "email", @class = "form-control" })
+                                                </div>
+
+                                                <div class="form-group col-sm-6">
+                                                    <label class="control-label">
+                                                        Phone Number
+                                                    </label>
+                                                    @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-sm-6">
+                                                    <label class="control-label">
+                                                        Message
+                                                    </label>
+                                                    @Html.TextAreaFor(model => model.Message, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <br />
+
+                                            <div class="modal-footer">
+                                                <button type="reset" class="btn btn-secondary ">Cancel</button>
+                                                <button type="submit" value="save" name="save" class="btn btn-success">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    @*</div>
                 </div>
-                <div class="modal-body">
+            </div>*@
+            <div class="bg-blue py-4">
+                <div class="row px-3">
+                    <small class="ml-4 ml-sm-5 mb-2">
+                        Copyright &copy; @DateTime.Now.Year<a style="color:yellowgreen" href="https://hicadsystemsltd.com/" _blank>Hicad Systems LTD</a> All rights
+                        reserved.
+                    </small>
 
-                    <span style="font-weight:bold; ">Contact Details</span>
-                    <hr />
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label class="control-label">
-                                Person Name
-                            </label>
-                            @Html.TextBoxFor(model => model.PersonName, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <label class="control-label">
-                                Ship
-                            </label>
-                            @Html.TextBoxFor(model => model.Ship, new { @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label for="email" class="control-label">
-                                Email
-                            </label>
-                            @Html.TextBoxFor(model => model.Email, new { @type = "email", @class = "form-control" })
-                        </div>
-
-                        <div class="form-group col-sm-6">
-                            <label class="control-label">
-                                Phone Number
-                            </label>
-                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label class="control-label">
-                                Message
-                            </label>
-                            @Html.TextAreaFor(model => model.Message, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <br />
-
-                    <div class="modal-footer">
-                        <button type="reset" class="btn btn-secondary ">Cancel</button>
-                        <button type="submit" value="save" name="save" class="btn btn-success">Save</button>
-                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        @*</div>
+    </div>*@
 

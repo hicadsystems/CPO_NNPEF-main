@@ -22,7 +22,12 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <script src="~/js/app.js" defer></script>
+    @*<style>
 
+        body {
+            opacity: 0;
+        }
+    </style>
 
     <style>
 
@@ -41,9 +46,10 @@
             cursor: pointer;
             background-color: #03a9f430 !important
         }
-    </style>
+    </style>*@
 
 
+   
     @*<link href="~/dist/app.css" rel="stylesheet" />*@
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/settings.js"></script>
@@ -186,6 +192,7 @@
 
     <script>
         $(document).ready(function () {
+            
             $('#data-table-role').DataTable({
                 "language ": {
                     "emptyTable ": "No Role. Add new Role. "
@@ -196,6 +203,7 @@
 
 
             $('#data-table-role tbody').on('click', '.e-details', function () {
+                alert('i am here for role');
                 $("#roleModalLabel").text("Edit Role");
                 roleId = $(this).data('role-id')
 
@@ -246,6 +254,7 @@
 
 
             $('#data-table-user tbody').on('click', '.e-details', function () {
+                alert('i am here');
                 $("#userModalLabel").text("Edit User");
                 userId = $(this).data('user-id')
 

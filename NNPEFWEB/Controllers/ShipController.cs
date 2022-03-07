@@ -44,7 +44,7 @@ namespace NNPEFWEB.Controllers
             _generatepdf = generatepdf;
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
-        public ActionResult UpdatedPersonelList(string id, string svcno)
+        public ActionResult UpdatedPersonelList2(string id, string svcno)
         {
             try
             {

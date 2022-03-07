@@ -46,7 +46,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="section-heading">
-                        <h1 class="page-title">Edit Contacts</h1>
+                        <h1 class="page-title">Respond To Ticket</h1>
                     </div>
                     <button type="button" class="close dismiss-modal" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -55,12 +55,12 @@
                 <div class="modal-body">
 
                     @Html.HiddenFor(model => model.Id)
-                    <span style="font-weight:bold; ">Contact Details</span>
+                    <span style="font-weight:bold; ">Ticket Details</span>
                     <hr />
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label class="control-label">
-                                Person Name
+                                 Name
                             </label>
                             @Html.TextBoxFor(model => model.PersonName, new { @class = "form-control", @readonly = "true" })
                         </div>
@@ -68,7 +68,7 @@
                             <label class="control-label">
                                 Ship
                             </label>
-                            @Html.TextBoxFor(model => model.Ship, new { @class = "form-control" })
+                            @Html.TextBoxFor(model => model.Ship, new { @class = "form-control" , @readonly = "true" })
                         </div>
                     </div>
 
@@ -92,7 +92,7 @@
                             <label class="control-label">
                                 Message
                             </label>
-                            @Html.TextAreaFor(model => model.Message, new { @class = "form-control" })
+                            @Html.TextAreaFor(model => model.Message, new { @class = "form-control", @readonly = "true" })
                         </div>
                         <div class="form-group col-sm-6">
                             <label class="control-label">

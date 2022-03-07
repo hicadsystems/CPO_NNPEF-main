@@ -1207,7 +1207,9 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           Rank = ppl.Rank,
                           seniorityDate = ppl.seniorityDate,
                           payrollclass = ppl.payrollclass,
-                          ship = ppl.ship
+                          ship = ppl.ship,
+                          classes=ppl.classes,
+                          Id=ppl.Id
 
                       }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
 
@@ -1216,7 +1218,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             else
             {
                 pp = (from ppl in _context.ef_personalInfos
-                      where (ppl.payrollclass == payclass && ppl.Status == "CPO" && ppl.emolumentform != "Yes" && ppl.ship == ship)
+                      where (ppl.payrollclass == payclass && ppl.Status == "SHIP" && ppl.emolumentform != "Yes" && ppl.ship == ship)
                       select new ef_personalInfo
                       {
                           serviceNumber = ppl.serviceNumber,
@@ -1225,7 +1227,9 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           Rank = ppl.Rank,
                           seniorityDate = ppl.seniorityDate,
                           payrollclass = ppl.payrollclass,
-                          ship = ppl.ship
+                          ship = ppl.ship,
+                          classes=ppl.classes,
+                          Id = ppl.Id
 
                       }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
             }
