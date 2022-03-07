@@ -71,16 +71,20 @@ namespace NNPEFWEB.Controllers
         {
             ViewBag.ShipList = GetShip();
             var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-
-            var pp = personinfoService.GetUpdatedPersonnelByCpo(user.Appointment, ship);
+            string shipname= null;
+            if (ship != null)
+            {
+                 shipname = _context.ef_ships.FirstOrDefault(x => x.Id == Convert.ToInt32(ship)).shipName;
+            }
+            var pp = personinfoService.GetUpdatedPersonnelByCpo(user.Appointment, shipname);
             return View(pp);
         }
-        public ActionResult UpdatedPayroll()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult UpdatedPayroll(string payclass)
+        //public ActionResult UpdatedPayroll()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        public ActionResult UpdatedPayroll(int id)
         {
             string user = User.Identity.Name;
             try
@@ -92,7 +96,7 @@ namespace NNPEFWEB.Controllers
                     {
                         cmd.CommandTimeout = 1200;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@payclass", payclass));
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
                         cmd.Parameters.Add(new SqlParameter("@username", User.Identity.Name));
 
 
@@ -110,7 +114,7 @@ namespace NNPEFWEB.Controllers
             }
 
 
-            return RedirectToAction("UpdatedPersonelList");
+            return RedirectToAction("UpdatedPersonelByCPO");
         }
     
 
@@ -189,6 +193,9 @@ namespace NNPEFWEB.Controllers
          }
         public async Task<IActionResult> ListOfAllStaff(string reporttype, string shipToSearch, int? pageNumber)
         {
+            try
+            {
+
             ViewData["reporttype"] = String.IsNullOrEmpty(reporttype) ? "AllStaff" : reporttype;
 
             var ppersons = await personinfoService.GetPersonnelStatusReport(reporttype, shipToSearch, pageNumber);
@@ -215,6 +222,13 @@ namespace NNPEFWEB.Controllers
 
             return View(ppersons);
 
+            }
+            catch (Exception ex)
+            {
+                TempData["UpdateMessage"] = "Updated Fail";
+
+                throw;
+            }
         }
         public Task<IActionResult> ListOfAllStaffReport(string ship, string shipToSearch)
         {

@@ -141,12 +141,12 @@
 
                     <div class="col-md-4">
                         <label asp-for="Surname" class="control-label"></label>
-                        <input asp-for="Surname" class="form-control" />
+                        <input asp-for="Surname" class="form-control" readonly />
                         <span asp-validation-for="Surname" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Other Names</label>
-                        <input asp-for="OtherName" class="form-control" />
+                        <input asp-for="OtherName" class="form-control"  readonly/>
                         <span asp-validation-for="OtherName" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
@@ -167,13 +167,13 @@
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Date of Birth</label>
-                        <input asp-for="Birthdate" class="form-control" type="date" />
+                        <input asp-for="Birthdate" class="form-control" type="date" readonly />
                         <span asp-validation-for="Birthdate" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-4">
                         <label class="control-label">Date of Joining</label>
-                        <input asp-for="DateEmpl" class="form-control" type="date" />
+                        <input asp-for="DateEmpl" class="form-control" type="date" readonly/>
                         <span asp-validation-for="DateEmpl" class="text-danger"></span>
                     </div>
 
@@ -191,8 +191,25 @@
                         <span asp-validation-for="seniorityDate" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
+                        <label class="control-label">Entry Mode</label>
+                        <select asp-for="entry_mode" id="entrymodeid"
+                                class="form-control"
+                                asp-items="@(new SelectList(Model.entry_modeList,"Value", "Text"))">
+                        </select>
+                        <span asp-validation-for="entry_mode" class="text-danger"></span>
+                    </div>
+
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4" id="enrolmentdate">
+                        <label class="control-label">Enrolment Date</label>
+                        <input asp-for="advanceDate" class="form-control" type="date" />
+                        <span asp-validation-for="advanceDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
                         <label class="control-label">Run Out Date</label>
-                        <input asp-for="runOutDate" class="form-control" type="date" required />
+                        <input asp-for="runOutDate" class="form-control" type="date" readonly />
                         <span asp-validation-for="runOutDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -244,6 +261,7 @@
 
                     <div class="col-md-4">
                         <label class="control-label">State of Origin</label>
+                        @*<input asp-for="StateofOrigin" class="form-control" readonly />*@
                         <select asp-for="StateofOrigin" id="ddstate"
                                 class="form-control"
                                 asp-items="@(new SelectList(Model.StateofOriginList,"Value", "Text"))">
@@ -255,6 +273,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">LGA</label>
+                        @*<input asp-for="LocalGovt" class="form-control" readonly />*@
                         <select asp-for="LocalGovt" id="ddlocalGovt"
                                 class="form-control"
                                 asp-items="@(new SelectList(Model.LocalGovtList,"Value", "Text"))">
@@ -410,7 +429,7 @@
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">NIN of NOK</label>
-                        <input asp-for="nok_nationalId" class="form-control" />
+                        <input asp-for="nok_nationalId" class="form-control" readonly/>
                         <span asp-validation-for="nok_nationalId" class="text-danger"></span>
                     </div>
 
@@ -491,8 +510,8 @@
 
                 </div>
                 @*<div class="row">
-                    <div class="col-md-10"><h3><span> <i>Disparity in Serial 10 and 21b could lead to revocation of lodging allowance</i></span></h3></div>
-                </div>*@
+            <div class="col-md-10"><h3><span> <i>Disparity in Serial 10 and 21b could lead to revocation of lodging allowance</i></span></h3></div>
+        </div>*@
                 <hr />
 
                 <div class="row">
@@ -757,25 +776,26 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">Salary Bank Account Name</label>
-                        <input asp-for="AccountName" class="form-control" />
+                        <input asp-for="AccountName" class="form-control" readonly />
                         <span asp-validation-for="AccountName" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Name of Bank</label>
-                        <select asp-for="Bankcode"
-                                class="form-control"
-                                asp-items="@(new SelectList(Model.bankList,"Value", "Text"))">
-                        </select>
+                        <input asp-for="Bankcode" class="form-control" readonly />
+                        @*<select asp-for="Bankcode"
+                class="form-control"
+                asp-items="@(new SelectList(Model.bankList,"Value", "Text"))">
+        </select>*@
                         <span asp-validation-for="Bankcode" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Branch/Address</label>
-                        <input asp-for="bankbranch" class="form-control" />
+                        <input asp-for="bankbranch" class="form-control" readonly />
                         <span asp-validation-for="bankbranch" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Account Number</label>
-                        <input asp-for="BankACNumber" class="form-control" />
+                        <input asp-for="BankACNumber" class="form-control" readonly />
                         <span asp-validation-for="BankACNumber" class="text-danger"></span>
                     </div>
 
@@ -859,6 +879,18 @@
                 }
             });
         });
+                     $("#enrolmentdate").hide();
+
+                     $("#entrymodeid").change(
+                         function () {
+                             if ($(this).val() != 'NDA') {
+                                 $("#enrolmentdate").show();
+                             }
+
+                         });
+                     if ($("#entrymodeid") != 'NDA') {
+                         $("#enrolmentdate").show();
+                     }
 });
         $(function () {
             $('.datepicker').datepicker();
@@ -868,6 +900,8 @@
             $("#datepicker3").datepicker();
             $("#datepicker4").datepicker();
 
+           
+           
             $("#fedhousingid").hide();
             $("#car_loanid").hide();
             $("#welfare_loanid").hide();
@@ -879,6 +913,8 @@
 
 
         });
+   
+
         $("#fgscheck").change(
             function () {
                 if ($(this).val() == 'Yes') {

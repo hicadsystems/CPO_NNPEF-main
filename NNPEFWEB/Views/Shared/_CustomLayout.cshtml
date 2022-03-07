@@ -1,149 +1,21 @@
-﻿@using Microsoft.AspNetCore.Http
-<!DOCTYPE html>
-<html lang="en">
-@*<head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+﻿<!DOCTYPE html>
 
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </head>*@
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@ViewData["Title"] - NNPEFWEB</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font Awesome -->
-    <link href="~/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
-    <!-- Ionicons -->
-    <link href="~/css/ionicons.min.css" rel="stylesheet" />
-    <!-- Theme style -->
-    <link href="~/dist/css/adminlte.min.css" rel="stylesheet" />
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <script src="~/js/app.js" defer></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/css/logintemplate.css" rel="stylesheet" />
+    <link href="~/css/font-awsome.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
 </head>
-<body class="hold-transition sidebar-mini layout-navbar-fixed">
-    <div class="wrapper" id="app">
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        </nav>
-
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
-            <a href="../../index3.html" class="brand-link elevation-4">
-
-                <img src="~/Image/navylogo2.png" alt="AdminLTE Logo"
-                     class="brand-image img-circle elevation-3"
-                     style="opacity: .8" />
-                @*<span class="brand-text font-weight-light">AdminLTE 3</span>*@
-            </a>
-
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <nav class="mt-2">
-
-
-                    <!-- Sidebar Menu -->
-                    <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
-                            @if (Context.Session.GetString("Authorization") == "CommandLevel")
-                            {
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far "></i>
-                        <p>
-                            Ship Level
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="UpdatedPersonelList"
-                               asp-controller="Ship" asp-route-id="1">
-                                <i class="far fa nav-icon"></i>
-                                <p>Officers In Ship</p>
-                            </a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="UpdatedPersonelList"
-                               asp-controller="Ship" asp-route-id="2">
-                                <i class="far fa nav-icon"></i>
-                                <p>Ratings In Ship</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="UpdatedPersonelList"
-                               asp-controller="Ship" asp-route-id="3">
-                                <i class="far fa nav-icon"></i>
-                                <p>Training In Ship</p>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-}
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="HomePage"
-                                   asp-controller="Home">
-                                    <i class="far fa-lock nav-icon"></i>
-                                    <p>Log Out</p>
-                                </a>
-                                @*<a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Log Out</a>*@
-                            </li>
-                        </ul>
-                    </nav>
-                    <!-- /.sidebar-menu -->
-                </nav>
-            </div>
-            <!-- /.sidebar -->
-        </aside>
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-
-                        </div>
-                        <!--<div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Layout</a></li>-->
-                        @*<li class="breadcrumb-item active">Fixed Navbar Layout</li>*@
-                        <!--</ol>
-                        </div>-->
-                    </div>
-                </div><!-- /.container-fluid -->
-            </section>
-
-            <section class="content">
-                @*<first-component></first-component>*@
-
-                <div class="container-fluid">
-                    @RenderBody()
-                </div>
-            </section>
-
+<body>
+    <div id="id=" app">
+        <div>
+            @RenderBody()
         </div>
-
-
-        <footer class="main-footer">
-
-            <strong>Copyright &copy; @DateTime.Now.Year <a style="color:yellowgreen" href="https://hicadsystemsltd.com/">Hicad Systems LTD</a>.</strong> All rights
-            reserved.
-        </footer>
     </div>
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/dist/js/adminlte.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="~/dist/js/demo.js"></script>
-    @RenderSection("Scripts", required: false)
+
 </body>
 </html>
+<script src="~/js/jQuery.js"></script>
+<script src="~/js/loginjs.js"></script>

@@ -471,7 +471,7 @@ namespace NNPEFWEB.Controllers
                       }
                         else
                         {
-                            TempData["commandLoginMessage"] = "You Are Not Eligible To Login";
+                            TempData["commandLoginMessage"] = "Invalid UserName or Password";
                             return RedirectToAction("ShipLogin", "Account");
                         }
 
@@ -917,7 +917,7 @@ namespace NNPEFWEB.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult UpdatePayrollWithEF(string command,string payclass)
+        public IActionResult UpdatePayrollWithEF(string payclass)
         {
             ViewBag.commandList = GetCommand();
             try
@@ -929,7 +929,6 @@ namespace NNPEFWEB.Controllers
                     {
                         cmd.CommandTimeout = 1200;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@command", command));
                         cmd.Parameters.Add(new SqlParameter("@payclass", payclass));
 
 

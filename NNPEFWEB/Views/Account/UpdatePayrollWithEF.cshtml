@@ -17,22 +17,27 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                @using (Html.BeginForm("UpdatePayrollWithEF", "Account", FormMethod.Get))
+                @using (Html.BeginForm("UpdatePayrollWithEF", "Account", FormMethod.Post))
                 {
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Command</label>
+                            <label>Pay Class</label>
 
-                            <select name="command"
-                                    class="form-control select2" style="width: 100%;"
-                                    asp-items="@(new SelectList(ViewBag.commandList, "Value", "Text"))">
+                            <select name="payclass"
+                                    class="form-control select2" style="width: 100%;">
+                                <option value="1">Officers</option>
+                                <option value="2">Warrant Officers</option>
+                                <option value="3">Senior Rate</option>
+                                <option value="4">Junior Rate A</option>
+                                <option value="5">Junior Rate B</option>
+                                <option value="6">Trainee</option>
                             </select>
 
                         </div>
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-4">
+                    @*<div class="col-md-4">
                         <div class="form-group">
                             <label>Pay Class</label>
                             <select name="payclass" class="form-control select2" style="width: 100%;">
@@ -44,7 +49,7 @@
                             </select>
                         </div>
 
-                    </div>
+                    </div>*@
                     </div>
                     <div class="row">
                        <div class="col-md-4">

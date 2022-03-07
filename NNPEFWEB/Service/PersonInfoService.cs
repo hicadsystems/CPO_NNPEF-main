@@ -101,6 +101,11 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.Personinfo.GetUpdatedPersonnelRepo2(pageNumber);
         }
+        public Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelBySHip(string payclass, string ship, int? pageNumber)
+        {
+            return unitOfWork.Personinfo.GetUpdatedPersonnelBySHip(payclass,ship,pageNumber);
+        }
+
 
         public Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusReport(string status, string shipToSearch, int? pageNumber)
         {
@@ -131,5 +136,7 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.Personinfo.getPersonListCount();
         }
+
+      
     }
 }

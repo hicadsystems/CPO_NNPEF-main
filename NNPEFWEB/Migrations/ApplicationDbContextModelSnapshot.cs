@@ -450,6 +450,21 @@ namespace NNPEFWEB.Migrations
                     b.ToTable("ef_commands");
                 });
 
+            modelBuilder.Entity("NNPEFWEB.Models.ef_entrymode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ef_entrymodes");
+                });
+
             modelBuilder.Entity("NNPEFWEB.Models.ef_localgovt", b =>
                 {
                     b.Property<int>("Id")

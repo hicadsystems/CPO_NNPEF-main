@@ -14,6 +14,7 @@ namespace NNPEFWEB.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            Database.SetCommandTimeout((int)TimeSpan.FromMinutes(3000).TotalSeconds);
         }
         public DbContext Instance => this;
 
@@ -26,6 +27,7 @@ namespace NNPEFWEB.Data
         public DbSet<RoleMenu> RoleMenus { get; set; }
         public DbSet<ef_personalInfo> ef_personalInfos { get; set; }
         public DbSet<ef_bank> ef_banks { get; set; }
+        public DbSet<ef_entrymode> ef_entrymodes { get; set; }
         public DbSet<ef_ship> ef_ships { get; set; }
         public DbSet<ef_branch> ef_branches { get; set; }
         public DbSet<ef_command> ef_commands { get; set; }

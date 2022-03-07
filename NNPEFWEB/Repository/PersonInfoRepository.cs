@@ -469,7 +469,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             var pp = new List<ef_personalInfo>();
             
                 pp = (from ppl in _context.ef_personalInfos
-                      where (ppl.payrollclass == payclass && ppl.serviceNumber == svcno)
+                      where (ppl.serviceNumber == svcno)
                       select new ef_personalInfo
                       {
                           serviceNumber = ppl.serviceNumber,
@@ -675,10 +675,10 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                 }
                 else if(statusToSearch != "AllStaff" && shipToSearch != "AllShip")
                 {
-                    var shipInDB = _context.ef_ships.SingleOrDefault(x => x.Id == int.Parse(shipToSearch));
+                    string shipInDB = _context.ef_ships.FirstOrDefault(x => x.Id == int.Parse(shipToSearch)).shipName;
 
                     pp = (from ppl in _context.ef_personalInfos
-                          where ppl.Status == statusToSearch && ppl.ship == shipInDB.shipName
+                          where ppl.Status == statusToSearch && ppl.ship == shipInDB
                           join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
                           select new ef_personalInfo
                           {
@@ -1207,7 +1207,9 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           Rank = ppl.Rank,
                           seniorityDate = ppl.seniorityDate,
                           payrollclass = ppl.payrollclass,
-                          ship = ppl.ship
+                          ship = ppl.ship,
+                          classes=ppl.classes,
+                          Id=ppl.Id
 
                       }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
 
@@ -1216,7 +1218,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             else
             {
                 pp = (from ppl in _context.ef_personalInfos
-                      where (ppl.payrollclass == payclass && ppl.Status == "CPO" && ppl.emolumentform != "Yes" && ppl.ship == ship)
+                      where (ppl.payrollclass == payclass && ppl.Status == "SHIP" && ppl.emolumentform != "Yes" && ppl.ship == ship)
                       select new ef_personalInfo
                       {
                           serviceNumber = ppl.serviceNumber,
@@ -1225,11 +1227,41 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           Rank = ppl.Rank,
                           seniorityDate = ppl.seniorityDate,
                           payrollclass = ppl.payrollclass,
-                          ship = ppl.ship
+                          ship = ppl.ship,
+                          classes=ppl.classes,
+                          Id = ppl.Id
 
                       }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
             }
             return pp;
         }
+
+        public async Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelBySHip(string payclass, string ship,int? pageNumber)
+        {
+            var pp = new List<ef_personalInfo>();
+
+            pp = (from ppl in _context.ef_personalInfos
+                  where (ppl.payrollclass == payclass && ppl.ship==ship)
+                  select new ef_personalInfo
+                  {
+                      Id = ppl.Id,
+                      serviceNumber = ppl.serviceNumber,
+                      Surname = ppl.Surname,
+                      OtherName = ppl.OtherName,
+                      Rank = ppl.Rank,
+                      seniorityDate = ppl.seniorityDate,
+                      command = ppl.command,
+                      payrollclass = ppl.payrollclass,
+                      classes = ppl.classes,
+                      ship = ppl.ship
+
+                  }).OrderByDescending(x => x.ship).ThenByDescending(x => x.Id).AsNoTracking().ToList();
+
+
+            int pageSize = 10;
+
+            return await PaginatedList<ef_personalInfo>.CreateAsync(pp.AsQueryable(), pageNumber ?? 1, pageSize);
         }
+
+    }
     }

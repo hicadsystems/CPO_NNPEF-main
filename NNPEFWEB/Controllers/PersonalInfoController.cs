@@ -199,39 +199,17 @@ namespace NNPEFWEB.Controllers
             try
             {
 
-            string authusername=HttpContext.Session.GetString("CommandUser");
-            var per = personinfoService.GetPersonalInfo(svcno).Result;
-            var cmdr = _context.ef_PersonnelLogins.Where(x => x.userName == authusername).FirstOrDefault();
-            HttpContext.Session.SetString("personid", per.serviceNumber);
-            if (per.Status == null)
-            {
-                per.Status = "DO";
-                per.div_off_name = cmdr.surName + "" + cmdr.otheName;
-                per.div_off_rank = cmdr.rank;
-                per.div_off_svcno = cmdr.userName;
-            }
-            if (per.Status == "DO")
-            {
-                per.hod_name = cmdr.surName + "" + cmdr.otheName;
-                per.hod_rank = cmdr.rank;
-                per.hod_svcno = cmdr.userName;
 
-            }
-            if (per.Status == "HOD")
-            {
-                per.cdr_name = cmdr.surName + "" + cmdr.otheName;
-                per.cdr_rank = cmdr.rank;
-                per.cdr_svcno = cmdr.userName;
-            }
+            var per = personinfoService.GetPersonalInfo(svcno).Result;
+             HttpContext.Session.SetString("personid", per.serviceNumber);
+         
             var pix = per.Passport;
             var nokpix = per.NokPassport;
             var altnokpic = per.AltNokPassport;
 
 
             var systemsInfo = _systemsInfoService.GetSysteminfo();
-        //    string svcno = HttpContext.Session.GetString("personid");
             var ppp = _context.ef_personalInfos.Where(o => o.serviceNumber == svcno).FirstOrDefault();
-            //var per = personinfoService.downloadPersonalReport(svcno);
              var pp = new PersonalInfoModel();
             
             using (SqlConnection sqlcon = new SqlConnection(connectionString))
@@ -334,19 +312,6 @@ namespace NNPEFWEB.Controllers
                                 pp.PPCFS_loanYear = sdr["PPCFS_loanYear"].ToString();
                                 pp.Anyother_LoanYear = sdr["Anyother_LoanYear"].ToString();
 
-
-                                pp.div_off_name = sdr["div_off_name"].ToString();
-                                pp.div_off_rank = sdr["div_off_rank"].ToString();
-                                pp.div_off_svcno = sdr["div_off_svcno"].ToString();
-
-                                pp.hod_name = sdr["hod_name"].ToString();
-                                pp.hod_rank = sdr["hod_rank"].ToString();
-                                pp.hod_svcno = sdr["hod_svcno"].ToString();
-
-                                pp.cdr_name = sdr["cdr_name"].ToString();
-                                pp.cdr_rank = sdr["cdr_rank"].ToString();
-                                pp.cdr_svcno = sdr["cdr_svcno"].ToString();
-
                                 pp.Passport = ppp.Passport;
                                 pp.NokPassport = ppp.NokPassport;
                                 pp.AltNokPassport = ppp.AltNokPassport;
@@ -364,7 +329,7 @@ namespace NNPEFWEB.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                return RedirectToAction("commandLogin", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
         }
         public ActionResult ViewPersonelRating(string svcno)
@@ -373,31 +338,10 @@ namespace NNPEFWEB.Controllers
             {
 
                 var systemsInfo = _systemsInfoService.GetSysteminfo();
-                string authusername = HttpContext.Session.GetString("CommandUser");
                 var per = personinfoService.GetPersonalInfo(svcno).Result;
-                var cmdr = _context.ef_PersonnelLogins.Where(x => x.userName == authusername).FirstOrDefault();
                 HttpContext.Session.SetString("personid", per.serviceNumber);
-                if (per.Status == null)
-                {
-                    per.Status = "DO";
-                    per.div_off_name = cmdr.surName + "" + cmdr.otheName;
-                    per.div_off_rank = cmdr.rank;
-                    per.div_off_svcno = cmdr.userName;
-                }
-                if (per.Status == "DO")
-                {
-                    per.hod_name = cmdr.surName + "" + cmdr.otheName;
-                    per.hod_rank = cmdr.rank;
-                    per.hod_svcno = cmdr.userName;
-
-                }
-                if (per.Status == "HOD")
-                {
-                    per.cdr_name = cmdr.surName + "" + cmdr.otheName;
-                    per.cdr_rank = cmdr.rank;
-                    per.cdr_svcno = cmdr.userName;
-                }
-                var pix = per.Passport;
+               
+            var pix = per.Passport;
             var nokpix = per.NokPassport;
             var altnokpix = per.AltNokPassport;
             var ppp = _context.ef_personalInfos.Where(o => o.serviceNumber == svcno).FirstOrDefault();
@@ -432,10 +376,14 @@ namespace NNPEFWEB.Controllers
                         pp.email = sdr["email"].ToString();
                         pp.gsm_number = sdr["gsm_number"].ToString();
                         pp.gsm_number2 = sdr["gsm_number2"].ToString();
+                            if(per.Birthdate!=null)
                         pp.Birthdate = Convert.ToDateTime(sdr["Birthdate"]);
-                        pp.DateEmpl = Convert.ToDateTime(sdr["DateEmpl"]);
-                        pp.seniorityDate = Convert.ToDateTime(sdr["seniorityDate"]);
-                        pp.runOutDate = Convert.ToDateTime(sdr["runOutDate"]);
+                            if (per.DateEmpl!= null)
+                                pp.DateEmpl = Convert.ToDateTime(sdr["DateEmpl"]);
+                            if (per.seniorityDate != null)
+                                pp.seniorityDate = Convert.ToDateTime(sdr["seniorityDate"]);
+                            if (per.runoutDate != null)
+                                pp.runOutDate = Convert.ToDateTime(sdr["runOutDate"]);
                             pp.home_address = sdr["home_address"].ToString();
                         pp.branch = sdr["branchName"].ToString();
                         pp.command = sdr["commandName"].ToString();
@@ -447,8 +395,9 @@ namespace NNPEFWEB.Controllers
                         pp.MaritalStatus = sdr["MaritalStatus"].ToString();
 
                         pp.yearOfPromotion = sdr["yearOfPromotion"].ToString();
-                        pp.runOutDate = Convert.ToDateTime(sdr["runoutDate"]);
-                        pp.expirationOfEngagementDate = Convert.ToDateTime(sdr["expirationOfEngagementDate"]);
+                            //pp.runOutDate = Convert.ToDateTime(sdr["runoutDate"]);
+                            if (per.expirationOfEngagementDate != null)
+                                pp.expirationOfEngagementDate = Convert.ToDateTime(sdr["expirationOfEngagementDate"]);
 
                         pp.chid_name = sdr["chid_name"].ToString();
                         pp.chid_name2 = sdr["chid_name2"].ToString();
@@ -504,17 +453,7 @@ namespace NNPEFWEB.Controllers
                         pp.Anyother_LoanYear = sdr["Anyother_LoanYear"].ToString();
 
 
-                        pp.div_off_name = sdr["div_off_name"].ToString();
-                        pp.div_off_rank = sdr["div_off_rank"].ToString();
-                        pp.div_off_svcno = sdr["div_off_svcno"].ToString();
-
-                        pp.hod_name = sdr["hod_name"].ToString();
-                        pp.hod_rank = sdr["hod_rank"].ToString();
-                        pp.hod_svcno = sdr["hod_svcno"].ToString();
-
-                        pp.cdr_name = sdr["cdr_name"].ToString();
-                        pp.cdr_rank = sdr["cdr_rank"].ToString();
-                        pp.cdr_svcno = sdr["cdr_svcno"].ToString();
+                       
 
                         pp.Passport = ppp.Passport;
                         pp.NokPassport = ppp.NokPassport;
@@ -534,7 +473,7 @@ namespace NNPEFWEB.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                return RedirectToAction("commandLogin", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
         }
@@ -544,28 +483,8 @@ namespace NNPEFWEB.Controllers
             {
             var systemInfo = _systemsInfoService.GetSysteminfo();
             var per = personinfoService.GetPersonalInfo(svcno).Result;
-            var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-            HttpContext.Session.SetString("personid", per.serviceNumber);
-            if (per.Status == null)
-            {
-                per.Status = "DO";
-                per.div_off_name = cmdr.LastName + "" + cmdr.FirstName;
-               // per.div_off_rank = cmdr.Rank;
-                per.div_off_svcno = cmdr.UserName;
-            }
-            if (per.Status == "DO")
-            {
-                per.hod_name = cmdr.LastName + "" + cmdr.FirstName;
-                //per.hod_rank = cmdr.Rank;
-                per.hod_svcno = cmdr.UserName;
-
-            }
-            if (per.Status == "HOD")
-            {
-                per.cdr_name = cmdr.LastName + "" + cmdr.FirstName;
-                //per.cdr_rank = cmdr.Rank;
-                per.cdr_svcno = cmdr.UserName;
-            }
+             HttpContext.Session.SetString("personid", per.serviceNumber);
+            
             var pix = per.Passport;
             var nokpix = per.NokPassport;
             var altnokpix = per.AltNokPassport;
@@ -662,7 +581,7 @@ namespace NNPEFWEB.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                return RedirectToAction("commandLogin", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
         }
         public ActionResult OfficerRecord(string id)
@@ -679,6 +598,39 @@ namespace NNPEFWEB.Controllers
             var pix = per.Passport;
             var nokpix = per.NokPassport;
             var altnokpic = per.AltNokPassport;
+                int birthyears = DateTime.Now.Year-per.Birthdate.Value.Year;
+                int empyears = DateTime.Now.Year-per.DateEmpl.Value.Year;
+                if (per.entry_mode == "NDA")
+                {
+                    DateTime runoutDateBD = per.Birthdate.Value.AddYears(60);
+                    DateTime runoutDateEM = per.DateEmpl.Value.AddYears(35);
+
+                    if (runoutDateBD.Year > runoutDateEM.Year)
+                    {
+                        per.runoutDate = per.DateEmpl.Value.AddYears(35);
+                    }
+                    else
+                    {
+                        per.runoutDate = per.Birthdate.Value.AddYears(60);
+                    }
+                }
+                else
+                {
+                    if (per.Birthdate != null && per.advanceDate != null)
+                    {
+                        DateTime runoutDateBD = per.Birthdate.Value.AddYears(60);
+                        DateTime runoutDateEM = per.advanceDate.Value.AddYears(35);
+
+                        if (runoutDateBD.Year > runoutDateEM.Year)
+                        {
+                            per.runoutDate = per.advanceDate.Value.AddYears(35);
+                        }
+                        else
+                        {
+                            per.runoutDate = per.Birthdate.Value.AddYears(60);
+                        }
+                    }
+                }
             var p = new PersonalInfoModel
             {
                 logo = systeminfo.company_image,
@@ -698,6 +650,8 @@ namespace NNPEFWEB.Controllers
                 ship=per.ship,
                 specialisation=per.specialisation,
                 StateofOrigin=per.StateofOrigin,
+                entry_mode=per.entry_mode,
+                advanceDate=per.advanceDate,
                 LocalGovt=per.LocalGovt,
                 religion=per.religion,
                 MaritalStatus=per.MaritalStatus,
@@ -767,7 +721,7 @@ namespace NNPEFWEB.Controllers
                 Anyother_LoanYear = per.Anyother_LoanYear,
 
             };
-
+            p.entry_modeList = GetEntryMode();
             p.bankList = GetBank(); 
             p.rankList=GetRank2();
             p.specialisationList = GetSpec();
@@ -867,6 +821,21 @@ namespace NNPEFWEB.Controllers
                     value.NokPassport = person.NokPassport;
                     value.AltNokPassport = person.AltNokPassport;
                 }
+                    if (value.advanceDate != null)
+                    {
+                        DateTime runoutDateBD = value.Birthdate.Value.AddYears(60);
+                        DateTime runoutDateEM = value.advanceDate.Value.AddYears(35);
+
+                        if (runoutDateBD.Year > runoutDateEM.Year)
+                        {
+                            value.runoutDate = value.advanceDate.Value.AddYears(35);
+                        }
+                        else
+                        {
+                            value.runoutDate = value.Birthdate.Value.AddYears(60);
+                        }
+
+                    }
                 person.formNumber = value.formNumber;
                 person.Rank = value.Rank;
                 person.serviceNumber = value.serviceNumber;
@@ -888,6 +857,8 @@ namespace NNPEFWEB.Controllers
                 person.branch = value.branch;
                 person.command = value.command;
                 person.ship = value.ship;
+                    person.entry_mode = value.entry_mode;
+                    person.advanceDate = value.advanceDate;
                 person.specialisation = value.specialisation;
                 person.dateconfirmed = value.dateconfirmed;
                 person.DateEmpl = value.DateEmpl;
@@ -1817,11 +1788,11 @@ namespace NNPEFWEB.Controllers
         }
         public List<SelectListItem> GetEntryMode()
         {
-            var shipList = (from rk in _context.ef_ships
+            var shipList = (from rk in _context.ef_entrymodes
                             select new SelectListItem()
                             {
-                                Text = rk.shipName,
-                                Value = rk.shipName
+                                Text = rk.Name,
+                                Value = rk.Name
                             }).ToList();
 
             shipList.Insert(0, new SelectListItem()

@@ -7,6 +7,9 @@ using NNPEFWEB.Repository;
 using NNPEFWEB.Service;
 using NNPEFWEB.Services;
 using NNPEFWEB.ViewModel;
+using System.Security.Cryptography;
+using System;
+using System.Text;
 
 namespace NNPEFWEB.Controllers
 {
@@ -37,17 +40,120 @@ namespace NNPEFWEB.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel login)
         {
-            var auth = await authenticationService.SignInUserAsync(login.UserName, login.Password, "false");
-            
-            if (!auth.Success)
+            var user = authenticationService.FindUser(login.UserName).Result;
+            if (user.ResetPasswordCode != null)
             {
-                TempData["ErrorMessage"] = auth.Message;
-                return new RedirectResult(RefererUrl());
+                if (user.Appointment != "1")
+                {
+                    var auth2 = await authenticationService.SignInUserAsync(login.UserName, login.Password, "false");
+
+                    if (!auth2.Success)
+                    {
+                        TempData["ErrorMessage"] = auth2.Message;
+                        return new RedirectResult(RefererUrl());
+                    }
+
+                    return RedirectToAction("sectiondashboard", "Home");
+                }
+                else
+                {
+                    var auth = await authenticationService.SignInUserAsync(login.UserName, login.Password, "false");
+
+                    if (!auth.Success)
+                    {
+                        TempData["ErrorMessage"] = auth.Message;
+                        return new RedirectResult(RefererUrl());
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
-           
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                HttpContext.Session.SetString("UserId", user.UserName);
+                return RedirectToAction("ResetPassword", "Authentication");
+            }
+      }
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ForgetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    MD5 md5Hash = MD5.Create();
+                    var userToReset = HttpContext.Session.GetString("UserId");   // retrieve the user from session
+                    if (!string.IsNullOrEmpty(userToReset))
+                    {
+                        var user = authenticationService.FindUser(userToReset).Result;
+                        if (user != null)
+                        {
+                            string PasswordToHash = GetMd5Hash(md5Hash, model.ConfirmPassword);
+                            user.PasswordHash = PasswordToHash;
+                            user.UpdatedOn = DateTime.Now.AddMonths(3);
+                            authenticationService.updateUserlogins(user);
+
+                            HttpContext.Session.SetString("Resetmessage", "Password Reset was Successful. Please Login to Continue");
+
+                            HttpContext.Session.Clear();
+
+                            return RedirectToAction("Login");
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    string log = ex.Message;
+                }
+            }
+            ModelState.AddModelError("", "Unable to Reset Password. Please Contact your Admin");
+            return View(model);
+        }
+        static string GetMd5Hash(MD5 md5Hash, string input)
+        {
+
+            // Convert the input string to a byte array and compute the hash.
+            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // Create a new Stringbuilder to collect the bytes
+            // and create a string.
+            StringBuilder sBuilder = new StringBuilder();
+
+            // Loop through each byte of the hashed data 
+            // and format each one as a hexadecimal string.
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            // Return the hexadecimal string.
+            return sBuilder.ToString();
         }
 
+        // Verify a hash against a string.
+        static bool VerifyMd5Hash(MD5 md5Hash, string input, string hash)
+        {
+            // Hash the input.
+            string hashOfInput = GetMd5Hash(md5Hash, input);
+
+            // Create a StringComparer an compare the hashes.
+            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+
+            if (0 == comparer.Compare(hashOfInput, hash))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         //public async Task<IActionResult> ClientLogin(LoginViewModel login)
         //{
         //    var auth = await authenticationService.SignInUserAsync(login.EmailAddress, login.Password, "true");
@@ -66,32 +172,6 @@ namespace NNPEFWEB.Controllers
         //    return NotFound(auth);
         //}
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await authenticationService.(model.Email);
-        //        if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-        //        {
-        //            // Don't reveal that the user does not exist or is not confirmed
-        //            return View("ForgotPasswordConfirmation");
-        //        }
-
-        //        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-        //        // Send an email with this link
-        //        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-        //        var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-        //        await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-        //           $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-        //        return View("ForgotPasswordConfirmation");
-        //    }
-
-        //    // If we got this far, something failed, redisplay form
-        //    return View(model);
-        //}
         
 
         public async Task<IActionResult> Logout()

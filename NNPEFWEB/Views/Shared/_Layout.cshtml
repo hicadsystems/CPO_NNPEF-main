@@ -22,28 +22,58 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <script src="~/js/app.js" defer></script>
- 
+    @*<style>
+
+        body {
+            opacity: 0;
+        }
+    </style>
+
+    <style>
+
+        .caption {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user {
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+    <style>
+        .e-row:hover {
+            cursor: pointer;
+            background-color: #03a9f430 !important
+        }
+    </style>*@
+
+
+   
+    @*<link href="~/dist/app.css" rel="stylesheet" />*@
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/settings.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed">
     <div class="wrapper" id="app">
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         </nav>
         <partial name="_partialLayout" />
-        
+
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                          
+
                         </div>
                         <!--<div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Layout</a></li>-->
-                                @*<li class="breadcrumb-item active">Fixed Navbar Layout</li>*@
-                            <!--</ol>
+                        @*<li class="breadcrumb-item active">Fixed Navbar Layout</li>*@
+                        <!--</ol>
                         </div>-->
                     </div>
                 </div><!-- /.container-fluid -->
@@ -61,18 +91,234 @@
 
 
         <footer class="main-footer">
-          
+
             <strong>Copyright &copy; @DateTime.Now.Year <a style="color:yellowgreen" href="https://hicadsystemsltd.com/">Hicad Systems LTD</a>.</strong> All rights
             reserved.
         </footer>
     </div>
-        <script src="~/plugins/jquery/jquery.min.js"></script>
-        <!-- Bootstrap 4 -->
-        <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="~/dist/js/adminlte.js"></script>
-        <!-- AdminLTE for demo purposes -->
-        <script src="~/dist/js/demo.js"></script>
-        @RenderSection("Scripts", required: false)
+    @*<script src="~/plugins/jquery/jquery.min.js"></script>*@
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/dist/js/adminlte.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/dist/js/demo.js"></script>
+    @RenderSection("Scripts", required: false)
+
+    <script src="~/js/app.js"></script>
+
+    <script src="~/dist/app.js" asp-append-version="true"></script>
+    <script>
+
+
+        $(function () {
+            $("#smartwizard-default-primary").smartWizard({
+                theme: "default",
+                showStepURLhash: false
+            });
+            $("#smartwizard-default-success").smartWizard({
+                theme: "default",
+                showStepURLhash: false
+            });
+            $("#smartwizard-default-danger").smartWizard({
+                theme: "default",
+                showStepURLhash: false
+            });
+            $("#smartwizard-default-warning").smartWizard({
+                theme: "default",
+                showStepURLhash: false
+            });
+            $("#smartwizard-arrows-primary").smartWizard({
+                theme: "arrows",
+                showStepURLhash: false
+            });
+            $("#smartwizard-arrows-success").smartWizard({
+                theme: "arrows",
+                showStepURLhash: false
+            });
+            $("#smartwizard-arrows-danger").smartWizard({
+                theme: "arrows",
+                showStepURLhash: false
+            });
+            $("#smartwizard-arrows-warning").smartWizard({
+                theme: "arrows",
+                showStepURLhash: false
+            });
+            // Validation
+            var $validationForm = $("#smartwizard-validation");
+            $validationForm.validate({
+                errorPlacement: function errorPlacement(error, element) {
+                    $(element).parents(".form-group").append(
+                        error.addClass("invalid-feedback small d-block")
+                    )
+                },
+                highlight: function (element) {
+                    $(element).addClass("is-invalid");
+                },
+                unhighlight: function (element) {
+                    $(element).removeClass("is-invalid");
+                },
+                rules: {
+                    "wizard-confirm": {
+                        equalTo: "input[name=\"wizard-password\"]"
+                    }
+                }
+            });
+            $validationForm
+                .smartWizard({
+                    autoAdjustHeight: false,
+                    backButtonSupport: false,
+                    useURLhash: false,
+                    showStepURLhash: false,
+                    toolbarSettings: {
+                        toolbarExtraButtons: [$("<button class=\"btn btn-submit btn-primary\" type=\"submit\">Finish</button>")]
+                    }
+                })
+                .on("leaveStep", function (e, anchorObject, stepNumber, stepDirection) {
+                    if (stepDirection === "forward") {
+                        return $validationForm.valid();
+                    }
+                    return true;
+                });
+            $validationForm.find(".btn-submit").on("click", function () {
+                if (!$validationForm.valid()) {
+                    return;
+                }
+                //alert("Great! The form is valid and ready to submit.");
+                //return false;
+            });
+        });</script>
+
+
+    <script>
+        $(document).ready(function () {
+            
+            $('#data-table-role').DataTable({
+                "language ": {
+                    "emptyTable ": "No Role. Add new Role. "
+                }
+            });
+
+            $("#menus").select2();
+
+
+            $('#data-table-role tbody').on('click', '.e-details', function () {
+                alert('i am here for role');
+                $("#roleModalLabel").text("Edit Role");
+                roleId = $(this).data('role-id')
+
+
+                var url = window.location.origin + '/role/' + roleId;
+                $.get(url, function (response) {
+                    if (response.success) {
+                        $("#id").val(response.data.role.id)
+                        $("#name").val(response.data.role.name);
+                        $("#description").val(response.data.role.description)
+                        $("#post-form").attr('action', "/role/update")
+
+                        if (response.data.menus) {
+                            $("#menus").val(response.data.menus).trigger('change')
+                        }
+
+                        $("#add-edit").trigger("click")
+                    }
+
+                });
+            });
+
+            $(".dismiss-modal").click(function () {
+                $("#roleModalLabel").text("Add User")
+                $("#post-form :input").each(function () {
+                    $(this).val("")
+                });
+                $("#post-form").attr('action', "/role/create")
+                $("#menus").val("").trigger('change')
+
+            });
+
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#data-table-user').DataTable({
+                "language ": {
+                    "emptyTable ": "No User. Add new User. "
+                }
+            });
+
+
+            $("#roles").select2();
+            $("#device").select2();
+
+
+            $('#data-table-user tbody').on('click', '.e-details', function () {
+                alert('i am here');
+                $("#userModalLabel").text("Edit User");
+                userId = $(this).data('user-id')
+
+
+                var url = window.location.origin + '/user/' + userId;
+                $.get(url, function (response) {
+                    console.log(response)
+                    if (response.success) {
+                        $("#id").val(response.data.user.id)
+                        $("#email").val(response.data.user.email);
+                        $("#firstname").val(response.data.user.firstName)
+                        $("#lastname").val(response.data.user.lastName)
+                        $("#username").val(response.data.user.userName)
+                        $("#password").val("F^&^&Y(HBJKBJ")
+                        $("#confirmpassword").val("F^&^&Y(HBJKBJ")
+                        $("#password").attr("readonly", "readonly")
+                        $("#confirmpassword").attr("readonly", "readonly")
+                        $("#post-form").attr('action', "/user/update")
+
+                        if (response.data.roles) {
+                            $("#roles").val(response.data.roles).trigger('change')
+                        }
+
+
+                        if (response.data.devices) {
+                            response.data.devices.forEach(function (element) {
+                                $("#device").val(element).trigger('change')
+                            });
+                        }
+
+
+
+                        if (response.data.user.isActive) {
+                            $("#isactive").attr("checked", response.data.user.isActive.toString())
+                        } else {
+                            $("#isactive").removeAttr("checked")
+                        }
+                        $("#add-edit").trigger("click")
+                    }
+
+                });
+            });
+
+
+
+            $(".dismiss-modal").click(function () {
+                $("#userModalLabel").text("Add User")
+                $("#post-form :input").each(function () {
+                    if ($(this).attr('name') == "id") {
+                        $(this).val(0)
+                    }
+                    else {
+                        $(this).val("")
+                    }
+
+                });
+                $("#post-form").attr('action', "/user/create")
+                $("#device").val("").trigger('change')
+                $("#roles").val("").trigger('change')
+                $("#password").removeAttr("readonly")
+                $("#confirmpassword").removeAttr("readonly")
+
+            });
+        });
+    </script>
 </body>
 </html>
