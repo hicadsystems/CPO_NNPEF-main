@@ -87,11 +87,17 @@
                                 }
                                 @if (user.IsActive)
                                 {
-                                <td><a type="button" class="btn btn-danger" asp-controller="User" asp-action="ToggleStatus/@user.Id">Deactivate</a></td>
+                                <td>
+                                     @Html.ActionLink("Edit", "Update", "User", new { id = user.Id }, new { @class = "btn btn-primary" })
+                                    <a type="button" class="btn btn-danger" asp-controller="User" asp-action="ToggleStatus/@user.Id">Deactivate</a>
+                                </td>
                                 }
                                 else
                                 {
-                                <td><a asp-controller="User" asp-action="ToggleStatus/@user.Id" type="button" class="btn btn-primary">Activate</a></td>
+                                <td>
+                                     @Html.ActionLink("Edit", "Update", "User", new { id = user.Id }, new { @class = "btn btn-primary" })
+                                    <a asp-controller="User" asp-action="ToggleStatus/@user.Id" type="button" class="btn btn-primary">Activate</a>
+                                </td>
                                 }
                             </tr>
 

@@ -41,7 +41,7 @@ namespace NNPEFWEB.Controllers
         public async Task<IActionResult> Login(LoginViewModel login)
         {
             var user = authenticationService.FindUser(login.UserName).Result;
-            if (user.ResetPasswordCode != null)
+            if (user.ResetPasswordCode == null)
             {
                 if (user.Appointment != "1")
                 {

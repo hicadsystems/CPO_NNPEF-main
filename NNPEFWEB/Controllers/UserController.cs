@@ -46,7 +46,7 @@ namespace NNPEFWEB.Controllers
                 Email = updatedUser.Email,
                 UserName = updatedUser.UserName,
                 Appointment = updatedUser.Appointment,
-                Rank = updatedUser.Rank,
+                Rank = updatedUser.Rank == null ? "Unavailable" : updatedUser.Rank,
                 UpdatedOn = DateTime.Now,
                 Users = userService.GetUsers().ToList(),
                 Roles = roleService.GetActiveRoles()
