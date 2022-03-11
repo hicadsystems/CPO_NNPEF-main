@@ -27,11 +27,11 @@
                         </div>
                      
                             <div class="row px-3 mb-4">
-                                <div class="custom-control custom-checkbox custom-control-inline">
+                                <!-- <div class="custom-control custom-checkbox custom-control-inline">
                                     <input id="chk1" type="checkbox" name="chk" class="custom-control-input"> <label for="chk1" class="custom-control-label text-sm">Remember me</label>
-                                </div>
-
-                                <a asp-area="Identity" asp-page="/Account/ForgotPassword" class="ml-auto mb-0 text-sm">Forgot Password?</a>
+                                </div> -->
+                                <!-- <a href="#">Test Link</a> -->
+                                <a href="/Account/ForgetPassword" class="ml-auto mb-0 text-sm">Forgot Password?</a>
                             </div>
                             <div class="row mb-3 px-3">
                                 <button type="submit" class="btn-signin text-center">Login</button>
