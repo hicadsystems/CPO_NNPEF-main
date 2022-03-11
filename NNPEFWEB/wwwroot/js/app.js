@@ -4301,33 +4301,10 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row px-3 mb-4" }, [
       _c(
-        "div",
-        { staticClass: "custom-control custom-checkbox custom-control-inline" },
-        [
-          _c("input", {
-            staticClass: "custom-control-input",
-            attrs: { id: "chk1", type: "checkbox", name: "chk" }
-          }),
-          _vm._v(" "),
-          _c(
-            "label",
-            {
-              staticClass: "custom-control-label text-sm",
-              attrs: { for: "chk1" }
-            },
-            [_vm._v("Remember me")]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
         "a",
         {
           staticClass: "ml-auto mb-0 text-sm",
-          attrs: {
-            "asp-area": "Identity",
-            "asp-page": "/Account/ForgotPassword"
-          }
+          attrs: { href: "/Account/ForgetPassword" }
         },
         [_vm._v("Forgot Password?")]
       )

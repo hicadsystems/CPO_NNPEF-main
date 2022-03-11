@@ -341,7 +341,7 @@ namespace NNPEFWEB.Controllers
                 if (conmail.ConfirmEmail != null)
                 {
                     string username=HttpContext.Session.GetString("SVC_No");
-                    var user = personService.GetPersonBySvc_NO(username);
+                    var user = personService.GetPersonBySvc_NO(conmail.UserName);
                     if (user!=null)
                     {
                         resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
@@ -406,7 +406,7 @@ namespace NNPEFWEB.Controllers
                 Credentials = new NetworkCredential(UserName, Password)
             };
             SmtpServer.Port = port; // Also Add the port number to send it, its default for Gmail
-            SmtpServer.Credentials = new System.Net.NetworkCredential(UserName, Password);
+            SmtpServer.Credentials = new NetworkCredential(UserName, Password);
             SmtpServer.EnableSsl = enableSSL;
             SmtpServer.Timeout = 200000; // Add Timeout property
             SmtpServer.Send(message);

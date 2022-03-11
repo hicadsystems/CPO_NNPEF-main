@@ -7,6 +7,7 @@ namespace NNPEFWEB.ViewModel
 {
     public class ComfirmEmail
     {
+        public string UserName { get; set; }
         public string Email { get; set; }
         public string ConfirmEmail { get; set; }
     }

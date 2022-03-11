@@ -30,7 +30,7 @@ namespace NNPEFWEB.Controllers
             _sectiondashboard = sectiondashboard;
         }
 
-        [Authorize]
+       // [Authorize]
         [AllowAnonymous]
         public IActionResult Index()
         {

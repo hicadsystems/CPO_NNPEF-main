@@ -1,0 +1,7 @@
+2022-03-10T14:44:12.2788019+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-03-10T14:44:12.3171954+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-03-10T14:44:12.3277446+01:00  [INF] Content root path: "C:\Users\Home\source\Repo\CPO_NNPEF-main\NNPEFWEB" (b5d60022)
+2022-03-10T15:13:37.8038530+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-03-10T15:13:38.0304794+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-03-10T15:13:38.1839448+01:00  [INF] Content root path: "C:\Users\Home\source\Repo\CPO_NNPEF-main\NNPEFWEB" (b5d60022)
+2022-03-10T15:16:50.6412971+01:00 80000044-0001-fb00-b63f-84710c7967bb [INF] Service not available, closing transmission channel. The server response was: Service not available (08d3ea7c)

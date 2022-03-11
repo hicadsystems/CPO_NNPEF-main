@@ -492,6 +492,60 @@ namespace NNPEFWEB.Controllers
         {
             return new EmailAddressAttribute().IsValid(source);
         }
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ForgetPassword(ComfirmEmail conmail)
+        {
+
+            try
+            {
+                if (conmail.Email != conmail.ConfirmEmail)
+                {
+                    TempData["verifymessage"] = "Email Not Match";
+                }
+                if (conmail.ConfirmEmail != null)
+                {
+                    string username = HttpContext.Session.GetString("SVC_No");
+                    var user = _shipService.GetPersonBySvcno(conmail.UserName);
+                   
+                    if (user != null)
+                    {
+                        resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
+                        string message = "Your Verification Code is:" + resetcode;
+                        HttpContext.Session.SetString("userToReset", user.userName);
+                        HttpContext.Session.SetString("verificationCode", resetcode.ToString());
+
+                        // a call to send email notification
+                        string emailFrom = "NN-CPO";
+                        string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
+                        // add navy email adds
+                        if (!string.IsNullOrEmpty(conmail.ConfirmEmail))
+                            SendEmailNotification(emailFrom, emailSender, message, conmail.ConfirmEmail);
+
+                        TempData["verifymessage"] = "An Email Notification Was sent to your Email address.";
+                        return RedirectToAction("VerifyCode");
+
+                    }
+                    else
+                    {
+                        TempData["verifymessage"] = "Invalid Service Number. Please Contact your Admin";
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                TempData["errorMessage"] = "Unable To Send Mail";
+                return RedirectToAction("ShipLogin");
+            }
+            return View();
+        }
+
+
         public IActionResult ResetPasswordServiceNumber(string email)
         {
 
@@ -550,7 +604,7 @@ namespace NNPEFWEB.Controllers
 
             string host = config.GetValue<string>("mailconfig:Server");
             int port = config.GetValue<int>("mailconfig:Port");
-            var enableSSL = config.GetValue<bool>("mailconfig:enableSSL");
+            //var enableSSL = config.GetValue<bool>("mailconfig:enableSSL");
 
             SmtpClient SmtpServer = new SmtpClient(host);
 
@@ -558,14 +612,14 @@ namespace NNPEFWEB.Controllers
             {
                 Host = host,
                 Port = port,
-                EnableSsl = enableSSL,
+                //EnableSsl = enableSSL,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = true,
                 Credentials = new NetworkCredential(UserName, Password)
             };
             SmtpServer.Port = port; // Also Add the port number to send it, its default for Gmail
-            SmtpServer.Credentials = new System.Net.NetworkCredential(UserName, Password);
-            SmtpServer.EnableSsl = enableSSL;
+            SmtpServer.Credentials = new NetworkCredential(UserName, Password);
+          //  SmtpServer.EnableSsl = enableSSL;
             SmtpServer.Timeout = 200000; // Add Timeout property
             SmtpServer.Send(message);
 
@@ -594,7 +648,7 @@ namespace NNPEFWEB.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("ResetPassword");
+                            return RedirectToAction("ResetShipPassword");
                         }
                     }
                 }
@@ -634,7 +688,7 @@ namespace NNPEFWEB.Controllers
 
                             HttpContext.Session.Clear();
 
-                            return RedirectToAction("CommandLogin");
+                            return RedirectToAction("ShipLogin");
                         }
                     }
 
