@@ -1,0 +1,5 @@
+2022-03-15T10:38:46.6849207+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-03-15T10:38:47.1384138+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-03-15T10:38:47.8759182+01:00  [INF] Content root path: "C:\Users\Home\source\Repo\CPO_NNPEF-main\NNPEFWEB" (b5d60022)
+2022-03-15T10:43:26.6315758+01:00 80000089-0001-f100-b63f-84710c7967bb [INF] The SMTP server requires a secure connection or the client was not authenticated. The server response was: Authentication required (702b7ede)
+2022-03-15T10:44:57.4278147+01:00 80000047-0002-fa00-b63f-84710c7967bb [INF] The SMTP server requires a secure connection or the client was not authenticated. The server response was: Authentication required (702b7ede)
