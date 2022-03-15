@@ -55,6 +55,21 @@ namespace NNPEFWEB.Services
         {
             return await userManager.FindByNameAsync(Username);
         }
+
+        public async Task<User> FindUserByEmail(string Email)
+        {
+            return await userManager.FindByEmailAsync(Email);
+        }
+
+        public async Task<bool> IsUserByEmailConfirmed(User user)
+        {
+            return await userManager.IsEmailConfirmedAsync(user);
+        }
+
+        public async Task<string> GeneratePasswordTokenAsync(User user)
+        {
+            return await userManager.GeneratePasswordResetTokenAsync(user);
+        }
         public void updateUserlogins(User values)
         {
             try

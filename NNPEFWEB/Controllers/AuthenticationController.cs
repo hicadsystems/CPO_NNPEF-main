@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using NNPEFWEB.Data;
 using NNPEFWEB.Repository;
 using NNPEFWEB.Service;
@@ -10,6 +11,9 @@ using NNPEFWEB.ViewModel;
 using System.Security.Cryptography;
 using System;
 using System.Text;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace NNPEFWEB.Controllers
 {
@@ -18,16 +22,21 @@ namespace NNPEFWEB.Controllers
         private readonly ApplicationDbContext context;
         private readonly IAuthenticationService authenticationService;
         private readonly IUserService userService;
-        
+        private readonly IConfiguration config;
         private readonly IUnitOfWorks unitOfWork;
-
-        public AuthenticationController(ApplicationDbContext context,IUnitOfWorks unitOfWork ,IAuthenticationService authenticationService, IUserService userService) :base(userService)
+        private int resetcode;
+        Random rnd = new Random();
+        private readonly ILogger<HomeController> _logger;
+        public AuthenticationController(ApplicationDbContext context,
+            IUnitOfWorks unitOfWork ,IAuthenticationService authenticationService,
+            IUserService userService, IConfiguration config, ILogger<HomeController> logger) :base(userService)
         {
             this.userService = userService;
             this.authenticationService = authenticationService;
-   
+            this.config = config;
             this.unitOfWork = unitOfWork;
             this.context = context;
+            this._logger = logger;
         }
 
         // GET: Authentication
@@ -74,11 +83,13 @@ namespace NNPEFWEB.Controllers
                 HttpContext.Session.SetString("UserId", user.UserName);
                 return RedirectToAction("ResetPassword", "Authentication");
             }
-      }
+        }
+
         public ActionResult ResetPassword()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ForgetPasswordModel model)
@@ -173,7 +184,136 @@ namespace NNPEFWEB.Controllers
         //    return NotFound(auth);
         //}
 
-        
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await authenticationService.FindUserByEmail(forgotPasswordViewModel.Email);
+                    if (user != null && await authenticationService.IsUserByEmailConfirmed(user))
+                    {
+                        resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
+                        string message = "Your Password Reset Code is:" + resetcode;
+                        HttpContext.Session.SetString("userToReset", user.Email);
+                        HttpContext.Session.SetString("UserId", user.UserName);
+                        HttpContext.Session.SetString("resetCode", resetcode.ToString());
+
+                        // a call to send email notification
+                        string emailFrom = "NN-CPO";
+                        string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
+
+                        // add navy email adds
+                        if (!string.IsNullOrEmpty(user.Email))
+                            SendEmailNotification(emailFrom, emailSender, message, user.Email);
+
+                        return View("ForgotPasswordConfirmation");
+                    }
+
+                    return View("ForgotPasswordConfirmation");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogInformation(ex.Message);
+                    return View("ForgotPasswordConfirmation");
+                }
+            }
+
+            return View(forgotPasswordViewModel);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPasswordAdmin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ResetPasswordAdmin(string resetCode)
+        {
+            if (!string.IsNullOrEmpty(resetCode))
+            {
+                try
+                {
+                    string sessionResetCode = HttpContext.Session.GetString("resetCode");
+                    if (resetCode == sessionResetCode)
+                    {
+                        return RedirectToAction("ResetPassword");
+                    }
+                    else
+                    {
+                        TempData["confirmError"] = $"Reset code : {resetCode} is Invalid!!";
+                        return View();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogInformation(ex.Message);
+                    return View(resetCode);
+                }
+            }
+            else
+            {
+                TempData["confirmError"] = $"Enter Reset code!!";
+                return View(resetCode);
+            }
+        }
+
+        public void SendEmailNotification(string emailFrom, string sender, string messageToSend, string receipient)
+        {
+            var UserName = config.GetValue<string>("mailconfig:SenderEmail");
+            var Password = config.GetValue<string>("mailconfig:Password");
+            var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+            var message = new MailMessage();
+            message.To.Add(new MailAddress(receipient));
+            message.From = new MailAddress(sender, emailFrom);
+            message.Subject = "Password Reset Code";
+            message.Body = string.Format(body, emailFrom, sender, messageToSend);
+            message.IsBodyHtml = true;
+
+            string host = config.GetValue<string>("mailconfig:Server");
+            int port = config.GetValue<int>("mailconfig:Port");
+            var enableSSL = config.GetValue<bool>("mailconfig:enableSSL");
+
+            SmtpClient SmtpServer = new SmtpClient(host);
+            SmtpServer.Port = port; // Also Add the port number to send it, its default for Gmail
+            SmtpServer.Credentials = new NetworkCredential(UserName, Password);
+            SmtpServer.EnableSsl = enableSSL;
+            SmtpServer.Timeout = 200000; // Add Timeout property
+
+            try
+            {
+                SmtpServer.Send(message);
+            }
+            catch (Exception ex)
+            {
+                TempData["confirmError"] = $"Exception caught in SendEmailNotification(): {ex.Message}";
+            }
+
+            //SmtpServer.Send(message);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+
+
 
         public async Task<IActionResult> Logout()
         {
