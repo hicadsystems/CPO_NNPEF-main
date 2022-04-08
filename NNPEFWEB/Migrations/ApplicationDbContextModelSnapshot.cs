@@ -450,6 +450,39 @@ namespace NNPEFWEB.Migrations
                     b.ToTable("ef_commands");
                 });
 
+            modelBuilder.Entity("NNPEFWEB.Models.ef_control", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("createdby")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("datecreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("enddate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("processingyear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ship")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("startdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ef_control");
+                });
+
             modelBuilder.Entity("NNPEFWEB.Models.ef_entrymode", b =>
                 {
                     b.Property<int>("Id")
@@ -895,6 +928,9 @@ namespace NNPEFWEB.Migrations
                     b.Property<DateTime?>("loginDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("openship")
+                        .HasColumnType("int");
+
                     b.Property<string>("otheName")
                         .HasColumnType("nvarchar(max)");
 
@@ -1048,6 +1084,9 @@ namespace NNPEFWEB.Migrations
 
                     b.Property<DateTime?>("loginDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("openship")
+                        .HasColumnType("int");
 
                     b.Property<string>("otheName")
                         .HasColumnType("nvarchar(max)");

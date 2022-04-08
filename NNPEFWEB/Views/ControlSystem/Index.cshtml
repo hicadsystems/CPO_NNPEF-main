@@ -1,0 +1,59 @@
+﻿@model IEnumerable<NNPEFWEB.Models.ef_control>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Control</h1>
+
+@*<control-system></control-system>*@
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Add System</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Processing Year
+            </th>
+            <th>
+                Ship
+            </th>
+            <th>
+               Start Date
+            </th>
+            <th>
+                Close Date
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.processingyear)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ship)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.startdate)
+    </td>x
+    <td>
+        @Html.DisplayFor(modelItem => item.enddate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.status)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">Edit</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+    </td>
+</tr>}
+    </tbody>
+</table>

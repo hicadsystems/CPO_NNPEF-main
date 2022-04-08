@@ -228,21 +228,23 @@
                 <div class="row">
 
                     <div class="col-md-4">
-                        <label class="control-label">Ship/Establishment</label>
-                        <select asp-for="ship"
-                                class="form-control"
-                                asp-items="@(new SelectList(Model.shipList,"Value", "Text"))">
-                        </select>
-                        <span asp-validation-for="ship" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-4">
                         <label class="control-label">Command</label>
-                        <select asp-for="command"
+                        <select asp-for="command" id="ddcommand"
                                 class="form-control"
                                 asp-items="@(new SelectList(Model.commandList,"Value", "Text"))">
                         </select>
                         <span asp-validation-for="command" class="text-danger"></span>
                     </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Ship/Establishment</label>
+                        <select asp-for="ship" id="ddship"
+                                class="form-control"
+                                asp-items="@(new SelectList(Model.shipList,"Value", "Text"))">
+                        </select>
+                        <span asp-validation-for="ship" class="text-danger"></span>
+                    </div>
+
+
                     <div class="col-md-4">
                         <label class="control-label">Date of Joining Ship</label>
                         <input asp-for="runOutDate" class="form-control" type="date" required />
@@ -911,7 +913,7 @@
                 }
             });
 
-        
+
         $('#ddstate').change(function () {
             var id = $("#ddstate option:selected").val();
 
@@ -937,6 +939,33 @@
                 }
             });
         });
+
+
+             $('#ddcommand').change(function () {
+                         var id = $("#ddcommand option:selected").val();
+                             $.ajax({
+                             url: "@Url.Action("Getshipbycommand", "PersonalInfo")",
+                             data: { id: id },
+                             dataType: "json",
+                             type: "POST",
+                             error: function () {
+                                 alert("An error occurred.");
+                             },
+                             success: function (data) {
+
+                                 var items = "<option value=\"\">" + "</option>";
+                                 $.each(data, function (i, item) {
+
+                                     items += "<option value=\"" + item.value + "\">" + item.text + "</option>";
+
+                                 });
+                                 $("#lgashow").show();
+                                 $("#ddship").html(items);
+                             }
+                         });
+                     });
+
+
 });
         $(function () {
             $('.datepicker').datepicker();

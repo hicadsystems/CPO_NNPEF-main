@@ -70,6 +70,7 @@ namespace NNPEFWEB.Services
         {
             return await userManager.GeneratePasswordResetTokenAsync(user);
         }
+       
         public void updateUserlogins(User values)
         {
             try

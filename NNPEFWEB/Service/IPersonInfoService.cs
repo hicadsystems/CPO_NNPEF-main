@@ -9,6 +9,8 @@ namespace NNPEFWEB.Service
 {
     public interface IPersonInfoService
     {
+        IEnumerable<ef_personalInfo> GetPersonnelShipReportrepo(string status, string payclass, string ship);
+        Task<PaginatedList<ef_personalInfo>> GetPersonnelShipReport(string status, string payclass, string ship, int? pageNumber);
         Task<List<PersonalInfoModel>> getPersonList(int iDisplayStart, int iDisplayLength, string payclass, string ship);
         Task<int> getPersonListCount(string payclass, string ship);
         Task<List<PersonalInfoModel>> FilterBySearch(string svcno);
@@ -36,5 +38,7 @@ namespace NNPEFWEB.Service
         Task<List<PersonalInfoModel>> getPersonList(int iDisplayStart, int iDisplayLength);
         Task<int> getPersonListCount();
         IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCpo(string payclass, string ship);
-          }
+        Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelByHOD(string payclass, string status, string ship, int? pageNumber);
+        Task<List<ef_personalInfo>> GetUpdatedPersonnelByHOD2(string payclass, string status, string ship);
+    }
 }

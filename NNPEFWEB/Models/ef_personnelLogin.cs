@@ -23,6 +23,7 @@ namespace NNPEFWEB.Models
         public Nullable<System.DateTime> expireDate { get; set; }
         public string Appointment { get; set; }
         public string ship { get; set; }
+        public int openship { get; set; }
         public string spec { get; set; }
     }
 }

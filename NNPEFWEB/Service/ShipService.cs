@@ -17,6 +17,7 @@ namespace NNPEFWEB.Service
         {
             this.unitOfWork = unitOfWork;
             connectionString = configuration.GetConnectionString("DefaultConnection");
+
         }
         public Task<ef_shiplogin> GetUserByShip(string person)
         {

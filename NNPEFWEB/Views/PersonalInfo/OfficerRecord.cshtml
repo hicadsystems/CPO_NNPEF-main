@@ -224,17 +224,18 @@
                         </select>
                         <span asp-validation-for="branch" class="text-danger"></span>
                     </div>
+                  
                     <div class="col-md-4">
-                        <label class="control-label">Specialisation</label>
-                        <select asp-for="specialisation"
+                        <label class="control-label">Command</label>
+                        <select asp-for="command" id="ddcommand"
                                 class="form-control"
-                                asp-items="@(new SelectList(Model.specialisationList,"Value", "Text"))">
+                                asp-items="@(new SelectList(Model.commandList,"Value", "Text"))">
                         </select>
-                        <span asp-validation-for="specialisation" class="text-danger"></span>
+                        <span asp-validation-for="command" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Ship</label>
-                        <select asp-for="ship"
+                        <select asp-for="ship" id="ddship"
                                 class="form-control"
                                 asp-items="@(new SelectList(Model.shipList,"Value", "Text"))">
                         </select>
@@ -246,14 +247,14 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Command</label>
-                        <select asp-for="command"
+                        <label class="control-label">Specialisation</label>
+                        <select asp-for="specialisation"
                                 class="form-control"
-                                asp-items="@(new SelectList(Model.commandList,"Value", "Text"))">
+                                asp-items="@(new SelectList(Model.specialisationList,"Value", "Text"))">
                         </select>
-                        <span asp-validation-for="command" class="text-danger"></span>
+                        <span asp-validation-for="specialisation" class="text-danger"></span>
                     </div>
-                    <div class="col-md-4">
+                     <div class="col-md-4">
                         <label class="control-label">Present Appointment</label>
                         <input asp-for="entitlement" class="form-control" />
                         <span asp-validation-for="entitlement" class="text-danger"></span>
@@ -429,7 +430,7 @@
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">NIN of NOK</label>
-                        <input asp-for="nok_nationalId" class="form-control" readonly/>
+                        <input asp-for="nok_nationalId" class="form-control"/>
                         <span asp-validation-for="nok_nationalId" class="text-danger"></span>
                     </div>
 
@@ -856,7 +857,6 @@
 
         $('#ddstate').change(function () {
             var id = $("#ddstate option:selected").val();
-
             $("#lga").hide();
             $.ajax({
                 url: "@Url.Action("GetLgasNew", "PersonalInfo")",
@@ -879,6 +879,36 @@
                 }
             });
         });
+
+
+                     $('#ddcommand').change(function () {
+                         var id = $("#ddcommand option:selected").val();
+                             $.ajax({
+                             url: "@Url.Action("Getshipbycommand", "PersonalInfo")",
+                             data: { id: id },
+                             dataType: "json",
+                             type: "POST",
+                             error: function () {
+                                 alert("An error occurred.");
+                             },
+                             success: function (data) {
+
+                                 var items = "<option value=\"\">" + "</option>";
+                                 $.each(data, function (i, item) {
+
+                                     items += "<option value=\"" + item.value + "\">" + item.text + "</option>";
+
+                                 });
+                                 $("#lgashow").show();
+                                 $("#ddship").html(items);
+                             }
+                         });
+                     });
+
+
+
+
+
                      $("#enrolmentdate").hide();
 
                      $("#entrymodeid").change(
@@ -900,8 +930,8 @@
             $("#datepicker3").datepicker();
             $("#datepicker4").datepicker();
 
-           
-           
+
+
             $("#fedhousingid").hide();
             $("#car_loanid").hide();
             $("#welfare_loanid").hide();
@@ -913,7 +943,7 @@
 
 
         });
-   
+
 
         $("#fgscheck").change(
             function () {
@@ -1021,7 +1051,7 @@
                 }
 
             });
-    </script>
+</script>
     <script src="~/js/scripts.js"></script>
     <script type="text/javascript">
         $(function () {

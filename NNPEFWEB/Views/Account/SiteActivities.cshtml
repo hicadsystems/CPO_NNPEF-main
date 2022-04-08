@@ -1,30 +1,40 @@
-﻿@using Microsoft.AspNetCore.Http
-@{
-    ViewData["Title"] = "SiteActivities";}
+﻿@model NNPEFWEB.ViewModel.systeminfoVM
+@using Microsoft.AspNetCore.Http
+
+@{ ViewData["Title"] = "SiteActivities";
+}
 
 <section class="content">
     <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-default">
             <div class="card-header">
-               @if (TempData["SiteMessage"] != null) {<h3 style="color:red">@TempData["SiteMessage"]</h3>}
-                @*<h3 class="card-title">Select2 (Default Theme)</h3>*@
+                @if (TempData["SiteMessage"] != null)
+                {<h3 style="color:red">@TempData["SiteMessage"]</h3>} @*<h3 class="card-title">Select2 (Default Theme)</h3>*@
                 <div>
                     @if (Context.Session.GetInt32("Site") != null || Context.Session.GetInt32("Site") != 0)
                     {
-            <h1>Site Has Been Close, Select Open To Reopen</h1>}
+        <h1>Site Has Been Close, Select Open To Reopen</h1>}
                 </div>
                 <form method="post">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-5">
-                                <select class="form-control" name="SiteStatus">
+                                <label class="control-label">Status</label>
+                                <select class="form-control" name="SiteStatus" id="openemolumentform">
                                     <option></option>
-                                    <option value="0">Open Emolument Form</option>
-                                    <option value="1">Open Emolument To Command</option>
+                                    <option value="0">Open Emolument Form To Global</option>
+                                    <option value="1">Open Emolument To Ship</option>
                                 </select>
 
 
+                            </div>
+                            <div class="col-sm-5" hidden id="shipdisplay">
+                                <label class="control-label">Ship</label>
+                                <select  asp-for="shipname" name="shipname"
+                                        class="form-control"
+                                        asp-items="@(new SelectList(Model.shipList,"Value", "Text"))">
+                                </select>
                             </div>
                         </div>
                         <br />
@@ -67,9 +77,19 @@
 <!-- Core theme JS-->
 <script src="~/js/scripts.js"></script>
 <script>
+    $(document).ready(function () {
+        $("#openemolumentform").change(
+            function () {
+                if ($(this).val() == 1) {
+                    $("shipdisplay").show();
+                } 
 
+            });
+    });
     $(function () {
+       
         $("#startdate").datepicker();
         $("#enddate").datepicker();
     }
+
 </script>

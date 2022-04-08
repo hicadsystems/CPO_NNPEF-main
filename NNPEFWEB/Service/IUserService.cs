@@ -20,5 +20,6 @@ namespace NNPEFWEB.Service
         Task<IdentityResult> UpdateUser(User user);
         Task<User> GetUserById(int id);
         Task<User> GetUserByEmail(string email);
+        void DeleteUser(int id);
     }
 }

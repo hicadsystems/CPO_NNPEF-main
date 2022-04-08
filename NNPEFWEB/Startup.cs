@@ -49,16 +49,20 @@ namespace NNPEFWEB
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             
-            services.AddIdentity<User, Role>(options =>
-            {
-                options.Password.RequiredLength = 8;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-                options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedEmail = false;
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddIdentity<User, Role>(options =>
+            //{
+            //    options.Password.RequiredLength = 8;
+            //    options.Password.RequireLowercase = false;
+            //    options.Password.RequireUppercase = false;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireDigit = false;
+            //    options.User.RequireUniqueEmail = true;
+            //    options.SignIn.RequireConfirmedEmail = false;
+            //}).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddWkhtmltopdf("wkhtmltopdf");
             services.AddAutoMapper(typeof(Startup));
@@ -80,6 +84,7 @@ namespace NNPEFWEB
             services.AddScoped<ISystemsInfoService, SystemsInfoService>();
             services.AddScoped<IShipService, ShipService>();
             services.AddScoped<IContactUsService, ContactUsService>();
+            services.AddScoped<IControlService, ControlService>();
             services.AddSession();
 
             services.AddMvc();

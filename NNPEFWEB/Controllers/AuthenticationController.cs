@@ -14,6 +14,8 @@ using System.Text;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using NNPEFWEB.Models;
 
 namespace NNPEFWEB.Controllers
 {
@@ -27,10 +29,14 @@ namespace NNPEFWEB.Controllers
         private int resetcode;
         Random rnd = new Random();
         private readonly ILogger<HomeController> _logger;
-        public AuthenticationController(ApplicationDbContext context,
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
+        public AuthenticationController(SignInManager<User> signInManager, UserManager<User> userManager, ApplicationDbContext context,
             IUnitOfWorks unitOfWork ,IAuthenticationService authenticationService,
             IUserService userService, IConfiguration config, ILogger<HomeController> logger) :base(userService)
         {
+            this.signInManager = signInManager;
+            this.userManager = userManager;
             this.userService = userService;
             this.authenticationService = authenticationService;
             this.config = config;
@@ -53,10 +59,10 @@ namespace NNPEFWEB.Controllers
             var user = authenticationService.FindUser(login.UserName).Result;
             if (user.ResetPasswordCode != null)
             {
-                if (user.Appointment != "1")
+                if (user.Appointment != "Adm")
                 {
                     var auth2 = await authenticationService.SignInUserAsync(login.UserName, login.Password, "false");
-
+                   
                     if (!auth2.Success)
                     {
                         TempData["ErrorMessage"] = auth2.Message;
@@ -99,22 +105,34 @@ namespace NNPEFWEB.Controllers
                 try
                 {
                     MD5 md5Hash = MD5.Create();
-                    var userToReset = HttpContext.Session.GetString("UserId");   // retrieve the user from session
+                    var userToReset = HttpContext.Session.GetString("UserId");
+                    if (userToReset == null)
+                        return RedirectToAction("Login");
+                        // retrieve the user from session
                     if (!string.IsNullOrEmpty(userToReset))
                     {
                         var user = authenticationService.FindUser(userToReset).Result;
+
                         if (user != null)
                         {
-                            string PasswordToHash = GetMd5Hash(md5Hash, model.ConfirmPassword);
-                            user.PasswordHash = PasswordToHash;
-                            user.UpdatedOn = DateTime.Now.AddMonths(3);
-                            authenticationService.updateUserlogins(user);
+                            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                            var resetpass = await userManager.ResetPasswordAsync(user, token, model.ConfirmPassword);
+                            if (resetpass.Succeeded)
+                            {
+                                authenticationService.updateUserlogins(user);
+                                HttpContext.Session.SetString("Resetmessage", "Password Reset was Successful. Please Login to Continue");
+                                return RedirectToAction("Login");
+                            }
+                            //string PasswordToHash = GetMd5Hash(md5Hash, model.ConfirmPassword);
+                            //user.PasswordHash = PasswordToHash;
+                            //user.UpdatedOn = DateTime.Now.AddMonths(3);
+                            //authenticationService.updateUserlogins(user);
 
-                            HttpContext.Session.SetString("Resetmessage", "Password Reset was Successful. Please Login to Continue");
+                            //HttpContext.Session.SetString("Resetmessage", "Password Reset was Successful. Please Login to Continue");
 
-                            HttpContext.Session.Clear();
+                            //HttpContext.Session.Clear();
 
-                            return RedirectToAction("Login");
+                            //return RedirectToAction("Login");
                         }
                     }
 
@@ -201,7 +219,7 @@ namespace NNPEFWEB.Controllers
                 try
                 {
                     var user = await authenticationService.FindUserByEmail(forgotPasswordViewModel.Email);
-                    if (user != null && await authenticationService.IsUserByEmailConfirmed(user))
+                    if (user != null )
                     {
                         resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
                         string message = "Your Password Reset Code is:" + resetcode;
@@ -210,7 +228,7 @@ namespace NNPEFWEB.Controllers
                         HttpContext.Session.SetString("resetCode", resetcode.ToString());
 
                         // a call to send email notification
-                        string emailFrom = "NN-CPO";
+                            string emailFrom = "NN-CPO";
                         string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
 
                         // add navy email adds
@@ -285,7 +303,7 @@ namespace NNPEFWEB.Controllers
 
             string host = config.GetValue<string>("mailconfig:Server");
             int port = config.GetValue<int>("mailconfig:Port");
-            var enableSSL = config.GetValue<bool>("mailconfig:enableSSL");
+            var enableSSL = Convert.ToBoolean("True");
 
             SmtpClient SmtpServer = new SmtpClient(host);
             SmtpServer.Port = port; // Also Add the port number to send it, its default for Gmail

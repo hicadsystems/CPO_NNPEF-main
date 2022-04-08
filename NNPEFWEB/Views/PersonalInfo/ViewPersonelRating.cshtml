@@ -1,9 +1,7 @@
 ﻿@model NNPEFWEB.ViewModel.PersonalInfoModel
 @using Microsoft.AspNetCore.Http
-@{
-    ViewData["Title"] = "Ratings Record";
-    Layout = null;
-}
+@{ ViewData["Title"] = "Ratings Record";
+                Layout = null; }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,12 +31,12 @@
     <nav class="navbar navbar-dark fixed-top" id="mainNav" style="background-color:#052d4b;color:white">
         <div class="container">
             @*<a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <img src="~/assets/img/cpo/ppf2_logo.svg" alt="..." />
-            </a>*@
+                    <img src="~/assets/img/cpo/ppf2_logo.svg" alt="..." />
+                </a>*@
             @*<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars ml-1"></i>
-            </button>*@
+                    Menu
+                    <i class="fas fa-bars ml-1"></i>
+                </button>*@
             <div @*class="collapse navbar-collapse" id="navbarResponsive"*@>
                 <ul class="navbar-nav text-uppercase ml-auto">
                     <li class="nav-item"><a class="nav-link" href="/Reports/downloadForm" target="_blank">DownLoad Page 1</a></li>
@@ -52,98 +50,127 @@
             </div>
         </div>
     </nav>
-    <div class="row-cols-4" style="height:10px">
+    <div class="row-cols-4" style="height:190px">
     </div>
     <div class="container">
-        <h1> @Context.Session.GetString("SVC_No")</h1>
         <div class="col-md-12">
             <form asp-action="RatingRecord" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <hr />
                 <div class="row">
-                    <h2 style="">
+                    <h3 style="">
                         <label class="control-label">Personal Information</label>
-                    </h2>
+                    </h3>
                 </div>
-                <div class="row">
+                <div class="row" style="text-align:center">
                     <div class="col-md-3">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="Passport" style="width: 100%;"></label>
                             @if (Model.Passport != null)
                             {
-                            <img id="passport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.Passport))"> }
-                            else
-                            {
-                            <img id="passport" style="width:250px;height:250px; object-fit:cover" src="">
-                            }
-                            
+                <img id="passport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.Passport))"> }
+            else
+            {
+<img id="passport" style="width:200px;height:200px; object-fit:cover" src="">}
+                            <input type="file"
+                                   accept=".png,.jpg,.jpeg,.gif,.tif"
+                                   asp-for="Passport"
+                                   class="form-control"
+                                   style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+                                   onchange="document.getElementById('passport').src = window.URL.createObjectURL(this.files[0])" />
+                            <span asp-validation-for="Passport" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         @*<img src="~/Image/navylogo2.png" style="width:180px;height:200px;" />*@
-                        <img id="logo" style="width:170px;height:250px; object-fit:cover;margin-left:50px" src="data:image/*;base64,@(Convert.ToBase64String(Model.logo))">
+                        @if (Model.logo != null)
+                        {
+            <img id="logo" style="width: 130px; height: 190px; " src="data:image/*;base64,@(Convert.ToBase64String(Model.logo))"> }
+        else
+        {
+<img id="logo" style="width:140px;height:220px; object-fit:cover" src="">}
+
                     </div>
                     <div class="col-md-3">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
-                            <label asp-for="NokPassport" style="width: 100%;"></label>
+                            <label style="width: 100%;">NOK Passport</label>
                             @if (Model.NokPassport != null)
                             {
-                <img id="nokpassport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.NokPassport))"> }
-                            else
-                            {
-                <img id="nokpassport" style="width:250px;height:250px; object-fit:cover" src="">}
-                          
+                <img id="nokpassport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.NokPassport))"> }
+            else
+            {
+<img id="nokpassport" style="width:200px;height:200px; object-fit:cover" src="">}
+                            <input type="file"
+                                   accept=".png,.jpg,.jpeg,.gif,.tif"
+                                   asp-for="NokPassport"
+                                   class="form-control"
+                                   style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+                                   onchange="document.getElementById('nokpassport').src = window.URL.createObjectURL(this.files[0])" />
+                            <span asp-validation-for="NokPassport" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="AltNokPassport" style="width: 100%;"></label>
-                            @if (Model.AltNokPassport != null)
-                            {
-                <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))"> }
-                            else
-                            {
-                <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="">}
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="control-label">Service Number</label>
-                        <input asp-for="serviceNumber" class="form-control" readonly />
-                        <span asp-validation-for="serviceNumber" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-4">
-                        <label asp-for="Surname" class="control-label"></label>
-                        <input asp-for="Surname" class="form-control" readonly="readonly" />
-                        <span asp-validation-for="Surname" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-4">
-                        <label asp-for="OtherName" class="control-label"></label>
-                        <input asp-for="OtherName" class="form-control" readonly="readonly" />
-                        <span asp-validation-for="OtherName" class="text-danger"></span>
-                    </div>
+                    @*<div class="col-md-3">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <label asp-for="AltNokPassport" style="width: 100%;"></label>
+                                        @if (Model.AltNokPassport != null)
+                                        {
+                            <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))"> }
+                        else
+                        {
+                        <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="">}
+                                        <input type="file"
+                                               accept=".png,.jpg,.jpeg,.gif,.tif"
+                                               asp-for="AltNokPassport"
+                                               class="form-control"
+                                               style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+                                               onchange="document.getElementById('altnokpassport').src = window.URL.createObjectURL(this.files[0])" />
+                                        <span asp-validation-for="AltNokPassport" class="text-danger"></span>
+                                    </div>
+                                </div>*@
                 </div>
                 <div class="row">
 
                     <div class="col-md-4">
+                        <label asp-for="Surname" class="control-label"></label>
+                        <input asp-for="Surname" class="form-control" readonly />
+                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Other Names</label>
+                        <input asp-for="OtherName" class="form-control" readonly />
+                        <span asp-validation-for="OtherName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Official Number</label>
+                        <input asp-for="serviceNumber" class="form-control" readonly />
+                        <span asp-validation-for="serviceNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-md-4">
                         <label class="control-label">Rate</label>
-                        <input asp-for="Rank" class="form-control"  type="text" readonly="readonly" />
+                        <input asp-for="Rank" class="form-control" required />
+                        @*<select asp-for="Rank"
+                class="form-control"
+                asp-items="@(new SelectList(Model.rankList,"Value", "Text"))">
+        </select>*@
                         <span asp-validation-for="Rank" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Birth Date</label>
-                        <input asp-for="Birthdate" class="form-control"  readonly="readonly" />
+                        <label class="control-label">Date of Birth</label>
+                        <input asp-for="Birthdate" class="form-control" type="date" required readonly />
                         <span asp-validation-for="Birthdate" class="text-danger"></span>
                     </div>
+
                     <div class="col-md-4">
-                        <label class="control-label">Date Of Joining Svc</label>
-                        <input asp-for="DateEmpl" class="form-control" readonly="readonly" />
+                        <label class="control-label">Date of Joining Svc</label>
+                        <input asp-for="DateEmpl" class="form-control" type="date" required readonly />
                         <span asp-validation-for="DateEmpl" class="text-danger"></span>
                     </div>
 
@@ -151,58 +178,77 @@
                 <div class="row">
 
                     <div class="col-md-4">
-                        <label class="control-label">Date Of Expiration</label>
-                        <input asp-for="expirationOfEngagementDate" class="form-control" readonly="readonly" />
+                        <label class="control-label">Date of Expiration of Current Engagement</label>
+                        <input asp-for="expirationOfEngagementDate" class="form-control" type="date" required />
                         <span asp-validation-for="expirationOfEngagementDate" class="text-danger"></span>
                     </div>
-                    <div class="col-md-3">
-                        <label class="control-label">Year Of Advancement</label>
-                        <input asp-for="yearOfPromotion" class="form-control" type="text" readonly="readonly" />
-                        <span asp-validation-for="yearOfAdvancement" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-md-5">
-                        <label class="control-label">Residental Address</label>
-                        <input asp-for="home_address" class="form-control" readonly="readonly" />
-                        <span asp-validation-for="home_address" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row">
-
                     <div class="col-md-4">
-                        <label class="control-label">Seniority On Current Rate</label>
-                        <input asp-for="seniorityDate" class="form-control"  readonly="readonly" />
+                        <label class="control-label">Year of Advancement</label>
+                        @*@Html.EditorFor(x => x.advanceDate, new { @class="form-control" })*@
+                        <input asp-for="advanceDate" class="form-control" type="date" />
+                        <span asp-validation-for="yearOfPromotion" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Seniority on Current Rate</label>
+                        <input asp-for="seniorityDate" class="form-control" type="date" required />
                         <span asp-validation-for="seniorityDate" class="text-danger"></span>
                     </div>
-                    <div class="col-md-4">
-                        <label class="control-label">Date Joining Ship</label>
-                        <input asp-for="runOutDate" class="form-control" readonly="readonly" />
-                        <span asp-validation-for="runOutDate" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="control-label">Branch</label>
-                        <input asp-for="branch" class="form-control" type="text" readonly="readonly" />
-                        <span asp-validation-for="branch" class="text-danger"></span>
-                    </div>
+
                 </div>
                 <div class="row">
 
-
+                    <div class="col-md-4">
+                        <label class="control-label">Residential Address</label>
+                        <textarea asp-for="home_address" class="form-control"></textarea>
+                        <span asp-validation-for="home_address" class="text-danger"></span>
+                    </div>
 
                     <div class="col-md-4">
-                        <label class="control-label">Specialisation</label>
-                        <input asp-for="specialisation" class="form-control"  type="text" readonly="readonly" />
-                        <span asp-validation-for="specialisation" class="text-danger"></span>
+                        <label class="control-label">Branch</label>
+                        <input asp-for="branch" class="form-control" required />
+                        @*<select asp-for="branch"
+                class="form-control"
+                asp-items="@(new SelectList(Model.branchList,"Value", "Text"))">
+        </select>*@
+                        <span asp-validation-for="branch" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
+                        <label class="control-label">Specialisation</label>
+                        <input asp-for="specialisation" class="form-control" required />
+                        @*<select asp-for="specialisation"
+                                class="form-control"
+                                asp-items="@(new SelectList(Model.specialisationList,"Value", "Text"))">
+                        </select>*@
+                        <span asp-validation-for="specialisation" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4">
                         <label class="control-label">Command</label>
-                        <input asp-for="command" class="form-control"  type="text" readonly="readonly" />
+                        <input asp-for="command" class="form-control" required />
+                        @*<select asp-for="command" id="ddcommand"
+                                class="form-control"
+                                asp-items="@(new SelectList(Model.commandList,"Value", "Text"))">
+                        </select>*@
                         <span asp-validation-for="command" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Ship/Establishment</label>
-                        <input asp-for="ship" class="form-control"type="text" readonly="readonly" />
+                        <input asp-for="ship" class="form-control" required />
+                        @*<select asp-for="ship" id="ddship"
+                                class="form-control"
+                                asp-items="@(new SelectList(Model.shipList,"Value", "Text"))">
+                        </select>*@
                         <span asp-validation-for="ship" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <label class="control-label">Date of Joining Ship</label>
+                        <input asp-for="runOutDate" class="form-control" type="date" required />
+                        <span asp-validation-for="runOutDate" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -211,140 +257,180 @@
 
                     <div class="col-md-4">
                         <label class="control-label">State of Origin</label>
-                        <input asp-for="StateofOrigin" class="form-control"  type="text" readonly="readonly" />
+                        <input asp-for="StateofOrigin" class="form-control" required />
+                        @*<select asp-for="StateofOrigin" id="ddstate"
+                class="form-control"
+                asp-items="@(new SelectList(Model.StateofOriginList,"Value", "Text"))">
+        </select>*@
                         <span asp-validation-for="StateofOrigin" class="text-danger"></span>
                     </div>
-
-                    <div class="col-md-4">
-                        <label class="control-label">LGA</label>
-                        <input asp-for="LocalGovt" class="form-control"  type="text" readonly="readonly" />
-                        <span asp-validation-for="LocalGovt" class="text-danger"></span>
-                    </div>
+                    @*<div class="col-md-4" id="lga">
+                            <label class="control-label">LGA</label>
+                             <input asp-for="LocalGovt" class="form-control" />
+                            <span asp-validation-for="LocalGovt" class="text-danger"></span>
+                        </div>*@
+                <div class="col-md-4">
+                    <label class="control-label">LGA</label>
+                    <input asp-for="LocalGovt" class="form-control" required />
+                    @*<select asp-for="LocalGovt" id="ddlocalGovt"
+                class="form-control"
+                asp-items="@(new SelectList(Model.LocalGovtList,"Value", "Text"))">
+        </select>*@
+                    <span asp-validation-for="LocalGovt" class="text-danger"></span>
+                </div>
                     <div class="col-md-4">
                         <label class="control-label">Religion</label>
-                        <input asp-for="religion" class="form-control" type="text" readonly="readonly" />
+                        <input asp-for="religion" class="form-control" />
+                        @*<select asp-for="religion" class="form-control">
+                            <option>Select....</option>
+                            <option value="Christian">Christian</option>
+                            <option value="Muslim">Muslim</option>
+
+                        </select>*@
                         <span asp-validation-for="religion" class="text-danger"></span>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">GSM Number 1</label>
-                        <input asp-for="gsm_number" class="form-control" readonly="readonly" />
+                        <label class="control-label">GSM No (1)</label>
+                        <input asp-for="gsm_number" class="form-control" />
                         <span asp-validation-for="gsm_number" class="text-danger"></span>
                     </div>
 
                     <div class="col-md-4">
-                        <label class="control-label">GSM Number 2</label>
-                        <input asp-for="gsm_number2" class="form-control" readonly="readonly" />
+                        <label class="control-label">GSM No (2)</label>
+                        <input asp-for="gsm_number2" class="form-control" />
                         <span asp-validation-for="gsm_number2" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Email</label>
-                        <input asp-for="email" class="form-control" readonly="readonly" />
+                        <label class="control-label">E-mail</label>
+                        <input asp-for="email" class="form-control" />
                         <span asp-validation-for="email" class="text-danger"></span>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label asp-for="MaritalStatus" class="control-label"></label>
-                        <input asp-for="MaritalStatus" class="form-control"  type="text" readonly="readonly" />
+                        <label class="control-label">Marital Status</label>
+                        <input asp-for="MaritalStatus" class="form-control" />
+                        @*<select asp-for="MaritalStatus" class="form-control">
+                            <option>Select....</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorse">Divorce</option>
+                            <option value="Widow">Widow</option>
+                            <option value="Widower">Widower</option>
+
+                        </select>*@
                         <span asp-validation-for="MaritalStatus" class="text-danger"></span>
                     </div>
                 </div>
                 <hr />
 
-                <div class="row">
-                    <h2 style="">
-                        <label class="control-label">Children</label>
-                    </h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
 
-                        <input asp-for="chid_name" class="form-control" placeholder="Child 1" readonly="readonly" />
-                        <span asp-validation-for="chid_name" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-3">
-                        <input asp-for="chid_name2" class="form-control" placeholder="Child 2" readonly="readonly" />
-                        <span asp-validation-for="chid_name2" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-3">
-                        <input asp-for="chid_name3" class="form-control" placeholder="Child 3" readonly="readonly" />
-                        <span asp-validation-for="chid_name3" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-3">
-                        <input asp-for="chid_name4" class="form-control" placeholder="Child 4" readonly="readonly" />
-                        <span asp-validation-for="chid_name4" class="text-danger"></span>
-                    </div>
-                </div>
-                <hr />
                 <div class="row">
-                    <h2 style="">
+                    <h3 style="">
                         <label class="control-label">Spouse</label>
-                    </h2>
+                    </h3>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Name <i>State Rank/ SVC No. If Personnel</i></label>
-                        <input asp-for="sp_name" class="form-control" readonly="readonly" />
+                        <label class="control-label">Name  of Spouse<em>(State Rank/ SVC Number. if Personnel)</em></label>
+                        <input asp-for="sp_name" class="form-control" />
                         <span asp-validation-for="sp_name" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Phone</label>
-                        <input asp-for="sp_phone" class="form-control" readonly="readonly" />
+                        <label class="control-label">GSM No (1)</label>
+                        <input asp-for="sp_phone" class="form-control" />
                         <span asp-validation-for="sp_phone" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Phone 2</label>
-                        <input asp-for="sp_phone2" class="form-control" readonly="readonly" />
+                        <label class="control-label">GSM No (2)</label>
+                        <input asp-for="sp_phone2" class="form-control" />
                         <span asp-validation-for="sp_phone2" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Spouse Email</label>
-                        <input asp-for="sp_email" class="form-control" readonly="readonly" />
+                        <label class="control-label">E-mail of Spouse</label>
+                        <input asp-for="sp_email" class="form-control" />
                         <span asp-validation-for="sp_email" class="text-danger"></span>
                     </div>
                 </div>
                 <hr />
                 <div class="row">
-                    <h2 style="">
-                        <label class="control-label">Details of Next Of Kin</label>
-                    </h2>
+                    <h3 style="">
+                        <label class="control-label">Children</label>
+                    </h3>
                 </div>
+                <div class="row">
+                    <div class="col-md-3">
+
+                        <input asp-for="chid_name" class="form-control" placeholder="(1)" />
+                        <span asp-validation-for="chid_name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="chid_name2" class="form-control" placeholder="(2)" />
+                        <span asp-validation-for="chid_name2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="chid_name3" class="form-control" placeholder="(3)" />
+                        <span asp-validation-for="chid_name3" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="chid_name4" class="form-control" placeholder="(4)" />
+                        <span asp-validation-for="chid_name4" class="text-danger"></span>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <h5 style="">
+                        <label class="control-label">
+                            Details of NOKs, (Note that NOK as used in this Form includes potential administrator of a deceased personnel's estate in relation to his personal emolument and other perquisites of office).
+                        </label>
+                    </h5>
+                </div>
+                <div class="row"><label><h5><u>Next of Kin</u> (Attach Passport Photographs)</h5></label></div>
                 <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">Name</label>
-                        <input asp-for="nok_name" class="form-control" readonly="readonly" />
+                        <input asp-for="nok_name" class="form-control" />
                         <span asp-validation-for="nok_name" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Relationship</label>
-                         <input asp-for="nok_relation" class="form-control"  type="text" readonly="readonly" />
+                        <input asp-for="nok_relation" class="form-control" required />
+                        @*<select asp-for="nok_relation"
+                                class="form-control"
+                                asp-items="@(new SelectList(Model.nok_relationList,"Value", "Text"))">
+                        </select>*@
                         <span asp-validation-for="nok_relation" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Address</label>
-                        <input asp-for="nok_address" class="form-control" readonly="readonly" />
+                        <input asp-for="nok_address" class="form-control" />
                         <span asp-validation-for="nok_address" class="text-danger"></span>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Phone Number</label>
-                        <input asp-for="nok_phone" class="form-control" readonly="readonly" />
+                        <label class="control-label">GSM No (a)</label>
+                        <input asp-for="nok_phone" class="form-control" />
                         <span asp-validation-for="nok_phone" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Email</label>
-                        <input asp-for="nok_email" class="form-control" readonly="readonly" />
+                        <label class="control-label">GSM No (b)</label>
+                        <input asp-for="nok_phone12" class="form-control" />
+                        <span asp-validation-for="nok_phone2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">E-mail</label>
+                        <input asp-for="nok_email" class="form-control" />
                         <span asp-validation-for="nok_email" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">National Identification No</label>
-                        <input asp-for="nok_nationalId" class="form-control" readonly="readonly" />
+                        <label class="control-label">NIN of NOK</label>
+                        <input asp-for="nok_nationalId" class="form-control" />
                         <span asp-validation-for="nok_nationalId" class="text-danger"></span>
                     </div>
 
@@ -353,25 +439,29 @@
 
 
                 <div class="row">
-                    <h2 style="">
-                        <label class="control-label">Alternate Next Of Kin</label>
-                    </h2>
+                    <h5 style="">
+                        <label class="control-label"><u>Alternate Next of Kin <em>(Attach Passport Photographs)</em></u></label>
+                    </h5>
                 </div>
                 <div class="row">
 
                     <div class="col-md-4">
                         <label class="control-label">Name</label>
-                        <input asp-for="nok_name2" class="form-control" readonly="readonly" />
+                        <input asp-for="nok_name2" class="form-control" />
                         <span asp-validation-for="nok_name2" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Relationship</label>
-                        <input asp-for="nok_relation2" class="form-control"  type="text" readonly="readonly" />
+                        <input asp-for="nok_relation2" class="form-control" required />
+                        @*<select asp-for="nok_relation2"
+                                class="form-control"
+                                asp-items="@(new SelectList(Model.nok_relation2List,"Value", "Text"))">
+                        </select>*@
                         <span asp-validation-for="nok_relation2" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Address</label>
-                        <input asp-for="nok_address2" class="form-control" readonly="readonly" />
+                        <input asp-for="nok_address2" class="form-control" />
                         <span asp-validation-for="nok_address2" class="text-danger"></span>
                     </div>
 
@@ -380,27 +470,52 @@
                 <div class="row">
 
                     <div class="col-md-4">
-                        <label class="control-label">Phone Number</label>
-                        <input asp-for="nok_phone2" class="form-control" readonly="readonly" />
+                        <label class="control-label">GSM No (a)</label>
+                        <input asp-for="nok_phone2" class="form-control" />
                         <span asp-validation-for="nok_phone2" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Email</label>
-                        <input asp-for="nok_email2" class="form-control" readonly="readonly" />
+                        <label class="control-label">GSM No (b)</label>
+                        <input asp-for="nok_phone22" class="form-control" />
+                        <span asp-validation-for="nok_phone2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">E-mail</label>
+                        <input asp-for="nok_email2" class="form-control" />
                         <span asp-validation-for="nok_email2" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">National Identification No</label>
-                        <input asp-for="nok_nationalId2" class="form-control" readonly="readonly" />
+                        <label class="control-label">NIN of Alternate NOK</label>
+                        <input asp-for="nok_nationalId2" class="form-control" />
                         <span asp-validation-for="nok_nationalId2" class="text-danger"></span>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Accommodation Status</label>
+                        <input asp-for="AcommodationStatus" class="form-control" required />
+                        @*<select asp-for="AcommodationStatus" class="form-control" required>
+                <option>Select....</option>
+                <option value="Government Quarters">Government Quarters</option>
+                <option value="Acquried House">Acquired House</option>
+                <option value="Barracks">Barracks</option>
+                <option value="Rented Accommodation">Rented Accomodation</option>
+                <option value="Owned House">Owned House</option>
+            </select>
+            <span asp-validation-for="AcommodationStatus" class="text-danger"></span>*@
+        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Address of Accommodation</label>
+                            <input asp-for="AddressofAcommodation" class="form-control" />
+                            <span asp-validation-for="nok_address2" class="text-danger"></span>
+                        </div>
+                    </div>
                 <hr />
 
                 <div class="row">
-                    <h2 style="">
+                    <h3 style="">
                         <label class="control-label">Do You Draw</label>
-                    </h2>
+                    </h3>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
@@ -427,7 +542,7 @@
                     <span asp-validation-for="GBC" class="text-danger"></span>
 
                     <div class="col-md-4" id="gcbid">
-                        <label class="control-label"> No Of GCB </label>
+                        <label class="control-label"> No of GCB </label>
                         <input asp-for="GBC_Number" id="gcb_text" class="form-control" />
                         <span asp-validation-for="GBC_Number" class="text-danger"></span>
                     </div>
@@ -444,22 +559,22 @@
                     </div>
                     <span asp-validation-for="aircrew_allow" class="text-danger"></span>
                 </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> Call Shift Duty Allowance</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="calldutycheck" value="Yes" asp-for="shift_duty_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="calldutycheck" value="No" asp-for="shift_duty_allow" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
+                    </div>
+                    <span asp-validation-for="shift_duty_allow" class="text-danger"></span>
+                </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label"> SBS Allow</label>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="radio" id="sbscheck" value="Yes" asp-for="SBC_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="radio" id="sbscheck" value="No" asp-for="SBC_allow" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
-                    </div>
-                    <span asp-validation-for="SBC_allow" class="text-danger"></span>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="control-label"> Hazard Allow</label>
+                        <label class="control-label"> Hazard Allowance</label>
                     </div>
                     <div class="col-md-2">
                         <input type="radio" id="harcheck" value="Yes" asp-for="hazard_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
@@ -471,7 +586,19 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label"> Special Forces Allow</label>
+                        <label class="control-label"> SBS Allowance</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="sbscheck" value="Yes" asp-for="SBC_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="sbscheck" value="No" asp-for="SBC_allow" style="margin-left:20px;margin-right:10px;" /><label class="control-label">No</label>
+                    </div>
+                    <span asp-validation-for="SBC_allow" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> Special Forces Allowance</label>
                     </div>
                     <div class="col-md-2">
                         <input type="radio" id="sfacheck" value="Yes" asp-for="special_forces_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
@@ -484,18 +611,25 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Other Allow <i>Please Specify</i></label>
+                        <label class="control-label">Other Allowance  <em>(Please Specify)</em></label>
                     </div>
-                    <div class="col-md-6">
-                        <input asp-for="other_allow" class="form-control" />
-                        <span asp-validation-for="other_allow" class="text-danger"></span>
+                    <div class="col-md-2">
+                        <input type="radio" id="otheralcheck" value="Yes" asp-for="other_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="radio" id="otheralcheckno" value="No" asp-for="other_allow" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">No</label>
+                    </div>
+
+                    <div class="col-md-3" id="Other_allwid">
+                        <input asp-for="other_allowspecify" id="other_allw_text" class="form-control" placeholder="" />
+                        <span asp-validation-for="other_allowspecify" class="text-danger"></span>
                     </div>
                 </div>
                 <hr />
                 <div class="row">
-                    <h2 style="">
-                        <label class="control-label">Are You Indepted to the following?? If Yes, Please Indicate Your Year Granted in the Text Box</label>
-                    </h2>
+                    <h3 style="">
+                        <label class="control-label">Are you indebted to the following: <em>(Please Indicate Year Granted)</em></label>
+                    </h3>
                 </div>
 
                 <div class="row">
@@ -510,11 +644,11 @@
                     </div>
                     @if (Model.FGSHLS_loan == "Yes")
                     {
-            <div class="col-md-3">
-                <input asp-for="FGSHLS_loanYear" class="form-control" />
-            </div>}
+        <div class="col-md-3">
+            <input asp-for="FGSHLS_loanYear" class="form-control" />
+        </div>}
                     <div class="col-md-3" id="fedhousing">
-                        <input asp-for="FGSHLS_loanYear" id="fgshls_loan_text" class="form-control" />
+                        <input asp-for="FGSHLS_loanYear" id="fgshls_loan_text" class="form-control" placeholder="year" />
                         <span asp-validation-for="FGSHLS_loan" class="text-danger"></span>
                     </div>
                 </div>
@@ -530,11 +664,11 @@
                     </div>
                     @if (Model.car_loan == "Yes")
                     {
-            <div class="col-md-3">
-                <input asp-for="car_loanYear" class="form-control" />
-            </div>}
+        <div class="col-md-3">
+            <input asp-for="car_loanYear" class="form-control" />
+        </div>}
                     <div class="col-md-3" id="car_loanid">
-                        <input asp-for="car_loanYear" id="car_loan_text" class="form-control" />
+                        <input asp-for="car_loanYear" id="car_loan_text" class="form-control" placeholder="year" />
                         <span asp-validation-for="car_loan" class="text-danger"></span>
                     </div>
                 </div>
@@ -550,17 +684,17 @@
                     </div>
                     @if (Model.welfare_loan == "Yes")
                     {
-            <div class="col-md-3">
-                <input asp-for="welfare_loanYear" class="form-control" />
-            </div>}
+        <div class="col-md-3">
+            <input asp-for="welfare_loanYear" class="form-control" />
+        </div>}
                     <div class="col-md-3" id="welfare_loanid">
-                        <input asp-for="welfare_loanYear" id="welfare_loan_text" class="form-control" />
+                        <input asp-for="welfare_loanYear" id="welfare_loan_text" class="form-control" placeholder="year" />
                         <span asp-validation-for="welfare_loan" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">NNMCS loan</label>
+                        <label class="control-label">NNMCS Loans <i>(Specify Type)</i></label>
                     </div>
                     <div class="col-md-2">
                         <input type="radio" id="nnmcheck" value="Yes" asp-for="NNNCS_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
@@ -570,17 +704,17 @@
                     </div>
                     @if (Model.NNNCS_loan == "Yes")
                     {
-            <div class="col-md-3">
-                <input asp-for="NNNCS_loanYear" class="form-control" />
-            </div>}
+        <div class="col-md-3">
+            <input asp-for="NNNCS_loanYear" class="form-control" />
+        </div>}
                     <div class="col-md-3" id="NNNCS_loanid">
-                        <input asp-for="NNNCS_loanYear" id="NNNCS_loan_text" class="form-control" />
+                        <input asp-for="NNNCS_loanYear" id="NNNCS_loan_text" class="form-control" placeholder="year" />
                         <span asp-validation-for="NNNCS_loan" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">NNMFBL loan</label>
+                        <label class="control-label">NNMFBL</label>
                     </div>
                     <div class="col-md-2">
                         <input type="radio" id="nnmfcheck" value="Yes" asp-for="NNMFBL_loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
@@ -590,18 +724,18 @@
                     </div>
                     @if (Model.NNMFBL_loan == "Yes")
                     {
-            <div class="col-md-3">
-                <input asp-for="NNMFBL_loanYear" class="form-control" />
-            </div>}
+        <div class="col-md-3">
+            <input asp-for="NNMFBL_loanYear" class="form-control" />
+        </div>}
                     <div class="col-md-3" id="NNMFBL_loanid">
-                        <input asp-for="NNMFBL_loanYear" id="NNMFBL_loan_text" class="form-control" />
+                        <input asp-for="NNMFBL_loanYear" id="NNMFBL_loan_text" class="form-control" placeholder="year" />
                         <span asp-validation-for="NNMFBL_loan" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Any Other loan</label>
+                        <label class="control-label">Any Other Loan <i>(Please Specify)</i></label>
                     </div>
                     <div class="col-md-2">
                         <input type="radio" id="anyolcheck" value="Yes" asp-for="Anyother_Loan" style="margin-left:20px;margin-right:10px;" />   <label class="control-label">Yes</label>
@@ -611,148 +745,146 @@
                     </div>
                     @if (Model.Anyother_Loan == "Yes")
                     {
-            <div class="col-md-3">
-                <input asp-for="Anyother_LoanYear" class="form-control" />
-            </div>}
+        <div class="col-md-3">
+            <input asp-for="Anyother_LoanYear" class="form-control" id="anyotheryear" />
+        </div>}
                     <div class="col-md-3" id="AnyOther_loanid">
-                        <input asp-for="Anyother_LoanYear" id="Anyother_loan_text" class="form-control" />
+                        <input asp-for="Anyother_LoanYear" id="Anyother_loan_text" class="form-control" placeholder="year" />
                         <span asp-validation-for="Anyother_Loan" class="text-danger"></span>
                     </div>
                 </div>
                 <hr />
                 <div class="row">
-                    <h2 style="">
-                        <label class="control-label">Bank Details</label>
-                    </h2>
+                    <h3 style="">
+                        <label class="control-label">Bank Account Details:</label>
+                    </h3>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="control-label">Salary Account Name</label>
+                        <label class="control-label">Salary Bank Account Name</label>
                         <input asp-for="AccountName" class="form-control" readonly />
                         <span asp-validation-for="AccountName" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Bank Name</label>
+                        <label class="control-label">Name of Bank</label>
                         <input asp-for="Bankcode" class="form-control" readonly />
+                        @*<select asp-for="Bankcode"
+                                    class="form-control"
+                                    asp-items="@(new SelectList(Model.bankList,"Value", "Text"))">
+                            </select>*@
                         <span asp-validation-for="Bankcode" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="bankbranch" class="control-label"></label>
+                        <label class="control-label">Branch</label>
                         <input asp-for="bankbranch" class="form-control" readonly />
                         <span asp-validation-for="bankbranch" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="BankACNumber" class="control-label"></label>
-                        <input asp-for="BankACNumber" class="form-control" readonly/>
+                        <label class="control-label">Account Number</label>
+                        <input asp-for="BankACNumber" class="form-control" readonly />
                         <span asp-validation-for="BankACNumber" class="text-danger"></span>
                     </div>
 
                 </div>
 
-                <hr />
+                @*<hr />
+                    @if (Model.Status == null || Model.Status == "DO" || Model.Status == "CDR")
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="control-label">DO Name</label>
+                                <input asp-for="div_off_name" class="form-control" />
+                                <span asp-validation-for="div_off_name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">DO Rank</label>
+                                <select asp-for="div_off_rank"
+                                        class="form-control"
+                                        asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
+                                </select>
+                                <span asp-validation-for="div_off_rank" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">DO Service No</label>
+                                <input asp-for="div_off_svcno" class="form-control" />
+                                <span asp-validation-for="div_off_svcno" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">DO Update Date</label>
+                                <input asp-for="div_off_date" class="form-control" />
+                                <span asp-validation-for="div_off_date" class="text-danger"></span>
+                            </div>
 
-                <hr />
+                        </div>
+                    }
+                    <hr />
+                    @if (Model.Status == "DO" || Model.Status == "HOD" || Model.Status == "CDR")
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="control-label">HOD Name</label>
+                                <input asp-for="hod_name" class="form-control" />
+                                <span asp-validation-for="hod_name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">HOD Rank</label>
+                                <select asp-for="hod_rank"
+                                        class="form-control"
+                                        asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
+                                </select>
+                                <span asp-validation-for="hod_rank" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">HOD Service No</label>
+                                <input asp-for="hod_svcno" class="form-control" />
+                                <span asp-validation-for="hod_svcno" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">HOD Update Date</label>
+                                <input asp-for="div_off_date" class="form-control" />
+                                <span asp-validation-for="div_off_date" class="text-danger"></span>
+                            </div>
 
-            </form>
-            @using (Html.BeginForm("CommandUpdateOfficer", "PersonalInfo", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                <input asp-for="serviceNumber" class="form-control" readonly hidden />
-                <input asp-for="payrollclass" value="2" class="form-control" readonly hidden />
-                @if (Context.Session.GetString("Appointment") == "DO" || Context.Session.GetString("Appointment") == "HOD" || Context.Session.GetString("Appointment") == "CDR")
-                {
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="control-label">DO Name</label>
-                            <input asp-for="div_off_name" class="form-control" />
-                            <span asp-validation-for="div_off_name" class="text-danger"></span>
                         </div>
-                        <div class="col-md-4">
-                            <label class="control-label">DO Rank</label>
-                            <select asp-for="div_off_rank"
-                                    class="form-control"
-                                    asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
-                            </select>
-                            <span asp-validation-for="div_off_rank" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">DO Service No</label>
-                            <input asp-for="div_off_svcno" class="form-control" />
-                            <span asp-validation-for="div_off_svcno" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">DO Update Date</label>
-                            <input asp-for="div_off_date" class="form-control" id="datepicker" type="text" />
-                            <span asp-validation-for="div_off_date" class="text-danger"></span>
-                        </div>
+                    }
+                    <hr />
+                    @if (Model.Status == "HOD" || Model.Status == "CDR")
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="control-label">CDR Name</label>
+                                <input asp-for="cdr_name" class="form-control" />
+                                <span asp-validation-for="cdr_name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">CDR Rank</label>
+                                <select asp-for="cdr_rank"
+                                        class="form-control"
+                                        asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
+                                </select>
+                                <span asp-validation-for="cdr_rank" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">CDR Service No</label>
+                                <input asp-for="cdr_svcno" class="form-control" />
+                                <span asp-validation-for="cdr_svcno" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">CDR Update Date</label>
+                                <input asp-for="cdr_date" class="form-control" />
+                                <span asp-validation-for="cdr_date" class="text-danger"></span>
+                            </div>
 
-                    </div>
-                }
-                @if (Context.Session.GetString("Appointment") == "HOD" || Context.Session.GetString("Appointment") == "CDR")
-                {
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="control-label">HOD Name</label>
-                            <input asp-for="hod_name" class="form-control" />
-                            <span asp-validation-for="hod_name" class="text-danger"></span>
                         </div>
-                        <div class="col-md-4">
-                            <label class="control-label">HOD Rank</label>
-                            <select asp-for="hod_rank"
-                                    class="form-control"
-                                    asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
-                            </select>
-                            <span asp-validation-for="hod_rank" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">HOD Service No</label>
-                            <input asp-for="hod_svcno" class="form-control" />
-                            <span asp-validation-for="hod_svcno" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">HOD Update Date</label>
-                            <input asp-for="hod_date" class="form-control" id="datepicker" type="text" />
-                            <span asp-validation-for="hod_date" class="text-danger"></span>
-                        </div>
-
-                    </div>
-                }
-                @if (Context.Session.GetString("Appointment") == "CDR")
-                {
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="control-label">Commander Name</label>
-                            <input asp-for="cdr_name" class="form-control" />
-                            <span asp-validation-for="cdr_name" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">Commander Rank</label>
-                            <select asp-for="cdr_rank"
-                                    class="form-control"
-                                    asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
-                            </select>
-                            <span asp-validation-for="cdr_rank" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">Commander Service No</label>
-                            <input asp-for="cdr_svcno" class="form-control" />
-                            <span asp-validation-for="cdr_svcno" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">Commander Update Date</label>
-                            <input asp-for="cdr_date" class="form-control" id="datepicker" type="text" value="" />
-                            <span asp-validation-for="cdr_date" class="text-danger"></span>
-                        </div>
-
-                    </div>
-                }
-                <hr />
+                    }*@
+                @*<hr />
                 <div class="row">
                     <div class="col-md-4">
                         <input type="submit" value="Update" class="btn btn-primary" />
                     </div>
-                </div>
-            }
+                </div>*@
 
+            </form>
         </div>
     </div>
 
@@ -786,38 +918,62 @@
                 }
             });
 
-            $("#ddstate").change(function () {
-                var StateId = parseInt($(this).val());
 
-                if (!isNaN(StateId)) {
-                    var localgovt = $("#ddlocalGovt");
-                    localgovt.empty();
-                    localgovt.append($("<option></option>").val('').html('Please Wait....'));
-                    debugger;
-                    $.ajax({
-                        url: '/PersonalInfo/GetLGA',
-                        type: 'Get',
-                        dataType: 'json',
-                        data: { StateId: StateId },
-                        success: function (d) {
-                            localgovt.empty();
-                            localgovt.append($("<option></option>").val('').html('Select LGA'));
-                            $.each(d, function (i, lga) {
-                                alert(lga.Value)
-                                localgovt.append($("<option></option>").val(lga.Id).html(lga.lgaName));
-                            });
+        $('#ddstate').change(function () {
+            var id = $("#ddstate option:selected").val();
 
-                        },
-                        error: function () {
-                            alert('Error');
-                        }
+            $("#lga").hide();
+            $.ajax({
+                url: "@Url.Action("GetLgasNew", "PersonalInfo")",
+                data: { id: id },
+                dataType: "json",
+                type: "POST",
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data) {
+
+                    var items = "<option value=\"\">" + "</option>";
+                    $.each(data, function (i, item) {
+
+                        items += "<option value=\"" + item.value + "\">" + item.text + "</option>";
+
                     });
+                    $("#lgashow").show();
+                    $("#ddlocalGovt").html(items);
                 }
             });
         });
 
 
+             $('#ddcommand').change(function () {
+                         var id = $("#ddcommand option:selected").val();
+                             $.ajax({
+                             url: "@Url.Action("Getshipbycommand", "PersonalInfo")",
+                             data: { id: id },
+                             dataType: "json",
+                             type: "POST",
+                             error: function () {
+                                 alert("An error occurred.");
+                             },
+                             success: function (data) {
+
+                                 var items = "<option value=\"\">" + "</option>";
+                                 $.each(data, function (i, item) {
+
+                                     items += "<option value=\"" + item.value + "\">" + item.text + "</option>";
+
+                                 });
+                                 $("#lgashow").show();
+                                 $("#ddship").html(items);
+                             }
+                         });
+                     });
+
+
+});
         $(function () {
+            $('.datepicker').datepicker();
             $("#datepicker").datepicker();
             $("#datepicker1").datepicker();
             $("#datepicker2").datepicker();
@@ -830,6 +986,7 @@
             $("#NNMFBL_loanid").hide();
             $("#ppc_loanid").hide();
             $("#AnyOther_loanid").hide();
+            $("#lgashow").hide();
 
 
         });
@@ -844,6 +1001,8 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#fedhousing").hide();
+                    $("#fgshls_loan_text").val('');
+
                 }
 
             });
@@ -858,6 +1017,7 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#car_loanid").hide();
+                    $("#car_loan_text").val('');
                 }
 
             });
@@ -872,6 +1032,7 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#welfare_loanid").hide();
+                    $("#welfare_loan_text").val('');
                 }
 
             });
@@ -886,6 +1047,7 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#NNNCS_loanid").hide();
+                    $("#NNNCS_loan_text").val('');
                 }
 
             });
@@ -893,13 +1055,14 @@
             function () {
                 if ($(this).val() == 'Yes') {
                     $("#NNMFBL_loanid").show();
-                }
+                   }
 
             });
         $("#nnmfcheckno").change(
             function () {
                 if ($(this).val() == 'No') {
                     $("#NNMFBL_loanid").hide();
+                    $("NNMFBL_loan_text").val('');
                 }
 
             });
@@ -914,6 +1077,7 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#ppc_loanid").hide();
+                    $("ppc_loan_text").val('');
                 }
 
             });
@@ -928,12 +1092,13 @@
             function () {
                 if ($(this).val() == 'No') {
                     $("#AnyOther_loanid").hide();
+                    $("#Anyother_loan_text").val('');
                 }
 
             });
+
     </script>
 </body>
 </html>
-
 
 
