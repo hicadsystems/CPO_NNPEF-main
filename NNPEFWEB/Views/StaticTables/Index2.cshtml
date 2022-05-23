@@ -1,0 +1,36 @@
+﻿@{ ViewData["Title"] = "SHIP";
+                string[] TableHeaders = new string[] {"Ship Name"
+                        ,"Command"
+                        ,"Action"
+                        }; }
+
+<a asp-action="createship" class="btn btn-success">Add</a>
+<div class="table">
+    <table id="myTable" class="table table-md">
+        <thead>
+            <tr>
+                @{ foreach (var head in TableHeaders)
+                                {
+                    <th>
+                        @head
+                    </th> } }
+            </tr>
+        </thead>
+
+        <tbody>
+            @{ if (Model != null)
+                            {
+                                foreach (var Data in Model)
+                                {
+                <tr>
+                    <td>@Data.shipName</td>
+                    <td>@Data.code</td>
+                    <td>
+                        <a asp-action="Editship" asp-controller="StaticTables" asp-route-id="@Data.Id" class="btn btn-success">Edit</a>
+                        <a asp-action="Deleteship" asp-controller="StaticTables" asp-route-id="@Data.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr> }
+                            } }
+        </tbody>
+    </table>
+</div>

@@ -71,12 +71,13 @@ namespace NNPEFWEB.Controllers
         {
             ViewBag.ShipList = GetShip();
             var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-            string shipname= null;
-            if (ship != null)
-            {
-                 shipname = _context.ef_ships.FirstOrDefault(x => x.Id == Convert.ToInt32(ship)).shipName;
-                 ViewData["shipSearchedID"] = shipname;
-            }
+            string shipname= ship;
+            ViewData["shipSearchedID"] = shipname;
+            //if (ship != null)
+            //{
+            //     shipname = _context.ef_ships.FirstOrDefault(x => x.Id == Convert.ToInt32(ship)).shipName;
+            //     ViewData["shipSearchedID"] = shipname;
+            //}
             var pp = personinfoService.GetUpdatedPersonnelByCpo(user.Appointment, shipname);
             return View(pp);
         }
@@ -211,18 +212,18 @@ namespace NNPEFWEB.Controllers
 
             if (!string.IsNullOrEmpty(shipToSearch) && shipToSearch != "AllShip")
             {
-                var shipSearched = _context.ef_ships.Find(int.Parse(shipToSearch));
+                //var shipSearched = _context.ef_ships.Where(x=>x.shipName==shipToSearch).FirstOrDefault();
 
-                ViewData["shipSearchedID"] = shipSearched.Id.ToString();
+                ViewData["shipSearchedID"] = shipToSearch;
 
-                allShip.Insert(0, new SelectListItem { Value = shipSearched.Id.ToString(), Text = shipSearched.shipName });
-                allShip.Insert(1, new SelectListItem { Value = "AllShip", Text = "All Ship" });
+            //    allShip.Insert(0, new SelectListItem { Value = shipSearched.shipName, Text = shipSearched.shipName });
+            //    allShip.Insert(1, new SelectListItem { Value = "AllShip", Text = "All Ship" });
             }
             else
             {
                 ViewData["shipSearchedID"] = "AllShip";
 
-                allShip.Insert(0, new SelectListItem { Value = "AllShip", Text = "All Ship" });
+              //  allShip.Insert(0, new SelectListItem { Value = "AllShip", Text = "All Ship" });
             }
 
             ViewBag.ShipList = allShip;
@@ -371,7 +372,7 @@ namespace NNPEFWEB.Controllers
         public async Task<IActionResult> ExportByHOD2(string ship,string status)
         {
             var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-
+            ViewData["status"] = String.IsNullOrEmpty(status) ? "AllStaff" : status;
             var pp = await personinfoService.GetUpdatedPersonnelByHOD2(user.Appointment, status, ship);
             List<RPTPersonModel> rpt = new List<RPTPersonModel>();
             foreach (var person in pp)

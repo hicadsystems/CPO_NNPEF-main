@@ -1,5 +1,0 @@
-2022-03-09T22:46:14.1797686+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
-2022-03-09T22:46:14.3591118+01:00  [INF] Hosting environment: "Production" (c3307c92)
-2022-03-09T22:46:14.3951298+01:00  [INF] Content root path: "C:\Users\Home\source\Repo\CPO_NNPEF-main\NNPEFWEB" (b5d60022)
-2022-03-09T23:01:36.8564962+01:00 80000035-0000-f200-b63f-84710c7967bb [WRN] Invalid password for user. (6d284782)
-2022-03-09T23:01:36.8631016+01:00 80000035-0000-f200-b63f-84710c7967bb [WRN] User failed to provide the correct password. (a25e98da)

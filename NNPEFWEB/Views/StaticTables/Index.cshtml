@@ -1,0 +1,30 @@
+﻿@model IEnumerable<NNPEFWEB.Models.ef_ship>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<a asp-action="createship" class="btn btn-success">Add</a>
+<table class="table-active">
+    <thead>
+        <tr>
+            <th>Ship Name</th>
+            <th>Command</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach(var r in Model)
+            {
+            <td>@r.shipName</td>
+            <td>@r.code</td>
+            <td>
+                <a asp-action="Editship"  asp-controller="StaticTables" asp-route-id="@r.Id" class="btn btn-success">Edit</a>
+                <a asp-action="Deleteship" asp-controller="StaticTables" asp-route-id="@r.Id" class="btn btn-danger">Delete</a>
+            </td>
+            }
+            
+        </tr>
+    </tbody>
+</table>

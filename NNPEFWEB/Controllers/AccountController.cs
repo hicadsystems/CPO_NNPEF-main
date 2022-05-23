@@ -426,8 +426,8 @@ namespace NNPEFWEB.Controllers
                     var pers = _shipService.GetPersonBySvcno(com.UserName);
                     string pyear = DateTime.Now.Year.ToString();
                     // var site = _context.ef_systeminfos.FirstOrDefault(x => x.closedate.Date < DateTime.Now.Date);
-                    var globalcon = _context.ef_control.Where(x => x.enddate.Date <= DateTime.Now.Date && x.processingyear == pyear && x.ship == "All" && x.status == "Open").FirstOrDefault();
-                    var shipcon = _context.ef_control.Where(x => x.enddate.Date <= DateTime.Now.Date && x.ship == pers.ship && x.processingyear == pyear && x.status == "Open").FirstOrDefault();
+                    var globalcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.processingyear == pyear && x.ship == "All" && x.status == "Open").FirstOrDefault();
+                    var shipcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.ship == pers.ship && x.processingyear == pyear && x.status == "Open").FirstOrDefault();
                     if (shipcon == null && globalcon == null)
                     {
                         return RedirectToAction("ClosingPage", "Account");
@@ -1082,6 +1082,8 @@ namespace NNPEFWEB.Controllers
                             worksheet.Cells[row, 5].Value = "";
                         if (worksheet.Cells[row, 6].Value == null)
                             worksheet.Cells[row, 6].Value = "";
+                        if (worksheet.Cells[row, 7].Value == null)
+                            worksheet.Cells[row, 7].Value = "";
 
                         //string command = String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ? "" : worksheet.Cells[row, 1].Value.ToString().Trim();
                         //string ship = String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ? "" : worksheet.Cells[row, 2].Value.ToString().Trim();
@@ -1089,10 +1091,12 @@ namespace NNPEFWEB.Controllers
                         string svcno = String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ? "" : worksheet.Cells[row, 1].Value.ToString().Trim();
                         string rank = String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ? "" : worksheet.Cells[row, 2].Value.ToString().Trim();
                         string name = String.IsNullOrEmpty(worksheet.Cells[row, 3].Value.ToString()) ? "" : worksheet.Cells[row, 3].Value.ToString().Trim();
-                        string command = String.IsNullOrEmpty(worksheet.Cells[row, 4].Value.ToString()) ? "" : worksheet.Cells[row, 4].Value.ToString().Trim();
+                        string initial = String.IsNullOrEmpty(worksheet.Cells[row, 4].Value.ToString()) ? "" : worksheet.Cells[row, 4].Value.ToString().Trim();
                         string ship = String.IsNullOrEmpty(worksheet.Cells[row, 5].Value.ToString()) ? "" : worksheet.Cells[row, 5].Value.ToString().Trim();
                         string password = String.IsNullOrEmpty(worksheet.Cells[row, 6].Value.ToString()) ? "" : worksheet.Cells[row, 6].Value.ToString().Trim();
+                        string command = String.IsNullOrEmpty(worksheet.Cells[row, 7].Value.ToString()) ? "" : worksheet.Cells[row, 7].Value.ToString().Trim();
 
+                        command = _context.ef_ships.Where(x => x.shipName == ship).FirstOrDefault().code;
 
                         if (String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ||
                            String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()))
@@ -1103,6 +1107,7 @@ namespace NNPEFWEB.Controllers
                                 svcNo = svcno,
                                 rank = rank,
                                 surName = name,
+                                otheName=initial,
                                 department =command,
                                 ship=ship,
                                 password=password
@@ -1117,6 +1122,7 @@ namespace NNPEFWEB.Controllers
                                 svcNo = svcno,
                                 rank = rank,
                                 surName = name,
+                                otheName=initial,
                                 department = command,
                                 ship = ship,
                                 password=password

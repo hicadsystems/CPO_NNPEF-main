@@ -791,16 +791,16 @@ namespace NNPEFWEB.Controllers
                     value.NokPassport = dataStream.ToArray();
                 }
             }
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
+            //if (Request.Form.Files.Count > 0)
+            //{
+            //    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
+            //    using (var dataStream = new MemoryStream())
+            //    {
 
-                    await file3.CopyToAsync(dataStream);
-                    value.AltNokPassport = dataStream.ToArray();
-                }
-            }
+            //        await file3.CopyToAsync(dataStream);
+            //        value.AltNokPassport = dataStream.ToArray();
+            //    }
+            //}
             if (per == null)
             {
                 HttpContext.Session.SetString("Message", "Record Not Found");
@@ -936,7 +936,7 @@ namespace NNPEFWEB.Controllers
 
                     //value.Passport = profilepicture;
                 await personinfoService.AddPersonalInfo(person);
-                HttpContext.Session.SetString("Message", "Record Added Successfully");
+              TempData["message"]="Record Added Successfully";
             
             }
 
@@ -945,7 +945,8 @@ namespace NNPEFWEB.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                return RedirectToAction("Login", "PersonnelLogin");
+                TempData["message"] = "Unable to update, make sure the form is properly filled.";
+                return RedirectToAction("OfficerRecord");
             }
         }
         public ActionResult RatingRecord(string id)
@@ -1180,16 +1181,16 @@ namespace NNPEFWEB.Controllers
                     value.NokPassport = dataStream.ToArray();
                 }
             }
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
+            //if (Request.Form.Files.Count > 0)
+            //{
+            //    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
+            //    using (var dataStream = new MemoryStream())
+            //    {
 
-                    await file3.CopyToAsync(dataStream);
-                    value.AltNokPassport = dataStream.ToArray();
-                }
-            }
+            //        await file3.CopyToAsync(dataStream);
+            //        value.AltNokPassport = dataStream.ToArray();
+            //    }
+            //}
             if (per == null)
             {
                 HttpContext.Session.SetString("Message", "Record Not Found");
@@ -1459,16 +1460,16 @@ namespace NNPEFWEB.Controllers
                     value.NokPassport = dataStream.ToArray();
                 }
             }
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
+            //if (Request.Form.Files.Count > 0)
+            //{
+            //    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
+            //    using (var dataStream = new MemoryStream())
+            //    {
 
-                    await file3.CopyToAsync(dataStream);
-                    value.AltNokPassport = dataStream.ToArray();
-                }
-            }
+            //        await file3.CopyToAsync(dataStream);
+            //        value.AltNokPassport = dataStream.ToArray();
+            //    }
+            //}
             if (per == null)
             {
                 HttpContext.Session.SetString("Message", "Record Not Found");
@@ -1763,7 +1764,7 @@ namespace NNPEFWEB.Controllers
         public ActionResult Getshipbycommand(string id)
         {
             var lgas = _context.ef_ships.Where(x => x.code == id).ToList();
-            return Json(new SelectList(lgas, "Id", "shipName"));
+            return Json(new SelectList(lgas, "shipName", "shipName"));
         }
         public List<SelectListItem> GetShip()
         {

@@ -10,6 +10,7 @@ namespace NNPEFWEB.Repository
 {
     public interface IPersonInfoRepository:IGenericRepository<ef_personalInfo>
     {
+        Task<PaginatedList<ef_personalInfo>> GetPersonnelDashBoardOfficer(string payclass, string ship, int? pageNumber);
         Task<List<ef_personalInfo>> GetUpdatedPersonnelByHOD2(string payclass, string status, string ship);
         Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelByHOD(string payclass, string status, string ship, int? pageNumber);
         IEnumerable<ef_personalInfo> GetPersonnelShipReportrepo(string statusToSearch, string payclass, string ship);

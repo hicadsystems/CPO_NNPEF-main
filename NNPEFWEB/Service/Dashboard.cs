@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Internal;
 using NNPEFWEB.Data;
+using NNPEFWEB.Models;
 using NNPEFWEB.Repository;
+using NNPEFWEB.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,5 +124,101 @@ namespace NNPEFWEB.Service
             return _context.ef_personalInfos.Where(x => x.Status == null && x.classes == 3).Count();
         }
 
+        public IEnumerable<ef_personalInfo> AllStaffList()
+        {
+            return _context.ef_personalInfos.Where(x=>x.classes==1).ToList();
+        }
+        public Task<PaginatedList<ef_personalInfo>> AllStaffList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> ApprovedStaffList()
+        {
+            return _context.ef_personalInfos.Where(x => x.Status == "CPO" && x.classes == 1);
+        }
+        public async Task<PaginatedList<ef_personalInfo>> ApprovedStaffList(string payclass, string ship, int? pageNumber)
+        {
+            return await _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> AwaiteApprovalStaffList()
+        {
+            return _context.ef_personalInfos.Where(x => x.Status == "SHIP" && x.classes==1);
+        }
+        public Task<PaginatedList<ef_personalInfo>> AwaiteApprovalStaffList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> YetToFillStaffList()
+        {
+            return _context.ef_personalInfos.Where(x => x.Status == null && x.classes==1);
+        }
+        public Task<PaginatedList<ef_personalInfo>> YetToFillStaffList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> AllStaffRatingsList()
+        {
+            return _context.ef_personalInfos.Where(x => x.classes == 2);
+        }
+        public Task<PaginatedList<ef_personalInfo>> AllStaffRatingsList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> ApprovedStaffRatingsList()
+        {
+            return _context.ef_personalInfos.Where(x => x.Status == "CPO" && x.classes == 2);
+        }
+        public Task<PaginatedList<ef_personalInfo>> ApprovedStaffRatingsList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> AwaiteApprovalStaffRatingsList()
+        {
+            return _context.ef_personalInfos.Where(x => x.Status == "SHIP" && x.classes == 2);
+        }
+        public Task<PaginatedList<ef_personalInfo>> AwaiteApprovalStaffRatingsList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> YetToFillStaffRatingsList()
+        {
+            return _context.ef_personalInfos.Where(x => x.Status == null && x.classes == 2);
+        }
+        public Task<PaginatedList<ef_personalInfo>> YetToFillStaffRatingsList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> AllStaffTrainingsList()
+        {
+            return _context.ef_personalInfos.Where(x => x.classes == 3);
+        }
+        public Task<PaginatedList<ef_personalInfo>> AllStaffTrainingsList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> ApprovedStaffTrainingsList()
+        {
+            return _context.ef_personalInfos.Where(x => x.Status == "CPO" && x.classes == 3);
+        }
+        public Task<PaginatedList<ef_personalInfo>> ApprovedStaffTrainingsList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> AwaiteApprovalTrainingsList()
+        {
+            return _context.ef_personalInfos.Where(x => x.Status == "SHIP" && x.classes == 3);
+        }
+        public Task<PaginatedList<ef_personalInfo>> AwaiteApprovalTrainingsList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
+        public IEnumerable<ef_personalInfo> YetToFillStaffTrainingsList()
+        {
+            return _context.ef_personalInfos.Where(x => x.Status == null && x.classes == 3);
+        }
+        public Task<PaginatedList<ef_personalInfo>> YetToFillStaffTrainingsList(string payclass, string ship, int? pageNumber)
+        {
+            return _unitOfWork.Personinfo.GetPersonnelDashBoardOfficer(payclass, ship, pageNumber);
+        }
     }
 }

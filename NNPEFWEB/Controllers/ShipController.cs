@@ -121,7 +121,7 @@ namespace NNPEFWEB.Controllers
                     if (person.Status == "SHIP")
                         person.Status = "Form Filled";
                     if (person.Status == "CPO")
-                        person.Status = "Authorize";
+                        person.Status = "Authorized";
                     if (person.Status == null)
                         person.Status = "Not Yet filled";
 

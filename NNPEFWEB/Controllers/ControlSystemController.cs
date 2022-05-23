@@ -124,7 +124,7 @@ namespace NNPEFWEB.Controllers
                     con.processingyear = collection["processingyear"];
                     con.startdate = Convert.ToDateTime(collection["startdate"]);
                     con.enddate = Convert.ToDateTime(collection["enddate"]);
-                    //con.status = Convert.ToBoolean(collection["status"]);
+                    con.status = collection["status"];
 
                     context.ef_control.Update(con);
                     context.SaveChanges();
@@ -133,11 +133,11 @@ namespace NNPEFWEB.Controllers
                 }
                
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ControlSystemController/Delete/5

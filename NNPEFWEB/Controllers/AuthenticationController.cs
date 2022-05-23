@@ -57,6 +57,11 @@ namespace NNPEFWEB.Controllers
         public async Task<IActionResult> Login(LoginViewModel login)
         {
             var user = authenticationService.FindUser(login.UserName).Result;
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User Not Found";
+                return RedirectToAction("login", "Authentication");
+            }
             if (user.ResetPasswordCode != null)
             {
                 if (user.Appointment != "Adm")

@@ -67,8 +67,8 @@ namespace NNPEFWEB.Controllers
                     var pers = _context.ef_PersonnelLogins.Where(x => x.userName == value.userName).SingleOrDefault();
                     string pyear = DateTime.Now.Year.ToString();
                    // var site = _context.ef_systeminfos.FirstOrDefault(x => x.closedate.Date < DateTime.Now.Date);
-                    var globalcon = _context.ef_control.Where(x => x.enddate.Date <= DateTime.Now.Date && x.processingyear== pyear && x.ship == "All" && x.status == "Open").FirstOrDefault();
-                    var shipcon = _context.ef_control.Where(x => x.enddate.Date <= DateTime.Now.Date && x.ship == pers.ship && x.processingyear == pyear && x.status == "Open").FirstOrDefault();
+                    var globalcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.processingyear== pyear && x.ship == "All" && x.status == "Open").FirstOrDefault();
+                    var shipcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.ship == pers.ship && x.processingyear == pyear && x.status == "Open").FirstOrDefault();
                     if (shipcon == null && globalcon==null)
                     {
                         return RedirectToAction("ClosingPage", "Account");
