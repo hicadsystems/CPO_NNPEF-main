@@ -1,0 +1,523 @@
+2022-03-24T15:52:50.4817569+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-03-24T15:52:50.5422728+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-03-24T15:52:50.5449373+01:00  [INF] Content root path: "C:\Projects\CPO_NNPEF-Main\NNPEFWEB" (b5d60022)
+2022-03-24T15:59:37.7003690+01:00 80000026-0003-ff00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("120"ms) [Parameters=["@__svcno_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='180000']"
+""SELECT TOP(1) [e].[Id], [e].[AccountName], [e].[AcommodationStatus], [e].[AddressofAcommodation], [e].[AltNokPassport], [e].[Anyother_Loan], [e].[Anyother_LoanYear], [e].[BankACNumber], [e].[Bankcode], [e].[Birthdate], [e].[DateEmpl], [e].[DateLeft], [e].[FGSHLS_loan], [e].[FGSHLS_loanYear], [e].[GBC], [e].[GBC_Number], [e].[LocalGovt], [e].[MaritalStatus], [e].[NHFcode], [e].[NHFcodeYear], [e].[NNMFBL_loan], [e].[NNMFBL_loanYear], [e].[NNNCS_loan], [e].[NNNCS_loanYear], [e].[NSITFcode], [e].[NSITFcodeYear], [e].[NokPassport], [e].[OtherName], [e].[PPCFS_loan], [e].[PPCFS_loanYear], [e].[Passport], [e].[Rank], [e].[SBC_allow], [e].[Sex], [e].[StateofOrigin], [e].[Status], [e].[Surname], [e].[TaxCode], [e].[Title], [e].[accomm_type], [e].[advanceDate], [e].[aircrew_allow], [e].[appointment], [e].[bankbranch], [e].[branch], [e].[car_loan], [e].[car_loanYear], [e].[cdr_date], [e].[cdr_name], [e].[cdr_rank], [e].[cdr_svcno], [e].[chid_name], [e].[chid_name2], [e].[chid_name3], [e].[chid_name4], [e].[classes], [e].[command], [e].[confirmedBy], [e].[createdby], [e].[dateModify], [e].[dateVerify], [e].[dateconfirmed], [e].[datecreated], [e].[div_off_date], [e].[div_off_name], [e].[div_off_rank], [e].[div_off_svcno], [e].[division], [e].[email], [e].[emolumentform], [e].[entitlement], [e].[entry_mode], [e].[exittype], [e].[expirationOfEngagementDate], [e].[formNumber], [e].[gradelevel], [e].[gradetype], [e].[gsm_number], [e].[gsm_number2], [e].[hazard_allow], [e].[hod_date], [e].[hod_name], [e].[hod_rank], [e].[hod_svcno], [e].[home_address], [e].[nok_address], [e].[nok_address2], [e].[nok_email], [e].[nok_email2], [e].[nok_name], [e].[nok_name2], [e].[nok_nationalId], [e].[nok_nationalId2], [e].[nok_phone], [e].[nok_phone12], [e].[nok_phone2], [e].[nok_phone22], [e].[nok_relation], [e].[nok_relation2], [e].[other_allow], [e].[other_allowspecify], [e].[payrollclass], [e].[pfacode], [e].[pilot_allow], [e].[qualification], [e].[rankId], [e].[religion], [e].[rent_subsidy], [e].[runoutDate], [e].[seniorityDate], [e].[serviceNumber], [e].[shift_duty_allow], [e].[ship], [e].[sp_email], [e].[sp_name], [e].[sp_phone], [e].[sp_phone2], [e].[special_forces_allow], [e].[specialisation], [e].[taxed], [e].[town], [e].[verifyBy], [e].[welfare_loan], [e].[welfare_loanYear], [e].[yearOfPromotion]
+FROM [ef_personalInfos] AS [e]
+WHERE [e].[serviceNumber] = @__svcno_0" (627a98df)
+2022-03-24T15:59:38.1336337+01:00 80000026-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 27
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16
+2022-03-24T15:59:38.6646892+01:00 80000026-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Invalid column name 'rankId'.) (393aa45e)
+2022-03-24T16:01:44.1551128+01:00 8000002a-0003-ff00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("4"ms) [Parameters=["@__svcno_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='180000']"
+""SELECT TOP(1) [e].[Id], [e].[AccountName], [e].[AcommodationStatus], [e].[AddressofAcommodation], [e].[AltNokPassport], [e].[Anyother_Loan], [e].[Anyother_LoanYear], [e].[BankACNumber], [e].[Bankcode], [e].[Birthdate], [e].[DateEmpl], [e].[DateLeft], [e].[FGSHLS_loan], [e].[FGSHLS_loanYear], [e].[GBC], [e].[GBC_Number], [e].[LocalGovt], [e].[MaritalStatus], [e].[NHFcode], [e].[NHFcodeYear], [e].[NNMFBL_loan], [e].[NNMFBL_loanYear], [e].[NNNCS_loan], [e].[NNNCS_loanYear], [e].[NSITFcode], [e].[NSITFcodeYear], [e].[NokPassport], [e].[OtherName], [e].[PPCFS_loan], [e].[PPCFS_loanYear], [e].[Passport], [e].[Rank], [e].[SBC_allow], [e].[Sex], [e].[StateofOrigin], [e].[Status], [e].[Surname], [e].[TaxCode], [e].[Title], [e].[accomm_type], [e].[advanceDate], [e].[aircrew_allow], [e].[appointment], [e].[bankbranch], [e].[branch], [e].[car_loan], [e].[car_loanYear], [e].[cdr_date], [e].[cdr_name], [e].[cdr_rank], [e].[cdr_svcno], [e].[chid_name], [e].[chid_name2], [e].[chid_name3], [e].[chid_name4], [e].[classes], [e].[command], [e].[confirmedBy], [e].[createdby], [e].[dateModify], [e].[dateVerify], [e].[dateconfirmed], [e].[datecreated], [e].[div_off_date], [e].[div_off_name], [e].[div_off_rank], [e].[div_off_svcno], [e].[division], [e].[email], [e].[emolumentform], [e].[entitlement], [e].[entry_mode], [e].[exittype], [e].[expirationOfEngagementDate], [e].[formNumber], [e].[gradelevel], [e].[gradetype], [e].[gsm_number], [e].[gsm_number2], [e].[hazard_allow], [e].[hod_date], [e].[hod_name], [e].[hod_rank], [e].[hod_svcno], [e].[home_address], [e].[nok_address], [e].[nok_address2], [e].[nok_email], [e].[nok_email2], [e].[nok_name], [e].[nok_name2], [e].[nok_nationalId], [e].[nok_nationalId2], [e].[nok_phone], [e].[nok_phone12], [e].[nok_phone2], [e].[nok_phone22], [e].[nok_relation], [e].[nok_relation2], [e].[other_allow], [e].[other_allowspecify], [e].[payrollclass], [e].[pfacode], [e].[pilot_allow], [e].[qualification], [e].[rankId], [e].[religion], [e].[rent_subsidy], [e].[runoutDate], [e].[seniorityDate], [e].[serviceNumber], [e].[shift_duty_allow], [e].[ship], [e].[sp_email], [e].[sp_name], [e].[sp_phone], [e].[sp_phone2], [e].[special_forces_allow], [e].[specialisation], [e].[taxed], [e].[town], [e].[verifyBy], [e].[welfare_loan], [e].[welfare_loanYear], [e].[yearOfPromotion]
+FROM [ef_personalInfos] AS [e]
+WHERE [e].[serviceNumber] = @__svcno_0" (627a98df)
+2022-03-24T16:01:44.1647737+01:00 8000002a-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 27
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16
+2022-03-24T16:01:44.2612634+01:00 8000002a-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Invalid column name 'rankId'.) (393aa45e)
+2022-03-24T16:06:47.2446166+01:00 8000002c-0003-ff00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("3"ms) [Parameters=["@__svcno_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='180000']"
+""SELECT TOP(1) [e].[Id], [e].[AccountName], [e].[AcommodationStatus], [e].[AddressofAcommodation], [e].[AltNokPassport], [e].[Anyother_Loan], [e].[Anyother_LoanYear], [e].[BankACNumber], [e].[Bankcode], [e].[Birthdate], [e].[DateEmpl], [e].[DateLeft], [e].[FGSHLS_loan], [e].[FGSHLS_loanYear], [e].[GBC], [e].[GBC_Number], [e].[LocalGovt], [e].[MaritalStatus], [e].[NHFcode], [e].[NHFcodeYear], [e].[NNMFBL_loan], [e].[NNMFBL_loanYear], [e].[NNNCS_loan], [e].[NNNCS_loanYear], [e].[NSITFcode], [e].[NSITFcodeYear], [e].[NokPassport], [e].[OtherName], [e].[PPCFS_loan], [e].[PPCFS_loanYear], [e].[Passport], [e].[Rank], [e].[SBC_allow], [e].[Sex], [e].[StateofOrigin], [e].[Status], [e].[Surname], [e].[TaxCode], [e].[Title], [e].[accomm_type], [e].[advanceDate], [e].[aircrew_allow], [e].[appointment], [e].[bankbranch], [e].[branch], [e].[car_loan], [e].[car_loanYear], [e].[cdr_date], [e].[cdr_name], [e].[cdr_rank], [e].[cdr_svcno], [e].[chid_name], [e].[chid_name2], [e].[chid_name3], [e].[chid_name4], [e].[classes], [e].[command], [e].[confirmedBy], [e].[createdby], [e].[dateModify], [e].[dateVerify], [e].[dateconfirmed], [e].[datecreated], [e].[div_off_date], [e].[div_off_name], [e].[div_off_rank], [e].[div_off_svcno], [e].[division], [e].[email], [e].[emolumentform], [e].[entitlement], [e].[entry_mode], [e].[exittype], [e].[expirationOfEngagementDate], [e].[formNumber], [e].[gradelevel], [e].[gradetype], [e].[gsm_number], [e].[gsm_number2], [e].[hazard_allow], [e].[hod_date], [e].[hod_name], [e].[hod_rank], [e].[hod_svcno], [e].[home_address], [e].[nok_address], [e].[nok_address2], [e].[nok_email], [e].[nok_email2], [e].[nok_name], [e].[nok_name2], [e].[nok_nationalId], [e].[nok_nationalId2], [e].[nok_phone], [e].[nok_phone12], [e].[nok_phone2], [e].[nok_phone22], [e].[nok_relation], [e].[nok_relation2], [e].[other_allow], [e].[other_allowspecify], [e].[payrollclass], [e].[pfacode], [e].[pilot_allow], [e].[qualification], [e].[rankId], [e].[religion], [e].[rent_subsidy], [e].[runoutDate], [e].[seniorityDate], [e].[serviceNumber], [e].[shift_duty_allow], [e].[ship], [e].[sp_email], [e].[sp_name], [e].[sp_phone], [e].[sp_phone2], [e].[special_forces_allow], [e].[specialisation], [e].[taxed], [e].[town], [e].[verifyBy], [e].[welfare_loan], [e].[welfare_loanYear], [e].[yearOfPromotion]
+FROM [ef_personalInfos] AS [e]
+WHERE [e].[serviceNumber] = @__svcno_0" (627a98df)
+2022-03-24T16:06:47.2523463+01:00 8000002c-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 27
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16
+2022-03-24T16:06:47.3978399+01:00 8000002c-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Invalid column name 'rankId'.) (393aa45e)
+2022-03-24T16:07:56.0344266+01:00 80000030-0003-ff00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("100"ms) [Parameters=[""], CommandType='Text', CommandTimeout='180000']"
+""SELECT TOP(1) [e].[Id], [e].[AccountName], [e].[AcommodationStatus], [e].[AddressofAcommodation], [e].[AltNokPassport], [e].[Anyother_Loan], [e].[Anyother_LoanYear], [e].[BankACNumber], [e].[Bankcode], [e].[Birthdate], [e].[DateEmpl], [e].[DateLeft], [e].[FGSHLS_loan], [e].[FGSHLS_loanYear], [e].[GBC], [e].[GBC_Number], [e].[LocalGovt], [e].[MaritalStatus], [e].[NHFcode], [e].[NHFcodeYear], [e].[NNMFBL_loan], [e].[NNMFBL_loanYear], [e].[NNNCS_loan], [e].[NNNCS_loanYear], [e].[NSITFcode], [e].[NSITFcodeYear], [e].[NokPassport], [e].[OtherName], [e].[PPCFS_loan], [e].[PPCFS_loanYear], [e].[Passport], [e].[Rank], [e].[SBC_allow], [e].[Sex], [e].[StateofOrigin], [e].[Status], [e].[Surname], [e].[TaxCode], [e].[Title], [e].[accomm_type], [e].[advanceDate], [e].[aircrew_allow], [e].[appointment], [e].[bankbranch], [e].[branch], [e].[car_loan], [e].[car_loanYear], [e].[cdr_date], [e].[cdr_name], [e].[cdr_rank], [e].[cdr_svcno], [e].[chid_name], [e].[chid_name2], [e].[chid_name3], [e].[chid_name4], [e].[classes], [e].[command], [e].[confirmedBy], [e].[createdby], [e].[dateModify], [e].[dateVerify], [e].[dateconfirmed], [e].[datecreated], [e].[div_off_date], [e].[div_off_name], [e].[div_off_rank], [e].[div_off_svcno], [e].[division], [e].[email], [e].[emolumentform], [e].[entitlement], [e].[entry_mode], [e].[exittype], [e].[expirationOfEngagementDate], [e].[formNumber], [e].[gradelevel], [e].[gradetype], [e].[gsm_number], [e].[gsm_number2], [e].[hazard_allow], [e].[hod_date], [e].[hod_name], [e].[hod_rank], [e].[hod_svcno], [e].[home_address], [e].[nok_address], [e].[nok_address2], [e].[nok_email], [e].[nok_email2], [e].[nok_name], [e].[nok_name2], [e].[nok_nationalId], [e].[nok_nationalId2], [e].[nok_phone], [e].[nok_phone12], [e].[nok_phone2], [e].[nok_phone22], [e].[nok_relation], [e].[nok_relation2], [e].[other_allow], [e].[other_allowspecify], [e].[payrollclass], [e].[pfacode], [e].[pilot_allow], [e].[qualification], [e].[rankId], [e].[religion], [e].[rent_subsidy], [e].[runoutDate], [e].[seniorityDate], [e].[serviceNumber], [e].[shift_duty_allow], [e].[ship], [e].[sp_email], [e].[sp_name], [e].[sp_phone], [e].[sp_phone2], [e].[special_forces_allow], [e].[specialisation], [e].[taxed], [e].[town], [e].[verifyBy], [e].[welfare_loan], [e].[welfare_loanYear], [e].[yearOfPromotion]
+FROM [ef_personalInfos] AS [e]
+WHERE [e].[serviceNumber] IS NULL" (627a98df)
+2022-03-24T16:07:56.0622024+01:00 80000030-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 27
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16
+2022-03-24T16:07:56.1736841+01:00 80000030-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Invalid column name 'rankId'.) (393aa45e)
+2022-03-24T16:12:39.6246056+01:00 80000034-0003-ff00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("5"ms) [Parameters=["@__svcno_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='180000']"
+""SELECT TOP(1) [e].[Id], [e].[AccountName], [e].[AcommodationStatus], [e].[AddressofAcommodation], [e].[AltNokPassport], [e].[Anyother_Loan], [e].[Anyother_LoanYear], [e].[BankACNumber], [e].[Bankcode], [e].[Birthdate], [e].[DateEmpl], [e].[DateLeft], [e].[FGSHLS_loan], [e].[FGSHLS_loanYear], [e].[GBC], [e].[GBC_Number], [e].[LocalGovt], [e].[MaritalStatus], [e].[NHFcode], [e].[NHFcodeYear], [e].[NNMFBL_loan], [e].[NNMFBL_loanYear], [e].[NNNCS_loan], [e].[NNNCS_loanYear], [e].[NSITFcode], [e].[NSITFcodeYear], [e].[NokPassport], [e].[OtherName], [e].[PPCFS_loan], [e].[PPCFS_loanYear], [e].[Passport], [e].[Rank], [e].[SBC_allow], [e].[Sex], [e].[StateofOrigin], [e].[Status], [e].[Surname], [e].[TaxCode], [e].[Title], [e].[accomm_type], [e].[advanceDate], [e].[aircrew_allow], [e].[appointment], [e].[bankbranch], [e].[branch], [e].[car_loan], [e].[car_loanYear], [e].[cdr_date], [e].[cdr_name], [e].[cdr_rank], [e].[cdr_svcno], [e].[chid_name], [e].[chid_name2], [e].[chid_name3], [e].[chid_name4], [e].[classes], [e].[command], [e].[confirmedBy], [e].[createdby], [e].[dateModify], [e].[dateVerify], [e].[dateconfirmed], [e].[datecreated], [e].[div_off_date], [e].[div_off_name], [e].[div_off_rank], [e].[div_off_svcno], [e].[division], [e].[email], [e].[emolumentform], [e].[entitlement], [e].[entry_mode], [e].[exittype], [e].[expirationOfEngagementDate], [e].[formNumber], [e].[gradelevel], [e].[gradetype], [e].[gsm_number], [e].[gsm_number2], [e].[hazard_allow], [e].[hod_date], [e].[hod_name], [e].[hod_rank], [e].[hod_svcno], [e].[home_address], [e].[nok_address], [e].[nok_address2], [e].[nok_email], [e].[nok_email2], [e].[nok_name], [e].[nok_name2], [e].[nok_nationalId], [e].[nok_nationalId2], [e].[nok_phone], [e].[nok_phone12], [e].[nok_phone2], [e].[nok_phone22], [e].[nok_relation], [e].[nok_relation2], [e].[other_allow], [e].[other_allowspecify], [e].[payrollclass], [e].[pfacode], [e].[pilot_allow], [e].[qualification], [e].[rankId], [e].[religion], [e].[rent_subsidy], [e].[runoutDate], [e].[seniorityDate], [e].[serviceNumber], [e].[shift_duty_allow], [e].[ship], [e].[sp_email], [e].[sp_name], [e].[sp_phone], [e].[sp_phone2], [e].[special_forces_allow], [e].[specialisation], [e].[taxed], [e].[town], [e].[verifyBy], [e].[welfare_loan], [e].[welfare_loanYear], [e].[yearOfPromotion]
+FROM [ef_personalInfos] AS [e]
+WHERE [e].[serviceNumber] = @__svcno_0" (627a98df)
+2022-03-24T16:12:39.6850770+01:00 80000034-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 27
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16
+2022-03-24T16:13:58.1505500+01:00 80000034-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Invalid column name 'rankId'.) (393aa45e)
+2022-03-24T16:15:26.8403075+01:00 80000036-0003-ff00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("5"ms) [Parameters=["@__svcno_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='180000']"
+""SELECT TOP(1) [e].[Id], [e].[AccountName], [e].[AcommodationStatus], [e].[AddressofAcommodation], [e].[AltNokPassport], [e].[Anyother_Loan], [e].[Anyother_LoanYear], [e].[BankACNumber], [e].[Bankcode], [e].[Birthdate], [e].[DateEmpl], [e].[DateLeft], [e].[FGSHLS_loan], [e].[FGSHLS_loanYear], [e].[GBC], [e].[GBC_Number], [e].[LocalGovt], [e].[MaritalStatus], [e].[NHFcode], [e].[NHFcodeYear], [e].[NNMFBL_loan], [e].[NNMFBL_loanYear], [e].[NNNCS_loan], [e].[NNNCS_loanYear], [e].[NSITFcode], [e].[NSITFcodeYear], [e].[NokPassport], [e].[OtherName], [e].[PPCFS_loan], [e].[PPCFS_loanYear], [e].[Passport], [e].[Rank], [e].[SBC_allow], [e].[Sex], [e].[StateofOrigin], [e].[Status], [e].[Surname], [e].[TaxCode], [e].[Title], [e].[accomm_type], [e].[advanceDate], [e].[aircrew_allow], [e].[appointment], [e].[bankbranch], [e].[branch], [e].[car_loan], [e].[car_loanYear], [e].[cdr_date], [e].[cdr_name], [e].[cdr_rank], [e].[cdr_svcno], [e].[chid_name], [e].[chid_name2], [e].[chid_name3], [e].[chid_name4], [e].[classes], [e].[command], [e].[confirmedBy], [e].[createdby], [e].[dateModify], [e].[dateVerify], [e].[dateconfirmed], [e].[datecreated], [e].[div_off_date], [e].[div_off_name], [e].[div_off_rank], [e].[div_off_svcno], [e].[division], [e].[email], [e].[emolumentform], [e].[entitlement], [e].[entry_mode], [e].[exittype], [e].[expirationOfEngagementDate], [e].[formNumber], [e].[gradelevel], [e].[gradetype], [e].[gsm_number], [e].[gsm_number2], [e].[hazard_allow], [e].[hod_date], [e].[hod_name], [e].[hod_rank], [e].[hod_svcno], [e].[home_address], [e].[nok_address], [e].[nok_address2], [e].[nok_email], [e].[nok_email2], [e].[nok_name], [e].[nok_name2], [e].[nok_nationalId], [e].[nok_nationalId2], [e].[nok_phone], [e].[nok_phone12], [e].[nok_phone2], [e].[nok_phone22], [e].[nok_relation], [e].[nok_relation2], [e].[other_allow], [e].[other_allowspecify], [e].[payrollclass], [e].[pfacode], [e].[pilot_allow], [e].[qualification], [e].[rankId], [e].[religion], [e].[rent_subsidy], [e].[runoutDate], [e].[seniorityDate], [e].[serviceNumber], [e].[shift_duty_allow], [e].[ship], [e].[sp_email], [e].[sp_name], [e].[sp_phone], [e].[sp_phone2], [e].[special_forces_allow], [e].[specialisation], [e].[taxed], [e].[town], [e].[verifyBy], [e].[welfare_loan], [e].[welfare_loanYear], [e].[yearOfPromotion]
+FROM [ef_personalInfos] AS [e]
+WHERE [e].[serviceNumber] = @__svcno_0" (627a98df)
+2022-03-24T16:15:26.8536045+01:00 80000036-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 27
+ClientConnectionId:a1a7b575-2043-4e6b-a1c0-692f8f1f42c3
+Error Number:207,State:1,Class:16
+2022-03-24T16:21:45.6968568+01:00 80000036-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Invalid column name 'rankId'.) (393aa45e)
+2022-03-24T16:22:07.0846686+01:00 80000038-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()" (f5c7ac34)
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+2022-03-24T16:22:07.1728167+01:00 80000038-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Data is Null. This method or property cannot be called on Null values.) (7505eb54)
+2022-03-24T16:22:55.3062519+01:00 8000003c-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()" (f5c7ac34)
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+2022-03-24T16:25:38.9313444+01:00 8000003c-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Data is Null. This method or property cannot be called on Null values.) (7505eb54)
+2022-03-24T16:28:01.0292393+01:00 80000021-0000-fc00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()" (f5c7ac34)
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+2022-03-24T16:32:27.8236276+01:00 80000021-0000-fc00-b63f-84710c7967bb [INF] One or more errors occurred. (Data is Null. This method or property cannot be called on Null values.) (7505eb54)
+2022-03-24T16:34:33.1706904+01:00 80000040-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()" (f5c7ac34)
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+2022-03-24T16:36:19.3842370+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-03-24T16:36:19.4136847+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-03-24T16:36:19.4170681+01:00  [INF] Content root path: "C:\Projects\CPO_NNPEF-Main\NNPEFWEB" (b5d60022)
+2022-03-24T16:55:02.8819450+01:00 80000044-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.ThrowIfNull()
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()" (f5c7ac34)
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.ThrowIfNull()
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 29
+2022-03-24T16:55:38.0707576+01:00 80000044-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Data is Null. This method or property cannot be called on Null values.) (7505eb54)
+2022-03-24T16:56:02.5008666+01:00 80000046-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.ThrowIfNull()
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()" (f5c7ac34)
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.ThrowIfNull()
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+2022-03-24T16:56:23.6289205+01:00 80000046-0003-ff00-b63f-84710c7967bb [INF] One or more errors occurred. (Data is Null. This method or property cannot be called on Null values.) (7505eb54)
+2022-03-24T16:57:04.1103547+01:00 80000034-0001-fd00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()" (f5c7ac34)
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+2022-03-24T16:57:11.9177881+01:00 80000034-0001-fd00-b63f-84710c7967bb [INF] One or more errors occurred. (Data is Null. This method or property cannot be called on Null values.) (7505eb54)
+2022-03-24T16:59:39.6057360+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-03-24T16:59:39.6226038+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-03-24T16:59:39.6258141+01:00  [INF] Content root path: "C:\Projects\CPO_NNPEF-Main\NNPEFWEB" (b5d60022)
+2022-03-24T17:00:44.0058822+01:00 8000001f-0002-fe00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.ThrowIfNull()
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()" (f5c7ac34)
+System.Data.SqlTypes.SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
+   at Microsoft.Data.SqlClient.SqlBuffer.ThrowIfNull()
+   at Microsoft.Data.SqlClient.SqlBuffer.get_Int32()
+   at Microsoft.Data.SqlClient.SqlDataReader.GetInt32(Int32 i)
+   at lambda_method95(Closure , QueryContext , DbDataReader , ResultContext , Int32[] , ResultCoordinator )
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 29
+2022-03-24T17:03:04.7621729+01:00 8000001f-0002-fe00-b63f-84710c7967bb [INF] One or more errors occurred. (Data is Null. This method or property cannot be called on Null values.) (7505eb54)
+2022-03-24T17:03:33.1187104+01:00 8000004e-0003-ff00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("5"ms) [Parameters=["@__svcno_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='180000']"
+""SELECT TOP(1) [e].[Id], [e].[AccountName], [e].[AcommodationStatus], [e].[AddressofAcommodation], [e].[AltNokPassport], [e].[Anyother_Loan], [e].[Anyother_LoanYear], [e].[BankACNumber], [e].[Bankcode], [e].[Birthdate], [e].[DateEmpl], [e].[DateLeft], [e].[FGSHLS_loan], [e].[FGSHLS_loanYear], [e].[GBC], [e].[GBC_Number], [e].[LocalGovt], [e].[MaritalStatus], [e].[NHFcode], [e].[NHFcodeYear], [e].[NNMFBL_loan], [e].[NNMFBL_loanYear], [e].[NNNCS_loan], [e].[NNNCS_loanYear], [e].[NSITFcode], [e].[NSITFcodeYear], [e].[NokPassport], [e].[OtherName], [e].[PPCFS_loan], [e].[PPCFS_loanYear], [e].[Passport], [e].[Rank], [e].[SBC_allow], [e].[Sex], [e].[StateofOrigin], [e].[Status], [e].[Surname], [e].[TaxCode], [e].[Title], [e].[accomm_type], [e].[advanceDate], [e].[aircrew_allow], [e].[appointment], [e].[bankbranch], [e].[branch], [e].[car_loan], [e].[car_loanYear], [e].[cdr_date], [e].[cdr_name], [e].[cdr_rank], [e].[cdr_svcno], [e].[chid_name], [e].[chid_name2], [e].[chid_name3], [e].[chid_name4], [e].[classes], [e].[command], [e].[confirmedBy], [e].[createdby], [e].[dateModify], [e].[dateVerify], [e].[dateconfirmed], [e].[datecreated], [e].[div_off_date], [e].[div_off_name], [e].[div_off_rank], [e].[div_off_svcno], [e].[division], [e].[email], [e].[emolumentform], [e].[entitlement], [e].[entry_mode], [e].[exittype], [e].[expirationOfEngagementDate], [e].[formNumber], [e].[gradelevel], [e].[gradetype], [e].[gsm_number], [e].[gsm_number2], [e].[hazard_allow], [e].[hod_date], [e].[hod_name], [e].[hod_rank], [e].[hod_svcno], [e].[home_address], [e].[nok_address], [e].[nok_address2], [e].[nok_email], [e].[nok_email2], [e].[nok_name], [e].[nok_name2], [e].[nok_nationalId], [e].[nok_nationalId2], [e].[nok_phone], [e].[nok_phone12], [e].[nok_phone2], [e].[nok_phone22], [e].[nok_relation], [e].[nok_relation2], [e].[other_allow], [e].[other_allowspecify], [e].[payrollclass], [e].[pfacode], [e].[pilot_allow], [e].[qualification], [e].[rankId], [e].[religion], [e].[rent_subsidy], [e].[runoutDate], [e].[seniorityDate], [e].[serviceNumber], [e].[shift_duty_allow], [e].[ship], [e].[sp_email], [e].[sp_name], [e].[sp_phone], [e].[sp_phone2], [e].[special_forces_allow], [e].[specialisation], [e].[taxed], [e].[town], [e].[verifyBy], [e].[welfare_loan], [e].[welfare_loanYear], [e].[yearOfPromotion]
+FROM [ef_personalInfos] AS [e]
+WHERE [e].[serviceNumber] = @__svcno_0" (627a98df)
+2022-03-24T17:03:33.1331133+01:00 8000004e-0003-ff00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:01b5fde3-8076-4507-a6d8-906d448fce75
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 29
+ClientConnectionId:01b5fde3-8076-4507-a6d8-906d448fce75
+Error Number:207,State:1,Class:16
+2022-03-24T17:19:00.9400678+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-03-24T17:19:00.9590710+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-03-24T17:19:00.9627553+01:00  [INF] Content root path: "C:\Projects\CPO_NNPEF-Main\NNPEFWEB" (b5d60022)
+2022-03-24T17:19:32.9758861+01:00 80000038-0000-fa00-b63f-84710c7967bb [ERR] Failed executing DbCommand ("5"ms) [Parameters=["@__svcno_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='180000']"
+""SELECT TOP(1) [e].[Id], [e].[AccountName], [e].[AcommodationStatus], [e].[AddressofAcommodation], [e].[AltNokPassport], [e].[Anyother_Loan], [e].[Anyother_LoanYear], [e].[BankACNumber], [e].[Bankcode], [e].[Birthdate], [e].[DateEmpl], [e].[DateLeft], [e].[FGSHLS_loan], [e].[FGSHLS_loanYear], [e].[GBC], [e].[GBC_Number], [e].[LocalGovt], [e].[MaritalStatus], [e].[NHFcode], [e].[NHFcodeYear], [e].[NNMFBL_loan], [e].[NNMFBL_loanYear], [e].[NNNCS_loan], [e].[NNNCS_loanYear], [e].[NSITFcode], [e].[NSITFcodeYear], [e].[NokPassport], [e].[OtherName], [e].[PPCFS_loan], [e].[PPCFS_loanYear], [e].[Passport], [e].[Rank], [e].[SBC_allow], [e].[Sex], [e].[StateofOrigin], [e].[Status], [e].[Surname], [e].[TaxCode], [e].[Title], [e].[accomm_type], [e].[advanceDate], [e].[aircrew_allow], [e].[appointment], [e].[bankbranch], [e].[branch], [e].[car_loan], [e].[car_loanYear], [e].[cdr_date], [e].[cdr_name], [e].[cdr_rank], [e].[cdr_svcno], [e].[chid_name], [e].[chid_name2], [e].[chid_name3], [e].[chid_name4], [e].[classes], [e].[command], [e].[confirmedBy], [e].[createdby], [e].[dateModify], [e].[dateVerify], [e].[dateconfirmed], [e].[datecreated], [e].[div_off_date], [e].[div_off_name], [e].[div_off_rank], [e].[div_off_svcno], [e].[division], [e].[email], [e].[emolumentform], [e].[entitlement], [e].[entry_mode], [e].[exittype], [e].[expirationOfEngagementDate], [e].[formNumber], [e].[gradelevel], [e].[gradetype], [e].[gsm_number], [e].[gsm_number2], [e].[hazard_allow], [e].[hod_date], [e].[hod_name], [e].[hod_rank], [e].[hod_svcno], [e].[home_address], [e].[nok_address], [e].[nok_address2], [e].[nok_email], [e].[nok_email2], [e].[nok_name], [e].[nok_name2], [e].[nok_nationalId], [e].[nok_nationalId2], [e].[nok_phone], [e].[nok_phone12], [e].[nok_phone2], [e].[nok_phone22], [e].[nok_relation], [e].[nok_relation2], [e].[other_allow], [e].[other_allowspecify], [e].[payrollclass], [e].[pfacode], [e].[pilot_allow], [e].[qualification], [e].[rankId], [e].[religion], [e].[rent_subsidy], [e].[runoutDate], [e].[seniorityDate], [e].[serviceNumber], [e].[shift_duty_allow], [e].[ship], [e].[sp_email], [e].[sp_name], [e].[sp_phone], [e].[sp_phone2], [e].[special_forces_allow], [e].[specialisation], [e].[taxed], [e].[town], [e].[verifyBy], [e].[welfare_loan], [e].[welfare_loanYear], [e].[yearOfPromotion]
+FROM [ef_personalInfos] AS [e]
+WHERE [e].[serviceNumber] = @__svcno_0" (627a98df)
+2022-03-24T17:19:33.0462480+01:00 80000038-0000-fa00-b63f-84710c7967bb [ERR] An exception occurred while iterating over the results of a query for context type '"NNPEFWEB.Data.ApplicationDbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+ClientConnectionId:fedf00ce-c13e-4f5a-8144-1968b829b1b4
+Error Number:207,State:1,Class:16" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'rankId'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.InitializeReader(DbContext _, Boolean result)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.SingleOrDefault[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at NNPEFWEB.Repository.PersonInfoRepository.GetPersonalInfo(String svcno) in C:\Projects\CPO_NNPEF-Main\NNPEFWEB\Repository\PersonInfoRepository.cs:line 27
+ClientConnectionId:fedf00ce-c13e-4f5a-8144-1968b829b1b4
+Error Number:207,State:1,Class:16
+2022-03-24T17:19:33.2141703+01:00 80000038-0000-fa00-b63f-84710c7967bb [INF] One or more errors occurred. (Invalid column name 'rankId'.) (393aa45e)
+2022-03-24T17:20:44.1311909+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-03-24T17:20:44.1510384+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-03-24T17:20:44.1536927+01:00  [INF] Content root path: "C:\Projects\CPO_NNPEF-Main\NNPEFWEB" (b5d60022)

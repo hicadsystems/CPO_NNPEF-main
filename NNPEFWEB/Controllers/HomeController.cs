@@ -130,7 +130,99 @@ namespace NNPEFWEB.Controllers
 
             return View(dah);
         }
-         public IActionResult HomePage()
+
+        public async Task<IActionResult> AllStaffList(int? pageNumber)
+        {
+            var allStaffOfficersList = _dashboard.AllStaffList().ToList();
+
+            var allStaffOfficersListPaginated = PaginatedList<ef_personalInfo>.CreateAsync(allStaffOfficersList.AsQueryable(), pageNumber ?? 1, 10);
+
+            return View(await allStaffOfficersListPaginated);
+        }
+
+        public async Task<IActionResult> ApprovedStaffList(int? pageNumber)
+        {
+            var approvedStaffList = _dashboard.ApprovedStaffList().ToList();
+
+            var approvedStaffListPaginated = PaginatedList<ef_personalInfo>.CreateAsync(approvedStaffList.AsQueryable(), pageNumber ?? 1, 10);
+
+            return View(await approvedStaffListPaginated);
+        }
+
+        public async Task<IActionResult> AwaiteApprovalStaffList(int? pageNumber)
+        {
+            var awaiteApprovalStaffList = _dashboard.AwaiteApprovalStaffList().ToList();
+
+            var awaiteApprovalStaffListPaginated = PaginatedList<ef_personalInfo>.CreateAsync(awaiteApprovalStaffList.AsQueryable(), pageNumber ?? 1, 10);
+
+            return View(await awaiteApprovalStaffListPaginated);
+        }
+
+        public async Task<IActionResult> YetToFillStaffList(int? pageNumber)
+        {
+            var yetToFillStaffList = _dashboard.YetToFillStaffList().ToList();
+
+            var yetToFillStaffListPaginated = PaginatedList<ef_personalInfo>.CreateAsync(yetToFillStaffList.AsQueryable(), pageNumber ?? 1, 10);
+
+            return View(await yetToFillStaffListPaginated);
+        }
+
+        public IActionResult AllStaffRatingsList()
+        {
+            var allRatingslist = _dashboard.AllStaffRatingsList();
+
+            return View(allRatingslist);
+        }
+
+        public IActionResult ApprovedStaffRatingsList()
+        {
+            var approvedRatingslist = _dashboard.ApprovedStaffRatingsList();
+
+            return View(approvedRatingslist);
+        }
+
+        public IActionResult AwaiteApprovalStaffRatingsList()
+        {
+            var awaitingRatingslist = _dashboard.AwaiteApprovalStaffRatingsList();
+
+            return View(awaitingRatingslist);
+        }
+
+        public IActionResult YetToFillStaffRatingsList()
+        {
+            var yetToFillRatingslist = _dashboard.YetToFillStaffRatingsList();
+
+            return View(yetToFillRatingslist);
+        }
+
+        public IActionResult AllStaffTrainingsList()
+        {
+            var allStaffTrainingsList = _dashboard.AllStaffTrainingsList();
+
+            return View(allStaffTrainingsList);
+        }
+
+        public IActionResult ApprovedStaffTrainingsList()
+        {
+            var approvedStaffTrainingsList = _dashboard.ApprovedStaffTrainingsList();
+
+            return View(approvedStaffTrainingsList);
+        }
+
+        public IActionResult AwaiteApprovalStaffTrainingsList()
+        {
+            var awaiteApprovalStaffTrainings = _dashboard.AwaiteApprovalStaffTrainingsList();
+
+            return View(awaiteApprovalStaffTrainings);
+        }
+
+        public IActionResult YetToFillStaffTrainingsList()
+        {
+            var yetToFillStaffTrainingsList = _dashboard.YetToFillStaffTrainingsList();
+
+            return View(yetToFillStaffTrainingsList);
+        }
+        public IActionResult HomePage()
         {
             return View();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NNPEFWEB.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace NNPEFWEB.Service
     {
        
         int AllStaffOfficers(string ship);
+        IEnumerable<ef_personalInfo> AllStaffOfficersList(string ship);
         int ApprovedStaffOfficers(string ship);
         int AwaiteApprovalStaffOfficers(string ship);
         int YetToFillStaffOfficers(string ship);

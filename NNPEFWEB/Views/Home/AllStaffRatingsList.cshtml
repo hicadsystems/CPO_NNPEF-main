@@ -1,0 +1,26 @@
+﻿@model IEnumerable<NNPEFWEB.Models.ef_personalInfo>
+@{
+    ViewData["Title"] = "All Staff Ratings List";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">SERVICE NUMBER</th>
+            <th scope="col">FULL NAME</th>
+            <th scope="col">SHIP</th>
+            <th scope="col">DATE</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in Model)
+        {
+            <tr>
+                <th scope="row">@person.serviceNumber</th>
+                <td>@person.OtherName</td>
+                <td>@person.ship</td>
+                <td>@person.DateEmpl</td>
+            </tr>
+        }
+    </tbody>
+</table>

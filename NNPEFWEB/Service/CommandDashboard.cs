@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Internal;
 using NNPEFWEB.Data;
+using NNPEFWEB.Models;
 using NNPEFWEB.Repository;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,15 @@ namespace NNPEFWEB.Service
         {
            var pp= _context.ef_personalInfos.Where(x => x.classes == 1 && x.ship == ship ).Count();
             return pp;    
-       }
+        }
 
-        
+        public IEnumerable<ef_personalInfo> AllStaffOfficersList(string ship)
+        {
+            var pp = _context.ef_personalInfos.Where(x => x.classes == 1 && x.ship == ship);
+
+            return pp;
+        }
+
         public int ApprovedStaffOfficers(string ship)
         {
             return _context.ef_personalInfos.Where(x => x.Status == "CPO" && x.classes == 1 && x.ship == ship ).Count();
