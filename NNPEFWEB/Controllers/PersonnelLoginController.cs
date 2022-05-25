@@ -64,14 +64,22 @@ namespace NNPEFWEB.Controllers
                 MD5 md = MD5.Create();
                 if (ModelState.IsValid)
                 {
-                    var site = _context.ef_systeminfos.FirstOrDefault(x => x.closedate.Date < DateTime.Now.Date);
-                    if (site != null)
+                    var pers = _context.ef_PersonnelLogins.Where(x => x.userName == value.userName).SingleOrDefault();
+                    string pyear = DateTime.Now.Year.ToString();
+                   // var site = _context.ef_systeminfos.FirstOrDefault(x => x.closedate.Date < DateTime.Now.Date);
+                    var globalcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.processingyear== pyear && x.ship == "All" && x.status == "Open").FirstOrDefault();
+                    var shipcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.ship == pers.ship && x.processingyear == pyear && x.status == "Open").FirstOrDefault();
+                    if (shipcon == null && globalcon==null)
                     {
                         return RedirectToAction("ClosingPage", "Account");
                     }
+                    //else if (globalcon == null && shipcon != null)
+                    //{
+                    //    return RedirectToAction("ClosingPage", "Account");
+                    //}
 
                    // var pers = personService.GetPersonBySvc_NO(value.userName);
-                    var pers = _context.ef_PersonnelLogins.Where(x => x.userName == value.userName).SingleOrDefault();
+                    
                     var checkdoublemail = _context.ef_PersonnelLogins.Where(x => x.email == pers.email).Count();
                     if (pers == null)
                     {
@@ -377,7 +385,10 @@ namespace NNPEFWEB.Controllers
         }
         public void SendEmailNotification(string emailFrom, string sender, string messageToSend, string receipient)
         {
-           
+
+            try
+            {
+
             var UserName = config.GetValue<string>("mailconfig:SenderEmail");
             var Password = config.GetValue<string>("mailconfig:Password");
             var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
@@ -392,8 +403,14 @@ namespace NNPEFWEB.Controllers
 
             string host = config.GetValue<string>("mailconfig:Server");
             int port = config.GetValue<int>("mailconfig:Port");
-            var enableSSL = config.GetValue<bool>("mailconfig:enableSSL");
+            var enableSSL =Convert.ToBoolean("True");// config.GetValue<bool>("true");
 
+            //using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+            //{
+            //    smtp.Credentials = new NetworkCredential("cpoemolumentform@gmail.com", "HicadServer@cpo");
+            //    smtp.EnableSsl = true;
+            //    smtp.Send(message);
+            //}
             SmtpClient SmtpServer = new SmtpClient(host);
 
             var smtp = new SmtpClient
@@ -402,16 +419,23 @@ namespace NNPEFWEB.Controllers
                 Port = port,
                 EnableSsl = enableSSL,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = true,
+                UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(UserName, Password)
             };
-            SmtpServer.Port = port; // Also Add the port number to send it, its default for Gmail
-            SmtpServer.Credentials = new NetworkCredential(UserName, Password);
-            SmtpServer.EnableSsl = enableSSL;
-            SmtpServer.Timeout = 200000; // Add Timeout property
-            SmtpServer.Send(message);
+            smtp.Port = port; // Also Add the port number to send it, its default for Gmail
+            smtp.Credentials = new NetworkCredential(UserName, Password);
+            smtp.EnableSsl = enableSSL;
+            smtp.Timeout = 200000; // Add Timeout property
+            smtp.Send(message);
 
-         
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+
         }
 
 

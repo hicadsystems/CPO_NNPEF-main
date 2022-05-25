@@ -91,6 +91,7 @@ namespace NNPEFWEB.Controllers
                 CreatedOn = DateTime.Now,
                 UserName = user.UserName,
                 Appointment=user.Appointment,
+
                 IsActive = true,
             };
 
@@ -161,5 +162,12 @@ namespace NNPEFWEB.Controllers
         TempData["SuccessMessage"] = $"Status Change Successful";
         return RedirectToAction(nameof(Index));
     }
+        public ActionResult DeleteUser(int id)
+        {
+            userService.DeleteUser(id);
+            TempData["SuccessMessage"] = $"Remove Successful";
+            return RedirectToAction(nameof(Index));
+
+        }
 }
 }

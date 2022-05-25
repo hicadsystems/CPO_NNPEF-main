@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using NNPEFWEB.Data;
 using NNPEFWEB.Models;
 using NNPEFWEB.Service;
 using NNPEFWEB.ViewModel;
@@ -17,37 +18,40 @@ namespace NNPEFWEB.Controllers
     {
         private readonly IContactUsService _contactUsService;
         private readonly IConfiguration config;
-        public ContactUsController(IContactUsService contactUsService, IConfiguration configuration)
+        private readonly ApplicationDbContext _context;
+        public ContactUsController(IContactUsService contactUsService, IConfiguration configuration, ApplicationDbContext _context)
         {
             this._contactUsService = contactUsService;
             config = configuration;
+            this._context = _context;
         }
 
         // GET: ContactUsController
         [HttpGet]
         public IActionResult Index()
         {
-            var contactList = _contactUsService.GetContacts().Where(x=>x.Response==null);
+            var contactus = _context.ef_contactUs.Where(x => x.Response == null).ToList();
+            //var contactList = _contactUsService.GetContacts().Where(x=>x.Response==null);
 
-            List<ContactUsViewModel> contactUsViewModel = new List<ContactUsViewModel>();
+            //List<ContactUsViewModel> contactUsViewModel = new List<ContactUsViewModel>();
 
-            foreach (var contact in contactList)
-            {
-                var contactUsVM = new ContactUsViewModel
-                {
-                    Id = contact.Id,
-                    PersonName = contact.PersonName,
-                    Ship = contact.Ship,
-                    Email = contact.Email,
-                    PhoneNumber = contact.PhoneNumber,
-                    Message = contact.Message,
-                    Response = contact.Response
-                };
+            //foreach (var contact in contactList)
+            //{
+            //    var contactUsVM = new ContactUsViewModel
+            //    {
+            //        Id = contact.Id,
+            //        PersonName = contact.PersonName,
+            //        Ship = contact.Ship,
+            //        Email = contact.Email,
+            //        PhoneNumber = contact.PhoneNumber,
+            //        Message = contact.Message,
+            //        Response = contact.Response
+            //    };
 
-                contactUsViewModel.Add(contactUsVM);
-            }
+            //    contactUsViewModel.Add(contactUsVM);
+            //}
 
-            return View(contactUsViewModel);
+            return View(contactus);
         }
 
         // GET: ContactUsController/Details/5

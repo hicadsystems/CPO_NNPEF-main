@@ -1,0 +1,66 @@
+﻿@model NNPEFWEB.Models.ef_control
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+        <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">System Control</h3>
+        </div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-md-4">
+                <label>Processing Year</label>
+                @Html.EditorFor(model => model.processingyear, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.processingyear, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-4">
+                <label>Ship</label>
+                @Html.DropDownList("ship", new SelectList(ViewBag.shiplist, "Value", "Text"), new { @class = "form-control" })
+
+                @Html.ValidationMessageFor(model => model.ship, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <lable>Start Date</lable>
+
+                @Html.EditorFor(model => model.startdate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.startdate, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                <lable>End Date</lable>
+
+                @Html.EditorFor(model => model.enddate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.enddate, "", new { @class = "text-danger" })
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-4">
+                <label>Status</label>
+                @Html.DropDownList("status", new List<SelectListItem>
+                      {
+                      new SelectListItem { Text = "Open", Value="Open" },
+                      new SelectListItem { Text = "Close", Value="Close" }
+                      }, "Select", new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-offset-2 col-md-4">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+

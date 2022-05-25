@@ -1,0 +1,26 @@
+﻿@model NNPEFWEB.Models.ef_ship
+@{
+    ViewData["Title"] = "createship";
+}
+
+<h1>createship</h1>
+<form asp-action="createship" method="post" asp-controller="StaticTables">
+    <div class="row">
+        <div class="col-md-4">
+            <label>Ship Name</label>
+            <input type="text" asp-for="shipName" class="form-control" />
+        </div>
+        <div class="col-md-4">
+            <label>Command</label>
+            @Html.DropDownList("code", new SelectList(ViewBag.GetCommands, "Value", "Text"), new { @class = "form-control" })
+        </div>
+
+    </div>
+   <br />
+    <div class="row">
+        <div class="col-md-4">
+            <input type="submit" class="btn btn-success" value="Save" />
+        </div>
+    </div>
+
+</form>

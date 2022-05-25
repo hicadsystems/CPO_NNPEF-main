@@ -1,0 +1,92 @@
+﻿@model NNPEFWEB.Models.ef_control
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">System Control</h3>
+    </div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-md-4">
+            <label>Processing Year</label>
+            @Html.EditorFor(model => model.processingyear, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.processingyear, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-md-4">
+            <label>Ship</label>
+            @Html.DropDownList("ship", new SelectList(ViewBag.shiplist, "Value", "Text"), new { @class = "form-control" })
+
+            @Html.ValidationMessageFor(model => model.ship, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <lable>Start Date</lable>
+
+            @Html.EditorFor(model => model.startdate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.startdate, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4">
+            <lable>End Date</lable>
+
+            @Html.EditorFor(model => model.enddate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.enddate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <label>Status</label>
+            @Html.DropDownList("status", new List<SelectListItem>
+                  {
+                  new SelectListItem { Text = "Open", Value="Open" },
+                  new SelectListItem { Text = "Close", Value="Close" }
+                  }, "Select", new { @class = "form-control" })
+            @*@Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-offset-2 col-md-4">
+            <input type="submit" value="Create" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<!-- Contact form JS-->
+<script src="~/assets/mail/jqBootstrapValidation.js"></script>
+<script src="~/assets/mail/contact_me.js"></script>
+<script src="~/js/datepicker1.js"></script>
+<script src="~/js/datepicker2.js"></script>
+<!-- Core theme JS-->
+<script src="~/js/scripts.js"></script>
+<script>$(document).ready(function () {
+        $("#openemolumentform").change(
+            function () {
+                if ($(this).val() == 1) {
+                    $("shipdisplay").show();
+                }
+
+            });
+    });
+    $(function () {
+
+        $("#startdate").datepicker();
+        $("#enddate").datepicker();
+    }</script>

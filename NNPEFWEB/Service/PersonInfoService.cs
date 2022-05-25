@@ -111,10 +111,18 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.Personinfo.GetPersonnelStatusRepo(status,shipToSearch, pageNumber);
         }
+        public Task<PaginatedList<ef_personalInfo>> GetPersonnelShipReport(string status, string payclass,string ship, int? pageNumber)
+        {
+            return unitOfWork.Personinfo.GetPersonnelShipReport(status, payclass,ship, pageNumber);
+        }
 
         public IEnumerable<ef_personalInfo> GetPersonnelStatusReportrepo(string status, string shipToSearch)
         {
             return unitOfWork.Personinfo.GetPersonnelStatusReportrepo(status, shipToSearch);
+        }
+        public IEnumerable<ef_personalInfo> GetPersonnelShipReportrepo(string status, string payclass,string ship)
+        {
+            return unitOfWork.Personinfo.GetPersonnelShipReportrepo(status, payclass,ship);
         }
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship,string svcno)
         {
@@ -137,6 +145,13 @@ namespace NNPEFWEB.Service
             return unitOfWork.Personinfo.getPersonListCount();
         }
 
-      
+        public async Task<PaginatedList<ef_personalInfo>> GetUpdatedPersonnelByHOD(string payclass, string status, string ship, int? pageNumber)
+        {
+            return await unitOfWork.Personinfo.GetUpdatedPersonnelByHOD(payclass,status,ship,pageNumber);
+        }
+        public async Task<List<ef_personalInfo>> GetUpdatedPersonnelByHOD2(string payclass, string status, string ship)
+        {
+            return await unitOfWork.Personinfo.GetUpdatedPersonnelByHOD2(payclass, status, ship);
+        }
     }
 }

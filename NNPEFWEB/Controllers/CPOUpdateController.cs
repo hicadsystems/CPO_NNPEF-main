@@ -71,11 +71,13 @@ namespace NNPEFWEB.Controllers
         {
             ViewBag.ShipList = GetShip();
             var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-            string shipname= null;
-            if (ship != null)
-            {
-                 shipname = _context.ef_ships.FirstOrDefault(x => x.Id == Convert.ToInt32(ship)).shipName;
-            }
+            string shipname= ship;
+            ViewData["shipSearchedID"] = shipname;
+            //if (ship != null)
+            //{
+            //     shipname = _context.ef_ships.FirstOrDefault(x => x.Id == Convert.ToInt32(ship)).shipName;
+            //     ViewData["shipSearchedID"] = shipname;
+            //}
             var pp = personinfoService.GetUpdatedPersonnelByCpo(user.Appointment, shipname);
             return View(pp);
         }
@@ -86,7 +88,8 @@ namespace NNPEFWEB.Controllers
         //[HttpPost]
         public ActionResult UpdatedPayroll(int id)
         {
-            string user = User.Identity.Name;
+            //string user = User.Identity.Name;
+            var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
             try
             {
                 using (SqlConnection sqlcon = new SqlConnection(connectionString))
@@ -97,7 +100,8 @@ namespace NNPEFWEB.Controllers
                         cmd.CommandTimeout = 1200;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@id", id));
-                        cmd.Parameters.Add(new SqlParameter("@username", User.Identity.Name));
+                        cmd.Parameters.Add(new SqlParameter("@username", user.UserName));
+
 
 
                         sqlcon.Open();
@@ -153,10 +157,14 @@ namespace NNPEFWEB.Controllers
                            select new SelectListItem()
                            {
                                Text = rk.shipName,
-                               Value = rk.Id.ToString(),
+                               Value = rk.shipName,
                            }).ToList();
 
-
+            lgaList.Insert(0, new SelectListItem()
+            {
+                Text = "All",
+                Value = string.Empty
+            });
             return lgaList;
         }
         public ActionResult UpdatedPersonel(int id)
@@ -204,18 +212,18 @@ namespace NNPEFWEB.Controllers
 
             if (!string.IsNullOrEmpty(shipToSearch) && shipToSearch != "AllShip")
             {
-                var shipSearched = _context.ef_ships.Find(int.Parse(shipToSearch));
+                //var shipSearched = _context.ef_ships.Where(x=>x.shipName==shipToSearch).FirstOrDefault();
 
-                ViewData["shipSearchedID"] = shipSearched.Id.ToString();
+                ViewData["shipSearchedID"] = shipToSearch;
 
-                allShip.Insert(0, new SelectListItem { Value = shipSearched.Id.ToString(), Text = shipSearched.shipName });
-                allShip.Insert(1, new SelectListItem { Value = "AllShip", Text = "All Ship" });
+            //    allShip.Insert(0, new SelectListItem { Value = shipSearched.shipName, Text = shipSearched.shipName });
+            //    allShip.Insert(1, new SelectListItem { Value = "AllShip", Text = "All Ship" });
             }
             else
             {
                 ViewData["shipSearchedID"] = "AllShip";
 
-                allShip.Insert(0, new SelectListItem { Value = "AllShip", Text = "All Ship" });
+              //  allShip.Insert(0, new SelectListItem { Value = "AllShip", Text = "All Ship" });
             }
 
             ViewBag.ShipList = allShip;
@@ -252,13 +260,13 @@ namespace NNPEFWEB.Controllers
 
             return _generatepdf.GetPdf("Reports/StaffReportList", rpt);
         }
-        public ActionResult ListOfCompletedForm(string ship)
+        public Task<IActionResult> ListOfCompletedForm(string ship)
         {
             ViewBag.ShipList = GetShip();
             var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
 
             var pp = personinfoService.GetUpdatedPersonnelByCpo(user.Appointment, ship);
-            return View(pp);
+            return _generatepdf.GetPdf("Reports/StaffReportList", pp);
         }
         public ActionResult ListOfAuthForm(string ship)
         {
@@ -315,6 +323,106 @@ namespace NNPEFWEB.Controllers
             stream.Position = 0;
             string excelName = $"ShipReport-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+        }
+        [HttpPost]
+        public IActionResult ExportByHOD(string ship)
+        {
+            var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+
+            var pp = personinfoService.GetUpdatedPersonnelByCpo(user.Appointment, ship);
+            List<RPTPersonModel> rpt = new List<RPTPersonModel>();
+            foreach (var person in pp)
+            {
+                var pps = new RPTPersonModel
+                {
+                    ServiceNumber = person.serviceNumber,
+                    Rank = person.Rank,
+                    Seniority = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                    Name = person.Surname + " " + person.OtherName,
+                    Status = person.Status,
+                    Ship = person.ship,
+                };
+                rpt.Add(pps);
+            }
+
+
+            var stream = new MemoryStream();
+
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Sheet2");
+                workSheet.Cells.LoadFromCollection(rpt, true);
+                package.Save();
+            }
+            stream.Position = 0;
+            string excelName = $"SectionalReport-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+        }
+        public async Task<IActionResult> ListOfCertisfiedForm(string ship,string status, int? pageNumber)
+        {
+            ViewData["status"] = String.IsNullOrEmpty(status) ? "AllStaff" : status;
+            ViewBag.ShipList = GetShip();
+            ViewData["shipSearchedID"] = ship;
+            var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+
+            var pp  =await personinfoService.GetUpdatedPersonnelByHOD(user.Appointment,status,ship,pageNumber);
+            return View(pp);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ExportByHOD2(string ship,string status)
+        {
+            var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+            ViewData["status"] = String.IsNullOrEmpty(status) ? "AllStaff" : status;
+            var pp = await personinfoService.GetUpdatedPersonnelByHOD2(user.Appointment, status, ship);
+            List<RPTPersonModel> rpt = new List<RPTPersonModel>();
+            foreach (var person in pp)
+            {
+                var pps = new RPTPersonModel
+                {
+                    ServiceNumber = person.serviceNumber,
+                    Rank = person.Rank,
+                    Seniority = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                    Name = person.Surname + " " + person.OtherName,
+                    Status = person.Status,
+                    Ship = person.ship,
+                };
+                rpt.Add(pps);
+            }
+
+
+            var stream = new MemoryStream();
+
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Sheet2");
+                workSheet.Cells.LoadFromCollection(rpt, true);
+                package.Save();
+            }
+            stream.Position = 0;
+            string excelName = $"SectionalReport-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+        }
+        public async Task<IActionResult> ListOfAllStaffReportByHOD(string ship, string status)
+        {
+            var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+            var ppersons = await personinfoService.GetUpdatedPersonnelByHOD2(user.Appointment, status, ship);
+
+            List<ef_personalInfo> rpt = new List<ef_personalInfo>();
+
+            foreach (var person in ppersons)
+            {
+                var pps = new ef_personalInfo
+                {
+                    Rank = person.Rank,
+                    serviceNumber = person.serviceNumber,
+                    Surname = person.Surname,
+                    OtherName = person.OtherName,
+                    ship = person.ship,
+                };
+                rpt.Add(pps);
+            }
+
+            return await _generatepdf.GetPdf("Reports/StaffReportList", rpt);
         }
     }
 }

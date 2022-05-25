@@ -178,14 +178,20 @@ namespace NNPEFWEB.Controllers
         {
            var dd= _context.ef_systeminfos.FirstOrDefault();
             HttpContext.Session.SetInt32("Site", dd.SiteStatus);
-            return View();
+            GetShip();
+            var reg = new systeminfoVM
+            {
+                shipList = GetShips()
+            };
+            return View(reg);
         }
         [HttpPost]
-        public ActionResult SiteActivities(ef_systeminfo  status )
+        public ActionResult SiteActivities(systeminfoVM  status)
         {
             try
             {
             string user = User.Identity.Name;
+           
             using(SqlConnection sqlcon=new SqlConnection(connectionstring))
             {
                 using(SqlCommand cmd=new SqlCommand("OpenCloseForm", sqlcon))
@@ -195,6 +201,7 @@ namespace NNPEFWEB.Controllers
                     cmd.Parameters.Add(new SqlParameter("@opendate", status.opendate));
                     cmd.Parameters.Add(new SqlParameter("@closedate", status.closedate));
                     cmd.Parameters.Add(new SqlParameter("@status", status.SiteStatus));
+                    cmd.Parameters.Add(new SqlParameter("@ship", status.ship));
                     cmd.Parameters.Add(new SqlParameter("@user", user));
               
                     sqlcon.Open();
@@ -416,13 +423,16 @@ namespace NNPEFWEB.Controllers
                 MD5 md = MD5.Create();
                 if (ModelState.IsValid)
                 {
-                    var site = _context.ef_systeminfos.FirstOrDefault(x => x.closedate.Date < DateTime.Now.Date);
-                    if (site != null)
+                    var pers = _shipService.GetPersonBySvcno(com.UserName);
+                    string pyear = DateTime.Now.Year.ToString();
+                    // var site = _context.ef_systeminfos.FirstOrDefault(x => x.closedate.Date < DateTime.Now.Date);
+                    var globalcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.processingyear == pyear && x.ship == "All" && x.status == "Open").FirstOrDefault();
+                    var shipcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.ship == pers.ship && x.processingyear == pyear && x.status == "Open").FirstOrDefault();
+                    if (shipcon == null && globalcon == null)
                     {
                         return RedirectToAction("ClosingPage", "Account");
                     }
 
-                    var pers = _shipService.GetPersonBySvcno(com.UserName);
                     var per = _personinfoService.GetPersonalInfo(com.UserName).Result;
                     var shipid = _context.ef_ships.FirstOrDefault(x => x.shipName == pers.ship);
                     if (pers.userName.Substring(0, 2) != "NN")
@@ -515,7 +525,7 @@ namespace NNPEFWEB.Controllers
                     {
                         resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
                         string message = "Your Verification Code is:" + resetcode;
-                        HttpContext.Session.SetString("userToReset", user.userName);
+                        HttpContext.Session.SetString("shipuserToReset", user.userName);
                         HttpContext.Session.SetString("verificationCode", resetcode.ToString());
 
                         // a call to send email notification
@@ -558,7 +568,7 @@ namespace NNPEFWEB.Controllers
                     {
                         resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
                         string message = "Your Verification Code is:" + resetcode;
-                        HttpContext.Session.SetString("userToReset", user.userName);
+                        HttpContext.Session.SetString("shipuserToReset", user.userName);
                         HttpContext.Session.SetString("verificationCode", resetcode.ToString());
 
                         // a call to send email notification
@@ -604,24 +614,24 @@ namespace NNPEFWEB.Controllers
 
             string host = config.GetValue<string>("mailconfig:Server");
             int port = config.GetValue<int>("mailconfig:Port");
-            //var enableSSL = config.GetValue<bool>("mailconfig:enableSSL");
+            var enableSSL = Convert.ToBoolean("True");
 
-            SmtpClient SmtpServer = new SmtpClient(host);
+            ///SmtpClient SmtpServer = new SmtpClient(host);
 
             var smtp = new SmtpClient
             {
                 Host = host,
                 Port = port,
-                //EnableSsl = enableSSL,
+                EnableSsl = enableSSL,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = true,
+                UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(UserName, Password)
             };
-            SmtpServer.Port = port; // Also Add the port number to send it, its default for Gmail
-            SmtpServer.Credentials = new NetworkCredential(UserName, Password);
-          //  SmtpServer.EnableSsl = enableSSL;
-            SmtpServer.Timeout = 200000; // Add Timeout property
-            SmtpServer.Send(message);
+            smtp.Port = port; // Also Add the port number to send it, its default for Gmail
+            smtp.Credentials = new NetworkCredential(UserName, Password);
+            smtp.EnableSsl = enableSSL;
+            smtp.Timeout = 200000; // Add Timeout property
+            smtp.Send(message);
 
 
         }
@@ -1072,6 +1082,8 @@ namespace NNPEFWEB.Controllers
                             worksheet.Cells[row, 5].Value = "";
                         if (worksheet.Cells[row, 6].Value == null)
                             worksheet.Cells[row, 6].Value = "";
+                        if (worksheet.Cells[row, 7].Value == null)
+                            worksheet.Cells[row, 7].Value = "";
 
                         //string command = String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ? "" : worksheet.Cells[row, 1].Value.ToString().Trim();
                         //string ship = String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ? "" : worksheet.Cells[row, 2].Value.ToString().Trim();
@@ -1079,10 +1091,12 @@ namespace NNPEFWEB.Controllers
                         string svcno = String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ? "" : worksheet.Cells[row, 1].Value.ToString().Trim();
                         string rank = String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ? "" : worksheet.Cells[row, 2].Value.ToString().Trim();
                         string name = String.IsNullOrEmpty(worksheet.Cells[row, 3].Value.ToString()) ? "" : worksheet.Cells[row, 3].Value.ToString().Trim();
-                        string command = String.IsNullOrEmpty(worksheet.Cells[row, 4].Value.ToString()) ? "" : worksheet.Cells[row, 4].Value.ToString().Trim();
+                        string initial = String.IsNullOrEmpty(worksheet.Cells[row, 4].Value.ToString()) ? "" : worksheet.Cells[row, 4].Value.ToString().Trim();
                         string ship = String.IsNullOrEmpty(worksheet.Cells[row, 5].Value.ToString()) ? "" : worksheet.Cells[row, 5].Value.ToString().Trim();
                         string password = String.IsNullOrEmpty(worksheet.Cells[row, 6].Value.ToString()) ? "" : worksheet.Cells[row, 6].Value.ToString().Trim();
+                        string command = String.IsNullOrEmpty(worksheet.Cells[row, 7].Value.ToString()) ? "" : worksheet.Cells[row, 7].Value.ToString().Trim();
 
+                        command = _context.ef_ships.Where(x => x.shipName == ship).FirstOrDefault().code;
 
                         if (String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ||
                            String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()))
@@ -1093,6 +1107,7 @@ namespace NNPEFWEB.Controllers
                                 svcNo = svcno,
                                 rank = rank,
                                 surName = name,
+                                otheName=initial,
                                 department =command,
                                 ship=ship,
                                 password=password
@@ -1107,6 +1122,7 @@ namespace NNPEFWEB.Controllers
                                 svcNo = svcno,
                                 rank = rank,
                                 surName = name,
+                                otheName=initial,
                                 department = command,
                                 ship = ship,
                                 password=password

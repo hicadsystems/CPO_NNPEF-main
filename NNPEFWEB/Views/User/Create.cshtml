@@ -84,12 +84,12 @@
         Roles
     </label>
     <div class="form-group">
-        <select style="width:100%; position:relative;left:10px;" id="roles" name="roles" class="required form-control row">
+        <select style="width:100%; position:relative;left:10px;" id="roles" name="Rolesid" class="required form-control row">
             <option value="">Select Roles</option>
             @foreach (var role in Model.Roles)
             {
-<option value="@role.Id">@role.Name</option>
-}
+                <option value="@role.Id">@role.Name</option>
+            }
         </select>
     </div>
 

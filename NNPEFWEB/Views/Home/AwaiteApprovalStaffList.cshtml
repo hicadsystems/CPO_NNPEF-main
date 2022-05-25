@@ -1,45 +1,47 @@
 ﻿@model NNPEFWEB.ViewModel.PaginatedList<NNPEFWEB.Models.ef_personalInfo>
+@using Microsoft.AspNetCore.Authorization
 @{
-    ViewData["Title"] = "Awaiting Approval Staff List";
+    ViewData["Title"] = "Approved Staff List";
 }
 
-<h2>Officers Awaiting Approval</h2>
-<br />
-
-
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col">SERVICE NUMBER</th>
-            <th scope="col">FULL NAME</th>
-            <th scope="col">SHIP</th>
-            <th scope="col">DATE</th>
+            <th>Rank</th>
+            <th>Service No</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Ship</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var person in Model)
+
+        @foreach (var r in Model)
         {
             <tr>
-                <th scope="row">@person.serviceNumber</th>
-                <td>@person.OtherName</td>
-                <td>@person.ship</td>
-                <td>@person.DateEmpl</td>
+                <td>@r.Rank</td>
+                <td>@r.serviceNumber</td>
+                <td>@r.Surname</td>
+                <td>@r.OtherName</td>
+                <td>@r.ship</td>
             </tr>
         }
     </tbody>
 </table>
+
+@*pagination buttons starts here*@
 
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
 
-<a asp-action="AwaiteApprovalStaffList" media="get" asp-controller="Home"
+<a asp-action="AwaitApprovalStaffList" media="get" asp-controller="Home"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
    class="btn btn-default @prevDisabled">
     Previous
 </a>
-<a asp-action="AwaiteApprovalStaffList" media="get" asp-controller="Home"
+<a asp-action="AwaitApprovalStaffList" media="get" asp-controller="Home"
    asp-route-pageNumber="@(Model.PageIndex + 1)"
    class="btn btn-default @nextDisabled">
     Next

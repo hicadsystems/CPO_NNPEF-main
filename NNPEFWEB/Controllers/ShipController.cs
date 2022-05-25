@@ -118,14 +118,22 @@ namespace NNPEFWEB.Controllers
                 List<RPTPersonModel> rpt = new List<RPTPersonModel>();
                 foreach (var person in pp)
                 {
+                    if (person.Status == "SHIP")
+                        person.Status = "Form Filled";
+                    if (person.Status == "CPO")
+                        person.Status = "Authorized";
+                    if (person.Status == null)
+                        person.Status = "Not Yet filled";
+
                     var pps = new RPTPersonModel
                     {
                         ServiceNumber = person.serviceNumber,
                         Rank = person.Rank,
                         Name = person.Surname + " " + person.OtherName,
                         Seniority=person.seniorityDate.Value.ToShortDateString().ToString(),
-                        Status="Authurize",
-                        Ship = person.ship
+                        Ship = person.ship,
+                        Status=person.Status
+                        
                     };
                     rpt.Add(pps);
                 }
@@ -180,6 +188,87 @@ namespace NNPEFWEB.Controllers
                 return RedirectToAction("Home", "Homepage");
             }
 
+        }
+        public async Task<IActionResult> ShipReports(string reporttype, string payclass, int? pageNumber)
+        {
+            try
+            {
+                int? shipid = HttpContext.Session.GetInt32("ship");
+                string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
+
+                ViewData["reporttype"] = String.IsNullOrEmpty(reporttype) ? "AllStaff" : reporttype;
+
+                var ppersons = await personinfoService.GetPersonnelShipReport(reporttype, payclass, ship, pageNumber);
+               
+                ViewData["payclass"] = payclass;
+
+                return View(ppersons);
+
+            }
+            catch (Exception ex)
+            {
+                TempData["UpdateMessage"] = "Updated Fail";
+
+                throw;
+            }
+        }
+        public Task<IActionResult> ListOfAllStaffReport(string reporttype, string payclass)
+        {
+            int? shipid = HttpContext.Session.GetInt32("ship");
+            string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
+
+            var ppersons = personinfoService.GetPersonnelShipReportrepo(reporttype, payclass,ship);
+
+            //List<ef_personalInfo> rpt = new List<ef_personalInfo>();
+
+            //foreach (var person in ppersons)
+            //{
+            //    var pps = new ef_personalInfo
+            //    {
+            //        Rank = person.Rank,
+            //        serviceNumber = person.serviceNumber,
+            //        Surname = person.Surname,
+            //        OtherName = person.OtherName,
+            //        ship = person.ship,
+            //    };
+            //    rpt.Add(pps);
+            //}
+
+            return _generatepdf.GetPdf("Reports/ShipReport", ppersons);
+        }
+        public IActionResult Export2(string reporttype, string payclass)
+        {
+            int? shipid = HttpContext.Session.GetInt32("ship");
+            string ship = _context.ef_ships.Where(x => x.Id == shipid).FirstOrDefault().shipName;
+
+            var pp = personinfoService.GetPersonnelShipReportrepo(reporttype, payclass,ship);
+            List<RPTPersonModel> rpt = new List<RPTPersonModel>();
+            foreach (var person in pp)
+            {
+                var pps = new RPTPersonModel
+                {
+                    ServiceNumber = person.serviceNumber,
+                    Rank = person.Rank,
+                    Seniority = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                    Name = person.Surname + " " + person.OtherName,
+                    Status = person.Status,
+                    Ship = person.ship,
+                };
+                rpt.Add(pps);
+            }
+
+
+            var stream = new MemoryStream();
+
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Sheet2");
+                workSheet.Cells.LoadFromCollection(rpt, true);
+                package.Save();
+            }
+            stream.Position = 0;
+            string excelName = $"ShipReport-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
         public DateTime getdate(DateTime anydate)
         {
@@ -238,11 +327,10 @@ namespace NNPEFWEB.Controllers
                   }));
         }
 
-        public IActionResult UpdateOfficer2(string personsvcno)
+        public IActionResult UpdateOfficer2(int id)
         {
             try
             {
-                string Appointment = HttpContext.Session.GetString("Appointment");
                 string username = HttpContext.Session.GetString("ShipUser");
                 var pers = personService.GetUserByShip(username).Result;
                 using (SqlConnection sqlcon = new SqlConnection(connectionString))
@@ -252,8 +340,7 @@ namespace NNPEFWEB.Controllers
                     {
                         cmd.CommandTimeout = 1200;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@person_svcno", personsvcno));
-                        cmd.Parameters.Add(new SqlParameter("@appointment", pers.Appointment));
+                        cmd.Parameters.Add(new SqlParameter("@personid", id));
                         cmd.Parameters.Add(new SqlParameter("@doname", pers.surName + " " + pers.otheName));
                         cmd.Parameters.Add(new SqlParameter("@dosvcno", pers.userName));
                         cmd.Parameters.Add(new SqlParameter("@dorank", pers.rank));
@@ -276,17 +363,16 @@ namespace NNPEFWEB.Controllers
             return RedirectToAction("UpdatedPersonelList", new RouteValueDictionary(
                   new
                   {
-                      controller = "PersonalInfo",
+                      controller = "Ship",
                       action = "UpdatedPersonelList",
                       id = 2,
                   }));
         }
 
-        public IActionResult UpdateOfficer3(string personsvcno)
+        public IActionResult UpdateOfficer3(int id)
         {
             try
             {
-                string Appointment = HttpContext.Session.GetString("Appointment");
                 string username = HttpContext.Session.GetString("ShipUser");
                 var pers = personService.GetUserByShip(username).Result;
                 using (SqlConnection sqlcon = new SqlConnection(connectionString))
@@ -296,8 +382,7 @@ namespace NNPEFWEB.Controllers
                     {
                         cmd.CommandTimeout = 1200;
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@person_svcno", personsvcno));
-                        cmd.Parameters.Add(new SqlParameter("@appointment", pers.Appointment));
+                        cmd.Parameters.Add(new SqlParameter("@personid", id));
                         cmd.Parameters.Add(new SqlParameter("@doname", pers.surName + " " + pers.otheName));
                         cmd.Parameters.Add(new SqlParameter("@dosvcno", pers.userName));
                         cmd.Parameters.Add(new SqlParameter("@dorank", pers.rank));
@@ -320,7 +405,7 @@ namespace NNPEFWEB.Controllers
             return RedirectToAction("UpdatedPersonelList", new RouteValueDictionary(
                   new
                   {
-                      controller = "PersonalInfo",
+                      controller = "Ship",
                       action = "UpdatedPersonelList",
                       id = 3,
                   }));

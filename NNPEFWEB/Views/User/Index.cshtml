@@ -1,8 +1,8 @@
 ﻿@using NNPEFWEB.ViewModels.Users
 @model UsersViewModel
 
-@{ ViewData["Title"] = "Users";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{ ViewData["Title"] = "Users"; 
+    }
 
 
 <div class="page-wrapper">
@@ -63,7 +63,7 @@
                             <tr>
                                 <td>Full Name</td>
                                 <td>Email Address</td>
-                                <td>Status</td>
+                                <td>User Name</td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -77,28 +77,34 @@
                                 <td>
                                     @user.Email
                                 </td>
-                                @if (user.IsActive)
-                                {
-                                <td><span class="badge badge-success"><i class="fa fa-check"></i>&nbsp;Active</span></td>
-                                }
-                                else
-                                {
-                                <td><span class="badge badge-danger"><i class="fa fa-times"></i>&nbsp;Inactive</span></td>
-                                }
-                                @if (user.IsActive)
-                                {
                                 <td>
-                                     @Html.ActionLink("Edit", "Update", "User", new { id = user.Id }, new { @class = "btn btn-primary" })
-                                    <a type="button" class="btn btn-danger" asp-controller="User" asp-action="ToggleStatus/@user.Id">Deactivate</a>
+                                    @user.UserName
                                 </td>
-                                }
-                                else
-                                {
+                                @*@if (user.IsActive)
+        {
+            <td><span class="badge badge-success"><i class="fa fa-check"></i>&nbsp;Active</span></td>
+        }
+        else
+        {
+            <td><span class="badge badge-danger"><i class="fa fa-times"></i>&nbsp;Inactive</span></td>
+        }
+        @if (user.IsActive)
+        {*@
+                                @*<td>
+            @Html.ActionLink("Edit", "Update", "User", new { id = user.Id }, new { @class = "btn btn-primary" })
+            <a type="button" class="btn btn-danger" asp-controller="User" asp-action="ToggleStatus/@user.Id">Deactivate</a>
+        </td>*@
+                                @*}
+        else
+        {*@
                                 <td>
-                                     @Html.ActionLink("Edit", "Update", "User", new { id = user.Id }, new { @class = "btn btn-primary" })
-                                    <a asp-controller="User" asp-action="ToggleStatus/@user.Id" type="button" class="btn btn-primary">Activate</a>
+                                    @Html.ActionLink("Edit", "Update", "User", new { id = user.Id }, new { @class = "btn btn-primary" })
+                                    @*<a asp-controller="User" asp-action="ToggleStatus/@user.Id" type="button" class="btn btn-primary">Activate</a>*@
                                 </td>
-                                }
+                                @*}*@
+                                <td>
+                                    @Html.ActionLink("DeleteUser", "DeleteUser", "User", new { id = user.Id }, new { @class = "btn btn-danger" })
+                                </td>
                             </tr>
 
                             }
@@ -200,18 +206,13 @@
                                 Roles
                             </label>
                             <div class="form-group">
-                                <select style="width:100%" id="roles" name="roles" class="required form-control row">
+                                <select style="width:100%" id="roles" name="Rolesid" class="required form-control row">
                                     <option value="">Select Roles</option>
                                     @foreach (var role in Model.Roles)
                                     {
                                     <option value="@role.Id">@role.Name</option>}
                                 </select>
                             </div>
-
-
-
-
-
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary dismiss-modal" data-dismiss="modal">Cancel</button>
                                 <button type="submit" class="btn btn-success" id="addUser">Save</button>

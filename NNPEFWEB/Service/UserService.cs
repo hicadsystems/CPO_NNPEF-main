@@ -7,6 +7,9 @@ using NNPEFWEB.Models;
 using NNPEFWEB.Repository;
 using NNPEFWEB.ViewModel;
 using NNPEFWEB.Extention;
+using NNPEFWEB.Data;
+using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace NNPEFWEB.Service
 {
@@ -14,11 +17,16 @@ namespace NNPEFWEB.Service
     {
         private readonly UserManager<User> userManager;
         private readonly IUnitOfWorks unitOfWork;
-
-        public UserService(UserManager<User> userManager, IUnitOfWorks unitOfWork)
+        private readonly ApplicationDbContext context;
+        private readonly string connectionString;
+        public UserService(IConfiguration configuration, UserManager<User> userManager, IUnitOfWorks unitOfWork, ApplicationDbContext context)
         {
             this.userManager = userManager;
             this.unitOfWork = unitOfWork;
+            this.context = context;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+             
+        
         }
 
         public async Task<ResponseModel<User>> CreateUser(User user, IEnumerable<int> roles, string password, int? device)
@@ -139,6 +147,30 @@ namespace NNPEFWEB.Service
         public async Task<User> GetUserByEmail(string email)
         {
             return await userManager.FindByEmailAsync(email);
+        }
+        public void DeleteUser(int id)
+        {
+            try
+            {
+                using (SqlConnection sqlcon = new SqlConnection(connectionString))
+                {
+
+                    using (SqlCommand cmd = new SqlCommand("DeleteUser", sqlcon))
+                    {
+                        cmd.CommandTimeout = 1200;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                        sqlcon.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+
+            {
+
+            }
         }
     }
 }

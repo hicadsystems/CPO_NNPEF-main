@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +29,9 @@ namespace NNPEFWEB.ViewModel
         public string serverport { get; set; }
         public string email_pword { get; set; }
         public byte[] company_image { get; set; }
+        public int ship { get; set; }
+        public string shipname { get; set; }
+        public List<SelectListItem> shipList { get; set; }
         public DateTime datecreated { get; set; }
         public string createdby { get; set; }
     }

@@ -34,9 +34,9 @@ namespace NNPEFWEB.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            if (User.Identity.Name != "hicad@hicad.com")
+            if (User.Identity.Name ==null)
             {
-                return RedirectToAction("sectiondashboard");
+                return RedirectToAction("homepage");
             }
             else
             {
@@ -75,8 +75,13 @@ namespace NNPEFWEB.Controllers
         }
         public IActionResult sectiondashboard()
         {
-
-            string ship = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault().Appointment;
+            if (User.Identity.Name == null)
+            {
+                return RedirectToAction("homepage");
+            }
+            else
+            {
+             string ship = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault().Appointment;
             var dah = new personelCountVM()
             {
 
@@ -100,6 +105,9 @@ namespace NNPEFWEB.Controllers
             };
 
             return View(dah);
+
+            }
+            
         }
         public IActionResult commanddashbord()
         {
@@ -130,97 +138,87 @@ namespace NNPEFWEB.Controllers
 
             return View(dah);
         }
-
         public async Task<IActionResult> AllStaffList(int? pageNumber)
         {
-            var allStaffOfficersList = _dashboard.AllStaffList().ToList();
+            var allStaffOfficersList =await _dashboard.AllStaffList("1","ALL",pageNumber);
 
-            var allStaffOfficersListPaginated = PaginatedList<ef_personalInfo>.CreateAsync(allStaffOfficersList.AsQueryable(), pageNumber ?? 1, 10);
-
-            return View(await allStaffOfficersListPaginated);
+            return View(allStaffOfficersList);
         }
 
         public async Task<IActionResult> ApprovedStaffList(int? pageNumber)
         {
-            var approvedStaffList = _dashboard.ApprovedStaffList().ToList();
+            var approvedStaffList =await _dashboard.ApprovedStaffList("1", "CPO", pageNumber);
 
-            var approvedStaffListPaginated = PaginatedList<ef_personalInfo>.CreateAsync(approvedStaffList.AsQueryable(), pageNumber ?? 1, 10);
-
-            return View(await approvedStaffListPaginated);
+            return View(approvedStaffList);
         }
 
         public async Task<IActionResult> AwaiteApprovalStaffList(int? pageNumber)
         {
-            var awaiteApprovalStaffList = _dashboard.AwaiteApprovalStaffList().ToList();
+            var awaiteApprovalStaffList =await _dashboard.AwaiteApprovalStaffList("1", "SHIP", pageNumber);
 
-            var awaiteApprovalStaffListPaginated = PaginatedList<ef_personalInfo>.CreateAsync(awaiteApprovalStaffList.AsQueryable(), pageNumber ?? 1, 10);
-
-            return View(await awaiteApprovalStaffListPaginated);
+            return View(awaiteApprovalStaffList);
         }
 
         public async Task<IActionResult> YetToFillStaffList(int? pageNumber)
         {
-            var yetToFillStaffList = _dashboard.YetToFillStaffList().ToList();
+            var yetToFillStaffList =await _dashboard.YetToFillStaffList("1", null, pageNumber);
 
-            var yetToFillStaffListPaginated = PaginatedList<ef_personalInfo>.CreateAsync(yetToFillStaffList.AsQueryable(), pageNumber ?? 1, 10);
-
-            return View(await yetToFillStaffListPaginated);
+            return View(yetToFillStaffList);
         }
 
-        public IActionResult AllStaffRatingsList()
+        public async Task<IActionResult> AllStaffRatingsList(int? pageNumber)
         {
-            var allRatingslist = _dashboard.AllStaffRatingsList();
+            var allRatingslist =await _dashboard.AllStaffRatingsList("2", "ALL", pageNumber);
+
+            return View(allRatingslist);
+        }
+       
+        public IActionResult ApprovedStaffRatingsList(int? pageNumber)
+        {
+            var approvedStaffList = _dashboard.ApprovedStaffRatingsList("1", "CPO", pageNumber);
+
+            return View(approvedStaffList);
+        }
+
+        public async Task<IActionResult> AwaiteApprovalStaffRatingsList(int? pageNumber)
+        {
+            var awaiteApprovalStaffList = await _dashboard.AwaiteApprovalStaffRatingsList("1", "SHIP", pageNumber);
+
+            return View(awaiteApprovalStaffList);
+        }
+
+        public async Task<IActionResult> YetToFillStaffRatingsList(int? pageNumber)
+        {
+            var yetToFillStaffList = await _dashboard.YetToFillStaffRatingsList("1", null, pageNumber);
+
+            return View(yetToFillStaffList);
+        }
+        public async Task<IActionResult> AllStaffTrainingsList(int? pageNumber)
+        {
+            var allRatingslist = await _dashboard.AllStaffTrainingsList("1", "ALL", pageNumber);
 
             return View(allRatingslist);
         }
 
-        public IActionResult ApprovedStaffRatingsList()
+        public async Task<IActionResult> ApprovedStaffTrainingsList(int? pageNumber)
         {
-            var approvedRatingslist = _dashboard.ApprovedStaffRatingsList();
+            var approvedStaffList = await _dashboard.ApprovedStaffTrainingsList("1", "CPO", pageNumber);
 
-            return View(approvedRatingslist);
+            return View(approvedStaffList);
         }
 
-        public IActionResult AwaiteApprovalStaffRatingsList()
+        public async Task<IActionResult> AwaiteApprovalStaffTrainingsList(int? pageNumber)
         {
-            var awaitingRatingslist = _dashboard.AwaiteApprovalStaffRatingsList();
+            var awaiteApprovalStaffList =await _dashboard.AwaiteApprovalTrainingsList("1", "SHIP", pageNumber);
 
-            return View(awaitingRatingslist);
+            return View(awaiteApprovalStaffList);
         }
 
-        public IActionResult YetToFillStaffRatingsList()
+        public async Task<IActionResult> YetToFillStaffTrainingsList(int? pageNumber)
         {
-            var yetToFillRatingslist = _dashboard.YetToFillStaffRatingsList();
+            var yetToFillStaffList =await _dashboard.YetToFillStaffTrainingsList("1", null, pageNumber);
 
-            return View(yetToFillRatingslist);
-        }
-
-        public IActionResult AllStaffTrainingsList()
-        {
-            var allStaffTrainingsList = _dashboard.AllStaffTrainingsList();
-
-            return View(allStaffTrainingsList);
-        }
-
-        public IActionResult ApprovedStaffTrainingsList()
-        {
-            var approvedStaffTrainingsList = _dashboard.ApprovedStaffTrainingsList();
-
-            return View(approvedStaffTrainingsList);
-        }
-
-        public IActionResult AwaiteApprovalStaffTrainingsList()
-        {
-            var awaiteApprovalStaffTrainings = _dashboard.AwaiteApprovalStaffTrainingsList();
-
-            return View(awaiteApprovalStaffTrainings);
-        }
-
-        public IActionResult YetToFillStaffTrainingsList()
-        {
-            var yetToFillStaffTrainingsList = _dashboard.YetToFillStaffTrainingsList();
-
-            return View(yetToFillStaffTrainingsList);
+            return View(yetToFillStaffList);
         }
         public IActionResult HomePage()
         {
@@ -239,7 +237,8 @@ namespace NNPEFWEB.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return RedirectToAction("HomePage","Home");
+            //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

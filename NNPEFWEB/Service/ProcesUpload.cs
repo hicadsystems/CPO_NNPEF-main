@@ -127,6 +127,7 @@ namespace NNPEFWEB.Service
             {
                 foreach (var s in personLoginVMs)
                 {
+                    
                     var getPersonId = unitOfWork.shiplogin.GetShips(x => x.userName == s.svcNo);
                     if (getPersonId == null)
                     {
@@ -137,6 +138,7 @@ namespace NNPEFWEB.Service
                             userName = s.svcNo,
                             password = s.password,
                             surName = s.surName,
+                            otheName=s.otheName,
                             phoneNumber = s.phoneNumber,
                             command = s.department,
                             ship = s.ship,

@@ -1,0 +1,174 @@
+﻿@model NNPEFWEB.ViewModel.PaginatedList<NNPEFWEB.Models.ef_personalInfo>
+@using Microsoft.AspNetCore.Authorization
+
+@{
+    ViewData["Title"] = "Updated";
+    Layout = "~/Views/Shared/_shipLayout.cshtml";
+}
+
+
+
+<h1 style="margin-top:-20px">Personnel Report List</h1>
+<br />
+<h4>Filter By: </h4>
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <form asp-action="ShipReports" method="get" asp-controller="Ship">
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="control-label">Status</label>
+                    <select name="reporttype" class="form-control">
+                        @if (ViewData["reporttype"] != null)
+                        {
+
+                            @switch (ViewData["reporttype"])
+                            {
+                                case "All":
+                                    <option selected value="@ViewData["reporttype"]">All</option>
+                                    <option value="Completed">Completed Form</option>
+                                    <option value="Processed">Processed Form</option>
+                                    break;
+                                case "Completed":
+                                    <option value="AllStaff">All</option>
+                                    <option selected value="@ViewData["reporttype"]">Completed Form</option>
+                                    <option value="Processed">Processed Form</option>
+                                    break;
+     
+                                case "Processed":
+                                    <option value="AllStaff">All</option>
+                                    <option value="Completed">Completed Form</option>
+                                    <option selected value="@ViewData["reporttype"]">Processed Form</option>
+                                    break;
+                                default:
+                                    <option value="All">All</option>
+                                    <option value="Completed">Completed Form</option>
+                                    <option value="Processed">Processed Form</option>
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            <option value="All">All</option>
+                            <option value="Completed">Completed Form</option>
+                            <option value="Processed">Processed Form</option>
+                        }
+
+
+
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="control-label">Pay Class</label>
+                    <select name="payclass"
+                            class="form-control">
+                        <option value="1">Officers</option>
+                        <option value="2">Ratings</option>
+                        <option value="3">Trainee</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4" style="margin-top:30px">
+                    <input type="submit" class="btn btn-primary" value="Filter" target="_blank"/>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3 mt-4">
+        <form asp-action="Export2" method="post" asp-controller="Ship">
+
+            <input type="hidden" name="reporttype" value="@ViewData["reporttype"]" />
+
+            <input type="hidden" name="payclass" value="@ViewData["payclass"]" />
+
+            <input type="submit" class="btn btn-primary" value="Download To Excel" />
+
+        </form>
+    </div>
+
+    <div class="col-md-3 mt-4">
+        <form asp-action="ListOfAllStaffReport" method="get" asp-controller="Ship">
+
+            <input type="hidden" name="reporttype" value="@ViewData["reporttype"]" />
+
+            <input type="hidden" name="payclass" value="@ViewData["payclass"]" />
+
+            <input type="submit" class="btn btn-primary" value="Download To PDF" />
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Service No</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Ship</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var r in Model)
+        {
+        <tr>
+            <td>@r.Rank</td>
+            <td>@r.serviceNumber</td>
+            <td>@r.Surname</td>
+            <td>@r.OtherName</td>
+            <td>@r.ship</td>
+            <td>@r.specialisation</td>
+            <td>
+                @if (r.Status == "SHIP")
+                {
+                    r.Status = "Form Filled";
+                }
+                else if (r.Status == "CPO")
+                {
+                    r.Status = "Authorized";
+                }
+                else
+                {
+                    r.Status = "Not Yet Filled";
+                }
+                @r.Status
+            </td>
+            <td>
+                @if (r.classes == 1)
+                {
+                <a asp-controller="PersonalInfo" asp-action="ViewPersonel" asp-route-svcno="@r.serviceNumber" class="btn btn-success">View Details</a>}
+                @if (r.classes == 2)
+                {
+               <a asp-controller="PersonalInfo" asp-action="ViewPersonelRating" asp-route-svcno="@r.serviceNumber" class="btn btn-success">View Details</a>}
+                @if (r.classes == 3)
+                {
+                <a asp-controller="PersonalInfo" asp-action="ViewPersonelTraining" asp-route-svcno="@r.serviceNumber" class="btn btn-success">View Details</a>}
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+@*pagination buttons starts here*@
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="ShipReports" media="get" asp-controller="Ship" asp-route-reporttype="@ViewData["reporttype"]"
+   asp-route-payclass="@ViewData["payclass"]" asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="ShipReports" media="get" asp-controller="Ship" asp-route-reporttype="@ViewData["reporttype"]"
+   asp-route-payclass="@ViewData["payclass"]"  asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

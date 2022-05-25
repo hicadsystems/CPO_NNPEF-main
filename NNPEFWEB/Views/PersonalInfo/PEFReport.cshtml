@@ -1,224 +1,79 @@
-﻿@model IEnumerable<NNPEFWEB.Models.ef_personalInfo>
+﻿@model NNPEFWEB.ViewModel.PaginatedList<NNPEFWEB.Models.ef_personalInfo>
 
 @using Microsoft.AspNetCore.Authorization
+@{ Layout = "~/Views/Shared/_shipLayout.cshtml"; }
+<h1 style="margin-top:-20px">Personnel List</h1>
+<br />
+<h4>Filter By: </h4>
+@*@using (Html.BeginForm("UpdatePersonelList", "PersonalInfo", FormMethod.Get, new { enctype = "multipart/form-data" }))
+    {*@
+<form asp-action="UpdatedPersonelList" asp-controller="PersonalInfo">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" name="svcno" id="svcno" placeholder="Service Number" class="form-control" />
+        </div>
 
-<section class="content">
-<report></report>
-   @* <div class="container-fluid">
-        <!-- SELECT2 EXAMPLE -->
-        <div class="card card-default">
-            <div class="card-header">
-         
-                @using (Html.BeginForm("PEFReport", "PersonalInfo", FormMethod.Get))
+        <div class="col-md-4">
+            <input type="submit" class="btn btn-primary" value="Search" />
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Service No</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Ship</th>
+
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var r in Model)
+        {
+<tr>
+    <td>@r.Rank</td>
+    <td>@r.serviceNumber</td>
+    <td>@r.Surname</td>
+    <td>@r.OtherName</td>
+    <td>@r.ship</td>
+
+
+    <td>
+        @if (r.classes == 1)
+        {
+<a asp-controller="PersonalInfo" asp-action="ViewPersonel" asp-route-svcno="@r.serviceNumber" class="btn btn-success">View Details</a>}
+        @if (r.classes == 2)
+        {
+<a asp-controller="PersonalInfo" asp-action="ViewPersonelRating" asp-route-svcno="@r.serviceNumber" class="btn btn-success">View Details</a>}
+        @if (r.classes == 3)
+        {
+<a asp-controller="PersonalInfo" asp-action="ViewPersonelTraining" asp-route-svcno="@r.serviceNumber" class="btn btn-success">View Details</a>}
+    </td>
+
+
+</tr> if (Model.Count() == 0)
                 {
-                    <div class="row">
-                        <div class="row px-3">
-                            <label>Command</label>
-                            <select name="cmd"
-                                    class="form-control mb-4 form-styling"
-                                    asp-items="@(new SelectList(ViewBag.commandList,"Value", "Text"))">
-                            </select>
-                             @Html.DropDownList("command", new SelectList(ViewBag.commandList, "value", "text"), new { @class = "form-control" })
-                        </div>
-                        <div class="row px-3">
-                            <label>Status</label>
-                            <select name="sortby" id="sortby" class="form-control mb-4 form-styling" required>
-                                <option value="All">Select Class.....</option>
-                                <option value="CPO">Approved By CPO</option>
-                                <option value="Command">Approved By Command</option>
-                                <option value="AwaitngApproval">Awaitng Approval</option>
-                                <option value="Yet To Fill Form">Yet To Fill Form</option>
-                            </select>
-                        </div>
-                        <div class="row-cols-md-6" style="margin-top:25px">
-                            <button type="submit" class="btn btn-success">Search</button>
-                        </div>
-                    </div>
+<tr>No Record Found</tr>}
+            }
+    </tbody>
+</table>
+@*pagination buttons starts here*@
 
-                }
-                <br />
-               
-                <div class="table-responsive">
-                    <table class="table" data-page-size="5">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Seniority Date</th>
-                                <th>Service No</th>
-                                <th>Surname</th>
-                                <th>Other Name</th>
-                                <th>Command</th>
-                                <th>Ship</th>
-                                <th>Action</th>
-                                <th></th>
-                                <th></th>
+@{ var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : ""; }
 
-
-                            </tr>
-                        </thead>
-
-
-                        <tbody>
-                            @if (Model.Count() == 0)
-                                                
-                            {
-                            <tr>
-                                <td colspan="12">
-                                    <h2>No Record Found</h2>
-                                </td>
-                            </tr>
-
-                            }
-                            else
-                            {
-                            @foreach (var r in Model)
-                            {
-                                <tr>
-                                    <th>@r.Rank</th>
-                                    <th>@r.seniorityDate</th>
-                                    <th>@r.serviceNumber</th>
-                                    <th>@r.Surname</th>
-                                    <th>@r.OtherName</th>
-                                    <th>@r.command</th>
-                                    <th>@r.ship</th>
-                                    @if (r.div_off_name != null)
-                                    {
-                                        <th>@r.div_off_name</th>
-                                    }
-                                    @if (r.hod_name != null)
-                                    {
-                                        <th>@r.hod_name</th>
-                                    }
-                                    @if (r.cdr_name != null)
-                                    {
-                                        <th>@r.cdr_name</th>
-                                    }
-
-
-                                </tr>
-                            }
-                            }
-
-                        </tbody>
-                    </table>
-                </div><!-- table-responsive -->
-               
-            </div>
-            </div>
-        </div>*@
-</section>
- @*<script>
-                    $(window).load(function () {
-
-
-
-                        $('#table1 tfoot th').each(function () {
-                            var title = $(this).text();
-                            $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-                        });
-
-
-                        var table2 = $('#table1');
-
-                        var oTable = $('#table1');
-
-
-
-
-
-
-
-                        var url =  '@Url.Action("getListofPersonelPagedSearch", "api/OficerProfile")' + "?command="
-                            + $('#Command').val() + "&sortby=" + $('#sortby').val();
-
-                            //lBfrtip
-                            $('#processBTN').click(function () {
-                                search();
-                            });
-
-
-                            oTable = $('#table1').DataTable({
-                                serverSide: true,
-                                sAjaxSource: url,
-                                processing: true,
-                                dom: '<"top"l>rt<"bottom"Bifp><"clear">',
-
-                                buttons: [
-                            'copy', 'excel', 'pdf', 'csv'
-                                ],
-
-
-                                "columns": [
-
-                                {
-
-                                    "data": "svcno",
-                                },
-                                {
-                                    "data": "firstname",
-                                },
-                                {
-                                    "data": "middlename",
-                                },
-                                {
-                                    "data": "lastname",
-                                },
-                                {
-                                    "data": "command",
-                                },
-                                {
-                                    "data": "branch",
-                                },
-                                {
-                                    "data": "staffbranch",
-                                },
-                                {
-                                    "data": "department",
-                                },
-                                {
-                                    "data": "telephone",
-                                },
-                                { "data": "dateofbirth" },
-                                { "data": "specialisation" },
-                                { "data": "senioritydate" },
-                                { "data": "rank" }],
-                                dataSrc: function (json) {
-                                    if (json.status == "2") {
-
-                                        //redrect
-                                        var link = '@Url.Action("Login", "Account")';
-                                        window.location.href = link;
-                                    }
-                                    if (json.status == "1") {
-                                        return json.aaData;
-                                    }
-                                },
-
-                                language: {
-                                    emptyTable: "No data available in table"
-                                },
-                                bFilter: false,
-                                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                                pagingType: "full_numbers",
-                                scrollX: true,
-                                autoWidth: true,
-                                aoColumnDefs: [
-                                          { 'bSortable': true, 'aTargets': ["no-sort"] }
-                                ],
-                            });
-
-
-
-                            function search() {
-
-                                url = '@Url.Action("getListofPersonelPagedSearch", "api/OficerProfile")' + "?command="
-                            + $('#Command').val() + "&sortby=" + $('#sortby').val();
-                                //alert(url);
-                                oTable.ajax.url(url).load();
-
-
-                            }
-
-
-                    })              
-</script>*@
+<a asp-action="UpdatedPersonelList" media="get" asp-controller="PersonalInfo"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="UpdatedPersonelList" media="get" asp-controller="PersonalInfo"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

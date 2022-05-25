@@ -13,7 +13,7 @@
         <form asp-action="ListOfAllStaff" method="get" asp-controller="CPOUpdate">
             <div class="row">
                 <div class="col-md-4">
-                    <label class="control-label">Staff</label>
+                    <label class="control-label">Status</label>
                     <select name="reporttype" class="form-control">
                         @if (ViewData["reporttype"] != null)
                         {
@@ -21,44 +21,44 @@
                             @switch (ViewData["reporttype"])
                             {
                                 case "AllStaff":
-                                    <option selected value="@ViewData["reporttype"]">All Staff</option>
-                                    <option value="Completed">Completed Form</option>
-                                    <option value="Auth">Authenticated Form</option>
+                                    <option selected value="@ViewData["reporttype"]">All</option>
+                                    <option value="SHIP">Completed Form</option>
+                                    <option value="CPO">Authenticated Form</option>
                                     <option value="Verified">Certified Form</option>
                                     <option value="Processed">Processed Form</option>
                                     break;
                                 case "Completed":
-                                    <option value="AllStaff">All Staff</option>
+                                    <option value="AllStaff">All</option>
                                     <option selected value="@ViewData["reporttype"]">Completed Form</option>
-                                    <option value="Auth">Authenticated Form</option>
+                                    <option value="CPO">Authenticated Form</option>
                                     <option value="Verified">Certified Form</option>
                                     <option value="Processed">Processed Form</option>
                                     break;
                                 case "Auth":
-                                    <option value="AllStaff">All Staff</option>
-                                    <option value="Completed">Completed Form</option>
+                                    <option value="AllStaff">All</option>
+                                    <option value="SHIP">Completed Form</option>
                                     <option selected value="@ViewData["reporttype"]">Authenticated Form</option>
                                     <option value="Verified">Certified Form</option>
                                     <option value="Processed">Processed Form</option>
                                     break;
                                 case "Verified":
-                                    <option value="AllStaff">All Staff</option>
-                                    <option value="Completed">Completed Form</option>
-                                    <option value="Auth">Authenticated Form</option>
+                                    <option value="AllStaff">All</option>
+                                    <option value="SHIP">Completed Form</option>
+                                    <option value="CPO">Authenticated Form</option>
                                     <option selected value="@ViewData["reporttype"]">Certified Form</option>
                                     <option value="Processed">Processed Form</option>
                                     break;
                                 case "Processed":
-                                    <option value="AllStaff">All Staff</option>
-                                    <option value="Completed">Completed Form</option>
-                                    <option value="Auth">Authenticated Form</option>
+                                    <option value="AllStaff">All</option>
+                                    <option value="SHIP">Completed Form</option>
+                                    <option value="CPO">Authenticated Form</option>
                                     <option value="Verified">Certified Form</option>
                                     <option selected value="@ViewData["reporttype"]">Processed Form</option>
                                     break;
                                 default:
-                                    <option value="AllStaff">All Staff</option>
-                                    <option value="Completed">Completed Form</option>
-                                    <option value="Auth">Authenticated Form</option>
+                                    <option value="AllStaff">All</option>
+                                    <option value="SHIP">Completed Form</option>
+                                    <option value="CPO">Authenticated Form</option>
                                     <option value="Verified">Certified Form</option>
                                     <option value="Processed">Processed Form</option>
                                     break;
@@ -66,9 +66,9 @@
                         }
                         else
                         {
-                            <option value="AllStaff">All Staff</option>
-                            <option value="Completed">Completed Form</option>
-                            <option value="Auth">Authenticated Form</option>
+                            <option value="AllStaff">All</option>
+                            <option value="SHIP">Completed Form</option>
+                            <option value="CPO">Authenticated Form</option>
                             <option value="Verified">Certified Form</option>
                             <option value="Processed">Processed Form</option>
                         }

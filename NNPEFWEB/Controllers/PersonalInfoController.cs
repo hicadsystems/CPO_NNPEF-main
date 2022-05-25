@@ -589,6 +589,8 @@ namespace NNPEFWEB.Controllers
             try
             {
             string personnel = HttpContext.Session.GetString("personnel");
+                if (personnel == null)
+                    return RedirectToAction("Login", "PersonnelLogin");
             var systeminfo = _systemsInfoService.GetSysteminfo();
             var pers = personService.GetPersonelByPassword(id, personnel).Result;
             var per = personinfoService.GetPersonalInfo(pers.svcNo).Result;
@@ -789,16 +791,16 @@ namespace NNPEFWEB.Controllers
                     value.NokPassport = dataStream.ToArray();
                 }
             }
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
+            //if (Request.Form.Files.Count > 0)
+            //{
+            //    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
+            //    using (var dataStream = new MemoryStream())
+            //    {
 
-                    await file3.CopyToAsync(dataStream);
-                    value.AltNokPassport = dataStream.ToArray();
-                }
-            }
+            //        await file3.CopyToAsync(dataStream);
+            //        value.AltNokPassport = dataStream.ToArray();
+            //    }
+            //}
             if (per == null)
             {
                 HttpContext.Session.SetString("Message", "Record Not Found");
@@ -930,10 +932,11 @@ namespace NNPEFWEB.Controllers
                 person.PPCFS_loanYear = value.PPCFS_loanYear;
                 person.Anyother_LoanYear = value.Anyother_LoanYear;
                 person.Status = "SHIP";
+                    person.datecreated = DateTime.Now.Date;
 
                     //value.Passport = profilepicture;
                 await personinfoService.AddPersonalInfo(person);
-                HttpContext.Session.SetString("Message", "Record Added Successfully");
+              TempData["message"]="Record Added Successfully";
             
             }
 
@@ -942,7 +945,8 @@ namespace NNPEFWEB.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                return RedirectToAction("Login", "PersonnelLogin");
+                TempData["message"] = "Unable to update, make sure the form is properly filled.";
+                return RedirectToAction("OfficerRecord");
             }
         }
         public ActionResult RatingRecord(string id)
@@ -1177,16 +1181,16 @@ namespace NNPEFWEB.Controllers
                     value.NokPassport = dataStream.ToArray();
                 }
             }
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
+            //if (Request.Form.Files.Count > 0)
+            //{
+            //    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
+            //    using (var dataStream = new MemoryStream())
+            //    {
 
-                    await file3.CopyToAsync(dataStream);
-                    value.AltNokPassport = dataStream.ToArray();
-                }
-            }
+            //        await file3.CopyToAsync(dataStream);
+            //        value.AltNokPassport = dataStream.ToArray();
+            //    }
+            //}
             if (per == null)
             {
                 HttpContext.Session.SetString("Message", "Record Not Found");
@@ -1318,9 +1322,10 @@ namespace NNPEFWEB.Controllers
                 person.cdr_date = value.cdr_date;
 
                 person.Status = "SHIP";
+                    person.datecreated = DateTime.Now.Date;
 
-                //person.Status = cmdr.Appointment;
-                person.Passport = value.Passport;
+                    //person.Status = cmdr.Appointment;
+                    person.Passport = value.Passport;
                 person.NokPassport = value.NokPassport;
                 person.AltNokPassport = value.AltNokPassport;
                 await personinfoService.AddPersonalInfo(person);
@@ -1455,16 +1460,16 @@ namespace NNPEFWEB.Controllers
                     value.NokPassport = dataStream.ToArray();
                 }
             }
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
+            //if (Request.Form.Files.Count > 0)
+            //{
+            //    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
+            //    using (var dataStream = new MemoryStream())
+            //    {
 
-                    await file3.CopyToAsync(dataStream);
-                    value.AltNokPassport = dataStream.ToArray();
-                }
-            }
+            //        await file3.CopyToAsync(dataStream);
+            //        value.AltNokPassport = dataStream.ToArray();
+            //    }
+            //}
             if (per == null)
             {
                 HttpContext.Session.SetString("Message", "Record Not Found");
@@ -1540,27 +1545,28 @@ namespace NNPEFWEB.Controllers
                 person.Bankcode = value.Bankcode;
                 person.BankACNumber = value.BankACNumber;
                 person.bankbranch = value.bankbranch;
+                    person.datecreated = DateTime.Now.Date;
 
-                //person.rent_subsidy = value.rent_subsidy;
-                //person.shift_duty_allow = value.shift_duty_allow;
-                //person.aircrew_allow = value.aircrew_allow;
-                //person.SBC_allow = value.SBC_allow;
-                //person.hazard_allow = value.hazard_allow;
-                //person.special_forces_allow = value.special_forces_allow;
-                //person.other_allow = value.other_allow;
+                    //person.rent_subsidy = value.rent_subsidy;
+                    //person.shift_duty_allow = value.shift_duty_allow;
+                    //person.aircrew_allow = value.aircrew_allow;
+                    //person.SBC_allow = value.SBC_allow;
+                    //person.hazard_allow = value.hazard_allow;
+                    //person.special_forces_allow = value.special_forces_allow;
+                    //person.other_allow = value.other_allow;
 
-                //person.FGSHLS_loan = value.FGSHLS_loan;
-                //person.welfare_loan = value.welfare_loan;
-                //person.car_loan = value.car_loan;
-                //person.NNMFBL_loan = value.NNMFBL_loan;
-                //person.NNNCS_loan = value.NNNCS_loan;
-                //person.PPCFS_loan = value.PPCFS_loan;
-                //person.Anyother_Loan = value.Anyother_Loan;
-
-
+                    //person.FGSHLS_loan = value.FGSHLS_loan;
+                    //person.welfare_loan = value.welfare_loan;
+                    //person.car_loan = value.car_loan;
+                    //person.NNMFBL_loan = value.NNMFBL_loan;
+                    //person.NNNCS_loan = value.NNNCS_loan;
+                    //person.PPCFS_loan = value.PPCFS_loan;
+                    //person.Anyother_Loan = value.Anyother_Loan;
 
 
-                person.Passport = value.Passport;
+
+
+                    person.Passport = value.Passport;
                 person.NokPassport = value.NokPassport;
                 person.AltNokPassport = value.AltNokPassport;
                 await personinfoService.AddPersonalInfo(person);
@@ -1753,6 +1759,12 @@ namespace NNPEFWEB.Controllers
         {
             var lgas = _context.ef_localgovts.Where(x => x.StateId == id.Value).ToList();
             return Json(new SelectList(lgas, "Id", "lgaName"));
+        }
+        [HttpPost]
+        public ActionResult Getshipbycommand(string id)
+        {
+            var lgas = _context.ef_ships.Where(x => x.code == id).ToList();
+            return Json(new SelectList(lgas, "shipName", "shipName"));
         }
         public List<SelectListItem> GetShip()
         {
@@ -2081,7 +2093,175 @@ namespace NNPEFWEB.Controllers
                       id = model.payrollclass,
                   }));
         }
+        public IActionResult CommisionedPersonnelUpload()
+        {
+            return View();
+        }
+            public async Task<IActionResult> CommisionedPersonnelUpload(IFormFile formFile, CancellationToken cancellationToken, string batch)
+        {
+            try
+            {
+                if (formFile == null || formFile.Length <= 0)
+                {
+                    TempData["message"] = "No File Uploaded";
+                    //return BadRequest("File not an Excel Format");
+                    return View();
+                    //return BadRequest("No File Uploaded");
+                }
 
+                if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+                {
+                    TempData["message"] = "File not an Excel Format";
+                    //return BadRequest("File not an Excel Format");
+                    return View();
+                }
+                var listapplication = new List<personLoginVM>();
+                var listapplicationofrecordnotavailable = new List<personLoginVM>();
+
+                using (var stream = new MemoryStream())
+                {
+                    await formFile.CopyToAsync(stream, cancellationToken);
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets["Sheet1"];
+                        var rowCount = worksheet.Dimension.Rows;
+                        string SVC_NO = String.IsNullOrEmpty(worksheet.Cells[1, 1].ToString()) ? "" : worksheet.Cells[1, 1].Value.ToString().Trim();
+                        string RANK = String.IsNullOrEmpty(worksheet.Cells[1, 2].ToString()) ? "" : worksheet.Cells[1, 2].Value.ToString().Trim();
+                        string SURNAME = String.IsNullOrEmpty(worksheet.Cells[1, 3].ToString()) ? "" : worksheet.Cells[1, 3].Value.ToString().Trim();
+                        string OTHERNAME = String.IsNullOrEmpty(worksheet.Cells[1, 4].ToString()) ? "" : worksheet.Cells[1, 4].Value.ToString().Trim();
+                        string PAYCLASS = String.IsNullOrEmpty(worksheet.Cells[1, 5].ToString()) ? "" : worksheet.Cells[1, 5].Value.ToString().Trim();
+                        string PHONE = String.IsNullOrEmpty(worksheet.Cells[1, 6].ToString()) ? "" : worksheet.Cells[1, 6].Value.ToString().Trim();
+                        string EMAIL = String.IsNullOrEmpty(worksheet.Cells[1, 7].ToString()) ? "" : worksheet.Cells[1, 7].Value.ToString().Trim();
+
+                        if (SVC_NO != "SVC_NO" || RANK != "RANK" || SURNAME != "SURNAME" || OTHERNAME != "OTHERNAME" || PAYCLASS != "PAYCLASS" || EMAIL != "EMAIL"
+                            || PHONE != "PHONE")
+                        {
+                            return BadRequest("File not in the Right format");
+                        }
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+                            if (worksheet.Cells[1, 1].Value == null)
+                                worksheet.Cells[1, 1].Value = "";
+
+                            if (worksheet.Cells[1, 2].Value == null)
+                                worksheet.Cells[1, 2].Value = "";
+
+                            if (worksheet.Cells[1, 3].Value == null)
+                                worksheet.Cells[1, 3].Value = "";
+
+                            if (worksheet.Cells[1, 4].Value == null)
+                                worksheet.Cells[1, 4].Value = "";
+                            if (worksheet.Cells[1, 5].Value == null)
+                                worksheet.Cells[1, 5].Value = "";
+                            if (worksheet.Cells[1, 6].Value == null)
+                                worksheet.Cells[1, 6].Value = "";
+                            if (worksheet.Cells[1, 7].Value == null)
+                                worksheet.Cells[1, 7].Value = "";
+
+
+                            if (worksheet.Cells[row, 1].Value == null)
+                                worksheet.Cells[row, 1].Value = "";
+
+                            if (worksheet.Cells[row, 2].Value == null)
+                                worksheet.Cells[row, 2].Value = "";
+
+                            if (worksheet.Cells[row, 3].Value == null)
+                                worksheet.Cells[row, 3].Value = "";
+
+                            if (worksheet.Cells[row, 4].Value == null)
+                                worksheet.Cells[row, 4].Value = "";
+
+                            if (worksheet.Cells[row, 5].Value == null)
+                                worksheet.Cells[row, 5].Value = "";
+
+                            if (worksheet.Cells[row, 6].Value == null)
+                                worksheet.Cells[row, 6].Value = "";
+                            if (worksheet.Cells[row, 7].Value == null)
+                                worksheet.Cells[row, 7].Value = "";
+
+
+
+                            string svcno = String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ? "" : worksheet.Cells[row, 1].Value.ToString().Trim();
+                            string rank = String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ? "" : worksheet.Cells[row, 2].Value.ToString().Trim();
+                            string surname = String.IsNullOrEmpty(worksheet.Cells[row, 3].Value.ToString()) ? "" : worksheet.Cells[row, 3].Value.ToString().Trim();
+                            string othername = String.IsNullOrEmpty(worksheet.Cells[row, 4].Value.ToString()) ? "" : worksheet.Cells[row, 4].Value.ToString().Trim();
+                            string payclass = String.IsNullOrEmpty(worksheet.Cells[row, 5].Value.ToString()) ? "" : worksheet.Cells[row, 5].Value.ToString().Trim();
+                            string phone = String.IsNullOrEmpty(worksheet.Cells[row, 6].Value.ToString()) ? "" : worksheet.Cells[row, 6].Value.ToString().Trim();
+                            string email = String.IsNullOrEmpty(worksheet.Cells[row, 7].Value.ToString()) ? "" : worksheet.Cells[row, 7].Value.ToString().Trim();
+
+
+
+                            if (String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 3].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 5].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 6].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 7].Value.ToString()))
+                            {
+                                listapplicationofrecordnotavailable.Add(new personLoginVM
+                                {
+                                    svcNo = svcno,
+                                    rank = rank,
+                                    surName = surname,
+                                    otheName = othername,
+                                    payClass = payclass,
+                                    phoneNumber = phone,
+                                    email = email,
+                                });
+
+                            }
+                            else
+                            {
+                                //check if already in the list -- a possibility
+                                listapplication.Add(new personLoginVM
+                                {
+                                    svcNo = svcno,
+                                    rank = rank,
+                                    surName = surname,
+                                    otheName = othername,
+                                    payClass = payclass,
+                                    phoneNumber = phone,
+                                    email = email,
+                                });
+                            }
+
+                        }
+                        string userp = User.Identity.Name;
+
+                        ProcesUpload procesUpload2 = new ProcesUpload(null, null, listapplication, unitOfWorks, userp);
+                        await procesUpload2.processUploadInThread();
+                        TempData["message"] = "Uploaded Successfully";
+
+                    }
+
+                }
+                if (listapplicationofrecordnotavailable.Count > 0)
+                {
+
+                    var stream = new MemoryStream();
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        var workSheet = package.Workbook.Worksheets.Add("Sheet2");
+                        workSheet.Cells.LoadFromCollection(listapplicationofrecordnotavailable, true);
+                        package.Save();
+                    }
+                    stream.Position = 0;
+                    string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+
+                    //return File(stream, "application/octet-stream", excelName);  
+                    return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                throw;
+                //return RedirectToAction("Login", "PersonnelLogin");
+            }
+        }
 
     }
 }

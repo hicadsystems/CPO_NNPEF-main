@@ -19,37 +19,40 @@
     <link href="~/css/ionicons.min.css" rel="stylesheet" />
     <!-- Theme style -->
     <link href="~/dist/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.23/b-1.6.5/fc-3.3.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css" />
+
     <script src="~/js/app.js" defer></script>
     @*<style>
 
-        body {
-            opacity: 0;
-        }
-    </style>
+            body {
+                opacity: 0;
+            }
+        </style>
 
-    <style>
+        <style>
 
-        .caption {
-            display: flex;
-            flex-direction: column;
-        }
+            .caption {
+                display: flex;
+                flex-direction: column;
+            }
 
-        .user {
-            display: flex;
-            flex-direction: row;
-        }
-    </style>
-    <style>
-        .e-row:hover {
-            cursor: pointer;
-            background-color: #03a9f430 !important
-        }
-    </style>*@
+            .user {
+                display: flex;
+                flex-direction: row;
+            }
+        </style>
+        <style>
+            .e-row:hover {
+                cursor: pointer;
+                background-color: #03a9f430 !important
+            }
+        </style>*@
 
 
-   
+
     @*<link href="~/dist/app.css" rel="stylesheet" />*@
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/settings.js"></script>
@@ -61,6 +64,34 @@
         <partial name="_partialLayout" />
 
         <div class="content-wrapper">
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="/Home/Index" class="nav-link">Home</a>
+                    </li>
+                    @*<li class="nav-item d-none d-sm-inline-block">
+                            <a href="#" class="nav-link">Contact</a>
+                        </li>*@
+                </ul>
+
+                <!-- SEARCH FORM -->
+                @*<form class="form-inline ml-3">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>*@
+
+            </nav>
+
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
@@ -69,9 +100,9 @@
 
                         </div>
                         <!--<div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Layout</a></li>-->
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Layout</a></li>-->
                         @*<li class="breadcrumb-item active">Fixed Navbar Layout</li>*@
                         <!--</ol>
                         </div>-->
@@ -106,8 +137,10 @@
     @RenderSection("Scripts", required: false)
 
     <script src="~/js/app.js"></script>
-
+    <script src="~/js/site.js"></script>
     <script src="~/dist/app.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.23/b-1.6.5/fc-3.3.2/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
+
     <script>
 
 
@@ -192,7 +225,7 @@
 
     <script>
         $(document).ready(function () {
-            
+
             $('#data-table-role').DataTable({
                 "language ": {
                     "emptyTable ": "No Role. Add new Role. "

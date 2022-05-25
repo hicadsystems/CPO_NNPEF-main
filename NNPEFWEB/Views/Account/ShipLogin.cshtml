@@ -36,6 +36,8 @@
 
                                 <form id="account" method="post" asp-controller="Account" asp-action="ShipLogin">
                                     <command-login></command-login>
+                                    @*<ship-login-componet></ship-login-componet>*@
+                                    <a href="@Url.Action("ForgetPassword","Account")" class="ml-auto mb-0 text-sm">Forgot Password?</a>
                                 </form>
                             </div>
                         </div>
