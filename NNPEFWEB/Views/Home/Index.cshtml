@@ -108,9 +108,9 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>@Html.ActionLink(Model.ApproveStaffRatings.ToString(), "AllStaffRatingsList", "Home", null, new { @style = "color:white;" })</h3>
+                        <h3>@Html.ActionLink(Model.ApproveStaffRatings.ToString(), "ApprovedStaffRatingsList", "Home", null, new { @style = "color:white;" })</h3>
 
-                        <p>@Html.ActionLink("Rating Approved", "AllStaffRatingsList", "Home", null, new { @style = "color:white;" })</p>
+                        <p>@Html.ActionLink("Rating Approved", "ApprovedStaffRatingsList", "Home", null, new { @style = "color:white;" })</p>
 
                         @*<h3>@Model.ApproveStaffRatings</h3>
 
@@ -127,9 +127,10 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>@Model.AwaitingApprovalStaffRatings</h3>
+                        <h3>@Html.ActionLink(Model.AwaitingApprovalStaffRatings.ToString(), "AwaiteApprovalStaffRatingsList", "Home", null, new { @style = "color:white;" })</h3>
 
-                        <p>Ratings Awaiting Approval</p>
+
+                        <p>@Html.ActionLink("Ratings Awaiting Approval", "AwaiteApprovalStaffRatingsList", "Home", null, new { @style = "color:white;" })</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-android-people"></i>
@@ -142,9 +143,9 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>@Model.YettoFillStaffRatings</h3>
+                        <h3>@Html.ActionLink(Model.YettoFillStaffRatings.ToString(), "YetToFillStaffRatingsList", "Home", null, new { @style = "color:white;" })</h3>
 
-                        <p>Ratings Yet To Fill Form</p>
+                        <p>@Html.ActionLink("Ratings Yet To Fill Form", "YetToFillStaffRatingsList", "Home", null, new { @style = "color:white;" })</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-android-people"></i>
@@ -160,9 +161,9 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>@Model.AllStaffTrainings</h3>
+                        <h3>@Html.ActionLink(Model.AllStaffTrainings.ToString(), "AllStaffTrainingsList", "Home", null, new { @style = "color:white;" })</h3>
 
-                        <p> ALL Trainee Personnel</p>
+                        <p>@Html.ActionLink("ALL Trainee Personnel", "AllStaffTrainingsList", "Home", null, new { @style = "color:white;" })</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-android-person"></i>
@@ -175,9 +176,9 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>@Model.ApproveStaffTrainings</h3>
+                        <h3>@Html.ActionLink(Model.ApproveStaffTrainings.ToString(), "ApprovedStaffTrainingsList", "Home", null, new { @style = "color:white;" })</h3>
 
-                        <p>Trainee Approve Personnel</p>
+                        <p>@Html.ActionLink("Trainee Approve Personnel", "ApprovedStaffTrainingsList", "Home", null, new { @style = "color:white;" })</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-ios-people-outline"></i>
@@ -190,9 +191,9 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>@Model.AwaitingApprovalStaffTrainings</h3>
+                        <h3>@Html.ActionLink(Model.AwaitingApprovalStaffTrainings.ToString(), "AwaiteApprovalStaffTrainingsList", "Home", null, new { @style = "color:white;" })</h3>
 
-                        <p>Trainee Awaiting Approval</p>
+                        <p>@Html.ActionLink("Trainee Awaiting Approval", "AwaiteApprovalStaffTrainingsList", "Home", null, new { @style = "color:white;" })</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-android-people"></i>
@@ -205,9 +206,9 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>@Model.YettoFillStaffTrainings</h3>
+                        <h3>@Html.ActionLink(Model.YettoFillStaffTrainings.ToString(), "YetToFillStaffTrainingsList", "Home", null, new { @style = "color:white;" })</h3>
 
-                        <p>Trainee Yet To Fill Form</p>
+                        <p>@Html.ActionLink("Trainee Yet To Fill Form", "YetToFillStaffTrainingsList", "Home", null, new { @style = "color:white;" })</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-android-people"></i>

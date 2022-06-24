@@ -1,0 +1,6 @@
+2022-05-25T15:09:49.4691885+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-05-25T15:09:49.5282684+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-05-25T15:09:49.5302416+01:00  [INF] Content root path: "C:\Projects\CPO_NNPEF-Main\NNPEFWEB" (b5d60022)
+2022-05-25T15:13:04.6644429+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-05-25T15:13:04.6820325+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-05-25T15:13:04.6848317+01:00  [INF] Content root path: "C:\Projects\CPO_NNPEF-Main\NNPEFWEB" (b5d60022)

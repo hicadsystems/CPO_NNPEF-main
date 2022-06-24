@@ -173,9 +173,9 @@ namespace NNPEFWEB.Controllers
             return View(allRatingslist);
         }
        
-        public IActionResult ApprovedStaffRatingsList(int? pageNumber)
+        public async Task<IActionResult> ApprovedStaffRatingsList(int? pageNumber)
         {
-            var approvedStaffList = _dashboard.ApprovedStaffRatingsList("1", "CPO", pageNumber);
+            var approvedStaffList = await _dashboard.ApprovedStaffRatingsList("1", "CPO", pageNumber);
 
             return View(approvedStaffList);
         }

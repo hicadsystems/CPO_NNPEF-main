@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,8 @@ namespace NNPEFWEB.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ISystemsInfoService _systemsInfoService;
         private readonly string connectionstring;
+        private readonly string _remoteConnectionstring;
+        private readonly string _localConnectionstring;
         private IPersonInfoService _personinfoService;
         private readonly IPersonService _personService;
         private readonly ApplicationDbContext _context;
@@ -45,7 +48,7 @@ namespace NNPEFWEB.Controllers
         public AccountController(
             IShipService shipService,
             IConfiguration config,
-               IPersonInfoService personinfoService,
+            IPersonInfoService personinfoService,
             IPersonService personService,
             ILogger<HomeController> logger,
             UserManager<User> userManager,
@@ -64,6 +67,8 @@ namespace NNPEFWEB.Controllers
             _context = context;
             _unitOfWorks = unitOfWorks;
             connectionstring = configuration.GetConnectionString("DefaultConnection");
+            _remoteConnectionstring = configuration.GetConnectionString("RemoteConnection");
+            _localConnectionstring = configuration.GetConnectionString("LocalConnection");
 
 
         }
@@ -980,36 +985,88 @@ namespace NNPEFWEB.Controllers
             ViewBag.commandList = GetCommand();
             return View();
         }
+
         [HttpPost]
         public IActionResult UpdatePayrollWithEF(string payclass)
         {
             ViewBag.commandList = GetCommand();
+            //try
+            //{
+            //    using (SqlConnection sqlcon = new SqlConnection(connectionstring))
+            //    {
+
+            //        using (SqlCommand cmd = new SqlCommand("UpdatePayrollEF", sqlcon))
+            //        {
+            //            cmd.CommandTimeout = 1200;
+            //            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //            cmd.Parameters.Add(new SqlParameter("@payclass", payclass));
+
+
+            //            sqlcon.Open();
+            //            cmd.ExecuteNonQuery();
+            //            TempData["UpdateMessage"] = "Sucessfully Updated";
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    TempData["UpdateMessage"] = "Updated Fail : " + ex.Message;
+            // //   ex.Message;
+            //}
             try
             {
-                using (SqlConnection sqlcon = new SqlConnection(connectionstring))
+                List<string> serviceNumbers = new List<string>();
+                SqlConnection remoteDB = new SqlConnection(_remoteConnectionstring);
+                SqlCommand sqlCommand = new SqlCommand($"SELECT * FROM ef_personalInfos where emolumentform = 'Yes' AND classes = {payclass}", remoteDB);
+                remoteDB.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+
+                while (sqlDataReader.Read())
                 {
+                    var serviceNumber = sqlDataReader["serviceNumber"].ToString();
 
-                    using (SqlCommand cmd = new SqlCommand("UpdatePayrollEF", sqlcon))
+                    using (SqlConnection localDB = new SqlConnection(_localConnectionstring))
                     {
-                        cmd.CommandTimeout = 1200;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@payclass", payclass));
+                        using (SqlCommand localCommand = new SqlCommand("UPDATE hr_employees SET emolumentform = 'Yes' WHERE Empl_ID = @serviceNumber", localDB))
+                        {
+                            localCommand.CommandType = CommandType.Text;
+                            localCommand.Parameters.AddWithValue("@serviceNumber", serviceNumber);
+                            localDB.Open();
+                            int rowsAffected = localCommand.ExecuteNonQuery();
+                            localDB.Close();
+                        };
+                    }
 
+                    serviceNumbers.Add(serviceNumber);
+                }
 
-                        sqlcon.Open();
-                        cmd.ExecuteNonQuery();
-                        TempData["UpdateMessage"] = "Sucessfully Updated";
+                remoteDB.Close();
+
+                for (int i = 0; i <= serviceNumbers.ToArray().Length - 1; i++)
+                {
+                    using (SqlConnection remoteUpdateDB = new SqlConnection(_remoteConnectionstring))
+                    {
+                        using (SqlCommand sqlUpdateRemoteCommand = new SqlCommand("UPDATE ef_personalInfos SET emolumentform = 'Appr' WHERE serviceNumber = @serviceNumber", remoteUpdateDB))
+                        {
+                            sqlUpdateRemoteCommand.CommandType = CommandType.Text;
+                            sqlUpdateRemoteCommand.Parameters.AddWithValue("@serviceNumber", serviceNumbers[i]);
+                            remoteUpdateDB.Open();
+                            int remoteRowsAffected = sqlUpdateRemoteCommand.ExecuteNonQuery();
+                            remoteUpdateDB.Close();
+                        };
+
                     }
                 }
+
+
             }
             catch (Exception ex)
             {
-               
-                TempData["UpdateMessage"] = "Updated Fail";
-             //   ex.Message;
+
+                TempData["UpdateMessage"] = "Updated Fail : " + ex.Message;
             }
 
-         
             return View();
         }
         public IActionResult ClosingPage()
