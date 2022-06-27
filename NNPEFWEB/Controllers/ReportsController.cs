@@ -141,7 +141,8 @@ namespace NNPEFWEB.Controllers
                                 pp.religion = sdr["religion"].ToString();
                                 pp.MaritalStatus = sdr["MaritalStatus"].ToString();
                                 pp.AcommodationStatus = sdr["AcommodationStatus"].ToString();
-                        
+                        pp.confirmedBy = sdr["confirmedBy"].ToString();
+
                         pp.chid_name = sdr["chid_name"].ToString();
                                 pp.chid_name2 = sdr["chid_name2"].ToString();
                                 pp.chid_name3 = sdr["chid_name3"].ToString();
@@ -446,6 +447,7 @@ namespace NNPEFWEB.Controllers
                         pp.DateEmpl = Convert.ToDateTime(sdr["DateEmpl"]);
                         pp.seniorityDate = Convert.ToDateTime(sdr["seniorityDate"]);
                         pp.runOutDate = Convert.ToDateTime(sdr["runOutDate"]);
+                        pp.advanceDate = Convert.ToDateTime(sdr["advanceDate"]);
                         pp.home_address = sdr["home_address"].ToString();
                         pp.branch = sdr["branchName"].ToString();
                         pp.command = sdr["commandName"].ToString();
@@ -458,6 +460,8 @@ namespace NNPEFWEB.Controllers
                         pp.appointment = sdr["appointment"].ToString();
                         pp.AcommodationStatus = sdr["AcommodationStatus"].ToString();
                         pp.AddressofAcommodation = sdr["AddressofAcommodation"].ToString();
+                        pp.confirmedBy = sdr["confirmedBy"].ToString();
+                        pp.entry_mode= sdr["entry_mode"].ToString();
                         pp.nok_phone12 = sdr["nok_phone12"].ToString();
                         pp.nok_phone22 = sdr["nok_phone22"].ToString();
 

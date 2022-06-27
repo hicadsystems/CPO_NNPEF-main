@@ -197,21 +197,17 @@
                         <span asp-validation-for="seniorityDate" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">Entry Mode</label>
+                        <label class="control-label">Type of Commissioning</label>
                         <input asp-for="entry_mode" class="form-control"  required />
-                        @*<select asp-for="entry_mode" id="entrymodeid"
-                class="form-control"
-                asp-items="@(new SelectList(Model.entry_modeList,"Value", "Text"))">
-        </select>*@
                         <span asp-validation-for="entry_mode" class="text-danger"></span>
                     </div>
 
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4" id="enrolmentdate">
-                        <label class="control-label">Enrolment Date</label>
-                        <input asp-for="advanceDate" class="form-control" type="date" />
+                    <div class="col-md-4">
+                        <label class="control-label">Date of Commissioning</label>
+                        <input asp-for="advanceDate" class="form-control" type="date" readonly />
                         <span asp-validation-for="advanceDate" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
@@ -236,19 +232,11 @@
                     <div class="col-md-4">
                         <label class="control-label">Command</label>
                         <input asp-for="command" class="form-control" required />
-                        @*<select asp-for="command" id="ddcommand"
-                class="form-control"
-                asp-items="@(new SelectList(Model.commandList,"Value", "Text"))">
-        </select>*@
                         <span asp-validation-for="command" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Ship</label>
                         <input asp-for="ship" class="form-control" readonly />
-                        @*<select asp-for="ship" id="ddship"
-                                class="form-control"
-                                asp-items="@(new SelectList(Model.shipList,"Value", "Text"))">
-                        </select>*@
                         <span asp-validation-for="ship" class="text-danger"></span>
                     </div>
                 </div>
@@ -259,10 +247,6 @@
                     <div class="col-md-4">
                         <label class="control-label">Specialisation</label>
                         <input asp-for="specialisation" class="form-control" required />
-                        @*<select asp-for="specialisation"
-                class="form-control"
-                asp-items="@(new SelectList(Model.specialisationList,"Value", "Text"))">
-        </select>*@
                         <span asp-validation-for="specialisation" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
@@ -270,14 +254,14 @@
                         <input asp-for="entitlement" class="form-control" />
                         <span asp-validation-for="entitlement" class="text-danger"></span>
                     </div>
-
+                    <div class="col-md-4">
+                        <label class="control-label">Nature of Appointment</label>
+                        <input asp-for="confirmedBy" class="form-control" readonly/>
+                       
+                    </div>
                     <div class="col-md-4">
                         <label class="control-label">State of Origin</label>
                         <input asp-for="StateofOrigin" class="form-control" readonly />
-                        @*<select asp-for="StateofOrigin" id="ddstate"
-                                class="form-control"
-                                asp-items="@(new SelectList(Model.StateofOriginList,"Value", "Text"))">
-                        </select>*@
                         <span asp-validation-for="StateofOrigin" class="text-danger"></span>
                     </div>
 
@@ -286,21 +270,11 @@
                     <div class="col-md-4">
                         <label class="control-label">LGA</label>
                         <input asp-for="LocalGovt" class="form-control" readonly />
-                        @*<select asp-for="LocalGovt" id="ddlocalGovt"
-                                class="form-control"
-                                asp-items="@(new SelectList(Model.LocalGovtList,"Value", "Text"))">
-                        </select>*@
                         <span asp-validation-for="LocalGovt" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Religion</label>
                         <input asp-for="religion" class="form-control" />
-                        @*<select asp-for="religion" class="form-control">
-                            <option>Select....</option>
-                            <option value="Christian">Christian</option>
-                            <option value="Muslim">Muslim</option>
-
-                        </select>*@
                         <span asp-validation-for="religion" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">

@@ -177,6 +177,18 @@
 
                 </div>
                 <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label">Date of Enlistment</label>
+                        <input asp-for="advanceDate" class="form-control" type="date" required />
+                        <span asp-validation-for="advanceDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label">Nature of Appointment</label>
+                        <input asp-for="confirmedBy" class="form-control"  required />
+                        <span asp-validation-for="confirmedBy" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
 
                     <div class="col-md-4">
                         <label class="control-label">Date of Expiration of Current Engagement</label>

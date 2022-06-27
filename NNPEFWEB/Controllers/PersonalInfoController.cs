@@ -667,7 +667,7 @@ namespace NNPEFWEB.Controllers
                 appointment=per.appointment,
                 runOutDate=per.runoutDate,
                 entitlement=per.entitlement,
-
+                confirmedBy=per.confirmedBy,
                 chid_name=per.chid_name,
                 chid_name2 = per.chid_name2,
                 chid_name3 = per.chid_name3,
@@ -691,7 +691,7 @@ namespace NNPEFWEB.Controllers
                 nok_nationalId2 = per.nok_nationalId2,
                 nok_relation2=per.nok_relation2,
                 
-                AccountName = per.AccountName,
+                AccountName = per.Surname+" "+per.OtherName,
                 Bankcode = per.Bankcode,
                 BankACNumber = per.BankACNumber,
                 bankbranch = per.bankbranch,
@@ -870,6 +870,8 @@ namespace NNPEFWEB.Controllers
                     person.runoutDate = value.runoutDate;
                     person.entitlement = value.entitlement;
                     person.appointment = value.appointment;
+
+                    person.confirmedBy = value.confirmedBy;
                 person.chid_name = value.chid_name;
                 person.chid_name2 = value.chid_name2;
                 person.chid_name3 = value.chid_name3;
@@ -1039,8 +1041,9 @@ namespace NNPEFWEB.Controllers
                 Passport = pix,
                 NokPassport = nokpix,
                 AltNokPassport=altnokpix,
+                    confirmedBy = per.confirmedBy,
 
-                chid_name = per.chid_name,
+                    chid_name = per.chid_name,
                 chid_name2 = per.chid_name2,
                 chid_name3 = per.chid_name3,
                 chid_name4 = per.chid_name4,
@@ -1063,8 +1066,8 @@ namespace NNPEFWEB.Controllers
                 nok_nationalId2 = per.nok_nationalId2,
                 nok_relation2=per.nok_relation2,
 
-                AccountName = per.AccountName,
-                Bankcode = per.Bankcode,
+                    AccountName = per.Surname + " " + per.OtherName,
+                    Bankcode = per.Bankcode,
                 BankACNumber = per.BankACNumber,
                 bankbranch = per.bankbranch,
 
@@ -1400,7 +1403,7 @@ namespace NNPEFWEB.Controllers
                 nok_email2 = per.nok_email2,
                 nok_nationalId2 = per.nok_nationalId2,
 
-                AccountName = per.AccountName,
+                AccountName = per.Surname + " " + per.OtherName,
                 Bankcode = per.Bankcode,
                 BankACNumber = per.BankACNumber,
                 bankbranch = per.bankbranch,
