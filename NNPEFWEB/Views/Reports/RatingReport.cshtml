@@ -236,38 +236,40 @@
                 </div>
                 <div class="rowss">
                     <div class="column7"><strong>7.&nbsp;&nbsp;&nbsp; Date of Expiration of Current Engagement:&nbsp;&nbsp;  @Html.DisplayFor(x => x.expirationOfEngagementDate)</strong></div>
+                    <div class="column2"><strong>8.&nbsp;&nbsp;&nbsp; Nature of Appointment:&nbsp;&nbsp;  @Html.DisplayFor(x => x.confirmedBy)</strong></div>
+
                 </div>
                 <div class="rowss">
-                    <div class="column2"><strong>8.&nbsp;&nbsp;&nbsp; Year of Advancement: &nbsp;&nbsp;  @Html.DisplayFor(x => x.advanceDate)</strong></div>
-                    <div class="column2"><strong>9.&nbsp;&nbsp;&nbsp; Seniority on Current Rate :&nbsp;&nbsp;&nbsp;@Html.DisplayFor(x => x.seniorityDate)</strong></div>
+                    <div class="column2"><strong>9.&nbsp;&nbsp;&nbsp; Year of Advancement: &nbsp;&nbsp;  @Html.DisplayFor(x => x.advanceDate)</strong></div>
+                    <div class="column2"><strong>10.&nbsp;&nbsp;&nbsp; Seniority on Current Rate :&nbsp;&nbsp;&nbsp;@Html.DisplayFor(x => x.seniorityDate)</strong></div>
                 </div>
 
             </div>
             <div class="rowss">
-                <div class="column7"><strong>10.&nbsp;&nbsp;&nbsp; Residential Address :&nbsp;&nbsp;  @Model.home_address</strong></div>
+                <div class="column7"><strong>11.&nbsp;&nbsp;&nbsp; Residential Address :&nbsp;&nbsp;  @Model.home_address</strong></div>
             </div>
             <div class="rowss">
-                <div class="column2"><strong>11.&nbsp;&nbsp;&nbsp; Branch:&nbsp;&nbsp;  @Model.branch</strong></div>
-                <div class="column2"><strong>12.&nbsp;&nbsp;&nbsp; Specialisation:&nbsp;&nbsp; @Model.specialisation</strong></div>
+                <div class="column2"><strong>12.&nbsp;&nbsp;&nbsp; Branch:&nbsp;&nbsp;  @Model.branch</strong></div>
+                <div class="column2"><strong>13.&nbsp;&nbsp;&nbsp; Specialisation:&nbsp;&nbsp; @Model.specialisation</strong></div>
             </div>
             <div class="rowss">
-                <div class="column2"><strong>13.&nbsp;&nbsp;&nbsp; Ship/Establishment :&nbsp;&nbsp;  @Model.ship</strong></div>
-                <div class="column2"><strong>14.&nbsp;&nbsp;&nbsp;  Command:&nbsp;&nbsp; @Model.command</strong></div>
+                <div class="column2"><strong>14.&nbsp;&nbsp;&nbsp; Ship/Establishment :&nbsp;&nbsp;  @Model.ship</strong></div>
+                <div class="column2"><strong>15.&nbsp;&nbsp;&nbsp;  Command:&nbsp;&nbsp; @Model.command</strong></div>
             </div>
 
             <div class="rowss">
-                <div class="column7"><strong>15.&nbsp;&nbsp;&nbsp; Date of Joining Ship :&nbsp;&nbsp;  @Html.DisplayFor(x => x.runOutDate)</strong></div>
+                <div class="column7"><strong>16.&nbsp;&nbsp;&nbsp; Date of Joining Ship :&nbsp;&nbsp;  @Html.DisplayFor(x => x.runOutDate)</strong></div>
             </div>
             <div class="rowss">
-                <div class="column2"><strong>16.&nbsp;&nbsp;&nbsp; a. State of Origin:&nbsp;&nbsp;  @Model.StateofOrigin</strong></div>
+                <div class="column2"><strong>17.&nbsp;&nbsp;&nbsp; a. State of Origin:&nbsp;&nbsp;  @Model.StateofOrigin</strong></div>
                 <div class="column2"><strong>b. &nbsp;&nbsp;&nbsp;  LGA :&nbsp;&nbsp; @Model.LocalGovt</strong></div>
             </div>
             <div class="rowss">
-                <div class="column7"><strong>17.&nbsp;&nbsp;&nbsp; Religion :&nbsp;&nbsp;  @Model.religion</strong></div>
+                <div class="column7"><strong>18.&nbsp;&nbsp;&nbsp; Religion :&nbsp;&nbsp;  @Model.religion</strong></div>
             </div>
 
             <div class="rowss">
-                <div class="column2"><strong>18.&nbsp;&nbsp;&nbsp; a. GSM No. (1) :&nbsp;&nbsp;  @Model.gsm_number</strong></div>
+                <div class="column2"><strong>19.&nbsp;&nbsp;&nbsp; a. GSM No. (1) :&nbsp;&nbsp;  @Model.gsm_number</strong></div>
                 <div class="column2"><strong>&nbsp;&nbsp;&nbsp; (2):&nbsp;&nbsp; @Model.gsm_number2</strong></div>
             </div>
             <div class="rowss" style="margin-left:35px">
@@ -275,7 +277,7 @@
                 <div class="column2"><strong>c.&nbsp;&nbsp;&nbsp; Marital Status :&nbsp;&nbsp;  @Model.MaritalStatus</strong></div>
             </div>
             <div class="row" style="margin-top: -16px;">
-                <div class="col-md-8"><h4><span>19.&nbsp;&nbsp;&nbsp;  Name of Spouse :&nbsp;&nbsp;&nbsp; </span><strong>@Model.sp_name &nbsp;&nbsp;&nbsp; <i>(State Rate/Svc No, if  Personnel)</i></strong></h4></div>
+                <div class="col-md-8"><h4><span>20.&nbsp;&nbsp;&nbsp;  Name of Spouse :&nbsp;&nbsp;&nbsp; </span><strong>@Model.sp_name &nbsp;&nbsp;&nbsp; <i>(State Rate/Svc No, if  Personnel)</i></strong></h4></div>
             </div>
             <div class="row" style="margin-left:50px; margin-top:-13px">
                 <div class="col-md-12">
@@ -304,7 +306,7 @@
             <div class="row" style="margin-top: -14px;">
 
                 <h4>
-                    20. &nbsp;&nbsp;&nbsp; Details of NOKs, (Note that NOK as used in this Form includes potential administrator of a deceased personnel's estate in relation to his personal emolument and other perquisites of office).
+                    21. &nbsp;&nbsp;&nbsp; Details of NOKs, (Note that NOK as used in this Form includes potential administrator of a deceased personnel's estate in relation to his personal emolument and other perquisites of office).
                 </h4>
 
                 <h4 style="margin-left: 20px; margin-top: -12px;">a. <u>Next of Kin &nbsp;(Attach Passport Photographs)</u></h4>
@@ -357,7 +359,7 @@
             </div>
 
             <div class="row" style="margin-top: -16px;">
-                <div class="col-md-10"><h4><span>21.&nbsp;a. Accommodation Status: &nbsp;&nbsp;&nbsp;&nbsp;</span><strong>@Model.AcommodationStatus</strong></h4></div>
+                <div class="col-md-10"><h4><span>22.&nbsp;a. Accommodation Status: &nbsp;&nbsp;&nbsp;&nbsp;</span><strong>@Model.AcommodationStatus</strong></h4></div>
             </div>
             <div class="row" style="margin-top:-16px;margin-left:25px;">
                 <div class="col-md-10"><h4><span>b. Address of Accommodation: &nbsp;&nbsp;&nbsp;&nbsp;</span><strong>@Model.AddressofAcommodation</strong></h4></div>

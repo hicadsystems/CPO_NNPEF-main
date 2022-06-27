@@ -58,6 +58,8 @@ namespace NNPEFWEB.ViewModel
         public List<SelectListItem> branchList { get; set; }
         public string appointment { get; set; }
         public string yearOfAdvancement { get; set; }
+        public string yearOfPromotion { get; set; }
+        
         public string ship { get; set; }
         
         public List<SelectListItem> shipList { get; set; }
@@ -87,7 +89,6 @@ namespace NNPEFWEB.ViewModel
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         [Display(Name = "advanceDate")]
         public DateTime? advanceDate { get; set; }
-        public string yearOfPromotion { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]

@@ -180,7 +180,11 @@
 
                 </div>
                 <div class="row">
-
+                    <div class="col-md-4" id="enrolmentdate">
+                        <label class="control-label">Date of Enlistment</label>
+                        <input asp-for="advanceDate" class="form-control" type="date" />
+                        <span asp-validation-for="advanceDate" class="text-danger"></span>
+                    </div>
                     <div class="col-md-4">
                         <label class="control-label">Date of Expiration of Current Engagement</label>
                         <input asp-for="expirationOfEngagementDate" class="form-control" type="date" required />
@@ -189,24 +193,36 @@
                     <div class="col-md-4">
                         <label class="control-label">Year of Advancement</label>
                         @*@Html.EditorFor(x => x.advanceDate, new { @class="form-control" })*@
-                        <input asp-for="advanceDate" class="form-control" type="date" />
+                        <input asp-for="yearOfPromotion" class="form-control" />
                         <span asp-validation-for="yearOfPromotion" class="text-danger"></span>
                     </div>
+                 
+                </div>
+                <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">Seniority on Current Rate</label>
                         <input asp-for="seniorityDate" class="form-control" type="date" required />
                         <span asp-validation-for="seniorityDate" class="text-danger"></span>
                     </div>
-
-                </div>
-                <div class="row">
-
+                    <div class="col-md-4">
+                        <label class="control-label">Nature of Appointment</label>
+                        <select asp-for="confirmedBy" class="form-control" required>
+                            <option>Select....</option>
+                            <option value="Permanent">Permanent</option>
+                            <option value="Contract">Contract</option>
+                        </select>
+                        <span asp-validation-for="confirmedBy" class="text-danger"></span>
+                    </div>
                     <div class="col-md-4">
                         <label class="control-label">Residential Address</label>
                         <textarea asp-for="home_address" class="form-control"></textarea>
                         <span asp-validation-for="home_address" class="text-danger"></span>
                     </div>
 
+                  
+                </div>
+
+                <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">Branch</label>
                         <select asp-for="branch"
@@ -223,10 +239,6 @@
                         </select>
                         <span asp-validation-for="specialisation" class="text-danger"></span>
                     </div>
-                </div>
-
-                <div class="row">
-
                     <div class="col-md-4">
                         <label class="control-label">Command</label>
                         <select asp-for="command" id="ddcommand"
@@ -235,6 +247,11 @@
                         </select>
                         <span asp-validation-for="command" class="text-danger"></span>
                     </div>
+               
+                </div>
+
+
+                <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">Ship/Establishment</label>
                         <select asp-for="ship" id="ddship"
@@ -250,11 +267,6 @@
                         <input asp-for="runOutDate" class="form-control" type="date" required />
                         <span asp-validation-for="runOutDate" class="text-danger"></span>
                     </div>
-                </div>
-
-
-                <div class="row">
-
                     <div class="col-md-4">
                         <label class="control-label">State of Origin</label>
                         <select asp-for="StateofOrigin" id="ddstate"
@@ -264,10 +276,13 @@
                         <span asp-validation-for="StateofOrigin" class="text-danger"></span>
                     </div>
                     @*<div class="col-md-4" id="lga">
-                <label class="control-label">LGA</label>
-                 <input asp-for="LocalGovt" class="form-control" />
-                <span asp-validation-for="LocalGovt" class="text-danger"></span>
-            </div>*@
+            <label class="control-label">LGA</label>
+             <input asp-for="LocalGovt" class="form-control" />
+            <span asp-validation-for="LocalGovt" class="text-danger"></span>
+        </div>*@
+                 
+                </div>
+                <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">LGA</label>
                         <select asp-for="LocalGovt" id="ddlocalGovt"
@@ -289,6 +304,7 @@
                     </div>
 
                 </div>
+
                 <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">GSM No (1)</label>
