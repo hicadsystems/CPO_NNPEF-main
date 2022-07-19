@@ -1,7 +1,0 @@
-2022-03-27T22:30:53.8277766+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
-2022-03-27T22:30:53.8742834+01:00  [INF] Hosting environment: "Production" (c3307c92)
-2022-03-27T22:30:53.9094953+01:00  [INF] Content root path: "C:\Users\Home\source\Repo\CPO_NNPEF-main\NNPEFWEB" (b5d60022)
-2022-03-27T23:06:26.0991211+01:00 80000088-0002-f800-b63f-84710c7967bb [INF] The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Must issue a STARTTLS command first. v2-20020a509d02000000b00412d53177a6sm6304353ede.20 - gsmtp (7d5857dc)
-2022-03-27T23:14:14.1562155+01:00 800000e1-0003-fb00-b63f-84710c7967bb [INF] The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at (7c91965b)
-2022-03-27T23:20:59.0928076+01:00 80000144-0000-ff00-b63f-84710c7967bb [INF] The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at (7c91965b)
-2022-03-27T23:24:07.1658071+01:00 8000008b-0002-f800-b63f-84710c7967bb [INF] The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required. Learn more at (7c91965b)
