@@ -902,14 +902,14 @@ namespace NNPEFWEB.Controllers
             _shipService.DeleteUser(id);
             return RedirectToAction("GetshipUser");
         }
-            public List<SelectListItem> GetRank()
+        public List<SelectListItem> GetRank()
         {
-           var RankList = (from rk in _context.ef_ranks
-                           select new SelectListItem()
-                           {
-                               Text = rk.rankName,
-                               Value = rk.rankName.ToString(),
-                           }).ToList();
+            var RankList = (from rk in _context.ef_ranks
+                            select new SelectListItem()
+                            {
+                                Text = rk.rankName,
+                                Value = rk.rankName.ToString(),
+                            }).ToList();
 
             RankList.Insert(0, new SelectListItem()
             {

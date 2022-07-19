@@ -262,6 +262,7 @@ namespace NNPEFWEB.Controllers
                         pp.cdr_rank = sdr["cdr_rank"].ToString();
                         pp.cdr_svcno = sdr["cdr_svcno"].ToString();
 
+                        pp.AltNokPassport = ppp.AltNokPassport;
 
                         //    }) ;
                         //}
@@ -402,7 +403,7 @@ namespace NNPEFWEB.Controllers
                         pp.cdr_rank = sdr["cdr_rank"].ToString();
                         pp.cdr_svcno = sdr["cdr_svcno"].ToString();
 
-                        
+                        pp.AltNokPassport = ppp.AltNokPassport;
                     }
                 }
             }
@@ -565,7 +566,7 @@ namespace NNPEFWEB.Controllers
                         pp.cdr_rank = sdr["cdr_rank"].ToString();
                         pp.cdr_svcno = sdr["cdr_svcno"].ToString();
 
-                        
+                        pp.AltNokPassport = ppp.AltNokPassport;
                     }
                 }
             }

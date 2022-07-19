@@ -37,6 +37,7 @@ namespace NNPEFWEB.Controllers.API
             this.webHostEnvironment = HostEnvironment;
             imapper = _imapper;
         }
+
         [HttpGet]
         [AllowAnonymous]
         [Route("getPersonBySearch/{Searching}")]

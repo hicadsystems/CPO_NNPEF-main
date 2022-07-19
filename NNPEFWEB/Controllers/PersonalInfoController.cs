@@ -51,6 +51,23 @@ namespace NNPEFWEB.Controllers
             _generatepdf = generatepdf;
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
+
+        [HttpGet]
+        public IActionResult SortShipRecords(string query = null)
+        {
+            List<ef_ship> result = new List<ef_ship>();
+
+            if (!string.IsNullOrEmpty(query) && query != "null")
+            {
+                result = _context.ef_ships.Where(x => x.shipName.ToLower().Contains(query.ToLower())).ToList();
+            }
+            else
+            {
+                result = _context.ef_ships.ToList();
+            }
+
+            return Ok(result);
+        }
         public IActionResult UpdatedPersonelList2(string svcno)
         {
             try
@@ -1184,17 +1201,17 @@ namespace NNPEFWEB.Controllers
                     value.NokPassport = dataStream.ToArray();
                 }
             }
-            //if (Request.Form.Files.Count > 0)
-            //{
-            //    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
-            //    using (var dataStream = new MemoryStream())
-            //    {
+                if (Request.Form.Files.Count > 0)
+                {
+                    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
+                    using (var dataStream = new MemoryStream())
+                    {
 
-            //        await file3.CopyToAsync(dataStream);
-            //        value.AltNokPassport = dataStream.ToArray();
-            //    }
-            //}
-            if (per == null)
+                        await file3.CopyToAsync(dataStream);
+                        value.AltNokPassport = dataStream.ToArray();
+                    }
+                }
+                if (per == null)
             {
                 HttpContext.Session.SetString("Message", "Record Not Found");
                 return View();

@@ -87,56 +87,60 @@
     </div>
     @* <button onclick="window.print();" id="printForm">Print This Page</button>*@
     @*background-image: url('data:image/*;base64,@(Convert.ToBase64String(Model.FirstOrDefault().AltNokPassport))');*@
-    <div id="btnprint" style="margin-left:50px">
+<div id="btnprint" style="margin-left:50px">
 
 
-        <div style="text-align:center" class="row"><div class="col-md-4"> <h2>RESTRICTED </h2></div> </div>
-
-        <div class="row">
-            <h2>b. <u>Alternate Next of Kin <em>(Attach Passport Photographs)</em></u></h2>
+    <div style="text-align:center" class="row"><div class="col-md-4"> <h2>RESTRICTED </h2></div> </div>
+    <div class="waterMark">
+        <div class="waterMark-inner">
+            <img id="nokpassport" style="width: 250px; height: 250px; margin-top:10px; float:right; margin-right: 100px" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))">
         </div>
-        <div style="margin-left:50px">
-            <div class="row">
-                <div class="col-md-8"><h2><span>(1)&nbsp;&nbsp;&nbsp;Name :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_name2 </strong> </h2></div>
-            </div>
-            <div class="row">
-                <div class="col-md-8"><h2><span>(2)&nbsp;&nbsp;&nbsp;Relationship :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_relation2 </strong> </h2></div>
-            </div>
-            <div class="row">
-                <div class="col-md-8"><h2><span>(3)&nbsp;&nbsp;&nbsp;Address :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_address2 </strong> </h2></div>
-            </div>
-            <div class="row">
-                <div class="col-md-8"><h3><span>(4)&nbsp;&nbsp;&nbsp;GSM No (a) :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_phone2 </strong>&nbsp;&nbsp;&nbsp;<span>(b)&nbsp;&nbsp;&nbsp;&nbsp;</span><strong>@Model.nok_phone22 </strong> </h3></div>
-            </div>
-            <div class="row">
-                <div class="col-md-8"><h2><span>(5)&nbsp;&nbsp;&nbsp;E-mail :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_email2</strong> </h2></div>
-            </div>
-            <div class="row">
-                <div class="col-md-8"><h2><span>(6)&nbsp;&nbsp;&nbsp;NIN of Alternate NOK:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_nationalId2</strong> </h2></div>
-            </div>
-
+    </div>
+    <div class="row">
+        <h2>b. <u>Alternate Next of Kin <em>(Attach Passport Photographs)</em></u></h2>
+    </div>
+    <div style="margin-left:50px">
+        <div class="row">
+            <div class="col-md-8"><h2><span>(1)&nbsp;&nbsp;&nbsp;Name :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_name2 </strong> </h2></div>
         </div>
         <div class="row">
-            <h2>13. Bank Account Details:</h2>
+            <div class="col-md-8"><h2><span>(2)&nbsp;&nbsp;&nbsp;Relationship :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_relation2 </strong> </h2></div>
         </div>
-        <div style="margin-left:50px">
-            <div class="row">
-                <div class="col-md-8"><h2><span>a. Salary Bank Account Name :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.AccountName </strong> </h2></div>
-            </div>
-            <div class="row">
-                <div class="col-md-8"><h2><span>b. Name of Bank :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.Bankcode </strong> </h2></div>
-            </div>
-            <div class="row">
-                <div class="col-md-8"><h2><span>c. Branch/Address: &nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.bankbranch </strong> </h2></div>
-            </div>
-            <div class="row">
-                <div class="col-md-8"><h2><span>d. Account Number:&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.BankACNumber </strong> </h2></div>
-            </div>
-
-
+        <div class="row">
+            <div class="col-md-8"><h2><span>(3)&nbsp;&nbsp;&nbsp;Address :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_address2 </strong> </h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-8"><h3><span>(4)&nbsp;&nbsp;&nbsp;GSM No (a) :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_phone2 </strong>&nbsp;&nbsp;&nbsp;<span>(b)&nbsp;&nbsp;&nbsp;&nbsp;</span><strong>@Model.nok_phone22 </strong> </h3></div>
+        </div>
+        <div class="row">
+            <div class="col-md-8"><h2><span>(5)&nbsp;&nbsp;&nbsp;E-mail :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_email2</strong> </h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-8"><h2><span>(6)&nbsp;&nbsp;&nbsp;NIN of Alternate NOK:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.nok_nationalId2</strong> </h2></div>
         </div>
 
     </div>
+    <div class="row">
+        <h2>13. Bank Account Details:</h2>
+    </div>
+    <div style="margin-left:50px">
+        <div class="row">
+            <div class="col-md-8"><h2><span>a. Salary Bank Account Name :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.AccountName </strong> </h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-8"><h2><span>b. Name of Bank :&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.Bankcode </strong> </h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-8"><h2><span>c. Branch/Address: &nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.bankbranch </strong> </h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-8"><h2><span>d. Account Number:&nbsp;&nbsp;&nbsp;&nbsp; </span><strong>@Model.BankACNumber </strong> </h2></div>
+        </div>
+
+
+    </div>
+
+</div>
     <div class="row" style="margin-left:50px"><div class="col-md-10"><h1><i>I undertake that the information provided by me above are correct to the best of my knowledge.</i></h1></div></div>
     <br />
     <div style="margin-left:50px">
