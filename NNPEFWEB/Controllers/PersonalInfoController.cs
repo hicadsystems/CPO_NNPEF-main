@@ -1802,6 +1802,21 @@ namespace NNPEFWEB.Controllers
             });
             return shipList;
         }
+        [HttpPost]
+        public JsonResult AutoComplete(string prefix)
+        {
+            var customers = (from ship in _context.ef_ships
+                             where ship.shipName.StartsWith(prefix == null ? "" : prefix)
+                            select new
+                            {
+                label = ship.shipName,
+                                val = ship.shipName
+                            }).ToList();
+
+            return Json(customers);
+        }
+
+
         public List<SelectListItem> GetRelationship()
         {
             var shipList = (from rk in _context.ef_relationships
