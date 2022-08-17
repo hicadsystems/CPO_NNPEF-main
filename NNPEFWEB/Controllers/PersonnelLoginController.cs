@@ -69,17 +69,17 @@ namespace NNPEFWEB.Controllers
                    // var site = _context.ef_systeminfos.FirstOrDefault(x => x.closedate.Date < DateTime.Now.Date);
                     var globalcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.processingyear== pyear && x.ship == "All" && x.status == "Open").FirstOrDefault();
                     var shipcon = _context.ef_control.Where(x => x.enddate.Date >= DateTime.Now.Date && x.ship == pers.ship && x.processingyear == pyear && x.status == "Open").FirstOrDefault();
-                    //if (shipcon == null && globalcon==null)
-                    //{
-                    //    return RedirectToAction("ClosingPage", "Account");
-                    //} 
+                    if (shipcon == null && globalcon == null)
+                    {
+                        return RedirectToAction("ClosingPage", "Account");
+                    }
                     //else if (globalcon == null && shipcon != null)
                     //{
                     //    return RedirectToAction("ClosingPage", "Account");
                     //}
 
-                   // var pers = personService.GetPersonBySvc_NO(value.userName);
-                    
+                    // var pers = personService.GetPersonBySvc_NO(value.userName);
+
                     var checkdoublemail = _context.ef_PersonnelLogins.Where(x => x.email == pers.email).Count();
                     if (pers == null)
                     {
