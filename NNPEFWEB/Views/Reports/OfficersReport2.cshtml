@@ -65,6 +65,24 @@
             transform: rotate(-20deg);
             line-height: 200px
         }
+        .waterMark5 {
+            text-align: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -9999;
+            pointer-event: none;
+            font-size: 5em;
+            font-weight: bold;
+            font-family: Consolas;
+            color: #EDEDED;
+            opacity: 1;
+        }
+
+        .waterMark5-inner {
+            transform: rotate(-20deg);
+            line-height: 200px
+        }
 
         .waterMark2 {
             text-align: center;
@@ -178,11 +196,15 @@
     <div>
         <div style="margin-top:20px"></div>
         <div style="text-align:center"> <h2>RETRICTED</h2></div>
-        <div class="waterMark">
-            <div class="waterMark-inner">
+        @if (Model.AltNokPassport != null)
+        {
+        <label style="margin-left:1000px; margin-top: -18px"><strong>Alternate NOK Passport</strong></label>
+        <div class="waterMark5">
+            <div class="waterMark5-inner">
                 <img id="nokpassport" style="width: 250px; height: 250px; margin-top:10px; float:right; margin-right: 100px" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))">
             </div>
         </div>
+        }
         <div style="margin-left:50px">
             <div class="row">
                 <h1>24. Do you Draw:</h1>
@@ -235,21 +257,21 @@
                     <div class="column6 a"><strong>@Model.FGSHLS_loan</strong></div>
                     @if (Model.FGSHLS_loanYear != null)
                     {
-                        <div class="column2 a"><strong>@Model.FGSHLS_loanYear</strong></div>}
+                    <div class="column2 a"><strong>@Model.FGSHLS_loanYear</strong></div>}
                 </div>
                 <div class="rowss">
                     <div class="column5 a"><strong>b.&nbsp;&nbsp;&nbsp;CNS Car Refurbishing Loan  : </strong></div>
                     <div class="column6 a"><strong>@Model.car_loan</strong></div>
                     @if (Model.car_loanYear != null)
                     {
-                        <div class="column2 a"><strong>@Model.car_loanYear</strong></div>}
+                    <div class="column2 a"><strong>@Model.car_loanYear</strong></div>}
                 </div>
                 <div class="rowss">
                     <div class="column5 a"><strong>c.&nbsp;&nbsp;&nbsp;Welfare Loan  : </strong></div>
                     <div class="column6 a"><strong>@Model.welfare_loan</strong></div>
                     @if (Model.welfare_loanYear != null)
                     {
-                        <div class="column2 a"><strong>@Model.welfare_loanYear</strong></div>}
+                    <div class="column2 a"><strong>@Model.welfare_loanYear</strong></div>}
                 </div>
 
 
@@ -258,28 +280,28 @@
                     <div class="column6 a"><strong>@Model.NNNCS_loan</strong></div>
                     @if (Model.NNNCS_loanYear != null)
                     {
-                        <div class="column2 a"><strong>@Model.NNNCS_loanYear</strong></div>}
+                    <div class="column2 a"><strong>@Model.NNNCS_loanYear</strong></div>}
                 </div>
                 <div class="rowss">
                     <div class="column5 a"><strong>e.&nbsp;&nbsp;&nbsp;NNMFBL Loan : </strong></div>
                     <div class="column6 a"><strong>@Model.NNMFBL_loan</strong></div>
                     @if (Model.NNMFBL_loanYear != null)
                     {
-                        <div class="column2 a"><strong>@Model.NNMFBL_loanYear</strong></div>}
+                    <div class="column2 a"><strong>@Model.NNMFBL_loanYear</strong></div>}
                 </div>
                 <div class="rowss">
                     <div class="column5 a"><strong>f.&nbsp;&nbsp;&nbsp;Presidential Pioneer Car Finance Scheme : </strong></div>
                     <div class="column6 a"><strong>@Model.PPCFS_loan</strong></div>
                     @if (Model.PPCFS_loanYear != null)
                     {
-                        <div class="column2 a"><strong>@Model.PPCFS_loanYear</strong></div>}
+                    <div class="column2 a"><strong>@Model.PPCFS_loanYear</strong></div>}
                 </div>
                 <div class="rowss">
                     <div class="column5 a"><strong>g.&nbsp;&nbsp;&nbsp;Any Other Loan (Please Specify):</strong></div>
                     <div class="column6 a"><strong>@Model.Anyother_Loan</strong></div>
                     @if (Model.Anyother_LoanYear != null)
                     {
-                        <div class="column2 a"><strong>@Model.Anyother_LoanYear</strong></div>}
+                    <div class="column2 a"><strong>@Model.Anyother_LoanYear</strong></div>}
                 </div>
 
             </div>

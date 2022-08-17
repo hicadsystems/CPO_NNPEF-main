@@ -1,11 +1,12 @@
 ﻿@model NNPEFWEB.ViewModel.personelCountVM
 @{
-    ViewData["Title"] = "Home Page";
-}
+    ViewData["Title"] = "Home Page";}
 
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
+    @if (Model.sectionid == 1)
+    {
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-lg-3 col-6">
@@ -69,7 +70,9 @@
             </div>
             <!-- ./col -->
         </div>
-
+    }
+    @if (Model.sectionid > 1 && Model.sectionid < 5)
+    {
         <div class="row">
             <div class="col-lg-3 col-6">
                 <!-- small box -->
@@ -133,6 +136,9 @@
 
             <!-- ./col -->
         </div>
+    }
+    @if(Model.sectionid == 6)
+    {
         <div class="row">
             <div class="col-lg-3 col-6">
                 <!-- small box -->
@@ -196,6 +202,7 @@
 
             <!-- ./col -->
         </div>
+    }
         <!-- /.row -->
         <!-- Main row -->
         <div class="row">

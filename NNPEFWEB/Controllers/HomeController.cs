@@ -82,9 +82,11 @@ namespace NNPEFWEB.Controllers
             else
             {
              string ship = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault().Appointment;
-            var dah = new personelCountVM()
-            {
-
+                int sectionid = Convert.ToInt32(ship);
+                HttpContext.Session.SetInt32("sectionid", sectionid);
+                var dah = new personelCountVM()
+               {
+                sectionid=sectionid,
                 AllStaffOfficers = _sectiondashboard.AllStaffOfficers(ship),
                 ApproveStaffOfficers = _sectiondashboard.ApprovedStaffOfficers(ship),
                 AwaitingApprovalStaffOfficers = _sectiondashboard.AwaiteApprovalStaffOfficers(ship),

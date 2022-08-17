@@ -7,6 +7,7 @@ namespace NNPEFWEB.ViewModel
 {
     public class personelCountVM
     {
+        public int sectionid { get; set; } = 0;
         public int AllStaff { get; set; } = 0;
         public int CompletedStaff { get; set; } = 0;
         public int AwaitingApprovalStaff { get; set; } = 0;

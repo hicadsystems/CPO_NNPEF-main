@@ -62,7 +62,7 @@ namespace NNPEFWEB.Controllers
                 TempData["ErrorMessage"] = "User Not Found";
                 return RedirectToAction("login", "Authentication");
             }
-            if (user.ResetPasswordCode == null)
+            if (user.ResetPasswordCode != null)
             {
                 if (user.Appointment != "Adm")
                 {
