@@ -179,5 +179,35 @@ namespace NNPEFWEB.Service
                 //_logger.LogInformation(ex.Message);
             }
         }
+
+        public async Task processUpdatepersonnel()
+        {
+            try
+            {
+                foreach (var s in personLoginVMs)
+                {
+
+                    using (SqlConnection sqlcon = new SqlConnection(connectionstring))
+                    {
+                        using (SqlCommand cmd = new SqlCommand("UploadShipUsers", sqlcon))
+                        {
+                            cmd.CommandTimeout = 1200;
+                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                            cmd.Parameters.Add(new SqlParameter("@svcNo", s.svcNo));
+                            cmd.Parameters.Add(new SqlParameter("@svcNo", s.oldsvcno));
+                            
+
+                            sqlcon.Open();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
+        }
     }
 }

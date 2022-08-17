@@ -44,6 +44,24 @@
             transform: rotate(-20deg);
             line-height: 200px
         }
+        .waterMark5 {
+            text-align: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -9999;
+            pointer-event: none;
+            font-size: 5em;
+            font-weight: bold;
+            font-family: Consolas;
+            color: #EDEDED;
+            opacity: 1;
+        }
+
+        .waterMark5-inner {
+            transform: rotate(-20deg);
+            line-height: 200px
+        }
 
         .waterMark2 {
             text-align: center;
@@ -75,7 +93,7 @@
 <body style="background-color: #66edf0;">
     <div class="centered">
         <div class="waterMark2">
-            <div class="waterMark-inner2" style="margin-left: -120px; margin-top:-180px;"><h1>@DateTime.Now.Year+1</h1></div>
+            <div class="waterMark-inner2" style="margin-left: -120px; margin-top:-180px;"><h1>@DateTime.Now.Year</h1></div>
         </div>
     </div>
     <div class="waterMark">
@@ -91,11 +109,15 @@
 
 
     <div style="text-align:center" class="row"><div class="col-md-4"> <h2>RESTRICTED </h2></div> </div>
-    <div class="waterMark">
-        <div class="waterMark-inner">
-            <img id="nokpassport" style="width: 250px; height: 250px; margin-top:10px; float:right; margin-right: 100px" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))">
+    @if (Model.AltNokPassport != null)
+    {
+        <label style="margin-left:1050px; margin-top: -18px"><strong>Alternate NOK Passport</strong></label>
+        <div class="waterMark5">
+            <div class="waterMark5-inner">
+                <img id="nokpassport" style="width: 250px; height: 250px; margin-top:10px; float:right; margin-right: 100px" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))">
+            </div>
         </div>
-    </div>
+    }
     <div class="row">
         <h2>b. <u>Alternate Next of Kin <em>(Attach Passport Photographs)</em></u></h2>
     </div>

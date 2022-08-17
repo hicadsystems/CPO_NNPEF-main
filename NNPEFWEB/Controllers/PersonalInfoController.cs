@@ -764,7 +764,7 @@ namespace NNPEFWEB.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> OfficerRecord(ef_personalInfo value )
+        public async Task<ActionResult> OfficerRecord(ef_personalInfo value)
         {
 
             try
@@ -786,28 +786,51 @@ namespace NNPEFWEB.Controllers
 
                 var per = personService.GetPersonel(value.serviceNumber).Result;
            // string profilepicture = UploadedFile(PassportFile);
-            if (Request.Form.Files.Count > 0)
+            if (Request.Form.Files.Count >0)
             {
-                IFormFile file = Request.Form.Files.Where(x=>x.Name=="Passport").FirstOrDefault();
-                //IFormFile file2 = Request.Form.Files.Where(x => x.Name == "NokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
-                   await file.CopyToAsync(dataStream);
-                    //file2.CopyToAsync(dataStream);
-                    value.Passport = dataStream.ToArray();
-                 
+                    IFormFile file = Request.Form.Files.Where(x=>x.Name=="Passport").FirstOrDefault();
+                    IFormFile file2 = Request.Form.Files.Where(x => x.Name == "NokPassport").FirstOrDefault();
+                    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
+                    if (file !=null)
+                    {
+                        using (var dataStream = new MemoryStream())
+                        {
+                            await file.CopyToAsync(dataStream);
+                            //file2.CopyToAsync(dataStream);
+                            value.Passport = dataStream.ToArray();
+
+                        }
+                    }
+                    else if (file2 != null)
+                    {
+                        using (var dataStream = new MemoryStream())
+                        {
+
+                            await file2.CopyToAsync(dataStream);
+                            value.NokPassport = dataStream.ToArray();
+                        }
+                    }
+                    else if (file3 != null)
+                    {
+                        
+                        using (var dataStream = new MemoryStream())
+                        {
+
+                            await file3.CopyToAsync(dataStream);
+                            value.AltNokPassport = dataStream.ToArray();
+                        }
+                    }
                 }
-            }
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file2 = Request.Form.Files.Where(x => x.Name == "NokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
+            //if (Request.Form.Files.Count > 0)
+            //{
+            //    IFormFile file2 = Request.Form.Files.Where(x => x.Name == "NokPassport").FirstOrDefault();
+            //    using (var dataStream = new MemoryStream())
+            //    {
                    
-                    await file2.CopyToAsync(dataStream);
-                    value.NokPassport = dataStream.ToArray();
-                }
-            }
+            //        await file2.CopyToAsync(dataStream);
+            //        value.NokPassport = dataStream.ToArray();
+            //    }
+            //}
             //if (Request.Form.Files.Count > 0)
             //{
             //    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
@@ -834,12 +857,13 @@ namespace NNPEFWEB.Controllers
                     value.formNumber = formnumber.ToString();
 
                 }
-                if (value.Passport == null)
-                {
+                    if (value.Passport == null)
                     value.Passport = person.Passport;
-                    value.NokPassport = person.NokPassport;
-                    value.AltNokPassport = person.AltNokPassport;
-                }
+                    if (value.NokPassport == null)
+                        value.NokPassport = person.NokPassport;
+                    if (value.AltNokPassport == null)
+                        value.AltNokPassport = person.AltNokPassport;
+
                     if (value.advanceDate != null)
                     {
                         DateTime runoutDateBD = value.Birthdate.Value.AddYears(60);
@@ -1174,41 +1198,40 @@ namespace NNPEFWEB.Controllers
 
                 var cmdr = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
             var per = personService.GetPersonel(value.serviceNumber).Result;
-            // string profilepicture = UploadedFile(PassportFile);
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file = Request.Form.Files.Where(x => x.Name == "Passport").FirstOrDefault();
-                if (file != null)
-                {
-                    using (var dataStream = new MemoryStream())
-                    {
-                        await file.CopyToAsync(dataStream);
-                        //file2.CopyToAsync(dataStream);
-                        value.Passport = dataStream.ToArray();
 
-                    }
-                }
-                
-            }
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file2 = Request.Form.Files.Where(x => x.Name == "NokPassport").FirstOrDefault();
-                if(file2!=null)
-                using (var dataStream = new MemoryStream())
-                {
-
-                    await file2.CopyToAsync(dataStream);
-                    value.NokPassport = dataStream.ToArray();
-                }
-            }
                 if (Request.Form.Files.Count > 0)
                 {
+                    IFormFile file = Request.Form.Files.Where(x => x.Name == "Passport").FirstOrDefault();
+                    IFormFile file2 = Request.Form.Files.Where(x => x.Name == "NokPassport").FirstOrDefault();
                     IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
-                    using (var dataStream = new MemoryStream())
+                    if (file != null)
+                    {
+                        using (var dataStream = new MemoryStream())
+                        {
+                            await file.CopyToAsync(dataStream);
+                            //file2.CopyToAsync(dataStream);
+                            value.Passport = dataStream.ToArray();
+
+                        }
+                    }
+                    else if (file2 != null)
+                    {
+                        using (var dataStream = new MemoryStream())
+                        {
+
+                            await file2.CopyToAsync(dataStream);
+                            value.NokPassport = dataStream.ToArray();
+                        }
+                    }
+                    else if (file3 != null)
                     {
 
-                        await file3.CopyToAsync(dataStream);
-                        value.AltNokPassport = dataStream.ToArray();
+                        using (var dataStream = new MemoryStream())
+                        {
+
+                            await file3.CopyToAsync(dataStream);
+                            value.AltNokPassport = dataStream.ToArray();
+                        }
                     }
                 }
                 if (per == null)
@@ -1457,40 +1480,42 @@ namespace NNPEFWEB.Controllers
             {
 
             var per = personService.GetPersonel(value.serviceNumber).Result;
-            // string profilepicture = UploadedFile(PassportFile);
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file = Request.Form.Files.Where(x => x.Name == "Passport").FirstOrDefault();
-                //IFormFile file2 = Request.Form.Files.Where(x => x.Name == "NokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
+                if (Request.Form.Files.Count > 0)
                 {
-                    await file.CopyToAsync(dataStream);
-                    //file2.CopyToAsync(dataStream);
-                    value.Passport = dataStream.ToArray();
+                    IFormFile file = Request.Form.Files.Where(x => x.Name == "Passport").FirstOrDefault();
+                    IFormFile file2 = Request.Form.Files.Where(x => x.Name == "NokPassport").FirstOrDefault();
+                    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
+                    if (file != null)
+                    {
+                        using (var dataStream = new MemoryStream())
+                        {
+                            await file.CopyToAsync(dataStream);
+                            //file2.CopyToAsync(dataStream);
+                            value.Passport = dataStream.ToArray();
 
+                        }
+                    }
+                    else if (file2 != null)
+                    {
+                        using (var dataStream = new MemoryStream())
+                        {
+
+                            await file2.CopyToAsync(dataStream);
+                            value.NokPassport = dataStream.ToArray();
+                        }
+                    }
+                    else if (file3 != null)
+                    {
+
+                        using (var dataStream = new MemoryStream())
+                        {
+
+                            await file3.CopyToAsync(dataStream);
+                            value.AltNokPassport = dataStream.ToArray();
+                        }
+                    }
                 }
-            }
-            if (Request.Form.Files.Count > 0)
-            {
-                IFormFile file2 = Request.Form.Files.Where(x => x.Name == "NokPassport").FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
-
-                    await file2.CopyToAsync(dataStream);
-                    value.NokPassport = dataStream.ToArray();
-                }
-            }
-            //if (Request.Form.Files.Count > 0)
-            //{
-            //    IFormFile file3 = Request.Form.Files.Where(x => x.Name == "AltNokPassport").FirstOrDefault();
-            //    using (var dataStream = new MemoryStream())
-            //    {
-
-            //        await file3.CopyToAsync(dataStream);
-            //        value.AltNokPassport = dataStream.ToArray();
-            //    }
-            //}
-            if (per == null)
+                if (per == null)
             {
                 HttpContext.Session.SetString("Message", "Record Not Found");
                 return View();
@@ -1507,11 +1532,12 @@ namespace NNPEFWEB.Controllers
 
                 }
                 if (value.Passport == null)
-                {
                     value.Passport = person.Passport;
-                    value.NokPassport = person.NokPassport;
-                    value.AltNokPassport = person.AltNokPassport;
-                }
+                    if (value.NokPassport == null)
+                        value.NokPassport = person.NokPassport;
+                    if (value.AltNokPassport == null)
+                        value.AltNokPassport = person.AltNokPassport;
+
                 person.formNumber = value.formNumber;
                 person.Rank = value.Rank;
                 person.serviceNumber = value.serviceNumber;
@@ -2021,118 +2047,13 @@ namespace NNPEFWEB.Controllers
                 //return RedirectToAction("Login", "PersonnelLogin");
             }
         }
-        [HttpPost]
-        public IActionResult CommandUpdateOfficer(PersonalInfoModel model)
-        {
-            try
-            {
-                string Appointment = HttpContext.Session.GetString("Appointment");
-
-           
-            using (SqlConnection sqlcon = new SqlConnection(connectionString))
-            {
-                if (Appointment == "DO")
-                {
-                    using (SqlCommand cmd = new SqlCommand("UpdatePersonByShip", sqlcon))
-                    {
-                        cmd.CommandTimeout = 1200;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@person_svcno", model.serviceNumber));
-                        cmd.Parameters.Add(new SqlParameter("@appointment", Appointment));
-                        cmd.Parameters.Add(new SqlParameter("@doname", model.div_off_name));
-                        cmd.Parameters.Add(new SqlParameter("@dosvcno", model.div_off_svcno));
-                        cmd.Parameters.Add(new SqlParameter("@dorank", model.div_off_rank));
-                        cmd.Parameters.Add(new SqlParameter("@dodate", DateTime.Now));
-
-                            cmd.Parameters.Add(new SqlParameter("@hodname", model.hod_name==""));
-                            cmd.Parameters.Add(new SqlParameter("@hodsvcno", model.hod_svcno==""));
-                            cmd.Parameters.Add(new SqlParameter("@hodrank", model.hod_rank==""));
-                            cmd.Parameters.Add(new SqlParameter("@hoddate", DateTime.Now));
-
-                            cmd.Parameters.Add(new SqlParameter("@cdrname", model.cdr_name == ""));
-                            cmd.Parameters.Add(new SqlParameter("@cdrsvcno", model.cdr_svcno == ""));
-                            cmd.Parameters.Add(new SqlParameter("@cdrrank", model.cdr_rank == ""));
-                            cmd.Parameters.Add(new SqlParameter("@cdrdate", DateTime.Now));
-
-                            sqlcon.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                else if (Appointment == "HOD")
-                {
-                    using (SqlCommand cmd = new SqlCommand("UpdatePersonByShip", sqlcon))
-                    {
-                        cmd.CommandTimeout = 1200;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@person_svcno", model.serviceNumber));
-                        cmd.Parameters.Add(new SqlParameter("@appointment", Appointment));
-                        cmd.Parameters.Add(new SqlParameter("@doname", model.div_off_name == ""));
-                        cmd.Parameters.Add(new SqlParameter("@dosvcno", model.div_off_svcno == ""));
-                        cmd.Parameters.Add(new SqlParameter("@dorank", model.div_off_rank == ""));
-                        cmd.Parameters.Add(new SqlParameter("@dodate", DateTime.Now));
-
-                        cmd.Parameters.Add(new SqlParameter("@hodname", model.hod_name));
-                        cmd.Parameters.Add(new SqlParameter("@hodsvcno", model.hod_svcno));
-                        cmd.Parameters.Add(new SqlParameter("@hodrank", model.hod_rank));
-                        cmd.Parameters.Add(new SqlParameter("@hoddate", DateTime.Now));
-
-                        cmd.Parameters.Add(new SqlParameter("@cdrname", model.cdr_name == ""));
-                        cmd.Parameters.Add(new SqlParameter("@cdrsvcno", model.cdr_svcno == ""));
-                        cmd.Parameters.Add(new SqlParameter("@cdrrank", model.cdr_rank == ""));
-                        cmd.Parameters.Add(new SqlParameter("@cdrdate", DateTime.Now));
-
-                        sqlcon.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                else if (Appointment == "CDR")
-                {
-                    using (SqlCommand cmd = new SqlCommand("UpdatePersonByShip", sqlcon))
-                    {
-                        cmd.CommandTimeout = 1200;
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@person_svcno", model.serviceNumber));
-                        cmd.Parameters.Add(new SqlParameter("@appointment", Appointment));
-                        cmd.Parameters.Add(new SqlParameter("@doname", model.div_off_name == ""));
-                        cmd.Parameters.Add(new SqlParameter("@dosvcno", model.div_off_svcno == ""));
-                        cmd.Parameters.Add(new SqlParameter("@dorank", model.div_off_rank == ""));
-                        cmd.Parameters.Add(new SqlParameter("@dodate", DateTime.Now));
-
-                        cmd.Parameters.Add(new SqlParameter("@hodname", model.hod_name == ""));
-                        cmd.Parameters.Add(new SqlParameter("@hodsvcno", model.hod_svcno == ""));
-                        cmd.Parameters.Add(new SqlParameter("@hodrank", model.hod_rank == ""));
-                        cmd.Parameters.Add(new SqlParameter("@hoddate", DateTime.Now));
-
-                        cmd.Parameters.Add(new SqlParameter("@cdrname", model.cdr_name));
-                        cmd.Parameters.Add(new SqlParameter("@cdrsvcno", model.cdr_svcno));
-                        cmd.Parameters.Add(new SqlParameter("@cdrrank", model.cdr_rank));
-                        cmd.Parameters.Add(new SqlParameter("@cdrdate", DateTime.Now));
-
-                        sqlcon.Open();
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation(ex.Message);
-                //return RedirectToAction("Login", "PersonnelLogin");
-            }
-            return RedirectToAction("UpdatedPersonelList", new RouteValueDictionary(
-                  new
-                  {
-                      controller = "PersonalInfo",
-                      action = "UpdatedPersonelList",
-                      id = model.payrollclass,
-                  }));
-        }
-        public IActionResult CommisionedPersonnelUpload()
+        [HttpGet]
+        public IActionResult PersonalBatchUpdate()
         {
             return View();
         }
-            public async Task<IActionResult> CommisionedPersonnelUpload(IFormFile formFile, CancellationToken cancellationToken, string batch)
+        [HttpPost]
+        public async Task<IActionResult> PersonalBatchUpdate(IFormFile formFile, CancellationToken cancellationToken, string batch)
         {
             try
             {
@@ -2266,6 +2187,234 @@ namespace NNPEFWEB.Controllers
 
                         ProcesUpload procesUpload2 = new ProcesUpload(null, null, listapplication, unitOfWorks, userp);
                         await procesUpload2.processUploadInThread();
+                        TempData["message"] = "Uploaded Successfully";
+
+                    }
+
+                }
+                if (listapplicationofrecordnotavailable.Count > 0)
+                {
+
+                    var stream = new MemoryStream();
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        var workSheet = package.Workbook.Worksheets.Add("Sheet2");
+                        workSheet.Cells.LoadFromCollection(listapplicationofrecordnotavailable, true);
+                        package.Save();
+                    }
+                    stream.Position = 0;
+                    string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+
+                    //return File(stream, "application/octet-stream", excelName);  
+                    return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                throw;
+                //return RedirectToAction("Login", "PersonnelLogin");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CommandUpdateOfficer(PersonalInfoModel model)
+        {
+            try
+            {
+                string Appointment = HttpContext.Session.GetString("Appointment");
+
+           
+            using (SqlConnection sqlcon = new SqlConnection(connectionString))
+            {
+                if (Appointment == "DO")
+                {
+                    using (SqlCommand cmd = new SqlCommand("UpdatePersonByShip", sqlcon))
+                    {
+                        cmd.CommandTimeout = 1200;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@person_svcno", model.serviceNumber));
+                        cmd.Parameters.Add(new SqlParameter("@appointment", Appointment));
+                        cmd.Parameters.Add(new SqlParameter("@doname", model.div_off_name));
+                        cmd.Parameters.Add(new SqlParameter("@dosvcno", model.div_off_svcno));
+                        cmd.Parameters.Add(new SqlParameter("@dorank", model.div_off_rank));
+                        cmd.Parameters.Add(new SqlParameter("@dodate", DateTime.Now));
+
+                            cmd.Parameters.Add(new SqlParameter("@hodname", model.hod_name==""));
+                            cmd.Parameters.Add(new SqlParameter("@hodsvcno", model.hod_svcno==""));
+                            cmd.Parameters.Add(new SqlParameter("@hodrank", model.hod_rank==""));
+                            cmd.Parameters.Add(new SqlParameter("@hoddate", DateTime.Now));
+
+                            cmd.Parameters.Add(new SqlParameter("@cdrname", model.cdr_name == ""));
+                            cmd.Parameters.Add(new SqlParameter("@cdrsvcno", model.cdr_svcno == ""));
+                            cmd.Parameters.Add(new SqlParameter("@cdrrank", model.cdr_rank == ""));
+                            cmd.Parameters.Add(new SqlParameter("@cdrdate", DateTime.Now));
+
+                            sqlcon.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                else if (Appointment == "HOD")
+                {
+                    using (SqlCommand cmd = new SqlCommand("UpdatePersonByShip", sqlcon))
+                    {
+                        cmd.CommandTimeout = 1200;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@person_svcno", model.serviceNumber));
+                        cmd.Parameters.Add(new SqlParameter("@appointment", Appointment));
+                        cmd.Parameters.Add(new SqlParameter("@doname", model.div_off_name == ""));
+                        cmd.Parameters.Add(new SqlParameter("@dosvcno", model.div_off_svcno == ""));
+                        cmd.Parameters.Add(new SqlParameter("@dorank", model.div_off_rank == ""));
+                        cmd.Parameters.Add(new SqlParameter("@dodate", DateTime.Now));
+
+                        cmd.Parameters.Add(new SqlParameter("@hodname", model.hod_name));
+                        cmd.Parameters.Add(new SqlParameter("@hodsvcno", model.hod_svcno));
+                        cmd.Parameters.Add(new SqlParameter("@hodrank", model.hod_rank));
+                        cmd.Parameters.Add(new SqlParameter("@hoddate", DateTime.Now));
+
+                        cmd.Parameters.Add(new SqlParameter("@cdrname", model.cdr_name == ""));
+                        cmd.Parameters.Add(new SqlParameter("@cdrsvcno", model.cdr_svcno == ""));
+                        cmd.Parameters.Add(new SqlParameter("@cdrrank", model.cdr_rank == ""));
+                        cmd.Parameters.Add(new SqlParameter("@cdrdate", DateTime.Now));
+
+                        sqlcon.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                else if (Appointment == "CDR")
+                {
+                    using (SqlCommand cmd = new SqlCommand("UpdatePersonByShip", sqlcon))
+                    {
+                        cmd.CommandTimeout = 1200;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@person_svcno", model.serviceNumber));
+                        cmd.Parameters.Add(new SqlParameter("@appointment", Appointment));
+                        cmd.Parameters.Add(new SqlParameter("@doname", model.div_off_name == ""));
+                        cmd.Parameters.Add(new SqlParameter("@dosvcno", model.div_off_svcno == ""));
+                        cmd.Parameters.Add(new SqlParameter("@dorank", model.div_off_rank == ""));
+                        cmd.Parameters.Add(new SqlParameter("@dodate", DateTime.Now));
+
+                        cmd.Parameters.Add(new SqlParameter("@hodname", model.hod_name == ""));
+                        cmd.Parameters.Add(new SqlParameter("@hodsvcno", model.hod_svcno == ""));
+                        cmd.Parameters.Add(new SqlParameter("@hodrank", model.hod_rank == ""));
+                        cmd.Parameters.Add(new SqlParameter("@hoddate", DateTime.Now));
+
+                        cmd.Parameters.Add(new SqlParameter("@cdrname", model.cdr_name));
+                        cmd.Parameters.Add(new SqlParameter("@cdrsvcno", model.cdr_svcno));
+                        cmd.Parameters.Add(new SqlParameter("@cdrrank", model.cdr_rank));
+                        cmd.Parameters.Add(new SqlParameter("@cdrdate", DateTime.Now));
+
+                        sqlcon.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                //return RedirectToAction("Login", "PersonnelLogin");
+            }
+            return RedirectToAction("UpdatedPersonelList", new RouteValueDictionary(
+                  new
+                  {
+                      controller = "PersonalInfo",
+                      action = "UpdatedPersonelList",
+                      id = model.payrollclass,
+                  }));
+        }
+        public IActionResult CommisionedPersonnelUpload()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CommisionedPersonnelUpload(IFormFile formFile, CancellationToken cancellationToken, string batch)
+        {
+            try
+            {
+                if (formFile == null || formFile.Length <= 0)
+                {
+                    TempData["message"] = "No File Uploaded";
+                    //return BadRequest("File not an Excel Format");
+                    return View();
+                    //return BadRequest("No File Uploaded");
+                }
+
+                if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+                {
+                    TempData["message"] = "File not an Excel Format";
+                    //return BadRequest("File not an Excel Format");
+                    return View();
+                }
+                var listapplication = new List<personLoginVM>();
+                var listapplicationofrecordnotavailable = new List<personLoginVM>();
+
+                using (var stream = new MemoryStream())
+                {
+                    await formFile.CopyToAsync(stream, cancellationToken);
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets["Sheet1"];
+                        var rowCount = worksheet.Dimension.Rows;
+                        string SVC_NO = String.IsNullOrEmpty(worksheet.Cells[1, 1].ToString()) ? "" : worksheet.Cells[1, 1].Value.ToString().Trim();
+                        string OLDSVC_NO = String.IsNullOrEmpty(worksheet.Cells[1, 2].ToString()) ? "" : worksheet.Cells[1, 2].Value.ToString().Trim();
+                                                
+                        if (SVC_NO != "SVC_NO" || OLDSVC_NO != "OLDSVC_NO" )
+                        {
+                            return BadRequest("File not in the Right format");
+                        }
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+                            if (worksheet.Cells[1, 1].Value == null)
+                                worksheet.Cells[1, 1].Value = "";
+
+                            if (worksheet.Cells[1, 2].Value == null)
+                                worksheet.Cells[1, 2].Value = "";
+
+
+                            if (worksheet.Cells[row, 1].Value == null)
+                                worksheet.Cells[row, 1].Value = "";
+
+                            if (worksheet.Cells[row, 2].Value == null)
+                                worksheet.Cells[row, 2].Value = "";
+
+                            if (worksheet.Cells[row, 3].Value == null)
+                                worksheet.Cells[row, 3].Value = "";
+
+                            string svcno = String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ? "" : worksheet.Cells[row, 1].Value.ToString().Trim();
+                            string oldsvcno = String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ? "" : worksheet.Cells[row, 2].Value.ToString().Trim();
+
+
+                            if (String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()))
+                            {
+                                listapplicationofrecordnotavailable.Add(new personLoginVM
+                                {
+                                    svcNo = svcno,
+                                    oldsvcno = oldsvcno
+
+                                });
+
+                            }
+                            else
+                            {
+                                //check if already in the list -- a possibility
+                                listapplication.Add(new personLoginVM
+                                {
+                                    svcNo = svcno,
+                                    oldsvcno = oldsvcno
+                                });
+                            }
+
+                        }
+                        string userp = User.Identity.Name;
+
+                        ProcesUpload procesUpload2 = new ProcesUpload(null, null, listapplication, unitOfWorks, userp);
+                        await procesUpload2.processUpdatepersonnel();
                         TempData["message"] = "Uploaded Successfully";
 
                     }
