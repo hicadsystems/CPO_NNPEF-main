@@ -1,3 +1,32 @@
 2022-08-17T13:36:38.1502690+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
 2022-08-17T13:36:38.1994097+01:00  [INF] Hosting environment: "Production" (c3307c92)
 2022-08-17T13:36:38.2042219+01:00  [INF] Content root path: "C:\Users\Home\source\Repo\CPO_NNPEF-main\NNPEFWEB" (b5d60022)
+2022-08-17T18:14:47.9636940+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-08-17T18:14:48.0751800+01:00  [INF] Hosting environment: "Production" (c3307c92)
+2022-08-17T18:14:48.1117691+01:00  [INF] Content root path: "C:\Projects\CPO_NNPEF-Main\NNPEFWEB" (b5d60022)
+2022-08-17T18:16:59.5825107+01:00 8000000e-0001-f700-b63f-84710c7967bb [ERR] The view '"CommisionedPersonnelUpload"' was not found. Searched locations: ["/Views/PersonalInfo/CommisionedPersonnelUpload.cshtml", "/Views/Shared/CommisionedPersonnelUpload.cshtml", "/Pages/Shared/CommisionedPersonnelUpload.cshtml"] (9bb2756c)
+2022-08-17T18:16:59.9836966+01:00 8000000e-0001-f700-b63f-84710c7967bb [ERR] An unhandled exception has occurred while executing the request. (48a46595)
+System.InvalidOperationException: The view 'CommisionedPersonnelUpload' was not found. The following locations were searched:
+/Views/PersonalInfo/CommisionedPersonnelUpload.cshtml
+/Views/Shared/CommisionedPersonnelUpload.cshtml
+/Pages/Shared/CommisionedPersonnelUpload.cshtml
+   at Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult.EnsureSuccessful(IEnumerable`1 originalLocations)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor.ExecuteAsync(ActionContext context, ViewResult result)
+   at Microsoft.AspNetCore.Mvc.ViewResult.ExecuteResultAsync(ActionContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)

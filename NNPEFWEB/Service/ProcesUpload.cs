@@ -27,7 +27,7 @@ namespace NNPEFWEB.Service
         private readonly ILogger<HomeController> _logger;
         public ProcesUpload(
             ILogger<HomeController> logger,
-            string _connectionstring, List<personLoginVM> personLoginVMs, 
+            string configuration, List<personLoginVM> personLoginVMs, 
              IUnitOfWorks unitOfWork, string user
               
             )
@@ -37,7 +37,7 @@ namespace NNPEFWEB.Service
             this.user = user;
             _logger = logger;
             this.unitOfWork = unitOfWork;
-            connectionstring = _connectionstring;
+            connectionstring = configuration;
 
         }
 
@@ -189,12 +189,12 @@ namespace NNPEFWEB.Service
 
                     using (SqlConnection sqlcon = new SqlConnection(connectionstring))
                     {
-                        using (SqlCommand cmd = new SqlCommand("UploadShipUsers", sqlcon))
+                        using (SqlCommand cmd = new SqlCommand("CommisionedPersonnelUpload", sqlcon))
                         {
                             cmd.CommandTimeout = 1200;
                             cmd.CommandType = System.Data.CommandType.StoredProcedure;
                             cmd.Parameters.Add(new SqlParameter("@svcNo", s.svcNo));
-                            cmd.Parameters.Add(new SqlParameter("@svcNo", s.oldsvcno));
+                            cmd.Parameters.Add(new SqlParameter("@oldSvcNo", s.oldsvcno));
                             
 
                             sqlcon.Open();

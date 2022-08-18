@@ -2413,7 +2413,7 @@ namespace NNPEFWEB.Controllers
                         }
                         string userp = User.Identity.Name;
 
-                        ProcesUpload procesUpload2 = new ProcesUpload(null, null, listapplication, unitOfWorks, userp);
+                        ProcesUpload procesUpload2 = new ProcesUpload(null, connectionString, listapplication, unitOfWorks, userp);
                         await procesUpload2.processUpdatepersonnel();
                         TempData["message"] = "Uploaded Successfully";
 
