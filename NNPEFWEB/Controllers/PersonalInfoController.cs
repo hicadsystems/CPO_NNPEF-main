@@ -2453,7 +2453,7 @@ namespace NNPEFWEB.Controllers
 
                         ProcesUpload procesUpload2 = new ProcesUpload(null, connectionString, listapplication, unitOfWorks, userp);
                         await procesUpload2.processUpdatepersonnel();
-                        TempData["message"] = "Uploaded Successfully";
+                        TempData["message"] = "Successful";
 
                     }
 

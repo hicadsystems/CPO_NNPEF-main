@@ -128,10 +128,10 @@ namespace NNPEFWEB.Controllers
                                 pp.DateEmpl = Convert.ToDateTime(sdr["DateEmpl"]);
                                 pp.seniorityDate = Convert.ToDateTime(sdr["seniorityDate"]);
                                 pp.runOutDate = Convert.ToDateTime(sdr["runOutDate"]);
-                        pp.advanceDate = Convert.ToDateTime(sdr["advanceDate"]);
-                        pp.yearOfPromotion = sdr["yearOfPromotion"].ToString();
-                        pp.expirationOfEngagementDate = Convert.ToDateTime(sdr["expirationOfEngagementDate"]);
-                        pp.home_address = sdr["home_address"].ToString();
+                                pp.advanceDate = Convert.ToDateTime(sdr["advanceDate"]);
+                                pp.yearOfPromotion = sdr["yearOfPromotion"].ToString();
+                                pp.expirationOfEngagementDate = Convert.ToDateTime(sdr["expirationOfEngagementDate"]);
+                                pp.home_address = sdr["home_address"].ToString();
                                 pp.branch = sdr["branchName"].ToString();
                                 pp.command = sdr["commandName"].ToString();
                                 pp.ship = sdr["shipName"].ToString();
