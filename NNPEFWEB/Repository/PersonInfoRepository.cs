@@ -1358,7 +1358,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCPO(string payclass, string ship)
         {
                 var pp = new List<ef_personalInfo>();
-            if (ship == null)
+            if (ship == null && payclass!="Adm")
             {
                 pp = (from ppl in _context.ef_personalInfos
                       where (ppl.payrollclass == payclass && ppl.Status == "CPO" && ppl.emolumentform != "Yes")
@@ -1377,6 +1377,48 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                       }).OrderByDescending(x=>x.ship).ThenByDescending(x => x.Rank).ThenByDescending(x => x.serviceNumber).ThenByDescending(x => x.seniorityDate).ToList();
 
 
+            }
+            else if (payclass=="Adm")
+            {
+                if (ship == null)
+                {
+                    pp = (from ppl in _context.ef_personalInfos
+                          where (ppl.Status == "CPO" && ppl.emolumentform != "Yes")
+                          select new ef_personalInfo
+                          {
+                              serviceNumber = ppl.serviceNumber,
+                              Surname = ppl.Surname,
+                              OtherName = ppl.OtherName,
+                              Rank = ppl.Rank,
+                              seniorityDate = ppl.seniorityDate,
+                              payrollclass = ppl.payrollclass,
+                              ship = ppl.ship,
+                              classes = ppl.classes,
+                              Id = ppl.Id
+
+                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.Rank).ThenByDescending(x => x.serviceNumber).ThenByDescending(x => x.seniorityDate).ToList();
+
+
+                }
+                else
+                {
+                    pp = (from ppl in _context.ef_personalInfos
+                          where (ppl.Status == "CPO" && ppl.emolumentform != "Yes" && ppl.ship == ship)
+                          select new ef_personalInfo
+                          {
+                              serviceNumber = ppl.serviceNumber,
+                              Surname = ppl.Surname,
+                              OtherName = ppl.OtherName,
+                              Rank = ppl.Rank,
+                              seniorityDate = ppl.seniorityDate,
+                              payrollclass = ppl.payrollclass,
+                              ship = ppl.ship,
+                              classes = ppl.classes,
+                              Id = ppl.Id
+
+                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.Rank).ThenByDescending(x => x.serviceNumber).ThenByDescending(x => x.seniorityDate).ToList();
+
+                }
             }
             else
             {
@@ -1448,6 +1490,7 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
 
 
             }
+            
             else
             {
                 pp = (from ppl in _context.ef_personalInfos
