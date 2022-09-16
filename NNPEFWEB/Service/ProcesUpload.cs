@@ -61,7 +61,7 @@ namespace NNPEFWEB.Service
                         payClass=s.payClass,
                         phoneNumber=s.phoneNumber,
                         email=s.email,
-                        dateCreated = System.DateTime.Now,
+                        dateCreated = DateTime.Now,
                     });
                     await unitOfWork.Done();
                 }
@@ -77,7 +77,11 @@ namespace NNPEFWEB.Service
                         OtherName = s.otheName,
                         gsm_number = s.phoneNumber,
                         email = s.email,
-                        datecreated = System.DateTime.Now,
+                        datecreated = DateTime.Now,
+                        bankbranch = s.bank,
+                        BankACNumber = s.account_number,
+                        Birthdate = Convert.ToDateTime(s.date_of_birth),
+                        DateEmpl = Convert.ToDateTime(s.date_of_joining),
                     });
                     await unitOfWork.Done();
                 }

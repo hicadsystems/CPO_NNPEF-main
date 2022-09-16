@@ -1885,9 +1885,13 @@ namespace NNPEFWEB.Controllers
                         string PAYCLASS = String.IsNullOrEmpty(worksheet.Cells[1, 5].ToString()) ? "" : worksheet.Cells[1, 5].Value.ToString().Trim();
                         string PHONE = String.IsNullOrEmpty(worksheet.Cells[1, 6].ToString()) ? "" : worksheet.Cells[1, 6].Value.ToString().Trim();
                         string EMAIL = String.IsNullOrEmpty(worksheet.Cells[1, 7].ToString()) ? "" : worksheet.Cells[1, 7].Value.ToString().Trim();
+                        string BANK = String.IsNullOrEmpty(worksheet.Cells[1, 8].ToString()) ? "" : worksheet.Cells[1, 8].Value.ToString().Trim();
+                        string ACCOUNT_NUMBER = String.IsNullOrEmpty(worksheet.Cells[1, 9].ToString()) ? "" : worksheet.Cells[1, 9].Value.ToString().Trim();
+                        string DATE_OF_BIRTH = String.IsNullOrEmpty(worksheet.Cells[1, 10].ToString()) ? "" : worksheet.Cells[1, 10].Value.ToString().Trim();
+                        string DATE_OF_JOINING = String.IsNullOrEmpty(worksheet.Cells[1, 11].ToString()) ? "" : worksheet.Cells[1, 11].Value.ToString().Trim();
                                              
                         if (SVC_NO != "SVC_NO" || RANK != "RANK" || SURNAME != "SURNAME" || OTHERNAME != "OTHERNAME" || PAYCLASS != "PAYCLASS" || EMAIL != "EMAIL" 
-                            || PHONE != "PHONE")
+                            || PHONE != "PHONE" || BANK != "BANK" || ACCOUNT_NUMBER != "ACCOUNT_NUMBER" || DATE_OF_BIRTH != "DATE_OF_BIRTH" || DATE_OF_JOINING != "DATE_OF_JOINING")
                         {
                             return BadRequest("File not in the Right format");
                         }
@@ -1910,6 +1914,14 @@ namespace NNPEFWEB.Controllers
                                 worksheet.Cells[1, 6].Value = "";
                             if (worksheet.Cells[1, 7].Value == null)
                                 worksheet.Cells[1, 7].Value = "";
+                            if (worksheet.Cells[1, 8].Value == null)
+                                worksheet.Cells[1, 8].Value = "";
+                            if (worksheet.Cells[1, 9].Value == null)
+                                worksheet.Cells[1, 9].Value = "";
+                            if (worksheet.Cells[1, 10].Value == null)
+                                worksheet.Cells[1, 10].Value = "";
+                            if (worksheet.Cells[1, 11].Value == null)
+                                worksheet.Cells[1, 11].Value = "";
 
 
                             if (worksheet.Cells[row, 1].Value == null)
@@ -1932,6 +1944,15 @@ namespace NNPEFWEB.Controllers
                             if (worksheet.Cells[row, 7].Value == null)
                                 worksheet.Cells[row, 7].Value = "";
 
+                            if (worksheet.Cells[row, 8].Value == null)
+                                worksheet.Cells[row, 8].Value = "";
+                            if (worksheet.Cells[row, 9].Value == null)
+                                worksheet.Cells[row, 9].Value = "";
+                            if (worksheet.Cells[row, 10].Value == null)
+                                worksheet.Cells[row, 10].Value = "";
+                            if (worksheet.Cells[row, 11].Value == null)
+                                worksheet.Cells[row, 11].Value = "";
+
 
 
                             string svcno = String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ? "" : worksheet.Cells[row, 1].Value.ToString().Trim();
@@ -1941,15 +1962,24 @@ namespace NNPEFWEB.Controllers
                             string payclass = String.IsNullOrEmpty(worksheet.Cells[row, 5].Value.ToString()) ? "" : worksheet.Cells[row, 5].Value.ToString().Trim();
                             string phone = String.IsNullOrEmpty(worksheet.Cells[row, 6].Value.ToString()) ? "" : worksheet.Cells[row, 6].Value.ToString().Trim();
                             string email = String.IsNullOrEmpty(worksheet.Cells[row, 7].Value.ToString()) ? "" : worksheet.Cells[row, 7].Value.ToString().Trim();
+                            string bank = String.IsNullOrEmpty(worksheet.Cells[row, 8].Value.ToString()) ? "" : worksheet.Cells[row, 8].Value.ToString().Trim();
+                            string account_number = String.IsNullOrEmpty(worksheet.Cells[row, 9].Value.ToString()) ? "" : worksheet.Cells[row, 9].Value.ToString().Trim();
+                            string date_of_birth = String.IsNullOrEmpty(worksheet.Cells[row, 10].Value.ToString()) ? "" : worksheet.Cells[row, 10].Value.ToString().Trim();
+                            string date_of_joining = String.IsNullOrEmpty(worksheet.Cells[row, 11].Value.ToString()) ? "" : worksheet.Cells[row, 11].Value.ToString().Trim();
 
                                        
 
                             if (String.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()) ||
                                String.IsNullOrEmpty(worksheet.Cells[row, 2].Value.ToString()) ||
                                String.IsNullOrEmpty(worksheet.Cells[row, 3].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 4].Value.ToString()) ||
                                String.IsNullOrEmpty(worksheet.Cells[row, 5].Value.ToString()) ||
                                String.IsNullOrEmpty(worksheet.Cells[row, 6].Value.ToString()) ||
-                               String.IsNullOrEmpty(worksheet.Cells[row, 7].Value.ToString()))
+                               String.IsNullOrEmpty(worksheet.Cells[row, 7].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 8].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 9].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 10].Value.ToString()) ||
+                               String.IsNullOrEmpty(worksheet.Cells[row, 11].Value.ToString()))
                               {
                                 listapplicationofrecordnotavailable.Add(new personLoginVM
                                 {
@@ -1960,6 +1990,10 @@ namespace NNPEFWEB.Controllers
                                     payClass = payclass,
                                     phoneNumber = phone,
                                     email = email,
+                                    bank = bank,
+                                    account_number = account_number,
+                                    date_of_birth = date_of_birth,
+                                    date_of_joining = date_of_joining,
                                 });
 
                             }
@@ -1975,13 +2009,17 @@ namespace NNPEFWEB.Controllers
                                     payClass = payclass,
                                     phoneNumber = phone,
                                     email = email,
+                                    bank = bank,
+                                    account_number = account_number,
+                                    date_of_birth = date_of_birth,
+                                    date_of_joining = date_of_joining,
                                 });
                             }
 
                         }
                         string userp = User.Identity.Name;
 
-                        ProcesUpload procesUpload2 = new ProcesUpload(null,null, listapplication, unitOfWorks, userp);
+                        ProcesUpload procesUpload2 = new ProcesUpload(null,connectionString, listapplication, unitOfWorks, userp);
                         await procesUpload2.processUploadInThread();
                         TempData["message"] = "Uploaded Successfully";
 
