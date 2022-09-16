@@ -42,6 +42,7 @@ namespace NNPEFWEB.Controllers
         private readonly IUnitOfWorks _unitOfWorks;
         private readonly IConfiguration config;
         private readonly IShipService _shipService;
+        private readonly IMailService _mailService;
         private int resetcode;
         Random rnd = new Random();
 
@@ -54,6 +55,7 @@ namespace NNPEFWEB.Controllers
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ISystemsInfoService systemsInfoService,
+            IMailService mailService,
             ApplicationDbContext context, IUnitOfWorks unitOfWorks, IConfiguration configuration)
         {
             _shipService = shipService;
@@ -66,6 +68,7 @@ namespace NNPEFWEB.Controllers
             _systemsInfoService = systemsInfoService;
             _context = context;
             _unitOfWorks = unitOfWorks;
+            _mailService = mailService;
             connectionstring = configuration.GetConnectionString("DefaultConnection");
             _remoteConnectionstring = configuration.GetConnectionString("RemoteConnection");
             _localConnectionstring = configuration.GetConnectionString("LocalConnection");
@@ -529,16 +532,24 @@ namespace NNPEFWEB.Controllers
                     if (user != null)
                     {
                         resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
-                        string message = "Your Verification Code is:" + resetcode;
+                        //string message = "Your Verification Code is:" + resetcode;
                         HttpContext.Session.SetString("shipuserToReset", user.userName);
                         HttpContext.Session.SetString("verificationCode", resetcode.ToString());
 
                         // a call to send email notification
-                        string emailFrom = "NN-CPO";
-                        string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
-                        // add navy email adds
-                        if (!string.IsNullOrEmpty(conmail.ConfirmEmail))
-                            SendEmailNotification(emailFrom, emailSender, message, conmail.ConfirmEmail);
+                        //string emailFrom = "NN-CPO";
+                        //string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
+                        //// add navy email adds
+                        //if (!string.IsNullOrEmpty(conmail.ConfirmEmail))
+                        //    SendEmailNotification(emailFrom, emailSender, message, conmail.ConfirmEmail);
+
+                        var mail = new MailClass();
+                        mail.bodyText = "Your Verification Code is:" + resetcode;
+                        mail.fromName = "NN-CPO";
+                        mail.to = user.email;
+                        mail.subject = "NNCPO E-Emolument Form User Verification";
+
+                        _mailService.SendEmail(mail);
 
                         TempData["verifymessage"] = "An Email Notification Was sent to your Email address.";
                         return RedirectToAction("VerifyCode");
@@ -572,16 +583,24 @@ namespace NNPEFWEB.Controllers
                     if (user != null)
                     {
                         resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
-                        string message = "Your Verification Code is:" + resetcode;
+                        //string message = "Your Verification Code is:" + resetcode;
                         HttpContext.Session.SetString("shipuserToReset", user.userName);
                         HttpContext.Session.SetString("verificationCode", resetcode.ToString());
 
                         // a call to send email notification
-                        string emailFrom = "NN-CPO";
-                        string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
+                       // string emailFrom = "NN-CPO";
+                       // string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
                         // add navy email adds
-                        if (!string.IsNullOrEmpty(user.email))
-                            SendEmailNotification(emailFrom, emailSender, message, user.email);
+                        //if (!string.IsNullOrEmpty(user.email))
+                        //    SendEmailNotification(emailFrom, emailSender, message, user.email);
+
+                        var mail = new MailClass();
+                        mail.bodyText = "Your Verification Code is:" + resetcode;
+                        mail.fromName = "NN-CPO";
+                        mail.to = user.email;
+                        mail.subject = "NNCPO E-Emolument Form User Verification";
+
+                        _mailService.SendEmail(mail);
 
                         TempData["verifymessage"] = "An Email Notification Was sent to your Email address.";
                         return RedirectToAction("VerifyCode");

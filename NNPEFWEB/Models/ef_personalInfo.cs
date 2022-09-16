@@ -140,6 +140,8 @@ namespace NNPEFWEB.Models
             public DateTime? dateconfirmed { get; set; }
             public string confirmedBy { get; set; }
         public string appointment { get; set; }
+        public string FormYear { get; set; }
+        public bool upload { get; set; }
 
     }
 }

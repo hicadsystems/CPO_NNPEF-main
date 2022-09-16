@@ -49,6 +49,10 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.ContactUs.All();
         }
+        public IEnumerable<ef_ContactUs> GetListContacts()
+        {
+            return unitOfWork.ContactUs.GetContactUs();
+        }
 
         public async Task<string> UpdateContactInfo(ef_ContactUs contact)
         {

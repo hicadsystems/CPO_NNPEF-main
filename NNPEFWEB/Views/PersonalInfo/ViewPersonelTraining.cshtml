@@ -371,11 +371,11 @@
                             </select>*@
                         <span asp-validation-for="Bankcode" class="text-danger"></span>
                     </div>
-                    <div class="col-md-4">
+                    @*<div class="col-md-4">
                         <label class="control-label">Branch/Address</label>
                         <input asp-for="bankbranch" class="form-control" readonly />
                         <span asp-validation-for="bankbranch" class="text-danger"></span>
-                    </div>
+                    </div>*@
                     <div class="col-md-4">
                         <label asp-for="BankACNumber" class="control-label"></label>
                         <input asp-for="BankACNumber" class="form-control" readonly />
@@ -386,64 +386,6 @@
                 <hr />
 
 
-                @*<hr />
-                                @if (Model.Status == "DO" || Model.Status == "HOD" || Model.Status == "CDR")
-                                {
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="control-label">HOD Name</label>
-                            <input asp-for="hod_name" class="form-control" />
-                            <span asp-validation-for="hod_name" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">HOD Rank</label>
-                            <select asp-for="hod_rank"
-                                    class="form-control"
-                                    asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
-                            </select>
-                            <span asp-validation-for="hod_rank" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">HOD Service No</label>
-                            <input asp-for="hod_svcno" class="form-control" />
-                            <span asp-validation-for="hod_svcno" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">HOD Update Date</label>
-                            <input asp-for="div_off_date" class="form-control" />
-                            <span asp-validation-for="div_off_date" class="text-danger"></span>
-                        </div>
-
-                    </div>}
-                                <hr />
-                                @if (Model.Status == "HOD" || Model.Status == "CDR")
-                                {
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="control-label">CDR Name</label>
-                            <input asp-for="cdr_name" class="form-control" />
-                            <span asp-validation-for="cdr_name" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">CDR Rank</label>
-                            <select asp-for="cdr_rank"
-                                    class="form-control"
-                                    asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
-                            </select>
-                            <span asp-validation-for="cdr_rank" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">CDR Service No</label>
-                            <input asp-for="cdr_svcno" class="form-control" />
-                            <span asp-validation-for="cdr_svcno" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">CDR Update Date</label>
-                            <input asp-for="cdr_date" class="form-control" />
-                            <span asp-validation-for="cdr_date" class="text-danger"></span>
-                        </div>
-
-                    </div>}*@
                 @*<hr />
                 <div class="row">
                     <div class="col-md-4">

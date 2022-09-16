@@ -9,6 +9,7 @@ namespace NNPEFWEB.Service
 {
     public interface IContactUsService
     {
+        IEnumerable<ef_ContactUs> GetListContacts();
         IEnumerable<ef_ContactUs> GetContacts();
         Task<bool> CreateContact(ef_ContactUs contact);
         Task<string> UpdateContactInfo(ef_ContactUs contact);

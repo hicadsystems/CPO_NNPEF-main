@@ -209,5 +209,61 @@ namespace NNPEFWEB.Service
                 string error = ex.Message;
             }
         }
+        public async Task uploadUpdatepersonnel()
+        {
+            try
+            {
+                foreach (var s in personLoginVMs)
+                {
+
+                    using (SqlConnection sqlcon = new SqlConnection(connectionstring))
+                    {
+                        using (SqlCommand cmd = new SqlCommand("UploadUploadPerson", sqlcon))
+                        {
+                            cmd.CommandTimeout = 1200;
+                            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                             cmd.Parameters.Add(new SqlParameter("@svcno", s.svcNo));
+	                         cmd.Parameters.Add(new SqlParameter("@rank", s.rank));
+                             cmd.Parameters.Add(new SqlParameter("@surName", s.surName));
+                             cmd.Parameters.Add(new SqlParameter("@othername", s.otheName));
+	                         cmd.Parameters.Add(new SqlParameter("@DateofBirth", s.DateofBirth));
+                             cmd.Parameters.Add(new SqlParameter("@DateofJoiningSvc", s.DateofJoiningSvc));
+                            cmd.Parameters.Add(new SqlParameter("@Bank", s.Bank));
+                            cmd.Parameters.Add(new SqlParameter("@AccountNo", s.AccountNo));
+                            cmd.Parameters.Add(new SqlParameter("@AccountName", s.AccountNo));
+                            cmd.Parameters.Add(new SqlParameter("@email", s.email));
+                            cmd.Parameters.Add(new SqlParameter("@ship", s.ship));
+                            cmd.Parameters.Add(new SqlParameter("@payclass", s.payClass));
+                            cmd.Parameters.Add(new SqlParameter("@phoneNumber", s.phoneNumber));
+
+                            sqlcon.Open();
+                            await cmd.ExecuteNonQueryAsync();
+                        }
+
+                    }
+                   
+
+                }
+                var dd = personLoginVMs.FirstOrDefault();
+                using (SqlConnection sqlcon = new SqlConnection(connectionstring))
+                {
+                    using (SqlCommand cmd = new SqlCommand("RemoveExitPersonnel", sqlcon))
+                    {
+                        cmd.CommandTimeout = 1200;
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@payclass", dd.payClass));
+                        
+
+                        sqlcon.Open();
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
+        }
     }
 }

@@ -107,9 +107,9 @@ namespace NNPEFWEB.Service
         }
 
 
-        public Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusReport(string status, string shipToSearch, int? pageNumber)
+        public Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusReport(string status, string shipToSearch, string payclass, int? pageNumber)
         {
-            return unitOfWork.Personinfo.GetPersonnelStatusRepo(status,shipToSearch, pageNumber);
+            return unitOfWork.Personinfo.GetPersonnelStatusRepo(status,shipToSearch,payclass, pageNumber);
         }
         public Task<PaginatedList<ef_personalInfo>> GetPersonnelShipReport(string status, string payclass,string ship, int? pageNumber)
         {
@@ -120,6 +120,11 @@ namespace NNPEFWEB.Service
         {
             return unitOfWork.Personinfo.GetPersonnelStatusReportrepo(status, shipToSearch);
         }
+        public IEnumerable<ef_personalInfo> GetPersonnelStatusRepoReport(string status, string shipToSearch, string payclass)
+        {
+            return unitOfWork.Personinfo.GetPersonnelStatusRepoReport(status, shipToSearch,payclass);
+        }
+        
         public IEnumerable<ef_personalInfo> GetPersonnelShipReportrepo(string status, string payclass,string ship)
         {
             return unitOfWork.Personinfo.GetPersonnelShipReportrepo(status, payclass,ship);
@@ -131,6 +136,10 @@ namespace NNPEFWEB.Service
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO2(string payclass,string svcno)
         {
             return unitOfWork.Personinfo.GetUpdatedPersonnelBySVCNO2(payclass, svcno);
+        }
+        public IEnumerable<ef_personalInfoHist> GetPersonHist(string year, string svcno)
+        {
+            return unitOfWork.Personinfo.GetPersonHist(year, svcno);
         }
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelByCpo(string payclass,string ship)
         {

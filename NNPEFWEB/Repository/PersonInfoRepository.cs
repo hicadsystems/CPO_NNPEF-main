@@ -486,6 +486,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
            
             return pp;
         }
+        public IEnumerable<ef_personalInfoHist> GetPersonHist(string year, string svcno)
+        {
+            var pp = new List<ef_personalInfoHist>();
+
+            pp = (from ppl in _context.ef_personalInfosHist
+                  where (ppl.serviceNumber == svcno && ppl.FormYear==year)
+                  select new ef_personalInfoHist
+                  {
+                      serviceNumber = ppl.serviceNumber,
+                      Surname = ppl.Surname,
+                      OtherName = ppl.OtherName,
+                      Rank = ppl.Rank,
+                      seniorityDate = ppl.seniorityDate,
+                      command = ppl.command,
+                      payrollclass = ppl.payrollclass,
+                      classes = ppl.classes,
+                      ship = ppl.ship,
+                      FormYear=ppl.FormYear
+                  }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
+
+
+            return pp;
+        }
 
         public IEnumerable<ef_personalInfo> GetUpdatedPersonnelBySVCNO(string payclass, string ship, string svcno)
         {
@@ -573,152 +596,329 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
             return pp;
         }
 
-        public async Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusRepo(string statusToSearch, string shipToSearch, int? pageNumber)
+        public async Task<PaginatedList<ef_personalInfo>> GetPersonnelStatusRepo(string statusToSearch, string shipToSearch,string payclass, int? pageNumber)
         {
             var pp = new List<ef_personalInfo>();
 
-            if (shipToSearch == null)
+            //if (shipToSearch != null )
+            //{
+            //    if (statusToSearch == "AllStaff" && shipToSearch == null)
+            //    {
+            //        pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+            //              join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+            //              select new ef_personalInfo
+            //              {
+            //                  Id = ppl.Id,
+            //                  rankId = rak.Id,
+            //                  serviceNumber = ppl.serviceNumber,
+            //                  Surname = ppl.Surname,
+            //                  OtherName = ppl.OtherName,
+            //                  Rank = ppl.Rank,
+            //                  seniorityDate = ppl.seniorityDate,
+            //                  command = ppl.command,
+            //                  payrollclass = ppl.payrollclass,
+            //                  classes = ppl.classes,
+            //                  ship = ppl.ship,
+            //                  Status = ppl.Status,
+
+            //              }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            //    }
+            //    else if (statusToSearch == "Processed")
+            //    {
+            //        if (shipToSearch != null)
+            //        {
+            //            //var shipInDB = _context.ef_ships.SingleOrDefault(x => x.Id == int.Parse(shipToSearch));
+
+            //            pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+            //                  where ppl.emolumentform == "Yes" && ppl.ship == shipToSearch
+            //                  join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+            //                  select new ef_personalInfo
+            //                  {
+            //                      Id = ppl.Id,
+            //                      rankId = rak.Id,
+            //                      serviceNumber = ppl.serviceNumber,
+            //                      Surname = ppl.Surname,
+            //                      OtherName = ppl.OtherName,
+            //                      Rank = ppl.Rank,
+            //                      seniorityDate = ppl.seniorityDate,
+            //                      command = ppl.command,
+            //                      payrollclass = ppl.payrollclass,
+            //                      classes = ppl.classes,
+            //                      ship = ppl.ship,
+            //                      Status = ppl.Status,
+
+            //                  }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            //        }
+            //        else
+            //        {
+            //            pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+            //                  where ppl.emolumentform == "Yes"
+            //                  join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+            //                  select new ef_personalInfo
+            //                  {
+            //                      Id = ppl.Id,
+            //                      rankId = rak.Id,
+            //                      serviceNumber = ppl.serviceNumber,
+            //                      Surname = ppl.Surname,
+            //                      OtherName = ppl.OtherName,
+            //                      Rank = ppl.Rank,
+            //                      seniorityDate = ppl.seniorityDate,
+            //                      command = ppl.command,
+            //                      payrollclass = ppl.payrollclass,
+            //                      classes = ppl.classes,
+            //                      ship = ppl.ship,
+            //                      Status = ppl.Status,
+
+            //                  }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            //        }
+            //    }
+            //    else if (statusToSearch == "AllStaff" && shipToSearch != null)
+            //    {
+            //        //var shipInDB = _context.ef_ships.SingleOrDefault(x => x.Id == int.Parse(shipToSearch));
+
+            //        pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+            //              where ppl.ship == shipToSearch
+            //              join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+            //              select new ef_personalInfo
+            //              {
+            //                  Id = ppl.Id,
+            //                  rankId = rak.Id,
+            //                  serviceNumber = ppl.serviceNumber,
+            //                  Surname = ppl.Surname,
+            //                  OtherName = ppl.OtherName,
+            //                  Rank = ppl.Rank,
+            //                  seniorityDate = ppl.seniorityDate,
+            //                  command = ppl.command,
+            //                  payrollclass = ppl.payrollclass,
+            //                  classes = ppl.classes,
+            //                  ship = ppl.ship,
+            //                  Status = ppl.Status,
+
+            //              }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            //    }
+            //    else if(statusToSearch != "AllStaff" && shipToSearch != null)
+            //    {
+            //        //string shipInDB = _context.ef_ships.FirstOrDefault(x => x.Id == int.Parse(shipToSearch)).shipName;
+
+            //        pp = (from ppl in _context.ef_personalInfos
+            //              where ppl.Status == statusToSearch && ppl.ship == shipToSearch
+            //              join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+            //              select new ef_personalInfo
+            //              {
+            //                  Id = ppl.Id,
+            //                  rankId = rak.Id,
+            //                  serviceNumber = ppl.serviceNumber,
+            //                  Surname = ppl.Surname,
+            //                  OtherName = ppl.OtherName,
+            //                  Rank = ppl.Rank,
+            //                  seniorityDate = ppl.seniorityDate,
+            //                  command = ppl.command,
+            //                  payrollclass = ppl.payrollclass,
+            //                  classes = ppl.classes,
+            //                  ship = ppl.ship,
+            //                  Status = ppl.Status,
+
+            //              }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            //    }
+            //    else if(statusToSearch != "AllStaff" && shipToSearch == null)
+            //    {
+            //        pp = (from ppl in _context.ef_personalInfos
+            //              where ppl.Status == statusToSearch
+            //              join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+            //              select new ef_personalInfo
+            //              {
+            //                  Id = ppl.Id,
+            //                  rankId = rak.Id,
+            //                  serviceNumber = ppl.serviceNumber,
+            //                  Surname = ppl.Surname,
+            //                  OtherName = ppl.OtherName,
+            //                  Rank = ppl.Rank,
+            //                  seniorityDate = ppl.seniorityDate,
+            //                  command = ppl.command,
+            //                  payrollclass = ppl.payrollclass,
+            //                  classes = ppl.classes,
+            //                  ship = ppl.ship,
+            //                  Status = ppl.Status,
+
+            //              }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            //    }
+            //}
+            //else
+            //{
+            //    pp = (from ppl in _context.ef_personalInfos
+            //          join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+            //          select new ef_personalInfo
+            //          {
+            //              Id = ppl.Id,
+            //              rankId = rak.Id,
+            //              serviceNumber = ppl.serviceNumber,
+            //              Surname = ppl.Surname,
+            //              OtherName = ppl.OtherName,
+            //              Rank = ppl.Rank,
+            //              seniorityDate = ppl.seniorityDate,
+            //              command = ppl.command,
+            //              payrollclass = ppl.payrollclass,
+            //              classes = ppl.classes,
+            //              ship = ppl.ship,
+            //              Status = ppl.Status,
+
+            //          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            //}
+
+            if (payclass != null && statusToSearch != null && shipToSearch != null)
             {
-                if (statusToSearch == "AllStaff" && shipToSearch == null)
-                {
-                    pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
-                          join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
-                          select new ef_personalInfo
-                          {
-                              Id = ppl.Id,
-                              rankId = rak.Id,
-                              serviceNumber = ppl.serviceNumber,
-                              Surname = ppl.Surname,
-                              OtherName = ppl.OtherName,
-                              Rank = ppl.Rank,
-                              seniorityDate = ppl.seniorityDate,
-                              command = ppl.command,
-                              payrollclass = ppl.payrollclass,
-                              classes = ppl.classes,
-                              ship = ppl.ship,
-                              Status = ppl.Status,
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      where (ppl.payrollclass==payclass && ppl.Status==statusToSearch && ppl.ship==shipToSearch)
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
 
-                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
-                }
-                else if (statusToSearch == "Processed")
-                {
-                    if (shipToSearch != null)
-                    {
-                        //var shipInDB = _context.ef_ships.SingleOrDefault(x => x.Id == int.Parse(shipToSearch));
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass != null && statusToSearch != null && shipToSearch == null) 
+            {
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      where (ppl.payrollclass == payclass && ppl.Status == statusToSearch)
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
 
-                        pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
-                              where ppl.emolumentform == "Yes" && ppl.ship == shipToSearch
-                              join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
-                              select new ef_personalInfo
-                              {
-                                  Id = ppl.Id,
-                                  rankId = rak.Id,
-                                  serviceNumber = ppl.serviceNumber,
-                                  Surname = ppl.Surname,
-                                  OtherName = ppl.OtherName,
-                                  Rank = ppl.Rank,
-                                  seniorityDate = ppl.seniorityDate,
-                                  command = ppl.command,
-                                  payrollclass = ppl.payrollclass,
-                                  classes = ppl.classes,
-                                  ship = ppl.ship,
-                                  Status = ppl.Status,
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass != null && statusToSearch == null && shipToSearch != null)
+            {
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      where ppl.payrollclass == payclass && ppl.ship == shipToSearch
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
 
-                              }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
-                    }
-                    else
-                    {
-                        pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
-                              where ppl.emolumentform == "Yes"
-                              join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
-                              select new ef_personalInfo
-                              {
-                                  Id = ppl.Id,
-                                  rankId = rak.Id,
-                                  serviceNumber = ppl.serviceNumber,
-                                  Surname = ppl.Surname,
-                                  OtherName = ppl.OtherName,
-                                  Rank = ppl.Rank,
-                                  seniorityDate = ppl.seniorityDate,
-                                  command = ppl.command,
-                                  payrollclass = ppl.payrollclass,
-                                  classes = ppl.classes,
-                                  ship = ppl.ship,
-                                  Status = ppl.Status,
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass == null && statusToSearch != null && shipToSearch != null)
+            {
 
-                              }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
-                    }
-                }
-                else if (statusToSearch == "AllStaff" && shipToSearch != null)
-                {
-                    //var shipInDB = _context.ef_ships.SingleOrDefault(x => x.Id == int.Parse(shipToSearch));
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      where ppl.ship == shipToSearch && ppl.Status == statusToSearch
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
 
-                    pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
-                          where ppl.ship == shipToSearch
-                          join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
-                          select new ef_personalInfo
-                          {
-                              Id = ppl.Id,
-                              rankId = rak.Id,
-                              serviceNumber = ppl.serviceNumber,
-                              Surname = ppl.Surname,
-                              OtherName = ppl.OtherName,
-                              Rank = ppl.Rank,
-                              seniorityDate = ppl.seniorityDate,
-                              command = ppl.command,
-                              payrollclass = ppl.payrollclass,
-                              classes = ppl.classes,
-                              ship = ppl.ship,
-                              Status = ppl.Status,
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass != null && statusToSearch == null && shipToSearch == null)
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      where ppl.payrollclass==payclass
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
 
-                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
-                }
-                else if(statusToSearch != "AllStaff" && shipToSearch != null)
-                {
-                    //string shipInDB = _context.ef_ships.FirstOrDefault(x => x.Id == int.Parse(shipToSearch)).shipName;
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass == null && statusToSearch != null && shipToSearch == null)
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      where ppl.Status == statusToSearch
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
 
-                    pp = (from ppl in _context.ef_personalInfos
-                          where ppl.Status == statusToSearch && ppl.ship == shipToSearch
-                          join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
-                          select new ef_personalInfo
-                          {
-                              Id = ppl.Id,
-                              rankId = rak.Id,
-                              serviceNumber = ppl.serviceNumber,
-                              Surname = ppl.Surname,
-                              OtherName = ppl.OtherName,
-                              Rank = ppl.Rank,
-                              seniorityDate = ppl.seniorityDate,
-                              command = ppl.command,
-                              payrollclass = ppl.payrollclass,
-                              classes = ppl.classes,
-                              ship = ppl.ship,
-                              Status = ppl.Status,
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass == null && statusToSearch == null && shipToSearch != null)
+            {
+                pp = (from ppl in _context.ef_personalInfos
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      where ppl.ship == shipToSearch
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
 
-                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
-                }
-                else if(statusToSearch != "AllStaff" && shipToSearch == null)
-                {
-                    pp = (from ppl in _context.ef_personalInfos
-                          where ppl.Status == statusToSearch
-                          join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
-                          select new ef_personalInfo
-                          {
-                              Id = ppl.Id,
-                              rankId = rak.Id,
-                              serviceNumber = ppl.serviceNumber,
-                              Surname = ppl.Surname,
-                              OtherName = ppl.OtherName,
-                              Rank = ppl.Rank,
-                              seniorityDate = ppl.seniorityDate,
-                              command = ppl.command,
-                              payrollclass = ppl.payrollclass,
-                              classes = ppl.classes,
-                              ship = ppl.ship,
-                              Status = ppl.Status,
-
-                          }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
-                }
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
             }
             else
             {
@@ -742,9 +942,386 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                       }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
             }
 
-            int pageSize = 10;
+    int pageSize = 10;
 
             return await PaginatedList<ef_personalInfo>.CreateAsync(pp.AsQueryable(), pageNumber ?? 1, pageSize);
+        }
+        public IEnumerable<ef_personalInfo> GetPersonnelStatusRepoReport(string statusToSearch, string shipToSearch, string payclass)
+        {
+            var pp = new List<ef_personalInfo>();
+
+            if (payclass != null && statusToSearch != null && shipToSearch != null)
+            {
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      join st in _context.ef_states on ppl.StateofOrigin equals st.StateId.ToString()
+                      join lg in _context.ef_localgovts on ppl.LocalGovt equals lg.Id.ToString()
+                      join br in _context.ef_branches on ppl.branch equals br.code
+
+                      where (ppl.payrollclass == payclass && ppl.Status == statusToSearch && ppl.ship == shipToSearch)
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          LocalGovt = lg.lgaName,
+                          StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name=ppl.nok_name,
+                          nok_phone=ppl.nok_phone,
+                          hod_name=ppl.div_off_svcno,
+                          MaritalStatus=ppl.MaritalStatus,
+                          gsm_number=ppl.gsm_number,
+                          Bankcode=ppl.Bankcode,
+                          BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass != null && statusToSearch != null && shipToSearch == null)
+            {
+
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      join st in _context.ef_states on Convert.ToInt32(ppl.StateofOrigin) equals st.StateId
+                      join lg in _context.ef_localgovts on ppl.LocalGovt equals lg.Id.ToString()
+                      join br in _context.ef_branches on ppl.branch equals br.code
+
+                      where (ppl.payrollclass == payclass && ppl.Status == statusToSearch )
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                         branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          LocalGovt = lg.lgaName,
+                          StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                          BankACNumber=ppl.BankACNumber,
+                          email = ppl.email,
+
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass != null && statusToSearch == null && shipToSearch != null)
+            {
+
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      join st in _context.ef_states on ppl.StateofOrigin equals st.StateId.ToString()
+                      join lg in _context.ef_localgovts on ppl.LocalGovt equals lg.Id.ToString()
+                      join br in _context.ef_branches on ppl.branch equals br.code
+
+                      where (ppl.payrollclass == payclass  && ppl.ship == shipToSearch)
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          LocalGovt = lg.lgaName,
+                          StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                           BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
+
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass == null && statusToSearch != null && shipToSearch != null)
+            {
+
+
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      join st in _context.ef_states on ppl.StateofOrigin equals st.StateId.ToString()
+                      join lg in _context.ef_localgovts on ppl.LocalGovt equals lg.Id.ToString()
+                      join br in _context.ef_branches on ppl.branch equals br.code
+
+                      where (ppl.Status == statusToSearch && ppl.ship == shipToSearch)
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          LocalGovt = lg.lgaName,
+                          StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                          BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
+
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass != null && statusToSearch == null && shipToSearch == null)
+            {
+
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      join st in _context.ef_states on ppl.StateofOrigin equals st.StateId.ToString()
+                      join lg in _context.ef_localgovts on ppl.LocalGovt equals lg.Id.ToString()
+                      join br in _context.ef_branches on ppl.branch equals br.code
+
+                      where (ppl.payrollclass == payclass)
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          LocalGovt = lg.lgaName,
+                          StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                          BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
+
+
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass == null && statusToSearch != null && shipToSearch == null)
+            {
+
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      join st in _context.ef_states on ppl.StateofOrigin equals st.StateId.ToString()
+                      join lg in _context.ef_localgovts on ppl.LocalGovt equals lg.Id.ToString()
+                      join br in _context.ef_branches on ppl.branch equals br.code
+
+                      where ( ppl.Status == statusToSearch)
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          LocalGovt = lg.lgaName,
+                          StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                          BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
+
+
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else if (payclass == null && statusToSearch == null && shipToSearch != null)
+            {
+
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      join st in _context.ef_states on ppl.StateofOrigin equals st.StateId.ToString()
+                      join lg in _context.ef_localgovts on ppl.LocalGovt equals lg.Id.ToString()
+                      join br in _context.ef_branches on ppl.branch equals br.code
+
+                      where ( ppl.ship == shipToSearch)
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          LocalGovt = lg.lgaName,
+                          StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                          BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
+
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+            else
+            {
+
+                pp = (from ppl in _context.ef_personalInfos.Where(x => x.Rank != null)
+                      join rak in _context.ef_ranks on ppl.Rank equals rak.rankName
+                      join st in _context.ef_states on ppl.StateofOrigin equals st.StateId.ToString()
+                      join lg in _context.ef_localgovts on ppl.LocalGovt equals lg.Id.ToString()
+                      join br in _context.ef_branches on ppl.branch equals br.code
+
+                      select new ef_personalInfo
+                      {
+                          Id = ppl.Id,
+                          rankId = rak.Id,
+                          serviceNumber = ppl.serviceNumber,
+                          Surname = ppl.Surname,
+                          OtherName = ppl.OtherName,
+                          Rank = ppl.Rank,
+                          seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          LocalGovt = lg.lgaName,
+                          StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
+                          payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
+                          ship = ppl.ship,
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                          BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
+
+                      }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
+            }
+
+            int pageSize = 10;
+
+            return  pp;
         }
 
         public async Task<PaginatedList<ef_personalInfo>> GetPersonnelShipReport(string statusToSearch, string payclass,string ship, int? pageNumber)
@@ -768,11 +1345,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                               Rank = ppl.Rank,
                               seniorityDate = ppl.seniorityDate,
                               command = ppl.command,
+                              //branch = br.branchName,
+                              specialisation = ppl.specialisation,
+                              expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                              hod_svcno = ppl.hod_svcno,
+                              //LocalGovt = lg.lgaName,
+                              //StateofOrigin = st.Name,
+                              religion = ppl.religion,
+                              AcommodationStatus = ppl.AcommodationStatus,
                               payrollclass = ppl.payrollclass,
                               classes = ppl.classes,
-                              specialisation=ppl.specialisation,
                               ship = ppl.ship,
                               Status = ppl.Status,
+                              home_address = ppl.home_address,
+                              DateEmpl = ppl.DateEmpl,
+                              Birthdate = ppl.Birthdate,
+                              nok_name = ppl.nok_name,
+                              nok_phone = ppl.nok_phone,
+                              hod_name = ppl.div_off_svcno,
+                              MaritalStatus = ppl.MaritalStatus,
+                              gsm_number = ppl.gsm_number,
+                              Bankcode = ppl.Bankcode,
+                              BankACNumber = ppl.BankACNumber,
+                              email = ppl.email,
 
                           }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                 }
@@ -792,11 +1387,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                                   Rank = ppl.Rank,
                                   seniorityDate = ppl.seniorityDate,
                                   command = ppl.command,
+                                  //branch = br.branchName,
+                                  specialisation = ppl.specialisation,
+                                  expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                                  hod_svcno = ppl.hod_svcno,
+                                  //LocalGovt = lg.lgaName,
+                                  //StateofOrigin = st.Name,
+                                  religion = ppl.religion,
+                                  AcommodationStatus = ppl.AcommodationStatus,
                                   payrollclass = ppl.payrollclass,
                                   classes = ppl.classes,
                                   ship = ppl.ship,
-                                  specialisation=ppl.specialisation,
                                   Status = ppl.Status,
+                                  home_address = ppl.home_address,
+                                  DateEmpl = ppl.DateEmpl,
+                                  Birthdate = ppl.Birthdate,
+                                  nok_name = ppl.nok_name,
+                                  nok_phone = ppl.nok_phone,
+                                  hod_name = ppl.div_off_svcno,
+                                  MaritalStatus = ppl.MaritalStatus,
+                                  gsm_number = ppl.gsm_number,
+                                  Bankcode = ppl.Bankcode,
+                                  BankACNumber = ppl.BankACNumber,
+                                  email = ppl.email,
 
                               }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                     }
@@ -815,11 +1428,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                                   Rank = ppl.Rank,
                                   seniorityDate = ppl.seniorityDate,
                                   command = ppl.command,
+                                 // branch = br.branchName,
+                                  specialisation = ppl.specialisation,
+                                  expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                                  hod_svcno = ppl.hod_svcno,
+                                  //LocalGovt = lg.lgaName,
+                                  //StateofOrigin = st.Name,
+                                  religion = ppl.religion,
+                                  AcommodationStatus = ppl.AcommodationStatus,
                                   payrollclass = ppl.payrollclass,
                                   classes = ppl.classes,
                                   ship = ppl.ship,
-                                  specialisation=ppl.specialisation,
                                   Status = ppl.Status,
+                                  home_address = ppl.home_address,
+                                  DateEmpl = ppl.DateEmpl,
+                                  Birthdate = ppl.Birthdate,
+                                  nok_name = ppl.nok_name,
+                                  nok_phone = ppl.nok_phone,
+                                  hod_name = ppl.div_off_svcno,
+                                  MaritalStatus = ppl.MaritalStatus,
+                                  gsm_number = ppl.gsm_number,
+                                  Bankcode = ppl.Bankcode,
+                                  BankACNumber = ppl.BankACNumber,
+                                  email = ppl.email,
 
                               }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                     }
@@ -852,10 +1483,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                               Rank = ppl.Rank,
                               seniorityDate = ppl.seniorityDate,
                               command = ppl.command,
+                              //branch = br.branchName,
+                              specialisation = ppl.specialisation,
+                              expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                              hod_svcno = ppl.hod_svcno,
+                             // LocalGovt = lg.lgaName,
+                              //StateofOrigin = st.Name,
+                              religion = ppl.religion,
+                              AcommodationStatus = ppl.AcommodationStatus,
                               payrollclass = ppl.payrollclass,
                               classes = ppl.classes,
                               ship = ppl.ship,
                               Status = ppl.Status,
+                              home_address = ppl.home_address,
+                              DateEmpl = ppl.DateEmpl,
+                              Birthdate = ppl.Birthdate,
+                              nok_name = ppl.nok_name,
+                              nok_phone = ppl.nok_phone,
+                              hod_name = ppl.div_off_svcno,
+                              MaritalStatus = ppl.MaritalStatus,
+                              gsm_number = ppl.gsm_number,
+                              Bankcode = ppl.Bankcode,
+                              BankACNumber = ppl.BankACNumber,
+                              email = ppl.email,
 
                           }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                 }
@@ -878,10 +1528,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                                   Rank = ppl.Rank,
                                   seniorityDate = ppl.seniorityDate,
                                   command = ppl.command,
+                                  //branch = br.branchName,
+                                  specialisation = ppl.specialisation,
+                                  expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                                  hod_svcno = ppl.hod_svcno,
+                                  //LocalGovt = lg.lgaName,
+                                  //StateofOrigin = st.Name,
+                                  religion = ppl.religion,
+                                  AcommodationStatus = ppl.AcommodationStatus,
                                   payrollclass = ppl.payrollclass,
                                   classes = ppl.classes,
                                   ship = ppl.ship,
                                   Status = ppl.Status,
+                                  home_address = ppl.home_address,
+                                  DateEmpl = ppl.DateEmpl,
+                                  Birthdate = ppl.Birthdate,
+                                  nok_name = ppl.nok_name,
+                                  nok_phone = ppl.nok_phone,
+                                  hod_name = ppl.div_off_svcno,
+                                  MaritalStatus = ppl.MaritalStatus,
+                                  gsm_number = ppl.gsm_number,
+                                  Bankcode = ppl.Bankcode,
+                                  BankACNumber = ppl.BankACNumber,
+                                  email = ppl.email,
 
                               }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                     }
@@ -900,10 +1569,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                                   Rank = ppl.Rank,
                                   seniorityDate = ppl.seniorityDate,
                                   command = ppl.command,
+                                  //branch = br.branchName,
+                                  specialisation = ppl.specialisation,
+                                  expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                                  hod_svcno = ppl.hod_svcno,
+                                  //LocalGovt = lg.lgaName,
+                                  //StateofOrigin = st.Name,
+                                  religion = ppl.religion,
+                                  AcommodationStatus = ppl.AcommodationStatus,
                                   payrollclass = ppl.payrollclass,
                                   classes = ppl.classes,
                                   ship = ppl.ship,
                                   Status = ppl.Status,
+                                  home_address = ppl.home_address,
+                                  DateEmpl = ppl.DateEmpl,
+                                  Birthdate = ppl.Birthdate,
+                                  nok_name = ppl.nok_name,
+                                  nok_phone = ppl.nok_phone,
+                                  hod_name = ppl.div_off_svcno,
+                                  MaritalStatus = ppl.MaritalStatus,
+                                  gsm_number = ppl.gsm_number,
+                                  Bankcode = ppl.Bankcode,
+                                  BankACNumber = ppl.BankACNumber,
+                                  email = ppl.email,
 
                               }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                     }
@@ -925,10 +1613,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                               Rank = ppl.Rank,
                               seniorityDate = ppl.seniorityDate,
                               command = ppl.command,
+                              //branch = br.branchName,
+                              specialisation = ppl.specialisation,
+                              expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                              hod_svcno = ppl.hod_svcno,
+                              //LocalGovt = lg.lgaName,
+                              //StateofOrigin = st.Name,
+                              religion = ppl.religion,
+                              AcommodationStatus = ppl.AcommodationStatus,
                               payrollclass = ppl.payrollclass,
                               classes = ppl.classes,
                               ship = ppl.ship,
                               Status = ppl.Status,
+                              home_address = ppl.home_address,
+                              DateEmpl = ppl.DateEmpl,
+                              Birthdate = ppl.Birthdate,
+                              nok_name = ppl.nok_name,
+                              nok_phone = ppl.nok_phone,
+                              hod_name = ppl.div_off_svcno,
+                              MaritalStatus = ppl.MaritalStatus,
+                              gsm_number = ppl.gsm_number,
+                              Bankcode = ppl.Bankcode,
+                              BankACNumber = ppl.BankACNumber,
+                              email = ppl.email,
 
                           }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                 }
@@ -949,10 +1656,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                               Rank = ppl.Rank,
                               seniorityDate = ppl.seniorityDate,
                               command = ppl.command,
+                             // branch = br.branchName,
+                              specialisation = ppl.specialisation,
+                              expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                              hod_svcno = ppl.hod_svcno,
+                              //LocalGovt = lg.lgaName,
+                              //StateofOrigin = st.Name,
+                              religion = ppl.religion,
+                              AcommodationStatus = ppl.AcommodationStatus,
                               payrollclass = ppl.payrollclass,
                               classes = ppl.classes,
                               ship = ppl.ship,
                               Status = ppl.Status,
+                              home_address = ppl.home_address,
+                              DateEmpl = ppl.DateEmpl,
+                              Birthdate = ppl.Birthdate,
+                              nok_name = ppl.nok_name,
+                              nok_phone = ppl.nok_phone,
+                              hod_name = ppl.div_off_svcno,
+                              MaritalStatus = ppl.MaritalStatus,
+                              gsm_number = ppl.gsm_number,
+                              Bankcode = ppl.Bankcode,
+                              BankACNumber = ppl.BankACNumber,
+                              email = ppl.email,
 
                           }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                 }
@@ -971,10 +1697,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                               Rank = ppl.Rank,
                               seniorityDate = ppl.seniorityDate,
                               command = ppl.command,
+                             // branch = br.branchName,
+                              specialisation = ppl.specialisation,
+                              expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                              hod_svcno = ppl.hod_svcno,
+                              //LocalGovt = lg.lgaName,
+                              //StateofOrigin = st.Name,
+                              religion = ppl.religion,
+                              AcommodationStatus = ppl.AcommodationStatus,
                               payrollclass = ppl.payrollclass,
                               classes = ppl.classes,
                               ship = ppl.ship,
                               Status = ppl.Status,
+                              home_address = ppl.home_address,
+                              DateEmpl = ppl.DateEmpl,
+                              Birthdate = ppl.Birthdate,
+                              nok_name = ppl.nok_name,
+                              nok_phone = ppl.nok_phone,
+                              hod_name = ppl.div_off_svcno,
+                              MaritalStatus = ppl.MaritalStatus,
+                              gsm_number = ppl.gsm_number,
+                              Bankcode = ppl.Bankcode,
+                              BankACNumber = ppl.BankACNumber,
+                              email = ppl.email,
 
                           }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                 }
@@ -993,10 +1738,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                           Rank = ppl.Rank,
                           seniorityDate = ppl.seniorityDate,
                           command = ppl.command,
+                         // branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          //LocalGovt = lg.lgaName,
+                          //StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
                           payrollclass = ppl.payrollclass,
                           classes = ppl.classes,
                           ship = ppl.ship,
                           Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                          BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
 
                       }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
             }
@@ -1026,10 +1790,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                               Rank = ppl.Rank,
                               seniorityDate = ppl.seniorityDate,
                               command = ppl.command,
+                              //branch = br.branchName,
+                              specialisation = ppl.specialisation,
+                              expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                              hod_svcno = ppl.hod_svcno,
+                              //LocalGovt = lg.lgaName,
+                              //StateofOrigin = st.Name,
+                              religion = ppl.religion,
+                              AcommodationStatus = ppl.AcommodationStatus,
                               payrollclass = ppl.payrollclass,
                               classes = ppl.classes,
                               ship = ppl.ship,
                               Status = ppl.Status,
+                              home_address = ppl.home_address,
+                              DateEmpl = ppl.DateEmpl,
+                              Birthdate = ppl.Birthdate,
+                              nok_name = ppl.nok_name,
+                              nok_phone = ppl.nok_phone,
+                              hod_name = ppl.div_off_svcno,
+                              MaritalStatus = ppl.MaritalStatus,
+                              gsm_number = ppl.gsm_number,
+                              Bankcode = ppl.Bankcode,
+                              BankACNumber = ppl.BankACNumber,
+                              email = ppl.email,
 
                           }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                 }
@@ -1049,10 +1832,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                                   Rank = ppl.Rank,
                                   seniorityDate = ppl.seniorityDate,
                                   command = ppl.command,
+                                 // branch = br.branchName,
+                                  specialisation = ppl.specialisation,
+                                  expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                                  hod_svcno = ppl.hod_svcno,
+                                  //LocalGovt = lg.lgaName,
+                                  //StateofOrigin = st.Name,
+                                  religion = ppl.religion,
+                                  AcommodationStatus = ppl.AcommodationStatus,
                                   payrollclass = ppl.payrollclass,
                                   classes = ppl.classes,
                                   ship = ppl.ship,
                                   Status = ppl.Status,
+                                  home_address = ppl.home_address,
+                                  DateEmpl = ppl.DateEmpl,
+                                  Birthdate = ppl.Birthdate,
+                                  nok_name = ppl.nok_name,
+                                  nok_phone = ppl.nok_phone,
+                                  hod_name = ppl.div_off_svcno,
+                                  MaritalStatus = ppl.MaritalStatus,
+                                  gsm_number = ppl.gsm_number,
+                                  Bankcode = ppl.Bankcode,
+                                  BankACNumber = ppl.BankACNumber,
+                                  email = ppl.email,
 
                               }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                     }
@@ -1071,10 +1873,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                                   Rank = ppl.Rank,
                                   seniorityDate = ppl.seniorityDate,
                                   command = ppl.command,
+                                  //branch = br.branchName,
+                                  specialisation = ppl.specialisation,
+                                  expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                                  hod_svcno = ppl.hod_svcno,
+                                  //LocalGovt = lg.lgaName,
+                                  //StateofOrigin = st.Name,
+                                  religion = ppl.religion,
+                                  AcommodationStatus = ppl.AcommodationStatus,
                                   payrollclass = ppl.payrollclass,
                                   classes = ppl.classes,
                                   ship = ppl.ship,
                                   Status = ppl.Status,
+                                  home_address = ppl.home_address,
+                                  DateEmpl = ppl.DateEmpl,
+                                  Birthdate = ppl.Birthdate,
+                                  nok_name = ppl.nok_name,
+                                  nok_phone = ppl.nok_phone,
+                                  hod_name = ppl.div_off_svcno,
+                                  MaritalStatus = ppl.MaritalStatus,
+                                  gsm_number = ppl.gsm_number,
+                                  Bankcode = ppl.Bankcode,
+                                  BankACNumber = ppl.BankACNumber,
+                                  email = ppl.email,
 
                               }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
                     }
@@ -1098,10 +1919,29 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                       Rank = ppl.Rank,
                       seniorityDate = ppl.seniorityDate,
                       command = ppl.command,
+                     // branch = br.branchName,
+                      specialisation = ppl.specialisation,
+                      expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                      hod_svcno = ppl.hod_svcno,
+                      //LocalGovt = lg.lgaName,
+                      //StateofOrigin = st.Name,
+                      religion = ppl.religion,
+                      AcommodationStatus = ppl.AcommodationStatus,
                       payrollclass = ppl.payrollclass,
                       classes = ppl.classes,
                       ship = ppl.ship,
-                      Status = ppl.Status
+                      Status = ppl.Status,
+                      home_address = ppl.home_address,
+                      DateEmpl = ppl.DateEmpl,
+                      Birthdate = ppl.Birthdate,
+                      nok_name = ppl.nok_name,
+                      nok_phone = ppl.nok_phone,
+                      hod_name = ppl.div_off_svcno,
+                      MaritalStatus = ppl.MaritalStatus,
+                      gsm_number = ppl.gsm_number,
+                      Bankcode = ppl.Bankcode,
+                      BankACNumber = ppl.BankACNumber,
+                      email = ppl.email,
                   }).OrderByDescending(x => x.ship).ThenByDescending(x => x.rankId).AsNoTracking().ToList();
 
 
@@ -1118,16 +1958,36 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                   select new ef_personalInfo
                   {
                       Id = ppl.Id,
+                     // rankId = rak.Id,
                       serviceNumber = ppl.serviceNumber,
                       Surname = ppl.Surname,
                       OtherName = ppl.OtherName,
                       Rank = ppl.Rank,
                       seniorityDate = ppl.seniorityDate,
                       command = ppl.command,
+                     // branch = br.branchName,
+                      specialisation = ppl.specialisation,
+                      expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                      hod_svcno = ppl.hod_svcno,
+                      //LocalGovt = lg.lgaName,
+                      //StateofOrigin = st.Name,
+                      religion = ppl.religion,
+                      AcommodationStatus = ppl.AcommodationStatus,
                       payrollclass = ppl.payrollclass,
                       classes = ppl.classes,
                       ship = ppl.ship,
-                      Status = ppl.Status
+                      Status = ppl.Status,
+                      home_address = ppl.home_address,
+                      DateEmpl = ppl.DateEmpl,
+                      Birthdate = ppl.Birthdate,
+                      nok_name = ppl.nok_name,
+                      nok_phone = ppl.nok_phone,
+                      hod_name = ppl.div_off_svcno,
+                      MaritalStatus = ppl.MaritalStatus,
+                      gsm_number = ppl.gsm_number,
+                      Bankcode = ppl.Bankcode,
+                      BankACNumber = ppl.BankACNumber,
+                      email = ppl.email,
                   }).OrderByDescending(x => x.ship).ThenByDescending(x => x.Id).ToList();
 
 
@@ -1143,16 +2003,36 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                       select new ef_personalInfo
                       {
                           Id = ppl.Id,
+                         // rankId = rak.Id,
                           serviceNumber = ppl.serviceNumber,
                           Surname = ppl.Surname,
                           OtherName = ppl.OtherName,
                           Rank = ppl.Rank,
                           seniorityDate = ppl.seniorityDate,
                           command = ppl.command,
+                         // branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          //LocalGovt = lg.lgaName,
+                          //StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
                           payrollclass = ppl.payrollclass,
                           classes = ppl.classes,
                           ship = ppl.ship,
-                          Status = ppl.Status
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                          BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
                       }).OrderByDescending(x => x.seniorityDate).ThenByDescending(x => x.serviceNumber).ToList();
 
             }
@@ -1364,15 +2244,37 @@ public IEnumerable<ef_personalInfo> downloadPersonalReport(string svcno)
                       where (ppl.payrollclass == payclass && ppl.Status == "CPO" && ppl.emolumentform != "Yes")
                       select new ef_personalInfo
                       {
+                          Id = ppl.Id,
+                          // rankId = rak.Id,
                           serviceNumber = ppl.serviceNumber,
                           Surname = ppl.Surname,
                           OtherName = ppl.OtherName,
                           Rank = ppl.Rank,
                           seniorityDate = ppl.seniorityDate,
+                          command = ppl.command,
+                          // branch = br.branchName,
+                          specialisation = ppl.specialisation,
+                          expirationOfEngagementDate = ppl.expirationOfEngagementDate,
+                          hod_svcno = ppl.hod_svcno,
+                          //LocalGovt = lg.lgaName,
+                          //StateofOrigin = st.Name,
+                          religion = ppl.religion,
+                          AcommodationStatus = ppl.AcommodationStatus,
                           payrollclass = ppl.payrollclass,
+                          classes = ppl.classes,
                           ship = ppl.ship,
-                          classes=ppl.classes,
-                          Id=ppl.Id
+                          Status = ppl.Status,
+                          home_address = ppl.home_address,
+                          DateEmpl = ppl.DateEmpl,
+                          Birthdate = ppl.Birthdate,
+                          nok_name = ppl.nok_name,
+                          nok_phone = ppl.nok_phone,
+                          hod_name = ppl.div_off_svcno,
+                          MaritalStatus = ppl.MaritalStatus,
+                          gsm_number = ppl.gsm_number,
+                          Bankcode = ppl.Bankcode,
+                          BankACNumber = ppl.BankACNumber,
+                          email = ppl.email,
 
                       }).OrderByDescending(x=>x.ship).ThenByDescending(x => x.Rank).ThenByDescending(x => x.serviceNumber).ThenByDescending(x => x.seniorityDate).ToList();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace NNPEFWEB.Controllers
         private readonly IEmailService _EmailService;
         private readonly IUnitOfWorks unitOfWorks;
         private readonly IConfiguration config;
+        private readonly IMailService _mailService;
         private int resetcode;
         Random rnd = new Random();
         private readonly ILogger<HomeController> _logger;
@@ -38,7 +40,8 @@ namespace NNPEFWEB.Controllers
          (
             ILogger<HomeController> logger,
             ApplicationDbContext context,IPersonInfoService personInfoService,
-            IPersonService personService, IUnitOfWorks unitOfWorks, IConfiguration config
+            IPersonService personService, IUnitOfWorks unitOfWorks, IConfiguration config,
+            IMailService mailService
          )
          {
             _logger = logger;
@@ -47,6 +50,7 @@ namespace NNPEFWEB.Controllers
             this.config = config;
             this.personInfoService = personInfoService;
             _context = context;
+            _mailService = mailService;
          }
         public IActionResult Index()
         {
@@ -350,6 +354,7 @@ namespace NNPEFWEB.Controllers
                 {
                     string username=HttpContext.Session.GetString("SVC_No");
                     var user = personService.GetPersonBySvc_NO(conmail.UserName);
+                   // var user2 = _context.ef_personalInfos.Where(x => x.serviceNumber == conmail.UserName).FirstOrDefault();
                     if (user!=null)
                     {
                         resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
@@ -358,13 +363,23 @@ namespace NNPEFWEB.Controllers
                         HttpContext.Session.SetString("verificationCode", resetcode.ToString());
        
                        // a call to send email notification
-                        string emailFrom = "NN-CPO";
-                        string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
+                       // string emailFrom = "NN-CPO";
+                        //string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
+                        //string bodyHtml = "<h1>Html Body</h1>";
                         // add navy email adds
-                        if (!string.IsNullOrEmpty(conmail.ConfirmEmail))
-                            SendEmailNotification(emailFrom, emailSender, message, conmail.ConfirmEmail);
+                       // if (!string.IsNullOrEmpty(conmail.ConfirmEmail))
 
-                        TempData["verifymessage"]= "An Email Notification Was sent to your Email address.";
+                       // SendEmail(conmail.ConfirmEmail, emailFrom, message, bodyHtml, emailSender, emailFrom);
+                        
+                        var mail = new MailClass();
+                        mail.bodyText= "Your Verification Code is:" + resetcode;
+                        mail.fromName= "NN-CPO";
+                        mail.to = conmail.ConfirmEmail;
+                        mail.subject = "NNCPO E-Emolument Form Verification";
+
+
+                        _mailService.SendEmail(mail);
+                        //TempData["verifymessage"]= "An Email Notification Was sent to your Email address.";
                         return RedirectToAction("VerifyCode");
                       
                     }
@@ -476,6 +491,35 @@ namespace NNPEFWEB.Controllers
             else
             {
                 return false;
+            }
+        }
+
+        public void SendEmail(string to, string subject, string bodyText, string bodyHtml, string from, string fromName)
+        {
+            try
+            {
+                var apikey = config.GetValue<string>("mailconfig:Apikey");
+            var UserName = config.GetValue<string>("mailconfig:hostmails");
+            WebClient client = new WebClient();
+            NameValueCollection values = new NameValueCollection();
+            values.Add("username", UserName);
+            values.Add("api_key", apikey);
+            values.Add("from", from);
+            values.Add("from_name", fromName);
+            values.Add("subject", subject);
+            if (bodyHtml != null)
+                values.Add("body_html", bodyText);
+            if (bodyText != null)
+                values.Add("body_text", bodyText);
+            values.Add("to", to);
+
+            byte[] response = client.UploadValues("https://api.elasticemail.com/mailer/send", values);
+            //return Encoding.UTF8.GetString(response);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
     }

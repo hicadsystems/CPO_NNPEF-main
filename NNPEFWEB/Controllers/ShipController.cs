@@ -130,9 +130,9 @@ namespace NNPEFWEB.Controllers
                         ServiceNumber = person.serviceNumber,
                         Rank = person.Rank,
                         Name = person.Surname + " " + person.OtherName,
-                        Seniority=person.seniorityDate.Value.ToShortDateString().ToString(),
+                        Seniority_Date = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
                         Ship = person.ship,
-                        Status=person.Status
+                       // Status=person.Status
                         
                     };
                     rpt.Add(pps);
@@ -249,9 +249,9 @@ namespace NNPEFWEB.Controllers
                 {
                     ServiceNumber = person.serviceNumber,
                     Rank = person.Rank,
-                    Seniority = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                    Seniority_Date = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
                     Name = person.Surname + " " + person.OtherName,
-                    Status = person.Status,
+                    //Status = person.Status,
                     Ship = person.ship,
                 };
                 rpt.Add(pps);

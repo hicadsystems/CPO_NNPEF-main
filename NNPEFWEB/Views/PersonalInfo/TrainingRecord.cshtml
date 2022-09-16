@@ -42,7 +42,7 @@
                 <ul class="navbar-nav text-uppercase ml-auto">
 
                     @*<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Images/Events</a></li>
-        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>*@
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>*@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
                     @*<li class="nav-item"><a class="nav-link" href="https://www.navy.mil.ng/">Visit Our Site</a></li>*@
                     <li class="nav-item"><a class="nav-link" href="/Home/HomePage">Log Out</a></li>
@@ -74,16 +74,16 @@
                             <label asp-for="Passport" style="width: 100%;"></label>
                             @if (Model.Passport != null)
                             {
-                <img id="passport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.Passport))"> }
-            else
-            {
-                <img id="passport" style="width:200px;height:200px; object-fit:cover" src="">}
+                                <img id="passport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.Passport))"> }
+                            else
+                            {
+                                <img id="passport" style="width:200px;height:200px; object-fit:cover" src="">}
                             <input type="file"
                                    accept=".png,.jpg,.jpeg,.gif,.tif"
                                    asp-for="Passport"
                                    class="form-control"
                                    style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
-                                   onchange="document.getElementById('passport').src = window.URL.createObjectURL(this.files[0])" />
+                                   onchange="document.getElementById('passport').src = window.URL.createObjectURL(this.files[0])" id="fileUpload"  />
                             <span asp-validation-for="Passport" class="text-danger"></span>
                         </div>
                     </div>
@@ -91,10 +91,10 @@
                         @*<img src="~/Image/navylogo2.png" style="width:180px;height:200px;" />*@
                         @if (Model.logo != null)
                         {
-                <img id="logo" style="width: 130px; height: 190px; " src="data:image/*;base64,@(Convert.ToBase64String(Model.logo))"> }
-            else
-            {
-                <img id="logo" style="width:140px;height:220px; object-fit:cover" src="">}
+                            <img id="logo" style="width: 130px; height: 190px; " src="data:image/*;base64,@(Convert.ToBase64String(Model.logo))"> }
+                        else
+                        {
+                            <img id="logo" style="width:140px;height:220px; object-fit:cover" src="">}
 
                     </div>
                     <div class="col-md-3">
@@ -103,38 +103,38 @@
                             <label style="width: 100%;">NOK Passport</label>
                             @if (Model.NokPassport != null)
                             {
-                <img id="nokpassport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.NokPassport))"> }
-            else
-            {
-                <img id="nokpassport" style="width:200px;height:200px; object-fit:cover" src="">}
+                                <img id="nokpassport" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.NokPassport))"> }
+                            else
+                            {
+                                <img id="nokpassport" style="width:200px;height:200px; object-fit:cover" src="">}
                             <input type="file"
                                    accept=".png,.jpg,.jpeg,.gif,.tif"
                                    asp-for="NokPassport"
                                    class="form-control"
                                    style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
-                                   onchange="document.getElementById('nokpassport').src = window.URL.createObjectURL(this.files[0])" />
+                                   onchange="document.getElementById('nokpassport').src = window.URL.createObjectURL(this.files[0])" id="fileUpload1"  />
                             <span asp-validation-for="NokPassport" class="text-danger"></span>
                         </div>
                     </div>
                     @*<div class="col-md-3">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="AltNokPassport" style="width: 100%;"></label>
-                        @if (Model.AltNokPassport != null)
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <label asp-for="AltNokPassport" style="width: 100%;"></label>
+                                        @if (Model.AltNokPassport != null)
+                                        {
+                            <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))"> }
+                        else
                         {
-            <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.AltNokPassport))"> }
-        else
-        {
-        <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="">}
-                        <input type="file"
-                               accept=".png,.jpg,.jpeg,.gif,.tif"
-                               asp-for="AltNokPassport"
-                               class="form-control"
-                               style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
-                               onchange="document.getElementById('altnokpassport').src = window.URL.createObjectURL(this.files[0])" />
-                        <span asp-validation-for="AltNokPassport" class="text-danger"></span>
-                    </div>
-                </div>*@
+                        <img id="altnokpassport" style="width:250px;height:250px; object-fit:cover" src="">}
+                                        <input type="file"
+                                               accept=".png,.jpg,.jpeg,.gif,.tif"
+                                               asp-for="AltNokPassport"
+                                               class="form-control"
+                                               style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+                                               onchange="document.getElementById('altnokpassport').src = window.URL.createObjectURL(this.files[0])" />
+                                        <span asp-validation-for="AltNokPassport" class="text-danger"></span>
+                                    </div>
+                                </div>*@
                 </div>
                 <div class="row">
 
@@ -223,7 +223,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">Highest Educational Qualification</label>
-                        <input asp-for="qualification" class="form-control" readonly/>
+                        <input asp-for="qualification" class="form-control" readonly />
                         <span asp-validation-for="qualification" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
@@ -330,10 +330,10 @@
                         <span asp-validation-for="nok_phone2" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                    <label class="control-label">Phone Number (b)</label>
-                    <input asp-for="nok_phone22" class="form-control" />
-                    <span asp-validation-for="nok_phone2" class="text-danger"></span>
-                </div>
+                        <label class="control-label">Phone Number (b)</label>
+                        <input asp-for="nok_phone22" class="form-control" />
+                        <span asp-validation-for="nok_phone2" class="text-danger"></span>
+                    </div>
                     <div class="col-md-4">
                         <label class="control-label">Email</label>
                         <input asp-for="nok_email2" class="form-control" />
@@ -351,7 +351,7 @@
                                asp-for="AltNokPassport"
                                class="form-control"
                                style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
-                               onchange="document.getElementById('altnokpassport').src = window.URL.createObjectURL(this.files[0])" />
+                               onchange="document.getElementById('altnokpassport').src = window.URL.createObjectURL(this.files[0])" id="fileUpload2"  />
                         <span asp-validation-for="AltNokPassport" class="text-danger"></span>
                     </div>
                 </div>
@@ -365,23 +365,23 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label class="control-label">Salary Bank Account Name</label>
-                        <input asp-for="AccountName" class="form-control" readonly/>
+                        <input asp-for="AccountName" class="form-control" readonly />
                         <span asp-validation-for="AccountName" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label">Bank Name</label>
                         <input asp-for="Bankcode" class="form-control" readonly />
                         @*<select asp-for="Bankcode"
-                class="form-control"
-                asp-items="@(new SelectList(Model.bankList,"Value", "Text"))">
-        </select>*@
+                                    class="form-control"
+                                    asp-items="@(new SelectList(Model.bankList,"Value", "Text"))">
+                            </select>*@
                         <span asp-validation-for="Bankcode" class="text-danger"></span>
                     </div>
-                    <div class="col-md-4">
+                    @*<div class="col-md-4">
                         <label class="control-label">Branch/Address</label>
                         <input asp-for="bankbranch" class="form-control" readonly />
                         <span asp-validation-for="bankbranch" class="text-danger"></span>
-                    </div>
+                    </div>*@
                     <div class="col-md-4">
                         <label asp-for="BankACNumber" class="control-label"></label>
                         <input asp-for="BankACNumber" class="form-control" readonly />
@@ -393,63 +393,63 @@
 
 
                 @*<hr />
-                    @if (Model.Status == "DO" || Model.Status == "HOD" || Model.Status == "CDR")
-                    {
-        <div class="row">
-            <div class="col-md-4">
-                <label class="control-label">HOD Name</label>
-                <input asp-for="hod_name" class="form-control" />
-                <span asp-validation-for="hod_name" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label class="control-label">HOD Rank</label>
-                <select asp-for="hod_rank"
-                        class="form-control"
-                        asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
-                </select>
-                <span asp-validation-for="hod_rank" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label class="control-label">HOD Service No</label>
-                <input asp-for="hod_svcno" class="form-control" />
-                <span asp-validation-for="hod_svcno" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label class="control-label">HOD Update Date</label>
-                <input asp-for="div_off_date" class="form-control" />
-                <span asp-validation-for="div_off_date" class="text-danger"></span>
-            </div>
+                                @if (Model.Status == "DO" || Model.Status == "HOD" || Model.Status == "CDR")
+                                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label">HOD Name</label>
+                            <input asp-for="hod_name" class="form-control" />
+                            <span asp-validation-for="hod_name" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">HOD Rank</label>
+                            <select asp-for="hod_rank"
+                                    class="form-control"
+                                    asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
+                            </select>
+                            <span asp-validation-for="hod_rank" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">HOD Service No</label>
+                            <input asp-for="hod_svcno" class="form-control" />
+                            <span asp-validation-for="hod_svcno" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">HOD Update Date</label>
+                            <input asp-for="div_off_date" class="form-control" />
+                            <span asp-validation-for="div_off_date" class="text-danger"></span>
+                        </div>
 
-        </div>}
-                    <hr />
-                    @if (Model.Status == "HOD" || Model.Status == "CDR")
-                    {
-        <div class="row">
-            <div class="col-md-4">
-                <label class="control-label">CDR Name</label>
-                <input asp-for="cdr_name" class="form-control" />
-                <span asp-validation-for="cdr_name" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label class="control-label">CDR Rank</label>
-                <select asp-for="cdr_rank"
-                        class="form-control"
-                        asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
-                </select>
-                <span asp-validation-for="cdr_rank" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label class="control-label">CDR Service No</label>
-                <input asp-for="cdr_svcno" class="form-control" />
-                <span asp-validation-for="cdr_svcno" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label class="control-label">CDR Update Date</label>
-                <input asp-for="cdr_date" class="form-control" />
-                <span asp-validation-for="cdr_date" class="text-danger"></span>
-            </div>
+                    </div>}
+                                <hr />
+                                @if (Model.Status == "HOD" || Model.Status == "CDR")
+                                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label">CDR Name</label>
+                            <input asp-for="cdr_name" class="form-control" />
+                            <span asp-validation-for="cdr_name" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">CDR Rank</label>
+                            <select asp-for="cdr_rank"
+                                    class="form-control"
+                                    asp-items="@(new SelectList(Model.rankList, "Value", "Text"))">
+                            </select>
+                            <span asp-validation-for="cdr_rank" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">CDR Service No</label>
+                            <input asp-for="cdr_svcno" class="form-control" />
+                            <span asp-validation-for="cdr_svcno" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">CDR Update Date</label>
+                            <input asp-for="cdr_date" class="form-control" />
+                            <span asp-validation-for="cdr_date" class="text-danger"></span>
+                        </div>
 
-        </div>}*@
+                    </div>}*@
                 <hr />
                 <div class="row">
                     <div class="col-md-4">
@@ -473,6 +473,135 @@
     <script src="~/js/datepicker2.js"></script>
     <!-- Core theme JS-->
     <script src="~/js/scripts.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#fileUpload").change(function () {
+                //Get reference of FileUpload.
+                var fileUpload = $("#fileUpload")[0];
+
+                //Check whether the file is valid Image.
+                var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
+                if (regex.test(fileUpload.value.toLowerCase())) {
+                    //Check whether HTML5 is supported.
+                    if (typeof (fileUpload.files) != "undefined") {
+                        //Initiate the FileReader object.
+                        var reader = new FileReader();
+                        //Read the contents of Image File.
+                        reader.readAsDataURL(fileUpload.files[0]);
+                        reader.onload = function (e) {
+                            //Initiate the JavaScript Image object.
+                            var image = new Image();
+                            //Set the Base64 string return from FileReader as source.
+                            image.src = e.target.result;
+                            image.onload = function () {
+                                //Determine the Height and Width.
+                                var height = this.height;
+                                var width = this.width;
+                                if (height > 200 || width > 200) {
+                                    //$("#fileUpload").val = null;
+                                    alert("Height and Width must not exceed 200px.");
+                                    //document.getElementById("fileUpload") = '';
+                                    location.reload();
+                                    return false;
+                                }
+                                alert("Uploaded image has valid Height and Width.");
+                                return true;
+                            };
+                        }
+                    } else {
+                        alert("This browser does not support HTML5.");
+                        return false;
+                    }
+                } else {
+                    alert("Please select a valid Image file.");
+                    return false;
+                }
+            });
+
+            $("#fileUpload1").change(function () {
+                //Get reference of FileUpload.
+                var fileUpload = $("#fileUpload1")[0];
+
+                //Check whether the file is valid Image.
+                var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
+                if (regex.test(fileUpload.value.toLowerCase())) {
+                    //Check whether HTML5 is supported.
+                    if (typeof (fileUpload.files) != "undefined") {
+                        //Initiate the FileReader object.
+                        var reader = new FileReader();
+                        //Read the contents of Image File.
+                        reader.readAsDataURL(fileUpload.files[0]);
+                        reader.onload = function (e) {
+                            //Initiate the JavaScript Image object.
+                            var image = new Image();
+                            //Set the Base64 string return from FileReader as source.
+                            image.src = e.target.result;
+                            image.onload = function () {
+                                //Determine the Height and Width.
+                                var height = this.height;
+                                var width = this.width;
+                                if (height > 200 || width > 200) {
+                                    alert("Height and Width must not exceed 200px.");
+                                    location.reload();
+                                    return false;
+                                }
+                                alert("Uploaded image has valid Height and Width.");
+                                return true;
+                            };
+                        }
+                    } else {
+                        alert("This browser does not support HTML5.");
+                        return false;
+                    }
+                } else {
+                    alert("Please select a valid Image file.");
+                    return false;
+                }
+            });
+
+            $("#fileUpload2").change(function () {
+                //Get reference of FileUpload.
+                var fileUpload = $("#fileUpload2")[0];
+
+                //Check whether the file is valid Image.
+                var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.gif)$");
+                if (regex.test(fileUpload.value.toLowerCase())) {
+                    //Check whether HTML5 is supported.
+                    if (typeof (fileUpload.files) != "undefined") {
+                        //Initiate the FileReader object.
+                        var reader = new FileReader();
+                        //Read the contents of Image File.
+                        reader.readAsDataURL(fileUpload.files[0]);
+                        reader.onload = function (e) {
+                            //Initiate the JavaScript Image object.
+                            var image = new Image();
+                            //Set the Base64 string return from FileReader as source.
+                            image.src = e.target.result;
+                            image.onload = function () {
+                                //Determine the Height and Width.
+                                var height = this.height;
+                                var width = this.width;
+                                if (height > 200 || width > 200) {
+                                    alert("Height and Width must not exceed 200px.");
+                                    location.reload();
+                                    return false;
+                                }
+                                alert("Uploaded image has valid Height and Width.");
+                                return true;
+                            };
+                        }
+                    } else {
+                        alert("This browser does not support HTML5.");
+                        return false;
+                    }
+                } else {
+                    alert("Please select a valid Image file.");
+                    return false;
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function () {
             var stateid = $('#ddstate');

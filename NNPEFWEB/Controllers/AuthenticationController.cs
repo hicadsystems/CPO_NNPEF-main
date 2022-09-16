@@ -26,13 +26,14 @@ namespace NNPEFWEB.Controllers
         private readonly IUserService userService;
         private readonly IConfiguration config;
         private readonly IUnitOfWorks unitOfWork;
+        private readonly IMailService _mailService;
         private int resetcode;
         Random rnd = new Random();
         private readonly ILogger<HomeController> _logger;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
         public AuthenticationController(SignInManager<User> signInManager, UserManager<User> userManager, ApplicationDbContext context,
-            IUnitOfWorks unitOfWork ,IAuthenticationService authenticationService,
+            IUnitOfWorks unitOfWork ,IAuthenticationService authenticationService, IMailService mailService,
             IUserService userService, IConfiguration config, ILogger<HomeController> logger) :base(userService)
         {
             this.signInManager = signInManager;
@@ -43,6 +44,7 @@ namespace NNPEFWEB.Controllers
             this.unitOfWork = unitOfWork;
             this.context = context;
             this._logger = logger;
+            _mailService = mailService;
         }
 
         // GET: Authentication
@@ -227,18 +229,26 @@ namespace NNPEFWEB.Controllers
                     if (user != null )
                     {
                         resetcode = rnd.Next(100000, 200000);   // generate random number and send to user mail and phone
-                        string message = "Your Password Reset Code is:" + resetcode;
+                       // string message = "Your Password Reset Code is:" + resetcode;
                         HttpContext.Session.SetString("userToReset", user.Email);
                         HttpContext.Session.SetString("UserId", user.UserName);
                         HttpContext.Session.SetString("resetCode", resetcode.ToString());
 
                         // a call to send email notification
-                            string emailFrom = "NN-CPO";
-                        string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
+                       //     string emailFrom = "NN-CPO";
+                       // string emailSender = config.GetValue<string>("mailconfig:SenderEmail");
 
                         // add navy email adds
-                        if (!string.IsNullOrEmpty(user.Email))
-                            SendEmailNotification(emailFrom, emailSender, message, user.Email);
+                        //if (!string.IsNullOrEmpty(user.Email))
+                        //    SendEmailNotification(emailFrom, emailSender, message, user.Email);
+
+                        var mail = new MailClass();
+                        mail.bodyText = "Your Verification Code is:" + resetcode;
+                        mail.fromName = "NN-CPO";
+                        mail.to = user.Email;
+                        mail.subject = "NNCPO E-Emolument Form User Verification";
+
+                        _mailService.SendEmail(mail);
 
                         return View("ForgotPasswordConfirmation");
                     }

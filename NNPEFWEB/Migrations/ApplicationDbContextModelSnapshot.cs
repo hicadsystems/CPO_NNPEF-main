@@ -565,6 +565,9 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("FGSHLS_loanYear")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FormYear")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("GBC")
                         .HasColumnType("nvarchar(max)");
 
@@ -886,6 +889,9 @@ namespace NNPEFWEB.Migrations
                     b.Property<string>("town")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("upload")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("verifyBy")
                         .HasColumnType("datetime2");
 
@@ -901,6 +907,396 @@ namespace NNPEFWEB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ef_personalInfos");
+                });
+
+            modelBuilder.Entity("NNPEFWEB.Models.ef_personalInfoHist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccountName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AcommodationStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressofAcommodation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("AltNokPassport")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Anyother_Loan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Anyother_LoanYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankACNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Bankcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Birthdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateEmpl")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateLeft")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FGSHLS_loan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FGSHLS_loanYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FormYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GBC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GBC_Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocalGovt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaritalStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NHFcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NHFcodeYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NNMFBL_loan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NNMFBL_loanYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NNNCS_loan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NNNCS_loanYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NSITFcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NSITFcodeYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("NokPassport")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("OtherName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PPCFS_loan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PPCFS_loanYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Passport")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Rank")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SBC_allow")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sex")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StateofOrigin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TaxCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("accomm_type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("advanceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("aircrew_allow")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("appointment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("bankbranch")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("branch")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("car_loan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("car_loanYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("cdr_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("cdr_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("cdr_rank")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("cdr_svcno")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("chid_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("chid_name2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("chid_name3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("chid_name4")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("classes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("command")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("confirmedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("createdby")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("dateModify")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateVerify")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("dateconfirmed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("datecreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("div_off_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("div_off_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("div_off_rank")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("div_off_svcno")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("division")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("emolumentform")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("entitlement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("entry_mode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("exittype")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("expirationOfEngagementDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("formNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("gradelevel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("gradetype")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("gsm_number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("gsm_number2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("hazard_allow")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("hod_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("hod_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("hod_rank")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("hod_svcno")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("home_address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_address2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_email2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_name2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_nationalId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_nationalId2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_phone12")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_phone2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_phone22")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_relation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nok_relation2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("other_allow")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("other_allowspecify")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("payrollclass")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("pfacode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("pilot_allow")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("qualification")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("rankId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("religion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("rent_subsidy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("runoutDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("seniorityDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("serviceNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("shift_duty_allow")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ship")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("sp_email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("sp_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("sp_phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("sp_phone2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("special_forces_allow")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("specialisation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("taxed")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("town")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("upload")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("verifyBy")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("welfare_loan")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("welfare_loanYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("yearOfPromotion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ef_personalInfosHist");
                 });
 
             modelBuilder.Entity("NNPEFWEB.Models.ef_personnelLogin", b =>

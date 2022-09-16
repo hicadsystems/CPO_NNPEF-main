@@ -85,6 +85,8 @@ namespace NNPEFWEB
             services.AddScoped<IShipService, ShipService>();
             services.AddScoped<IContactUsService, ContactUsService>();
             services.AddScoped<IControlService, ControlService>();
+            services.AddScoped<IMailService, MailService>();
+            services.AddScoped<IDapper, Dapperr>();
             services.AddSession();
 
             services.AddMvc();

@@ -8,6 +8,6 @@ namespace NNPEFWEB.Repository
 {
     public interface IContactUs : IGenericRepository<ef_ContactUs>
     {
-
+        IEnumerable<ef_ContactUs> GetContactUs();
     }
 }

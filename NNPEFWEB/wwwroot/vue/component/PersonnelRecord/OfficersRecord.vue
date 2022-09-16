@@ -749,6 +749,7 @@
     },
     
      mounted () {
+        alert("i am here");
         axios
             .get('/api/command/getAllcommand')
             .then(response => {

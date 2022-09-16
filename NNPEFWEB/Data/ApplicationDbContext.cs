@@ -26,6 +26,7 @@ namespace NNPEFWEB.Data
 
         public DbSet<RoleMenu> RoleMenus { get; set; }
         public DbSet<ef_personalInfo> ef_personalInfos { get; set; }
+        public DbSet<ef_personalInfoHist> ef_personalInfosHist { get; set; }
         public DbSet<ef_bank> ef_banks { get; set; }
         public DbSet<ef_entrymode> ef_entrymodes { get; set; }
         public DbSet<ef_ship> ef_ships { get; set; }

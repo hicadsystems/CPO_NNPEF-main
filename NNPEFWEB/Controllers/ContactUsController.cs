@@ -18,19 +18,22 @@ namespace NNPEFWEB.Controllers
     {
         private readonly IContactUsService _contactUsService;
         private readonly IConfiguration config;
+        private readonly IPersonInfoService personinfoService;
         private readonly ApplicationDbContext _context;
-        public ContactUsController(IContactUsService contactUsService, IConfiguration configuration, ApplicationDbContext _context)
+        public ContactUsController(IPersonInfoService _personinfoService,IContactUsService contactUsService, IConfiguration configuration, ApplicationDbContext _context)
         {
             this._contactUsService = contactUsService;
             config = configuration;
             this._context = _context;
+            personinfoService = _personinfoService;
         }
 
         // GET: ContactUsController
         [HttpGet]
         public IActionResult Index()
         {
-            var contactus = _context.ef_contactUs.Where(x => x.Response == null).ToList();
+            var cons = _contactUsService.GetListContacts();
+            //var contactus = _context.ef_contactUs.Where(x => x.Response == null).ToList();
             //var contactList = _contactUsService.GetContacts().Where(x=>x.Response==null);
 
             //List<ContactUsViewModel> contactUsViewModel = new List<ContactUsViewModel>();
@@ -51,7 +54,7 @@ namespace NNPEFWEB.Controllers
             //    contactUsViewModel.Add(contactUsVM);
             //}
 
-            return View(contactus);
+            return View(cons);
         }
 
         // GET: ContactUsController/Details/5
@@ -72,8 +75,14 @@ namespace NNPEFWEB.Controllers
         {
             try
             {
+                var per = personinfoService.GetPersonalInfo(contactsVM.PersonName).Result;
                 if (ModelState.IsValid)
                 {
+                    if (per == null)
+                    {
+                        TempData["Message"] = "Maybe you are not a personeel, please contact the admin directly or use the live chat";
+                        return RedirectToAction("homepage", "Home");
+                    }
                     var newContact = new ef_ContactUs
                     {
                         PersonName = contactsVM.PersonName,

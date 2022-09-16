@@ -122,7 +122,7 @@ namespace NNPEFWEB.Controllers
         }
     
 
-        public string getsection(string appointment)
+       public string getsection(string appointment)
         {
             string sect="";
             if (appointment == "SectionA")
@@ -199,32 +199,35 @@ namespace NNPEFWEB.Controllers
 
             return RedirectToAction("UpdatedPersonelList");
          }
-        public async Task<IActionResult> ListOfAllStaff(string reporttype, string shipToSearch, int? pageNumber)
+        public async Task<IActionResult> ListOfAllStaff(string reporttype, string shipToSearch,string payclass,string type, int? pageNumber)
         {
             try
             {
-
-            ViewData["reporttype"] = String.IsNullOrEmpty(reporttype) ? "AllStaff" : reporttype;
-
-            var ppersons = await personinfoService.GetPersonnelStatusReport(reporttype, shipToSearch, pageNumber);
+                if (reporttype == "All")
+                    reporttype = null;
+                ViewData["type"] = type;
+                ViewData["reporttype"] = reporttype;
+                ViewData["Payclass"] = payclass;
+                ViewData["shipSearchedID"] = shipToSearch;
+                var ppersons = await personinfoService.GetPersonnelStatusReport(reporttype, shipToSearch, payclass,pageNumber);
 
             var allShip = GetShip();
 
-            if (!string.IsNullOrEmpty(shipToSearch) && shipToSearch != "AllShip")
-            {
-                //var shipSearched = _context.ef_ships.Where(x=>x.shipName==shipToSearch).FirstOrDefault();
+            //if (!string.IsNullOrEmpty(shipToSearch) && shipToSearch != "AllShip")
+            //{
+            //    //var shipSearched = _context.ef_ships.Where(x=>x.shipName==shipToSearch).FirstOrDefault();
 
-                ViewData["shipSearchedID"] = shipToSearch;
+            //    ViewData["shipSearchedID"] = shipToSearch;
 
-            //    allShip.Insert(0, new SelectListItem { Value = shipSearched.shipName, Text = shipSearched.shipName });
-            //    allShip.Insert(1, new SelectListItem { Value = "AllShip", Text = "All Ship" });
-            }
-            else
-            {
-                ViewData["shipSearchedID"] = "AllShip";
+            ////    allShip.Insert(0, new SelectListItem { Value = shipSearched.shipName, Text = shipSearched.shipName });
+            ////    allShip.Insert(1, new SelectListItem { Value = "AllShip", Text = "All Ship" });
+            //}
+            //else
+            //{
+            //    ViewData["shipSearchedID"] = "AllShip";
 
-              //  allShip.Insert(0, new SelectListItem { Value = "AllShip", Text = "All Ship" });
-            }
+            //  //  allShip.Insert(0, new SelectListItem { Value = "AllShip", Text = "All Ship" });
+            //}
 
             ViewBag.ShipList = allShip;
 
@@ -238,25 +241,33 @@ namespace NNPEFWEB.Controllers
                 throw;
             }
         }
-        public Task<IActionResult> ListOfAllStaffReport(string ship, string shipToSearch)
+        public Task<IActionResult> ListOfAllStaffReport(string ship, string shipToSearch,string payclass,string type)
         {
-            
-            var ppersons = personinfoService.GetPersonnelStatusReportrepo(ship, shipToSearch);
 
-            List<ef_personalInfo> rpt = new List<ef_personalInfo>();
-
-            foreach (var person in ppersons)
+            var pp = personinfoService.GetPersonnelStatusRepoReport(ship, shipToSearch, payclass);
+            List<RPTPersonModel> rpt = new List<RPTPersonModel>();
+            foreach (var person in pp)
             {
-                var pps = new ef_personalInfo
+                var pps = new RPTPersonModel
                 {
+                    ServiceNumber = person.serviceNumber,
                     Rank = person.Rank,
-                    serviceNumber = person.serviceNumber,
-                    Surname = person.Surname,
-                    OtherName = person.OtherName,
-                    ship = person.ship,
+                    Name = person.Surname + " " + person.OtherName,
+                    Ship = person.ship,
+                    GSM_NO = person.gsm_number,
+                    Date_Of_Birth = person.Birthdate == null ? "00-00-0000" : person.Birthdate.ToString(),
+                    Residential_Address = person.home_address,
+                    Date_Of_Expiration = person.expirationOfEngagementDate == null ? "00-00-0000" : person.expirationOfEngagementDate.ToString(),
+                    Seniority_Date = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                    Email_Address = person.email,
+                    NOK = person.nok_name,
+                    NOK_GSM_NO = person.nok_phone,
+                    Bank = person.Bankcode,
+                    Account_No = person.BankACNumber,
+                    Accomodation_Status = person.AcommodationStatus,
                 };
                 rpt.Add(pps);
-            }
+             }
 
             return _generatepdf.GetPdf("Reports/StaffReportList", rpt);
         }
@@ -264,9 +275,34 @@ namespace NNPEFWEB.Controllers
         {
             ViewBag.ShipList = GetShip();
             var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-
+            List<RPTPersonModel> rpt = new List<RPTPersonModel>();
             var pp = personinfoService.GetUpdatedPersonnelByCpo(user.Appointment, ship);
-            return _generatepdf.GetPdf("Reports/StaffReportList", pp);
+            foreach (var person in pp)
+            {
+                var pps = new RPTPersonModel
+                {
+
+                    ServiceNumber = person.serviceNumber,
+                    Rank = person.Rank,
+                    Name = person.Surname + " " + person.OtherName,
+                    Ship = person.ship,
+                    GSM_NO = person.gsm_number,
+                    Date_Of_Birth = person.Birthdate == null ? "00-00-0000" : person.Birthdate.ToString(),
+                    Residential_Address = person.home_address,
+                    Date_Of_Expiration = person.expirationOfEngagementDate == null ? "00-00-0000" : person.expirationOfEngagementDate.ToString(),
+                    Seniority_Date = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                    Email_Address = person.email,
+                    NOK = person.nok_name,
+                    NOK_GSM_NO = person.nok_phone,
+                    Bank = person.Bankcode,
+                    Account_No = person.BankACNumber,
+                    Accomodation_Status = person.AcommodationStatus,
+                    HOD = person.hod_svcno,
+                    Payclass = person.payrollclass,
+                };
+                rpt.Add(pps);
+            }
+            return _generatepdf.GetPdf("Reports/StaffReportList", rpt);
         }
         public ActionResult ListOfAuthForm(string ship)
         {
@@ -293,54 +329,127 @@ namespace NNPEFWEB.Controllers
             return View(pp);
         }
         [HttpPost]
-        public IActionResult Export(string ship, string shipToSearch)
+        public IActionResult Export(string ship, string shipToSearch,string payclass,string type)
         {
-            var pp = personinfoService.GetPersonnelStatusReportrepo(ship, shipToSearch);
+            var pp = personinfoService.GetPersonnelStatusRepoReport(ship, shipToSearch,payclass);
             List<RPTPersonModel> rpt = new List<RPTPersonModel>();
-            foreach (var person in pp)
+            List<RPTPersonModel2> rpt2 = new List<RPTPersonModel2>();
+            if (type == "Paycard")
             {
-                var pps = new RPTPersonModel
+                foreach (var person in pp)
                 {
-                    ServiceNumber = person.serviceNumber,
-                    Rank = person.Rank,
-                    Seniority = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
-                    Name = person.Surname + " " + person.OtherName,
-                    Status = person.Status,
-                    Ship = person.ship,
-                };
-                rpt.Add(pps);
+                    var pps = new RPTPersonModel
+                    {
+
+                        ServiceNumber=person.serviceNumber,
+                        Rank=person.Rank,
+                        Name= person.Surname + " " + person.OtherName,
+                        Ship=person.ship,
+                        GSM_NO=person.gsm_number,
+                        Date_Of_Birth=person.Birthdate == null ? "00-00-0000" : person.Birthdate.ToString(),
+                        Residential_Address=person.home_address,
+                        Date_Of_Expiration= person.expirationOfEngagementDate == null ? "00-00-0000" : person.expirationOfEngagementDate.ToString(),
+                        Seniority_Date= person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                        Email_Address =person.email,
+                        NOK=person.nok_name,
+                        NOK_GSM_NO=person.nok_phone,
+                        Bank=person.Bankcode,
+                        Account_No=person.BankACNumber,
+                        Accomodation_Status=person.AcommodationStatus,
+                        HOD = person.hod_svcno,
+                        Payclass = person.payrollclass,
+                    };
+                    rpt.Add(pps);
+                }
+                var stream = new MemoryStream();
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    var workSheet = package.Workbook.Worksheets.Add("Sheet2");
+                    workSheet.Cells.LoadFromCollection(rpt, true);
+                    package.Save();
+                }
+                stream.Position = 0;
+                string excelName = $"ReportToUpdatePayroll-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
             }
-            
-
-            var stream = new MemoryStream();
-
-            using (var package = new ExcelPackage(stream))
+            else
             {
-                var workSheet = package.Workbook.Worksheets.Add("Sheet2");
-                workSheet.Cells.LoadFromCollection(rpt, true);
-                package.Save();
+                foreach (var person in pp)
+                {
+                    var pps = new RPTPersonModel2
+                    {
+                    ServiceNumber=person.serviceNumber,
+                    Rank=person.Rank,
+                    SurName=person.Surname,
+                    OtherName = person.Surname,
+                    GSM_NO =person.gsm_number,
+                    Maritial_Status=person.MaritalStatus,
+                    Date_Of_Birth= person.Birthdate == null ? "00-00-0000" : person.Birthdate.ToString(),
+                    Residential_Address =person.home_address,
+                    Date_Of_Expiration= person.expirationOfEngagementDate == null ? "00-00-0000" : person.expirationOfEngagementDate.ToString(),
+                    Seniority_Date = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                    DOJ = person.DateEmpl == null ? "00-00-0000" : person.DateEmpl.ToString(),
+                    Email_Address =person.email,
+                    NOK=person.nok_name,
+                    NOK_GSM_NO=person.nok_phone,
+                    Bank=person.Bankcode,
+                    Account_No=person.BankACNumber,
+                    Accomodation_Status=person.AcommodationStatus,
+                    Branch=person.branch,
+                    Command=person.command,
+                    Ship=person.ship,
+                    Specialisation=person.specialisation,
+                    State=person.StateofOrigin,
+                    LGA=person.LocalGovt,
+                    Religion=person.religion,
+                    HOD=person.hod_svcno,
+                    
+                    Payclass=person.payrollclass,
+
+    };
+                    rpt2.Add(pps);
+                }
+                var stream = new MemoryStream();
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    var workSheet = package.Workbook.Worksheets.Add("Sheet2");
+                    workSheet.Cells.LoadFromCollection(rpt2, true);
+                    package.Save();
+                }
+                stream.Position = 0;
+                string excelName = $"ReportToUpdatePayroll-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
             }
-            stream.Position = 0;
-            string excelName = $"ShipReport-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
-            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+
+          
         }
         [HttpPost]
-        public IActionResult ExportByHOD(string ship)
+        public IActionResult ExportByHOD(string ship, string shipToSearch, string payclass, string type)
         {
-            var user = _context.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
-
-            var pp = personinfoService.GetUpdatedPersonnelByCpo(user.Appointment, ship);
+            var pp = personinfoService.GetPersonnelStatusRepoReport(ship, shipToSearch, payclass);
             List<RPTPersonModel> rpt = new List<RPTPersonModel>();
+            List<RPTPersonModel2> rpt2 = new List<RPTPersonModel2>();
             foreach (var person in pp)
             {
                 var pps = new RPTPersonModel
                 {
                     ServiceNumber = person.serviceNumber,
                     Rank = person.Rank,
-                    Seniority = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
                     Name = person.Surname + " " + person.OtherName,
-                    Status = person.Status,
                     Ship = person.ship,
+                    GSM_NO = person.gsm_number,
+                    Date_Of_Birth = person.Birthdate == null ? "00-00-0000" : person.Birthdate.ToString(),
+                    Residential_Address = person.home_address,
+                    Date_Of_Expiration = person.expirationOfEngagementDate == null ? "00-00-0000" : person.expirationOfEngagementDate.ToString(),
+                    Seniority_Date = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                    Email_Address = person.email,
+                    NOK = person.nok_name,
+                    NOK_GSM_NO = person.nok_phone,
+                    Bank = person.Bankcode,
+                    Account_No = person.BankACNumber,
+                    Accomodation_Status = person.AcommodationStatus,
                 };
                 rpt.Add(pps);
             }
@@ -381,10 +490,19 @@ namespace NNPEFWEB.Controllers
                 {
                     ServiceNumber = person.serviceNumber,
                     Rank = person.Rank,
-                    Seniority = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
                     Name = person.Surname + " " + person.OtherName,
-                    Status = person.Status,
                     Ship = person.ship,
+                    GSM_NO = person.gsm_number,
+                    Date_Of_Birth = person.Birthdate == null ? "00-00-0000" : person.Birthdate.ToString(),
+                    Residential_Address = person.home_address,
+                    Date_Of_Expiration = person.expirationOfEngagementDate == null ? "00-00-0000" : person.expirationOfEngagementDate.ToString(),
+                    Seniority_Date = person.seniorityDate == null ? "00-00-0000" : person.seniorityDate.ToString(),
+                    Email_Address = person.email,
+                    NOK = person.nok_name,
+                    NOK_GSM_NO = person.nok_phone,
+                    Bank = person.Bankcode,
+                    Account_No = person.BankACNumber,
+                    Accomodation_Status = person.AcommodationStatus,
                 };
                 rpt.Add(pps);
             }
