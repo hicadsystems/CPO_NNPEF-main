@@ -23,6 +23,14 @@ namespace NNPEFWEB.ViewModel
         public string ship { get; set; }
         public string appointment { get; set; }
         public string department { get; set; }
+        public string AccountName { get; set; }
+        public string AccountNo  { get; set; }
+         public string Bank { get; set; }
+         public DateTime? DateofBirth  { get; set; }
+        public DateTime? DateofJoiningSvc { get; set; }
+        public string account_number { get; set; }
+        public string date_of_birth { get; set; }
+        public string date_of_joining { get; set; }
     }
     
 }

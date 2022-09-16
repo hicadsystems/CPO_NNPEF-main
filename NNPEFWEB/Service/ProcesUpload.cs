@@ -78,7 +78,7 @@ namespace NNPEFWEB.Service
                         gsm_number = s.phoneNumber,
                         email = s.email,
                         datecreated = DateTime.Now,
-                        bankbranch = s.bank,
+                        bankbranch = s.Bank,
                         BankACNumber = s.account_number,
                         Birthdate = Convert.ToDateTime(s.date_of_birth),
                         DateEmpl = Convert.ToDateTime(s.date_of_joining),
